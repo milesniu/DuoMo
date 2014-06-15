@@ -1,6 +1,5 @@
 package com.miles.ccit.database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
@@ -52,16 +51,13 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		// execSQL函数用于执行SQL语句,创建表
 		db.execSQL("CREATE TABLE shortmsg(id INTEGER PRIMARY KEY AUTOINCREMENTNOT NULL,number TEXT NOT NULL,sendtype INTEGER NOT NULL,status INTEGER NOT NULL,msgtype INTEGER NOT NULL,msgcontent TEXT NOT NULL,creattime TEXT NOT NULL,priority INTEGER NOT NULL,acknowledgemen INTEGER NOT NULL,exp1 TEXT,exp2 TEXT");
 		db.execSQL("CREATE TABLE emailmsg(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,sendtype INTEGER NOT NULL,number TEXT NOT NULL,subject TEXT NOT NULL,mailcontent TEXT NOT NULL,haveattachments INTEGER NOT NULL,attachmentsname TEXT,attachmentspath TEXT,creattime TEXT NOT NULL,priority INTEGER NOT NULL,acknowledgemen INTEGER NOT NULL,exp1 TEXT,exp2 TEXT)");
-		
-		
-		//		db.execSQL("create table rooms(roomid INTEGER PRIMARY KEY AUTOINCREMENT,myroomid varchar(10) NOT NULL,roomname varchar(20) NOT NULL,roomaddr varchar(20) NOT NULL,floorid INTEGER NOT NULL,roominfo varchar(10),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-//		db.execSQL("create table equips(equipid INTEGER PRIMARY KEY AUTOINCREMENT,myequipid varchar(10) NOT NULL,equipname varchar(20) NOT NULL,equipaddr varchar(20) NOT NULL,equipstyle varchar(20) NOT NULL,equipstatus varchar(20) NOT NULL,roomid varchar(10) NOT NULL,equipinfo varchar(10),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-//		db.execSQL("create table scenes(sceneid INTEGER PRIMARY KEY AUTOINCREMENT,scenename varchar(20) NOT NULL,sceneinfo varchar(20),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-//		db.execSQL("create table voices(voiceid INTEGER PRIMARY KEY AUTOINCREMENT,voicename varchar(20) NOT NULL,sceneid INTEGER NOT NULL,voiceinfo varchar(20),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-//		
-//		//新增表-场景设备表
-//		db.execSQL("create table scene_equips(relationid INTEGER PRIMARY KEY AUTOINCREMENT,sceneid INTEGER NOT NULL,equipid INTEGER NOT NULL,scenename varchar(20) NOT NULL,equipname varchar(20) NOT NULL,advancevalue varchar(20) NOT NULL,info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-//		db.execSQL("create table cameras(camera INTEGER PRIMARY KEY AUTOINCREMENT,cameraname varchar(20) NOT NULL,cameraip varchar(20) NOT NULL,cameraport varchar(20) NOT NULL,camerauser varchar(20) NOT NULL,camerapwd varchar(20) NOT NULL,info1 varchar(10),info2 varchar(10),info3 varchar(10))");
+		db.execSQL("CREATE TABLE voicecoderecord(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,number TEXT NOT NULL,status INTEGER NOT NULL,creattime TEXT NOT NULL,priority INTEGER NOT NULL,acknowledgemen INTEGER NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE codedirect(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,sendtype INTEGER NOT NULL,number TEXT NOT NULL,codetype INTEGER NOT NULL,codecontent TEXT NOT NULL,creattime TEXT NOT NULL,priority INTEGER NOT NULL,acknowledgemen INTEGER NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE contact(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,name TEXT NOT NULL,number TEXT NOT NULL,type INTEGER NOT NULL,remarks TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE wiredrecord(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,number TEXT NOT NULL,sendtype INTEGER NOT NULL,status INTEGER NOT NULL,filepath TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE broadcastrecode(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,frequency TEXT NOT NULL,filepath TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE specialway(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,frequency TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE specialway(key TEXT NOT NULL,value TEXT NOT NULL)");
 		
 	}
 
