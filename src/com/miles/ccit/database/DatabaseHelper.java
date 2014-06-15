@@ -51,26 +51,26 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	{
 		// execSQL函数用于执行SQL语句,创建表
 		db.execSQL("create table floors(floorid INTEGER PRIMARY KEY AUTOINCREMENT,myfloorid varchar(10) NOT NULL,floorname varchar(20) NOT NULL,floorinfo varchar(10),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-		db.execSQL("create table rooms(roomid INTEGER PRIMARY KEY AUTOINCREMENT,myroomid varchar(10) NOT NULL,roomname varchar(20) NOT NULL,roomaddr varchar(20) NOT NULL,floorid INTEGER NOT NULL,roominfo varchar(10),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-		db.execSQL("create table equips(equipid INTEGER PRIMARY KEY AUTOINCREMENT,myequipid varchar(10) NOT NULL,equipname varchar(20) NOT NULL,equipaddr varchar(20) NOT NULL,equipstyle varchar(20) NOT NULL,equipstatus varchar(20) NOT NULL,roomid varchar(10) NOT NULL,equipinfo varchar(10),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-		db.execSQL("create table scenes(sceneid INTEGER PRIMARY KEY AUTOINCREMENT,scenename varchar(20) NOT NULL,sceneinfo varchar(20),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-		db.execSQL("create table voices(voiceid INTEGER PRIMARY KEY AUTOINCREMENT,voicename varchar(20) NOT NULL,sceneid INTEGER NOT NULL,voiceinfo varchar(20),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-		
-		//新增表-场景设备表
-		db.execSQL("create table scene_equips(relationid INTEGER PRIMARY KEY AUTOINCREMENT,sceneid INTEGER NOT NULL,equipid INTEGER NOT NULL,scenename varchar(20) NOT NULL,equipname varchar(20) NOT NULL,advancevalue varchar(20) NOT NULL,info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-		db.execSQL("create table cameras(camera INTEGER PRIMARY KEY AUTOINCREMENT,cameraname varchar(20) NOT NULL,cameraip varchar(20) NOT NULL,cameraport varchar(20) NOT NULL,camerauser varchar(20) NOT NULL,camerapwd varchar(20) NOT NULL,info1 varchar(10),info2 varchar(10),info3 varchar(10))");
+//		db.execSQL("create table rooms(roomid INTEGER PRIMARY KEY AUTOINCREMENT,myroomid varchar(10) NOT NULL,roomname varchar(20) NOT NULL,roomaddr varchar(20) NOT NULL,floorid INTEGER NOT NULL,roominfo varchar(10),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
+//		db.execSQL("create table equips(equipid INTEGER PRIMARY KEY AUTOINCREMENT,myequipid varchar(10) NOT NULL,equipname varchar(20) NOT NULL,equipaddr varchar(20) NOT NULL,equipstyle varchar(20) NOT NULL,equipstatus varchar(20) NOT NULL,roomid varchar(10) NOT NULL,equipinfo varchar(10),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
+//		db.execSQL("create table scenes(sceneid INTEGER PRIMARY KEY AUTOINCREMENT,scenename varchar(20) NOT NULL,sceneinfo varchar(20),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
+//		db.execSQL("create table voices(voiceid INTEGER PRIMARY KEY AUTOINCREMENT,voicename varchar(20) NOT NULL,sceneid INTEGER NOT NULL,voiceinfo varchar(20),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
+//		
+//		//新增表-场景设备表
+//		db.execSQL("create table scene_equips(relationid INTEGER PRIMARY KEY AUTOINCREMENT,sceneid INTEGER NOT NULL,equipid INTEGER NOT NULL,scenename varchar(20) NOT NULL,equipname varchar(20) NOT NULL,advancevalue varchar(20) NOT NULL,info1 varchar(10),info2 varchar(10),info3 varchar(10))");
+//		db.execSQL("create table cameras(camera INTEGER PRIMARY KEY AUTOINCREMENT,cameraname varchar(20) NOT NULL,cameraip varchar(20) NOT NULL,cameraport varchar(20) NOT NULL,camerauser varchar(20) NOT NULL,camerapwd varchar(20) NOT NULL,info1 varchar(10),info2 varchar(10),info3 varchar(10))");
 		
 	}
 
 	// 初始化密码表中数据，
 	private void initData(SQLiteDatabase db)
 	{
-		String Id = null;
-		ContentValues values = new ContentValues();
-		values.put("floorid", Id);
-		values.put("myfloorname", "0");
-		values.put("floorname", "一楼");
-		db.insert("floors", null, values);
+//		String Id = null;
+//		ContentValues values = new ContentValues();
+//		values.put("floorid", Id);
+//		values.put("myfloorname", "0");
+//		values.put("floorname", "一楼");
+//		db.insert("floors", null, values);
 	}
 
 	@Override
@@ -79,46 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		// TODO Auto-generated method stub
 		if(newVersion > oldVersion)
 		{
-			db.execSQL("drop table scenes;");
-			db.execSQL("drop table voices;");
-			
-			db.execSQL("create table scenes(sceneid INTEGER PRIMARY KEY AUTOINCREMENT,scenename varchar(20) NOT NULL,sceneinfo varchar(20),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-			db.execSQL("create table voices(voiceid INTEGER PRIMARY KEY AUTOINCREMENT,voicename varchar(20) NOT NULL,sceneid INTEGER NOT NULL,voiceinfo varchar(20),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-			
-			
-			
-			//删除旧表多余字段
-//			db.execSQL("alter table scenes drop column mysceneid;");
-//			db.execSQL("alter table scenes drop column equipstatus;");
-//			db.execSQL("alter table scenes drop column sceneaddr;");
-//			db.execSQL("alter table voices drop column myvoiceid;");
-			
-			//增加新表
-			db.execSQL("create table scene_equips(relationid INTEGER PRIMARY KEY AUTOINCREMENT,sceneid INTEGER NOT NULL,equipid INTEGER NOT NULL,scenename varchar(20) NOT NULL,equipname varchar(20) NOT NULL,advancevalue varchar(20) NOT NULL,info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-			db.execSQL("create table cameras(camera INTEGER PRIMARY KEY AUTOINCREMENT,cameraname varchar(20) NOT NULL,cameraip varchar(20) NOT NULL,cameraport varchar(20) NOT NULL,camerauser varchar(20) NOT NULL,camerapwd varchar(20) NOT NULL,info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-			
-			String Id = null;
-			ContentValues values = new ContentValues();
-			values.put("voiceid", Id);
-			values.put("voicename", "回家");
-			values.put("sceneid", "-1");
-			db.insert("voices", null, values);
-			
-			values.put("voiceid", Id);
-			values.put("voicename", "会客");
-			values.put("sceneid", "-2");
-			db.insert("voices", null, values);
-			
-			values.put("voiceid", Id);
-			values.put("voicename", "外出");
-			values.put("sceneid", "-3");
-			db.insert("voices", null, values);
-			
-			values.put("voiceid", Id);
-			values.put("voicename", "娱乐");
-			values.put("sceneid", "-4");
-			db.insert("voices", null, values);
-			
+				//版本升级后的操作
 		}
 	}
 }
