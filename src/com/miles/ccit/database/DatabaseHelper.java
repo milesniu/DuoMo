@@ -50,8 +50,11 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	private void CtreteTables(SQLiteDatabase db)
 	{
 		// execSQL函数用于执行SQL语句,创建表
-		db.execSQL("create table floors(floorid INTEGER PRIMARY KEY AUTOINCREMENT,myfloorid varchar(10) NOT NULL,floorname varchar(20) NOT NULL,floorinfo varchar(10),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
-//		db.execSQL("create table rooms(roomid INTEGER PRIMARY KEY AUTOINCREMENT,myroomid varchar(10) NOT NULL,roomname varchar(20) NOT NULL,roomaddr varchar(20) NOT NULL,floorid INTEGER NOT NULL,roominfo varchar(10),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
+		db.execSQL("CREATE TABLE shortmsg(id INTEGER PRIMARY KEY AUTOINCREMENTNOT NULL,number TEXT NOT NULL,sendtype INTEGER NOT NULL,status INTEGER NOT NULL,msgtype INTEGER NOT NULL,msgcontent TEXT NOT NULL,creattime TEXT NOT NULL,priority INTEGER NOT NULL,acknowledgemen INTEGER NOT NULL,exp1 TEXT,exp2 TEXT");
+		db.execSQL("CREATE TABLE emailmsg(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,sendtype INTEGER NOT NULL,number TEXT NOT NULL,subject TEXT NOT NULL,mailcontent TEXT NOT NULL,haveattachments INTEGER NOT NULL,attachmentsname TEXT,attachmentspath TEXT,creattime TEXT NOT NULL,priority INTEGER NOT NULL,acknowledgemen INTEGER NOT NULL,exp1 TEXT,exp2 TEXT)");
+		
+		
+		//		db.execSQL("create table rooms(roomid INTEGER PRIMARY KEY AUTOINCREMENT,myroomid varchar(10) NOT NULL,roomname varchar(20) NOT NULL,roomaddr varchar(20) NOT NULL,floorid INTEGER NOT NULL,roominfo varchar(10),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
 //		db.execSQL("create table equips(equipid INTEGER PRIMARY KEY AUTOINCREMENT,myequipid varchar(10) NOT NULL,equipname varchar(20) NOT NULL,equipaddr varchar(20) NOT NULL,equipstyle varchar(20) NOT NULL,equipstatus varchar(20) NOT NULL,roomid varchar(10) NOT NULL,equipinfo varchar(10),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
 //		db.execSQL("create table scenes(sceneid INTEGER PRIMARY KEY AUTOINCREMENT,scenename varchar(20) NOT NULL,sceneinfo varchar(20),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
 //		db.execSQL("create table voices(voiceid INTEGER PRIMARY KEY AUTOINCREMENT,voicename varchar(20) NOT NULL,sceneid INTEGER NOT NULL,voiceinfo varchar(20),info1 varchar(10),info2 varchar(10),info3 varchar(10))");
@@ -79,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		// TODO Auto-generated method stub
 		if(newVersion > oldVersion)
 		{
-				//版本升级后的操作
+			//版本升级后的操作
 		}
 	}
 }
