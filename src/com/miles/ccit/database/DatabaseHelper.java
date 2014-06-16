@@ -13,7 +13,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper
 {
 
-	private static final int VERSION = 1; 	// 数据库版本/2013/10/22
+	private static final int VERSION = 1; 					// 数据库版本/2014/06/16
 	private static final String DATABASE_NAME = "DuoMo.db"; // 数据库名称
 
 	// 在SQLiteOepnHelper的子类当中，必须有该构造函数
@@ -49,15 +49,15 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	private void CtreteTables(SQLiteDatabase db)
 	{
 		// execSQL函数用于执行SQL语句,创建表
-		db.execSQL("CREATE TABLE shortmsg(id INTEGER PRIMARY KEY AUTOINCREMENTNOT NULL,number TEXT NOT NULL,sendtype INTEGER NOT NULL,status INTEGER NOT NULL,msgtype INTEGER NOT NULL,msgcontent TEXT NOT NULL,creattime TEXT NOT NULL,priority INTEGER NOT NULL,acknowledgemen INTEGER NOT NULL,exp1 TEXT,exp2 TEXT");
-		db.execSQL("CREATE TABLE emailmsg(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,sendtype INTEGER NOT NULL,number TEXT NOT NULL,subject TEXT NOT NULL,mailcontent TEXT NOT NULL,haveattachments INTEGER NOT NULL,attachmentsname TEXT,attachmentspath TEXT,creattime TEXT NOT NULL,priority INTEGER NOT NULL,acknowledgemen INTEGER NOT NULL,exp1 TEXT,exp2 TEXT)");
-		db.execSQL("CREATE TABLE voicecoderecord(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,number TEXT NOT NULL,status INTEGER NOT NULL,creattime TEXT NOT NULL,priority INTEGER NOT NULL,acknowledgemen INTEGER NOT NULL,exp1 TEXT,exp2 TEXT)");
-		db.execSQL("CREATE TABLE codedirect(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,sendtype INTEGER NOT NULL,number TEXT NOT NULL,codetype INTEGER NOT NULL,codecontent TEXT NOT NULL,creattime TEXT NOT NULL,priority INTEGER NOT NULL,acknowledgemen INTEGER NOT NULL,exp1 TEXT,exp2 TEXT)");
-		db.execSQL("CREATE TABLE contact(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,name TEXT NOT NULL,number TEXT NOT NULL,type INTEGER NOT NULL,remarks TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
-		db.execSQL("CREATE TABLE wiredrecord(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,number TEXT NOT NULL,sendtype INTEGER NOT NULL,status INTEGER NOT NULL,filepath TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
-		db.execSQL("CREATE TABLE broadcastrecode(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,frequency TEXT NOT NULL,filepath TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
-		db.execSQL("CREATE TABLE specialway(id PRIMARY KEY AUTOINCREMENTNOT INTEGER NOT NULL,frequency TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
-		db.execSQL("CREATE TABLE specialway(key TEXT NOT NULL,value TEXT NOT NULL)");
+		db.execSQL("CREATE TABLE shortmsg(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,number TEXT NOT NULL,sendtype INTEGER NOT NULL,status INTEGER NOT NULL,msgtype INTEGER NOT NULL,msgcontent TEXT NOT NULL,creattime TEXT NOT NULL,priority INTEGER NOT NULL,acknowledgemen INTEGER NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE emailmsg(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,sendtype INTEGER NOT NULL,number TEXT NOT NULL,subject TEXT NOT NULL,mailcontent TEXT NOT NULL,haveattachments INTEGER NOT NULL,attachmentsname TEXT,attachmentspath TEXT,creattime TEXT NOT NULL,priority INTEGER NOT NULL,acknowledgemen INTEGER NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE voicecoderecord(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,number TEXT NOT NULL,status INTEGER NOT NULL,creattime TEXT NOT NULL,priority INTEGER NOT NULL,acknowledgemen INTEGER NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE codedirect(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,sendtype INTEGER NOT NULL,number TEXT NOT NULL,codetype INTEGER NOT NULL,codecontent TEXT NOT NULL,creattime TEXT NOT NULL,priority INTEGER NOT NULL,acknowledgemen INTEGER NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE contact(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,name TEXT NOT NULL,number TEXT NOT NULL,type INTEGER NOT NULL,remarks TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE wiredrecord(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,number TEXT NOT NULL,sendtype INTEGER NOT NULL,status INTEGER NOT NULL,filepath TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE broadcastrecode(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,frequency TEXT NOT NULL,filepath TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE specialway(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,frequency TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE systeminto(key TEXT NOT NULL,value TEXT NOT NULL)");
 		
 	}
 

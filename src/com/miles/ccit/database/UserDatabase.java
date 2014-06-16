@@ -25,14 +25,14 @@ public class UserDatabase
 		}
 	}
 
-	public static List<Map<String, String>> queryByCondition(Context context, String tableName, String condition, String order)
+	public static List<Map<String, String>> queryByCondition(Context context, String tableName, String condition, String[] selectionArgs,String order)
 	{
 		synchronized (DataBaseLock)
 		{
 			DatabaseHelper dbHelper = new DatabaseHelper(context);
 			List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 			SQLiteDatabase db = dbHelper.getReadableDatabase();
-			Cursor cursor = db.query(tableName, null, condition, null, null, null, order);
+			Cursor cursor = db.query(tableName, null, condition, selectionArgs, null, null, order);
 			while (cursor.moveToNext())
 			{
 				Map<String, String> rowData = new HashMap<String, String>();
