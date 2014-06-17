@@ -1,14 +1,7 @@
-package com.miles.ccit.duomo;
+package com.miles.ccit.ui;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.lang.reflect.Array;
-import java.net.Socket;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -18,11 +11,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+import com.miles.ccit.duomo.R;
 import com.miles.ccit.net.ComposeData;
 import com.miles.ccit.net.SocketClient;
 import com.miles.ccit.service.HeartbeatService;
 import com.miles.ccit.util.BaseActivity;
-import com.miles.ccit.util.HexSwapString;
 
 public class MainActivity extends BaseActivity
 {
@@ -34,7 +27,7 @@ public class MainActivity extends BaseActivity
 		setContentView(R.layout.activity_main);
 
 		startService(new Intent(mContext, HeartbeatService.class));
-
+		startActivity(new Intent(this, IndexActivity.class));
 		findViewById(R.id.text).setOnClickListener(new OnClickListener()
 		{
 

@@ -38,9 +38,10 @@ public class HeartbeatService extends Service implements Runnable
 				out.write(buf);
 				out.flush();
 
-				byte[] red = new byte[256];
-				DataInputStream dis = new DataInputStream(SocketClient.getInstance().getInputStream());//服务器通过输入管道接收数据流  
-				dis.read(buf);
+				/**需要服务器回复，请解开以下注释*/
+//				byte[] red = new byte[256];
+//				DataInputStream dis = new DataInputStream(SocketClient.getInstance().getInputStream());//服务器通过输入管道接收数据流  
+//				dis.read(buf);
 
 				Thread.sleep(HeartdelayTime);
 			}
