@@ -28,18 +28,19 @@ public class HeartbeatService extends Service implements Runnable
 	public void run()
 	{
 		// TODO Auto-generated method stub
-		while (true)
+//		while (true)
 		{	
 			try
 			{
 				DataOutputStream out = new DataOutputStream(SocketClient.getInstance().getOutputStream());
-				DataInputStream in = new DataInputStream(SocketClient.getInstance().getInputStream());
 				ComposeData df = new ComposeData();
 				byte[] buf = df.sendHeartbeat();
 				out.write(buf);
 				out.flush();
-				
-//				in.read(buf);
+
+				byte[] red = new byte[256];
+				DataInputStream dis = new DataInputStream(SocketClient.getInstance().getInputStream());//服务器通过输入管道接收数据流  
+				dis.read(buf);
 
 				Thread.sleep(HeartdelayTime);
 			}

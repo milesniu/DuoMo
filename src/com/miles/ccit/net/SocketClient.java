@@ -16,14 +16,11 @@ public class SocketClient
 	{
 		try
 		{
-//			InetAddress addr = InetAddress.getByName(ip);
-//			tSocket = new Socket(addr, port);
-			
 			InetAddress addr = InetAddress.getByName(ip);
 			tSocket = new Socket();
 			InetSocketAddress socketAddress = new InetSocketAddress(addr, Port);
-			//(addr, Integer.parseInt(equip.getEquipPort()));
 			tSocket.connect(socketAddress, 10000);	//10s超时连接
+			
 			
 		} catch (Exception e)
 		{
