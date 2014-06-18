@@ -2,10 +2,14 @@ package com.miles.ccit.ui;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +24,18 @@ import com.miles.ccit.util.BaseActivity;
 public class MainActivity extends BaseActivity
 {
 
+	
+	Handler rhandler = new Handler()
+	{
+		public void handleMessage(Message message)
+		{
+			super.handleMessage(message);
+			MainActivity.this.startActivity(new Intent(MainActivity.this, IndexActivity.class));
+			MainActivity.this.finish();
+		};
+	};
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -27,26 +43,16 @@ public class MainActivity extends BaseActivity
 		setContentView(R.layout.activity_main);
 
 		startService(new Intent(mContext, HeartbeatService.class));
-		startActivity(new Intent(this, IndexActivity.class));
-		findViewById(R.id.text).setOnClickListener(new OnClickListener()
+//		startActivity(new Intent(this, IndexActivity.class));
+		
+		new Timer().schedule(new TimerTask()
 		{
-
 			@Override
-			public void onClick(View v)
+			public void run()
 			{
-				// TODO Auto-generated method stub
-				
-				if(!SocketClient.getInstance().isConnected())
-				{
-					//发送UDP广播，进行连接
-				}
-				else
-				{
-					new test().execute();
-			
-				}
+				rhandler.sendEmptyMessageDelayed(1, 100);
 			}
-		});
+		}, 2000);
 
 	}
 

@@ -52,32 +52,14 @@ public class EmailFragment extends BaseFragment
 	{
 		View view = inflater.inflate(R.layout.email_fragment, null);
 		
-		listview = (ListView) view.findViewById(R.id.listView_email);
-		
-
-		view.findViewById(R.id.bt_back).setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				// TODO Auto-generated method stub
-//				startActivity(new Intent(getActivity(),SearchActivity.class));
-			}
-		});
-
-		view.findViewById(R.id.bt_newmail).setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-//				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("tel:" + OverAllData.TelPhoneNum)));
-			}
-		});
-		
-		
+		listview = (ListView) view.findViewById(R.id.listView_content);
+				
+		initBaseView(view, "邮件");
 		return view;
 	}
 
+	
+	
 	private void refreshList(List<HashMap<String, Object>> contentList)
 	{
 		if (contentList == null)

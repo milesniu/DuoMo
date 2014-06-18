@@ -2,74 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ffffff" >
+    android:background="@color/white" >
 
- <RelativeLayout
-        android:id="@+id/relativeLayout1"
+ <include
+        android:id="@+id/include_layout"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:gravity="center_vertical" >
-
-     <Button
-            android:id="@+id/bt_newmail"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            	android:text="写邮件"
-            android:textSize="12sp"
-            />
-     
-        <Button
-            android:id="@+id/bt_back"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            	android:text="返回"
-            android:textSize="16sp"/>
-
-        <LinearLayout
-            android:id="@+id/linear_select"
-            android:layout_width="150dp"
-            android:layout_height="35dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:gravity="center" >
-
-            <TextView
-                android:id="@+id/text_large"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                 android:layout_marginLeft="3dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textColor="#0078ff"
-                android:text="收件箱" />
-
-            <TextView
-                android:id="@+id/text_good"
-                android:layout_width="0dp"
-                android:layout_marginRight="3dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="#0078ff"
-                android:layout_height="match_parent"
-                android:text="发件箱" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
+        android:layout_alignParentRight="true"
+        layout="@layout/layout_switchtitle" />
 
  <ListView
-     android:id="@+id/listView_email"
+     android:id="@+id/listView_content"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
-     android:layout_below="@+id/relativeLayout1"
-      android:cacheColorHint="#00000000"
-     android:layout_centerHorizontal="true" >
+     android:layout_below="@+id/include_layout"
+     android:layout_centerHorizontal="true"
+     android:cacheColorHint="#00000000" >
 
  </ListView>
 

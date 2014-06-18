@@ -15,6 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miles.ccit.duomo.R;
@@ -51,36 +52,10 @@ public class VoicecodeFragment extends BaseFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.voicecode_fragment, null);
-		
-		listview = (ListView) view.findViewById(R.id.listView_voicecode);
-		
-LayoutTitle = (View)view.findViewById(R.id.include_layout);
-		
-		
-		LayoutTitle.findViewById(R.id.bt_left).setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				// TODO Auto-generated method stub
-//				startActivity(new Intent(getActivity(),SearchActivity.class));
-				getActivity().finish();
-			}
-		});
-
-		view.findViewById(R.id.bt_right).setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-//				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("tel:" + OverAllData.TelPhoneNum)));
-			}
-		});
-		
-		
+		initBaseView(view, "声码话");
 		return view;
 	}
-
+	
 	private void refreshList(List<HashMap<String, Object>> contentList)
 	{
 		if (contentList == null)

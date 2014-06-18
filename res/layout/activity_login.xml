@@ -2,14 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ContactActivity"
-    android:background="@color/white"  >
+    tools:context=".LoginActivity"
+    android:background="@color/white" >
 
  <include
         android:id="@+id/include_layout"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
-        layout="@layout/layout_switchtitle" />
+        layout="@layout/layout_title" />
 
 </RelativeLayout>

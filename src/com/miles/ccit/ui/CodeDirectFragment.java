@@ -52,10 +52,8 @@ public class CodeDirectFragment extends BaseFragment
 	{
 		View view = inflater.inflate(R.layout.codedirect_fragment, null);
 		
-		listview = (ListView) view.findViewById(R.id.listView_codedirect);
-		
-	
-		
+		listview = (ListView) view.findViewById(R.id.listView_content);
+		initBaseView(view, "代码指挥");
 		return view;
 	}
 
