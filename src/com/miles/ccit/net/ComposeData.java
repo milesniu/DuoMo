@@ -33,5 +33,21 @@ public class ComposeData
 		return SendData;
 	}
 	
+	public byte[] sendTest()
+	{
+		byte[] mData = new byte[]{};
+		byte[] head =  new byte[]{(byte)0xAB,(byte)0xaa};
+		byte[] DataLenth = HexSwapString.short2Byte((short)(mData.length+1));//new byte[]{(byte)(mData.length+1)}; // 数据区长度
+		byte[] frame = new byte[]{(byte)0xa1}; // 命令码
+	
+		byte[] SendData = new byte[mData.length+5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
+		int lenth = 0; // 记录当前拷贝到目的数组的下标
+		System.arraycopy(head, 0, SendData, lenth, head.length);
+		System.arraycopy(DataLenth, 0, SendData, lenth += head.length, DataLenth.length);
+		System.arraycopy(frame, 0, SendData, lenth += DataLenth.length, frame.length);
+		System.arraycopy(mData, 0, SendData, lenth += frame.length, mData.length);
+		return SendData;
+	}
+	
 	
 }

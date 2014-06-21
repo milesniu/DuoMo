@@ -9,7 +9,7 @@ public class SocketClient
 
 	private static SocketClient instance = null;
 	private Socket tSocket;
-	private static String IpAddr = "192.168.1.113";
+	private static String IpAddr = "192.168.1.17";
 	private static int Port = 6000;
 
 	private SocketClient(String ip, int port)
