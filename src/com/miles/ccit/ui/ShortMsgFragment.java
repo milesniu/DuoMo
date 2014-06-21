@@ -66,8 +66,8 @@ public class ShortMsgFragment extends BaseFragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.shortmsg_fragment, null);
-		initBaseView(view, "短消息");				
+		View view = inflater.inflate(R.layout.fragment_shortmsg, null);
+		initView(view);
 		return view;
 	}
 
@@ -94,6 +94,34 @@ public class ShortMsgFragment extends BaseFragment
 
 			}
 		});
+	}
+
+
+
+	@Override
+	public void initView(View view)
+	{
+		// TODO Auto-generated method stub
+		initBaseView(view, "短消息");
+		Btn_Left.setText("返回");
+		Btn_Right.setText("新建");
+	}
+
+
+
+	@Override
+	public void onClick(View v)
+	{
+		// TODO Auto-generated method stub
+		switch (v.getId())
+		{
+		case R.id.bt_left:
+			getActivity().finish();			
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	

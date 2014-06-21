@@ -8,5 +8,6 @@
     <string name="title_activity_special_net">SpecialNetActivity</string>
     <string name="title_activity_contact">ContactActivity</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_newcontact">NewcontactActivity</string>
 
 </resources>

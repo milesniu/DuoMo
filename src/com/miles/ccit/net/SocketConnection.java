@@ -11,11 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
+import android.annotation.SuppressLint;
+import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 
 public class SocketConnection
@@ -34,18 +33,14 @@ public class SocketConnection
 	private static Thread receiveThread = null;
 	private final ReentrantLock lock = new ReentrantLock();
 	private String result;
-	private final ConcurrentHashMap<Byte, Object> recMsgMap = new ConcurrentHashMap<Byte, Object>();   
+//	private final ConcurrentHashMap<Byte, Object> recMsgMap = new ConcurrentHashMap<Byte, Object>();   
 	
 	private SocketConnection()
 	{
 		// Properties conf = new Properties();
 		try
 		{
-			// conf.load(SocketConnection.class.getResourceAsStream("test.conf"));
-			// this.timeout = Integer.valueOf(conf.getProperty("timeout"));
-			// init(conf.getProperty("ip"),Integer.valueOf(conf.getProperty("port")));
 			init(OverAllData.Ipaddress, OverAllData.Port);
-
 		}
 		catch (IOException e)
 		{
@@ -84,9 +79,9 @@ public class SocketConnection
 		socket = new Socket();
 		synchronized (this)
 		{
-			System.out.println("【准备与" + addr + "建立连接】");
+			MyLog.SystemOut("【准备与" + addr + "建立连接】");
 			socket.connect(addr, OverAllData.networktimeout);
-			System.out.println("【与" + addr + "连接已建立】");
+			MyLog.SystemOut("【与" + addr + "连接已建立】");
 			inStream = socket.getInputStream();
 			outStream = socket.getOutputStream();
 			socket.setTcpNoDelay(true); // 数据不作缓冲，立即发送
@@ -111,7 +106,7 @@ public class SocketConnection
 		{
 			public void run()
 			{
-				System.out.println("重新建立与" + host + ":" + port + "的连接");
+				MyLog.SystemOut("重新建立与" + host + ":" + port + "的连接");
 				// 清理工作，中断计时器，中断接收线程，恢复初始变量
 				heartTimer.cancel();
 				// isLaunchHeartcheck = false;
@@ -190,40 +185,6 @@ public class SocketConnection
 		outStream.flush();
 		
 		return "ok";
-		
-//		if (!needBack)
-//		{
-//			return "ok";
-//		}
-//		{
-//			Condition msglock = lock.newCondition(); // 消息锁
-//			// 注册等待接收消息
-//			recMsgMap.put(requestMsg[4], msglock);
-//			try
-//			{
-//				lock.lock();
-//				msglock.await(OverAllData.networktimeout, TimeUnit.MILLISECONDS);
-//			}
-//			catch (InterruptedException e)
-//			{
-//
-//			}
-//			finally
-//			{
-//				lock.unlock();
-//			}
-//			Object respMsg = recMsgMap.remove(msgNo); // 响应信息
-//			if (respMsg != null && (respMsg != msglock))
-//			{
-//				// 已经接收到消息，注销等待，成功返回消息
-//				return (String) respMsg;
-//			}
-//			else
-//			{
-//
-//				throw new SocketTimeoutException(msgNo + " 超时，未收到响应消息");
-//			}
-//		}
 	}
 
 	/**
@@ -236,27 +197,27 @@ public class SocketConnection
 		heartTimer = new Timer();
 		heartTimer.schedule(new TimerTask()
 		{
+			@SuppressLint("SimpleDateFormat")
 			public void run()
 			{
 				SimpleDateFormat dateformate = new SimpleDateFormat("yyyyMMddHHmmss");
 				String msgDateTime = dateformate.format(new Date());
-				System.out.println("心跳检测包 -> IVR " + msgDateTime);
+				MyLog.SystemOut("心跳检测包 -> IVR " + msgDateTime);
 				int reconnCounter = 1;
 				while (true)
 				{
 					try
 					{
-						byte[] heart = new byte[]{(byte)0x55,(byte)0xaa,(byte)0x01,(byte)0x01};
-						result = SocketConnection.getInstance().readReqMsg(heart, false);
+						result = SocketConnection.getInstance().readReqMsg(new ComposeData().sendHeartbeat(), false);
 					}
 					catch (IOException e)
 					{
-						// log.error("IO流异常",e);
+						MyLog.SystemOut("IO流异常"+e.toString());
 						reconnCounter++;
 					}
 					if (result != null)
 					{
-						System.out.println("心跳响应包 <- IVR " + result);
+						MyLog.SystemOut("心跳响应包 <- IVR " + result);
 						reconnCounter = 1;
 						break;
 					}
@@ -265,7 +226,8 @@ public class SocketConnection
 						reconnCounter++;
 					}
 					if (reconnCounter > 3)
-					{// 重连次数已达三次，判定网络连接中断，重新建立连接。连接未被建立时不释放锁
+					{
+						// 重连次数已达三次，判定网络连接中断，重新建立连接。连接未被建立时不释放锁
 						reConnectToCTCC();
 						break;
 					}
@@ -292,8 +254,6 @@ public class SocketConnection
 	// 消息接收线程
 	private class ReceiveWorker implements Runnable
 	{
-		String intStr = null;
-
 		public void run()
 		{
 			while (!Thread.interrupted())
@@ -310,7 +270,7 @@ public class SocketConnection
 					// byte[] tmp = new byte[4];
 					// tmp = headBytes;
 					// String tempStr = new String(tmp).trim();
-					System.out.println("接收到消息：" + heart);
+					MyLog.SystemOut("接收到消息：" + heart);
 					// if (tempStr == null || tempStr.equals(""))
 					// {
 					// // log.error("received message is null");
@@ -345,16 +305,12 @@ public class SocketConnection
 				}
 				catch (SocketException e)
 				{
-					// log.error("服务端关闭socket",e);
+					MyLog.SystemOut("服务端关闭socket"+e.toString());
 					reConnectToCTCC();
 				}
 				catch (IOException e)
 				{
-					// log.error("接收线程读取响应数据时发生IO流异常",e);
-				}
-				catch (NumberFormatException e)
-				{
-					// log.error("收到没良心包，String转int异常，异常字符:"+intStr);
+					MyLog.SystemOut("接收线程读取响应数据时发生IO流异常"+e.toString());
 				}
 			}
 		}

@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ContactActivity"
+    android:background="@color/white"  >
+
+ <include
+        android:id="@+id/include_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        layout="@layout/layout_title" />
+
+ <LinearLayout
+     android:layout_width="fill_parent"
+     android:layout_height="match_parent"
+     android:layout_below="@+id/include_layout"
+     android:layout_centerHorizontal="true"
+     android:orientation="vertical" >
+
+     <EditText
+         android:id="@+id/edit_num"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="20dp"
+         android:layout_marginRight="20dp"
+          android:layout_marginTop="50dp"
+         android:ems="10"
+         android:hint="请输入号码" >
+
+         <requestFocus />
+     </EditText>
+
+     <EditText
+         android:id="@+id/edit_company"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+          android:layout_marginLeft="20dp"
+         android:layout_marginRight="20dp"
+          android:layout_marginTop="20dp"
+         android:ems="10"
+         android:hint="请输入单位" />
+
+     <EditText
+         android:id="@+id/edit_remarks"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="20dp"
+         android:layout_marginRight="20dp"
+         android:layout_marginTop="20dp"
+         android:hint="请输入备注信息" >
+     </EditText>
+
+     <RadioGroup
+         android:id="@+id/radioGroup1"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+          android:layout_marginTop="20dp"
+         android:gravity="center" >
+
+         <RadioButton
+             android:id="@+id/radio_wireness"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:checked="true"
+             android:textColor="@color/black"
+             android:text="无线侧" />
+
+         <RadioButton
+             android:id="@+id/radio_wired"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="45dp"
+              android:textColor="@color/black"
+             android:text="有线侧" />
+
+     </RadioGroup>
+
+ </LinearLayout>
+
+</RelativeLayout>

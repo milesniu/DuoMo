@@ -3,6 +3,7 @@ package com.miles.ccit.ui;
 import java.util.HashMap;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,6 +28,7 @@ public class VoicecodeFragment extends BaseFragment
 	private ListView listview;
 	private BaseAdapter adapter;
 
+	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler()
 	{
 		@Override
@@ -51,10 +53,11 @@ public class VoicecodeFragment extends BaseFragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.voicecode_fragment, null);
-		initBaseView(view, "声码话");
+		View view = inflater.inflate(R.layout.fragment_voicecode, null);
+		initView(view);
 		return view;
 	}
+
 	
 	private void refreshList(List<HashMap<String, Object>> contentList)
 	{
@@ -77,6 +80,32 @@ public class VoicecodeFragment extends BaseFragment
 
 			}
 		});
+	}
+
+
+	@Override
+	public void initView(View view)
+	{
+		// TODO Auto-generated method stub
+		initBaseView(view, "声码话");
+		Btn_Left.setText("返回");
+		Btn_Right.setText("拨打");
+	}
+
+
+	@Override
+	public void onClick(View v)
+	{
+		// TODO Auto-generated method stub
+		switch (v.getId())
+		{
+		case R.id.bt_left:
+			getActivity().finish();			
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	

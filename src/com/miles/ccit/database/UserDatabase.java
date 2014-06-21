@@ -1,13 +1,13 @@
 package com.miles.ccit.database;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Vector;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.miles.ccit.util.BaseMapObject;
 
 public class UserDatabase
 {
@@ -25,17 +25,17 @@ public class UserDatabase
 		}
 	}
 
-	public static List<Map<String, String>> queryByCondition(Context context, String tableName, String condition, String[] selectionArgs,String order)
+	public static List<BaseMapObject> queryByCondition(Context context, String tableName, String condition, String[] selectionArgs,String order)
 	{
 		synchronized (DataBaseLock)
 		{
 			DatabaseHelper dbHelper = new DatabaseHelper(context);
-			List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+			List<BaseMapObject> data = new Vector<BaseMapObject>();
 			SQLiteDatabase db = dbHelper.getReadableDatabase();
 			Cursor cursor = db.query(tableName, null, condition, selectionArgs, null, null, order);
 			while (cursor.moveToNext())
 			{
-				Map<String, String> rowData = new HashMap<String, String>();
+				BaseMapObject rowData = new BaseMapObject();
 				String[] columnNames = cursor.getColumnNames();
 				for (int i = 0; i < columnNames.length; i++)
 				{
@@ -46,6 +46,20 @@ public class UserDatabase
 			cursor.close();
 			db.close();
 			return data;
+		}
+	}
+	
+
+	public static void DelListObj(Context contex,String tables,String wherename,List<String> idlist)
+	{
+		synchronized (UserDatabase.DataBaseLock)
+		{
+			SQLiteDatabase db = UserDatabase.OpenOrCreatDataBase(contex);
+			for(String id:idlist)
+			{
+				db.delete(tables, wherename + "=" + '"' + id + '"', null); // 删除设备节点
+			}
+			db.close();
 		}
 	}
 }

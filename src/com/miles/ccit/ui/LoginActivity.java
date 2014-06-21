@@ -18,8 +18,7 @@ public class LoginActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		initBaseView("登录");
-		Btn_Right.setVisibility(View.INVISIBLE);
+		
 	}
 
 	
@@ -29,6 +28,25 @@ public class LoginActivity extends BaseActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
+	}
+
+
+
+	@Override
+	public void initView()
+	{
+		// TODO Auto-generated method stub
+		initBaseView("登录");
+		Btn_Right.setVisibility(View.INVISIBLE);
+	}
+
+
+
+	@Override
+	public void onClick(View v)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

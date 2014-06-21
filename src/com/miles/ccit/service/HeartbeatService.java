@@ -1,25 +1,15 @@
 package com.miles.ccit.service;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
 import com.miles.ccit.net.SocketConnection;
-import com.miles.ccit.util.OverAllData;
 
 public class HeartbeatService extends Service implements Runnable
 {
 
 	private Thread mThread;
-	private Timer timer;
-	private String result;
-	
 	@Override
 	public IBinder onBind(Intent intent)
 	{
@@ -80,9 +70,6 @@ public class HeartbeatService extends Service implements Runnable
 		// TODO Auto-generated method stub
 		mThread = new Thread(this);
 		mThread.start();
-		
-		
-//		new ReadThread().start();
 		super.onStart(intent, startId);
 	}
 

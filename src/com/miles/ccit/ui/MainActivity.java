@@ -105,4 +105,18 @@ public class MainActivity extends BaseActivity
 		return true;
 	}
 
+	@Override
+	public void initView()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

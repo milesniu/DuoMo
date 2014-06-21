@@ -14,23 +14,14 @@ import com.miles.ccit.net.ComposeData;
 import com.miles.ccit.net.SocketClient;
 import com.miles.ccit.util.BaseActivity;
 
-public class IndexActivity extends BaseActivity implements OnClickListener
+public class IndexActivity extends BaseActivity
 {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_index);
-		
-		findViewById(R.id.bt_specialnet).setOnClickListener(this);
-		findViewById(R.id.bt_contact).setOnClickListener(this);
-		findViewById(R.id.bt_haveline).setOnClickListener(this);
-		findViewById(R.id.bt_broadcast).setOnClickListener(this);
-		findViewById(R.id.bt_specialway).setOnClickListener(this);
-		findViewById(R.id.bt_setting).setOnClickListener(this);
-		findViewById(R.id.bt_about).setOnClickListener(this);
-		
+		setContentView(R.layout.activity_index);		
 	}
 
 	@Override
@@ -104,6 +95,18 @@ public class IndexActivity extends BaseActivity implements OnClickListener
 			super.onPostExecute(result);
 		}
 
+	}
+	@Override
+	public void initView()
+	{
+		// TODO Auto-generated method stub
+		findViewById(R.id.bt_specialnet).setOnClickListener(this);
+		findViewById(R.id.bt_contact).setOnClickListener(this);
+		findViewById(R.id.bt_haveline).setOnClickListener(this);
+		findViewById(R.id.bt_broadcast).setOnClickListener(this);
+		findViewById(R.id.bt_specialway).setOnClickListener(this);
+		findViewById(R.id.bt_setting).setOnClickListener(this);
+		findViewById(R.id.bt_about).setOnClickListener(this);
 	}
 
 }

@@ -50,16 +50,15 @@ public class EmailFragment extends BaseFragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.email_fragment, null);
+		View view = inflater.inflate(R.layout.fragment_email, null);
 		
 		listview = (ListView) view.findViewById(R.id.listView_content);
-				
-		initBaseView(view, "邮件");
+		initView(view);
 		return view;
 	}
 
-	
-	
+
+		
 	private void refreshList(List<HashMap<String, Object>> contentList)
 	{
 		if (contentList == null)
@@ -81,6 +80,34 @@ public class EmailFragment extends BaseFragment
 
 			}
 		});
+	}
+
+
+
+	@Override
+	public void initView(View view)
+	{
+		// TODO Auto-generated method stub
+		initSwitchBaseView(view, "收件箱", "发件箱");
+		Btn_Left.setText("返回");
+		Btn_Right.setText("写邮件");
+	}
+
+
+
+	@Override
+	public void onClick(View v)
+	{
+		// TODO Auto-generated method stub
+		switch (v.getId())
+		{
+		case R.id.bt_left:
+			getActivity().finish();			
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	

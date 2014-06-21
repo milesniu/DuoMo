@@ -50,10 +50,10 @@ public class CodeDirectFragment extends BaseFragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.codedirect_fragment, null);
+		View view = inflater.inflate(R.layout.fragment_codedirect, null);
 		
 		listview = (ListView) view.findViewById(R.id.listView_content);
-		initBaseView(view, "代码指挥");
+		initView(view);
 		return view;
 	}
 
@@ -79,6 +79,32 @@ public class CodeDirectFragment extends BaseFragment
 
 			}
 		});
+	}
+
+
+	@Override
+	public void initView(View view)
+	{
+		// TODO Auto-generated method stub
+		initSwitchBaseView(view, "收件箱", "发件箱");
+		Btn_Left.setText("返回");
+		Btn_Right.setText("新建");
+	}
+
+
+	@Override
+	public void onClick(View v)
+	{
+		// TODO Auto-generated method stub
+		switch (v.getId())
+		{
+		case R.id.bt_left:
+			getActivity().finish();			
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	
