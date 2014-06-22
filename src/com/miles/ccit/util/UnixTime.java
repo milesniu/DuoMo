@@ -10,10 +10,10 @@ public class UnixTime
 {
 	
 	@SuppressLint("SimpleDateFormat")
-	public static String unixTime2Simplese(String unixtime)
+	public static String unixTime2Simplese(String unixtime,String format)
 	{
 		Long timestamp = Long.parseLong(unixtime + "") * 1000;
-		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(timestamp));
+		return new SimpleDateFormat(format).format(new Date(timestamp));
 	}
 	
 	@SuppressLint("SimpleDateFormat")

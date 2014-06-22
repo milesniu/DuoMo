@@ -204,7 +204,7 @@ public class WiredModelActivity extends BaseActivity
 		list_Content = (ListView)findViewById(R.id.listView_content);
 		linear_Del = (LinearLayout)findViewById(R.id.linear_del);
 		wiredlist.clear();
-		wiredlist = GetData4DB.getObjWiredList(mContext, "wiredrecord", "contact", "number");
+		wiredlist = GetData4DB.getObjList4LeftJoin(mContext, "wiredrecord", "contact", "number");
 		refreshList();
 	}
 

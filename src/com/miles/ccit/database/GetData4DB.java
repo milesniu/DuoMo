@@ -31,13 +31,34 @@ public class GetData4DB
 		}
 	}
 	
-	public static List<BaseMapObject> getObjWiredList(Context contex,String tableleft,String tableright,String wherename)
+	public static List<BaseMapObject> getObjList4LeftJoin(Context contex,String tableleft,String tableright,String wherename)
 	{
 		String strSql =  "SELECT "+tableleft+".*,"+tableright+".name"+" FROM "+tableleft+" LEFT JOIN "+tableright+" ON "+tableleft+"."+wherename+"="+tableright+"."+wherename;
          SQLiteDatabase db =  UserDatabase.OpenOrCreatDataBase(contex);
          Cursor cursor = db.rawQuery(strSql, new String[]{});
          List<BaseMapObject> data = new Vector<BaseMapObject>();
          while (cursor.moveToNext())
+			{
+				BaseMapObject rowData = new BaseMapObject();
+				String[] columnNames = cursor.getColumnNames();
+				for (int i = 0; i < columnNames.length; i++)
+				{
+					rowData.put(columnNames[i], cursor.getString(i));
+				}
+				data.add(rowData);
+			}
+			cursor.close();
+			db.close();
+		return data;
+	}
+	
+	public static List<BaseMapObject> getObjecSet(Context contex,String tableleft,String tableright,String wherename,String groupby)
+	{
+		String strSql =  "SELECT "+tableleft+".*,"+tableright+".name"+" FROM "+tableleft+" LEFT JOIN "+tableright+" ON "+tableleft+"."+wherename+"="+tableright+"."+wherename+" WHERE "+tableleft+".id IN (SELECT MAX("+tableleft+".id) FROM "+tableleft+" GROUP BY "+tableleft+"."+groupby+")";
+		SQLiteDatabase db =  UserDatabase.OpenOrCreatDataBase(contex);
+        Cursor cursor = db.rawQuery(strSql, new String[]{});
+        List<BaseMapObject> data = new Vector<BaseMapObject>();
+        while (cursor.moveToNext())
 			{
 				BaseMapObject rowData = new BaseMapObject();
 				String[] columnNames = cursor.getColumnNames();
