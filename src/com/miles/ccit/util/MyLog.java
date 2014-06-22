@@ -1,6 +1,7 @@
 package com.miles.ccit.util;
 
 import android.util.Log;
+import android.widget.Toast;
 
 public class MyLog
 {
@@ -21,4 +22,5 @@ public class MyLog
 			Log.v(tag, msg);
 		}
 	}
+	
 }

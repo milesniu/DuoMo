@@ -57,8 +57,14 @@
         <activity
             android:name="com.miles.ccit.ui.NewcontactActivity"
             android:label="@string/title_activity_newcontact"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.ui.WiredModelActivity"
+            android:label="@string/title_activity_wired_model" 
              android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"  >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>
 

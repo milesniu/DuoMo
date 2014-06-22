@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.EdgeEffect;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 public class NewcontactActivity extends BaseActivity
 {
@@ -94,17 +95,40 @@ public class NewcontactActivity extends BaseActivity
 			this.finish();
 			break;
 		case R.id.bt_right:
-			BaseMapObject contact = new BaseMapObject();
-			contact.put("id",null);
-			contact.put("name",edit_Company.getText().toString());
-			contact.put("number",edit_Num.getText().toString());
-			contact.put("type",radio_wireness.isChecked()?"0":"1");
-			contact.put("remarks",edit_Remarks.getText().toString());
-			contact.put("creattime",UnixTime.getStrCurrentUnixTime());
-			
-			contact.InsertObj2DB(mContext, "contact");
-			
-			
+			String name = edit_Company.getText().toString();
+			String number = edit_Num.getText().toString();
+			String type = radio_wireness.isChecked()?"0":"1";
+			long ret = 0;
+			if(name.equals("")||number.equals(""))
+			{
+				Toast.makeText(mContext, "必要信息不能为空...", 0).show();
+				return;
+			}
+			if(tmp == null)
+			{
+				BaseMapObject contact = new BaseMapObject();
+				contact.put("id",null);
+				contact.put("name",name);
+				contact.put("number",number);
+				contact.put("type",type);
+				contact.put("remarks",edit_Remarks.getText().toString());
+				contact.put("creattime",UnixTime.getStrCurrentUnixTime());
+				ret = contact.InsertObj2DB(mContext, "contact");
+				if(ret==-1)
+				{
+					Toast.makeText(mContext, "号码已经存在，请勿重复添加...", 0).show();
+					return;
+				}
+			}
+			else
+			{
+				tmp.put("name",edit_Company.getText().toString());
+				tmp.put("number",edit_Num.getText().toString());
+				tmp.put("type",radio_wireness.isChecked()?"0":"1");
+				tmp.put("remarks",edit_Remarks.getText().toString());
+				tmp.UpdateMyself(mContext, "contact");
+			}
+			this.finish();
 			break;
 		}
 	}

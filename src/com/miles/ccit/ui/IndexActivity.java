@@ -44,6 +44,7 @@ public class IndexActivity extends BaseActivity
 			startActivity(new Intent(mContext, ContactActivity.class));
 			break;
 		case R.id.bt_haveline:
+			startActivity(new Intent(mContext, WiredModelActivity.class));
 			break;
 		case R.id.bt_broadcast:
 			break;

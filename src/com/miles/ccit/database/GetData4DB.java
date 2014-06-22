@@ -2,10 +2,13 @@ package com.miles.ccit.database;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import com.miles.ccit.util.BaseMapObject;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 public class GetData4DB
 {
@@ -26,6 +29,27 @@ public class GetData4DB
 		{
 			return null;
 		}
+	}
+	
+	public static List<BaseMapObject> getObjWiredList(Context contex,String tableleft,String tableright,String wherename)
+	{
+		String strSql =  "SELECT "+tableleft+".*,"+tableright+".name"+" FROM "+tableleft+" LEFT JOIN "+tableright+" ON "+tableleft+"."+wherename+"="+tableright+"."+wherename;
+         SQLiteDatabase db =  UserDatabase.OpenOrCreatDataBase(contex);
+         Cursor cursor = db.rawQuery(strSql, new String[]{});
+         List<BaseMapObject> data = new Vector<BaseMapObject>();
+         while (cursor.moveToNext())
+			{
+				BaseMapObject rowData = new BaseMapObject();
+				String[] columnNames = cursor.getColumnNames();
+				for (int i = 0; i < columnNames.length; i++)
+				{
+					rowData.put(columnNames[i], cursor.getString(i));
+				}
+				data.add(rowData);
+			}
+			cursor.close();
+			db.close();
+		return data;
 	}
 	
 }

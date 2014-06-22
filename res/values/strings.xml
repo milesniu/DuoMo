@@ -9,5 +9,6 @@
     <string name="title_activity_contact">ContactActivity</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_newcontact">NewcontactActivity</string>
+    <string name="title_activity_wired_model">WiredModelActivity</string>
 
 </resources>

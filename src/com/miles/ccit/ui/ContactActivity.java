@@ -16,6 +16,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.miles.ccit.adapter.ContactAdapter;
 import com.miles.ccit.database.GetData4DB;
@@ -29,10 +30,11 @@ public class ContactActivity extends BaseActivity {
 
 	List<BaseMapObject> wireness = new Vector<BaseMapObject>();
 	List<BaseMapObject> wired = new Vector<BaseMapObject>();
-	private ListView list_Content;
-	private boolean isWireness = true;
 	private ContactAdapter adapter;
 	private LinearLayout linear_Del;
+	private ListView list_Content;
+	private boolean isWireness = true;
+	
 	
 	
 	@Override
@@ -64,8 +66,9 @@ public class ContactActivity extends BaseActivity {
 		Btn_Delete.setOnClickListener(this);
 		Btn_Canle.setOnClickListener(this);
 		list_Content = (ListView)findViewById(R.id.listView_content);
-		List<BaseMapObject> contactList = GetData4DB.getObjectListData(mContext, "contact");
 		linear_Del = (LinearLayout)findViewById(R.id.linear_del);
+		//添加数据进listview
+		List<BaseMapObject> contactList = GetData4DB.getObjectListData(mContext, "contact");
 		wireness.clear();
 		wired.clear();
 		for(BaseMapObject item:contactList)
@@ -146,23 +149,31 @@ public class ContactActivity extends BaseActivity {
 		if(iswireness)	//无线侧
 		{
 			if(wireness==null||wireness.size()<1)
+			{
+				Toast.makeText(mContext, "无线侧没有联系人，请添加...", 0).show();
 				return;
+			}
 			else
 			{
-				adapter = new ContactAdapter(mContext, wireness); 
+				adapter = new ContactAdapter(mContext, wireness,"name","name","number"); 
 				list_Content.setAdapter(adapter);
+				
 			}
 		}
 		else
 		{
 			if(wired==null||wired.size()<1)
+			{
+				Toast.makeText(mContext, "有线侧没有联系人，请添加...", 0).show();	
 				return;
+			}
 			else
 			{
-				adapter = new ContactAdapter(mContext, wired); 
+				adapter = new ContactAdapter(mContext, wired,"name","name","number"); 
 				list_Content.setAdapter(adapter);
 			}
 		}
+		isWireness = iswireness;
 	}
 
 	@Override
@@ -178,11 +189,9 @@ public class ContactActivity extends BaseActivity {
 			startActivity(new Intent(this, NewcontactActivity.class));
 			break;
 		case R.id.text_left:
-			isWireness = true;
 			refreshList(true);
 			break;
 		case R.id.text_right:
-			isWireness = false;
 			refreshList(false);
 			break;
 		case R.id.bt_sure:

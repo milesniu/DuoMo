@@ -15,16 +15,23 @@ import android.widget.TextView;
 
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.UnixTime;
 
 public class ContactAdapter extends BaseAdapter
 {
 
 	private List<BaseMapObject> contactlist;
 	private Context mContext;
-	public ContactAdapter(Context contex,List<BaseMapObject> list)
+	private String showtitle;
+	private String showinfo;
+	private String showretitle;
+	public ContactAdapter(Context contex,List<BaseMapObject> list,String title,String retitle,String info)
 	{
 		this.mContext = contex;
 		this.contactlist = list;
+		this.showtitle = title;
+		this.showinfo = info;
+		this.showretitle = retitle;
 	}
 	
 	@Override
@@ -57,8 +64,8 @@ public class ContactAdapter extends BaseAdapter
 
 		LayoutInflater mInflater = LayoutInflater.from(mContext);
 		view = mInflater.inflate(R.layout.listitem_contact, null);
-		((TextView)  view.findViewById(R.id.text_name)).setText(map.get("name").toString());
-		((TextView) view.findViewById(R.id.text_number)).setText(map.get("number").toString());
+		((TextView)  view.findViewById(R.id.text_name)).setText(map.get(showtitle)==null?map.get(showretitle).toString():map.get(showtitle).toString());
+		((TextView) view.findViewById(R.id.text_number)).setText(showinfo.equals("creattime")?UnixTime.unixTime2Simplese(map.get(showinfo).toString()):map.get(showinfo).toString());
 		CheckBox checkDel = (CheckBox)view.findViewById(R.id.check_del);
 		if(map.get("exp1")!=null&&map.get("exp1").toString().equals("0"))
 		{
