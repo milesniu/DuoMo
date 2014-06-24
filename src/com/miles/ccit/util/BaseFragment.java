@@ -55,14 +55,8 @@ public abstract class BaseFragment extends Fragment implements OnClickListener {
 		}
 		Btn_Left = (Button) LayoutTitle.findViewById(R.id.bt_left);
 		Btn_Right = (Button) LayoutTitle.findViewById(R.id.bt_right);
-		Btn_Left.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				getActivity().finish();
-			}
-		});
+		Btn_Left.setOnClickListener(this);
+		Btn_Right.setOnClickListener(this);
 	}
 	
 	public void initSwitchBaseView(View view, String leftname,String rightname) {

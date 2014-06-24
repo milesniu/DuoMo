@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-public class NewcontactActivity extends BaseActivity
+public class CreatContactActivity extends BaseActivity
 {
 
 	private EditText edit_Num;

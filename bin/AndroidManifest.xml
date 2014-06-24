@@ -55,16 +55,22 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.miles.ccit.ui.NewcontactActivity"
+            android:name="com.miles.ccit.ui.CreatContactActivity"
             android:label="@string/title_activity_newcontact"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name="com.miles.ccit.ui.WiredModelActivity"
-            android:label="@string/title_activity_wired_model" 
-             android:screenOrientation="portrait"
+            android:label="@string/title_activity_wired_model"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.ui.CreatShortmsgActivity"
+            android:label="@string/title_activity_creat_shortmsg" 
+             android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar">
         </activity>
     </application>
 

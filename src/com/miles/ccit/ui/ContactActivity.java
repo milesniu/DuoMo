@@ -135,7 +135,7 @@ public class ContactActivity extends BaseActivity {
 			linear_Del.setVisibility(View.VISIBLE);
 			break;
 		case 2:
-			startActivity(new Intent(mContext, NewcontactActivity.class).putExtra("contact", getCurrentList().get(ListItem)));
+			startActivity(new Intent(mContext, CreatContactActivity.class).putExtra("contact", getCurrentList().get(ListItem)));
 			break;
 		case 3:
 			break;
@@ -186,7 +186,7 @@ public class ContactActivity extends BaseActivity {
 			this.finish();
 			break;
 		case R.id.bt_right:
-			startActivity(new Intent(this, NewcontactActivity.class));
+			startActivity(new Intent(this, CreatContactActivity.class));
 			break;
 		case R.id.text_left:
 			refreshList(true);

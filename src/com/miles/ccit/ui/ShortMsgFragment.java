@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,28 +34,7 @@ public class ShortMsgFragment extends BaseFragment
 	{
 		View view = inflater.inflate(R.layout.fragment_shortmsg, null);
 		initView(view);
-		
-//		BaseMapObject contact = new BaseMapObject();
-//		contact.put("id",null);
-//		contact.put("number","123");
-//		contact.put("sendtype","0");
-//		contact.put("status","1");
-//		contact.put("msgtype","1");
-//		contact.put("msgcontent","fdsafsafa");
-//
-//		contact.put("creattime",UnixTime.getStrCurrentUnixTime());
-//		contact.put("priority","1");
-//		contact.put("acknowledgemen","2");
-//		contact.InsertObj2DB(getActivity(), "shortmsg");
-//		contact.InsertObj2DB(getActivity(), "shortmsg");
-//		contact.InsertObj2DB(getActivity(), "shortmsg");
-//		contact.put("number","1234");
-//		contact.InsertObj2DB(getActivity(), "shortmsg");
-//		contact.put("number","1234");
-//		contact.InsertObj2DB(getActivity(), "shortmsg");
-//		contact.put("number","1235");
-//		contact.InsertObj2DB(getActivity(), "shortmsg");
-		
+	
 		
 		return view;
 	}
@@ -109,7 +89,9 @@ public class ShortMsgFragment extends BaseFragment
 		case R.id.bt_left:
 			getActivity().finish();			
 			break;
-
+		case R.id.bt_right:
+			startActivity(new Intent(getActivity(), CreatShortmsgActivity.class));
+			break;
 		default:
 			break;
 		}
