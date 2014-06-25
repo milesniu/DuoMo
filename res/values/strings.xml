@@ -11,5 +11,6 @@
     <string name="title_activity_newcontact">NewcontactActivity</string>
     <string name="title_activity_wired_model">WiredModelActivity</string>
     <string name="title_activity_creat_shortmsg">CreatShortmsgActivity</string>
+    <string name="title_activity_shortmsg_list">ShortmsgListActivity</string>
 
 </resources>

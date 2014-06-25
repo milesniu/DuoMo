@@ -1,5 +1,6 @@
 package com.miles.ccit.util;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -21,6 +22,11 @@ public class MyLog
 		{
 			Log.v(tag, msg);
 		}
+	}
+	
+	public static void showToast(Context contex,String msg)
+	{
+		Toast.makeText(contex, msg, 0).show();
 	}
 	
 }

@@ -28,6 +28,7 @@ public class CreatContactActivity extends BaseActivity
 	private RadioButton radio_wireness,radio_wired;
 	private BaseMapObject tmp;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{

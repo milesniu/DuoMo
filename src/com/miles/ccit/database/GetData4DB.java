@@ -18,6 +18,11 @@ public class GetData4DB
 		return  UserDatabase.queryByCondition(context, table,null,null, null);
 	}
 	
+	public static List<BaseMapObject> getObjectListData(Context context,String table,String wherename,String value)
+	{
+		return  UserDatabase.queryByCondition(context, table, wherename+"=?", new String[]{value},null);
+	}
+	
 	public static BaseMapObject getObjectByid(Context context,String table,String id)
 	{
 		List<BaseMapObject> list = UserDatabase.queryByCondition(context, table, "id=?", new String[]{id},null);

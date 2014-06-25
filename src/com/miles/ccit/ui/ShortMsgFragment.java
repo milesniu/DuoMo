@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.miles.ccit.adapter.ShortMsgSetAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.R;
+import com.miles.ccit.duomo.ShortmsgListActivity;
 import com.miles.ccit.util.BaseFragment;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.UnixTime;
@@ -60,7 +61,7 @@ public class ShortMsgFragment extends BaseFragment
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
 				// TODO Auto-generated method stub
-				
+				getActivity().startActivity(new Intent(getActivity(), ShortmsgListActivity.class).putExtra("item", msgList.get(arg2)));
 
 			}
 		});

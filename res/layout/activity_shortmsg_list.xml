@@ -1,0 +1,67 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ContactActivity" >
+
+    <include
+        android:id="@+id/include_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        layout="@layout/layout_title" />
+
+    <ListView
+        android:id="@+id/listView_contect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/relative_bottom"
+        android:layout_below="@+id/include_layout"
+        android:divider="@null" >
+    </ListView>
+
+    <RelativeLayout
+        android:id="@+id/relative_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="3dp"
+        android:gravity="bottom"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
+
+        <Button
+            android:id="@+id/bt_swicthvoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="语音" />
+
+        <EditText
+            android:id="@+id/edit_inputmsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/bt_send"
+            android:layout_toRightOf="@+id/bt_swicthvoice" >
+        </EditText>
+
+        <Button
+            android:id="@+id/bt_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="发送" />
+
+        <Button
+            android:id="@+id/bt_talk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/bt_send"
+            android:layout_toRightOf="@+id/bt_swicthvoice"
+            android:text="按住说话"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</RelativeLayout>

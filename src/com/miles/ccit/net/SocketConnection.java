@@ -14,6 +14,10 @@ import java.util.TimerTask;
 import java.util.concurrent.locks.ReentrantLock;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.os.Message;
+
+import com.miles.ccit.util.MyApplication;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 
@@ -22,8 +26,8 @@ public class SocketConnection
 	private volatile Socket socket;
 
 	private boolean isNetworkConnect = false; // 网络是否已连接
-	private static String host;
-	private static int port;
+//	private static String host;
+//	private static int port;
 	static InputStream inStream = null;
 	static OutputStream outStream = null;
 
@@ -33,6 +37,7 @@ public class SocketConnection
 	private static Thread receiveThread = null;
 	private final ReentrantLock lock = new ReentrantLock();
 	private String result;
+	public static boolean isSocketRun = false;
 //	private final ConcurrentHashMap<Byte, Object> recMsgMap = new ConcurrentHashMap<Byte, Object>();   
 	
 	private SocketConnection()
@@ -45,7 +50,9 @@ public class SocketConnection
 		catch (IOException e)
 		{
 			// log.fatal("socket初始化异常!",e);
-			throw new RuntimeException("socket初始化异常,请检查配置参数");
+//			throw new RuntimeException("socket初始化异常,请检查配置参数");
+			isSocketRun = false;
+			e.printStackTrace();
 		}
 	}
 
@@ -76,6 +83,7 @@ public class SocketConnection
 	private void init(String host, int port) throws IOException
 	{
 		InetSocketAddress addr = new InetSocketAddress(host, port);
+//		MyLog.SystemOut(host+":"+port+":"+addr);
 		socket = new Socket();
 		synchronized (this)
 		{
@@ -91,9 +99,9 @@ public class SocketConnection
 			isNetworkConnect = true;
 			receiveThread = new Thread(new ReceiveWorker());
 			receiveThread.start();
-			SocketConnection.host = host;
-			SocketConnection.port = port;
-
+//			SocketConnection.host = host;
+//			SocketConnection.port = port;
+			isSocketRun = true;
 		}
 	}
 
@@ -106,12 +114,15 @@ public class SocketConnection
 		{
 			public void run()
 			{
-				MyLog.SystemOut("重新建立与" + host + ":" + port + "的连接");
+//				MyLog.SystemOut("重新建立与" + host + ":" + port + "的连接");
+				MyApplication.handle.sendMessage(new Message());
 				// 清理工作，中断计时器，中断接收线程，恢复初始变量
-				heartTimer.cancel();
+				if(heartTimer!=null)
+					heartTimer.cancel();
 				// isLaunchHeartcheck = false;
 				isNetworkConnect = false;
-				receiveThread.interrupt();
+				if(receiveThread !=null && receiveThread.isAlive())
+					receiveThread.interrupt();
 				try
 				{
 					socket.close();
@@ -128,7 +139,7 @@ public class SocketConnection
 						{
 							Thread.currentThread();
 							Thread.sleep(1000 * 1);
-							init(host, port);
+							init(OverAllData.Ipaddress, OverAllData.Port);
 							launchHeartcheck();
 							this.notifyAll();
 							break;
