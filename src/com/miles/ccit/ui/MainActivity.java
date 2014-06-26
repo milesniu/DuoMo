@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import com.miles.ccit.duomo.R;
@@ -20,6 +19,8 @@ import com.miles.ccit.net.ComposeData;
 import com.miles.ccit.net.SocketClient;
 import com.miles.ccit.service.HeartbeatService;
 import com.miles.ccit.util.BaseActivity;
+import com.miles.ccit.util.FileUtils;
+import com.miles.ccit.util.OverAllData;
 
 public class MainActivity extends BaseActivity
 {
@@ -35,13 +36,23 @@ public class MainActivity extends BaseActivity
 		};
 	};
 	
+	/** 文件目录的准备 */
+	private void PrePareFile()
+	{
+		FileUtils fileutil = new FileUtils();
+		//  主目录
+		if (!fileutil.isFileExist(OverAllData.SDCardRoot))
+		{
+			fileutil.creatSDDir(OverAllData.SDCardRoot);
+		}
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		PrePareFile();
 		startService(new Intent(mContext, HeartbeatService.class));
 //		startActivity(new Intent(this, IndexActivity.class));
 		

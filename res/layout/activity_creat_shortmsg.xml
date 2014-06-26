@@ -35,7 +35,13 @@
              android:text="添加" />
 
      </LinearLayout>
-
+ <include 
+         layout="@layout/layout_chat_voice_hint"
+		  android:layout_width="wrap_content"
+		  android:layout_centerInParent="true"
+		  android:visibility="gone"
+		  android:id="@+id/voice_hint_layout"
+		  android:layout_height="wrap_content" />
      <RelativeLayout
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"

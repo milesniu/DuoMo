@@ -1,5 +1,6 @@
 package com.miles.ccit.ui;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -7,12 +8,13 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.BaseActivity;
 import com.miles.ccit.util.BaseMapObject;
-import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.UnixTime;
 
 public class CreatShortmsgActivity extends BaseActivity
@@ -88,10 +90,8 @@ public class CreatShortmsgActivity extends BaseActivity
 				shortmsg.put("priority", "1");
 				shortmsg.put("acknowledgemen", "1");
 				shortmsg.InsertObj2DB(mContext, "shortmsg");
-				
-				
-				
 			}
+			this.finish();
 			break;
 		}
 	}
@@ -116,10 +116,46 @@ public class CreatShortmsgActivity extends BaseActivity
 		Btn_Send.setOnClickListener(this);
 		Btn_Talk.setOnTouchListener(new OnTouchListener()
 		{
+			float y = -1;
 			@Override
 			public boolean onTouch(View v, MotionEvent event)
 			{
 				// TODO Auto-generated method stub
+				switch(event.getAction())
+				{
+				case MotionEvent.ACTION_DOWN:
+						y = event.getY();
+					 findViewById(R.id.voice_hint_layout).setVisibility(View.VISIBLE);
+		        	  ((AnimationDrawable)((ImageView)findViewById(R.id.voice_hint_flash)).getDrawable()).start();
+		        	  ((TextView)findViewById(R.id.voiceHintText)).setText("上滑手指,取消发送");
+//						
+					Btn_Talk.setText("松开发送");
+					break;
+				case MotionEvent.ACTION_UP:
+					findViewById(R.id.voice_hint_layout).setVisibility(View.GONE);
+					((TextView)findViewById(R.id.voiceHintText)).setText("松开手指发送");
+					Btn_Talk.setText("按住录音");
+					if(event.getY()<0)
+					{
+						Toast.makeText(mContext, "取消发送...", 0).show();
+						return false;
+					}
+					((TextView)findViewById(R.id.voiceHintText)).setBackgroundDrawable(null);
+					Toast.makeText(mContext, "发送成功...", 0).show();
+					
+					break;
+				case MotionEvent.ACTION_HOVER_EXIT:
+//					MyLog.showToast(mContext, event.getY()+"");
+//					if(!Btn_Talk.isPressed())
+//					{
+//					   ((TextView)findViewById(R.id.voiceHintText)).setText("松开手指，取消发送");
+////					   ((TextView)findViewById(R.id.voiceHintText)).setBackgroundResource(R.drawable.rcd_cancel_bg);
+//					}else
+//					{
+//						Btn_Talk.setSelected(true);
+//					}
+					break;
+				}
 				return false;
 			}
 		});

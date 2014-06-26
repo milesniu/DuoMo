@@ -160,13 +160,6 @@ public class ShortmsgListActivity extends BaseActivity
 			this.adapterList = adapterList;
 		}
 
-		public void refreshList(List<BaseMapObject> items)
-		{
-			this.items = items;
-			this.notifyDataSetChanged();
-			adapterList.setSelection(items.size() - 1);
-		}
-
 		@Override
 		public int getCount()
 		{
@@ -191,8 +184,6 @@ public class ShortmsgListActivity extends BaseActivity
 			BaseMapObject message = items.get(position);
 
 			View talkView = null;//LayoutInflater.from(ChatActivity.this).inflate(R.layout.child, null);
-			
-			String userName = "我 ";
 			
 			switch(Integer.parseInt(message.get("sendtype").toString()))
 			{

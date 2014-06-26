@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/toast_bg"
+        android:padding="5dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <ImageView
+            android:id="@+id/voice_hint_flash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/voice_hint_amin"
+         />
+        
+      <TextView
+        android:id="@+id/voiceHintText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:layout_marginBottom="10dip"
+        android:text="手指上滑，取消发送"
+        android:textSize="14sp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_below="@id/voice_hint_flash"
+        />
+    </RelativeLayout>
+

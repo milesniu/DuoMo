@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation-list  android:oneshot="false" xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/voicehintamin01" android:duration="100"/>
+    <item android:drawable="@drawable/voicehintamin02" android:duration="100" />
+    <item android:drawable="@drawable/voicehintamin03" android:duration="100" />
+    <item android:drawable="@drawable/voicehintamin04" android:duration="100" />
+    <item android:drawable="@drawable/voicehintamin05" android:duration="100" />
+    <item android:drawable="@drawable/voicehintamin06" android:duration="100"/>
+    <item android:drawable="@drawable/voicehintamin07" android:duration="100" />
+    <item android:drawable="@drawable/voicehintamin08" android:duration="100" />
+    <item android:drawable="@drawable/voicehintamin09" android:duration="100" />
+    <item android:drawable="@drawable/voicehintamin10" android:duration="100" />
+</animation-list>
