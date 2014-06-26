@@ -59,7 +59,7 @@ public class ShortMsgSetAdapter extends BaseAdapter
 		view = mInflater.inflate(R.layout.listitem_shortmsg, null);
 		((TextView)  view.findViewById(R.id.text_number)).setText(map.get("name")==null?map.get("number").toString():map.get("name").toString());
 		((TextView) view.findViewById(R.id.text_time)).setText(UnixTime.unixTime2Simplese(map.get("creattime").toString(),"MM-dd HH:mm"));
-		((TextView) view.findViewById(R.id.text_contact)).setText((String)map.get("msgcontent"));
+		((TextView) view.findViewById(R.id.text_contact)).setText(map.get("msgtype").toString().equals("0")?(String)map.get("msgcontent"):"[语音]");
 		
 		CheckBox checkDel = (CheckBox)view.findViewById(R.id.check_del);
 		if(map.get("exp1")!=null&&map.get("exp1").toString().equals("0"))

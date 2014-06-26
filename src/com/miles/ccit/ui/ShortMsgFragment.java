@@ -34,14 +34,22 @@ public class ShortMsgFragment extends BaseFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_shortmsg, null);
-		initView(view);
-	
-		
+		initView(view);	
 		return view;
 	}
 
 	
 	
+	@Override
+	public void onResume()
+	{
+		// TODO Auto-generated method stub
+		refreshList();
+		super.onResume();
+	}
+
+
+
 	private void refreshList()
 	{
 		msgList = GetData4DB.getObjecSet(getActivity(), "shortmsg", "contact", "number", "number");

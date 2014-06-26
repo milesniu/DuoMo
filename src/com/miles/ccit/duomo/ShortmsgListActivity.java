@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Vector;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -181,7 +183,7 @@ public class ShortmsgListActivity extends BaseActivity
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
-			BaseMapObject message = items.get(position);
+			final BaseMapObject message = items.get(position);
 
 			View talkView = null;//LayoutInflater.from(ChatActivity.this).inflate(R.layout.child, null);
 			
@@ -208,7 +210,34 @@ public class ShortmsgListActivity extends BaseActivity
 			}
 			else
 			{
-				text.setText(message.get("msgcontent").toString());
+				if(message.get("msgtype").toString().equals("0"))
+				{
+					text.setText(message.get("msgcontent").toString());
+				}
+				else if(message.get("msgtype").toString().equals("1"))
+				{
+					text.setText("<<<");
+					text.setOnClickListener(new OnClickListener()
+					{
+						
+						@Override
+						public void onClick(View v)
+						{
+							// TODO Auto-generated method stub
+							try
+							{
+								MediaPlayer mp = new MediaPlayer();
+								mp.setDataSource(message.get("msgcontent").toString());
+								mp.prepare();
+								mp.start();
+							}
+							catch(Exception e)
+							{
+								e.printStackTrace();
+							}
+						}
+					});
+				}
 			}
 			return talkView;
 			
