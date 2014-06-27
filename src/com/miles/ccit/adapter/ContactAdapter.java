@@ -55,6 +55,7 @@ public class ContactAdapter extends BaseAdapter
 		return 0;
 	}
 
+		
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{

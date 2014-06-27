@@ -9,10 +9,12 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.net.ComposeData;
 import com.miles.ccit.net.SocketClient;
 import com.miles.ccit.util.BaseActivity;
+import com.miles.ccit.util.MutiChoiseDlg;
 
 public class IndexActivity extends BaseActivity
 {
@@ -47,6 +49,7 @@ public class IndexActivity extends BaseActivity
 			startActivity(new Intent(mContext, WiredModelActivity.class));
 			break;
 		case R.id.bt_broadcast:
+//			new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0")).getDlg();
 			break;
 		case R.id.bt_specialway:
 			break;

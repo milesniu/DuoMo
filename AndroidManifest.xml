@@ -81,7 +81,7 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.miles.ccit.duomo.ShortmsgListActivity"
+            android:name="com.miles.ccit.ui.ShortmsgListActivity"
             android:label="@string/title_activity_shortmsg_list"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >

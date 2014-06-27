@@ -65,10 +65,12 @@ public class ShortMsgSetAdapter extends BaseAdapter
 		if(map.get("exp1")!=null&&map.get("exp1").toString().equals("0"))
 		{
 			checkDel.setVisibility(View.VISIBLE);
+			view.findViewById(R.id.text_time).setVisibility(View.GONE);
 		}
 		else
 		{
 			checkDel.setVisibility(View.INVISIBLE);
+			view.findViewById(R.id.text_time).setVisibility(View.VISIBLE);
 		}
 		checkDel.setOnCheckedChangeListener(new OnCheckedChangeListener()
 		{

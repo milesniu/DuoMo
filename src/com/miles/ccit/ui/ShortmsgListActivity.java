@@ -1,4 +1,4 @@
-package com.miles.ccit.duomo;
+package com.miles.ccit.ui;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,8 +9,10 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -20,17 +22,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.util.BaseActivity;
+import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.BaseMapObject;
-import com.miles.ccit.util.UnixTime;
+import com.miles.ccit.util.MsgRecorderActivity;
 
-public class ShortmsgListActivity extends BaseActivity
+public class ShortmsgListActivity extends MsgRecorderActivity
 {
 
-	private EditText edit_inputMsg;
-	private Button Btn_switchVoice;
-	private Button Btn_Send;
-	private Button Btn_Talk;
 	private BaseMapObject map = null;
 	private List<BaseMapObject> shortList = new Vector<BaseMapObject>();
 	private ListView list_Content;
@@ -67,40 +65,12 @@ public class ShortmsgListActivity extends BaseActivity
 		case R.id.bt_addcontact:
 			break;
 		case R.id.bt_swicthvoice:
-			if(edit_inputMsg.getVisibility() == View.VISIBLE)
-			{
-				edit_inputMsg.setVisibility(View.GONE);
-				Btn_Talk.setVisibility(View.VISIBLE);
-				Btn_switchVoice.setText("文字");
-			}
-			else
-			{
-				edit_inputMsg.setVisibility(View.VISIBLE);
-				Btn_Talk.setVisibility(View.GONE);
-				Btn_switchVoice.setText("语音");
-			}
+			switchVoice();
 			break;
 		case R.id.bt_send:
-			
-			if(edit_inputMsg.getText().toString().equals(""))
-			{
-				Toast.makeText(mContext, "发送内容不能为空...", 0).show();
-				return;
-			}
-			else
-			{
-				BaseMapObject shortmsg = new BaseMapObject();
-				shortmsg.put("id", null);
-				shortmsg.put("number",map.get("number").toString());
-				shortmsg.put("sendtype", "1");
-				shortmsg.put("status", "1");
-				shortmsg.put("msgtype", "0");
-				shortmsg.put("msgcontent", edit_inputMsg.getText().toString());
-				shortmsg.put("creattime",UnixTime.getStrCurrentUnixTime());
-				shortmsg.put("priority", "1");
-				shortmsg.put("acknowledgemen", "1");
-				shortmsg.InsertObj2DB(mContext, "shortmsg");				
-			}
+			sendTextmsg(map.get("number").toString());
+			edit_inputMsg.setText("");
+			refreshList();
 			break;
 		}
 	}
@@ -115,19 +85,8 @@ public class ShortmsgListActivity extends BaseActivity
 			return;
 		}
 
-//		adapter = new ShortMsgSetAdapter(getActivity(), msgList);
 		list_Content.setAdapter(new MessageListAdapter(mContext, shortList, list_Content));
-//		list_Content.setOnItemClickListener(new OnItemClickListener()
-//		{
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-//			{
-//				// TODO Auto-generated method stub
-//				getActivity().startActivity(new Intent(getActivity(), ShortmsgListActivity.class).putExtra("item", msgList.get(arg2)));
-//
-//			}
-//		});
+
 	}
 	
 	@Override
@@ -144,7 +103,27 @@ public class ShortmsgListActivity extends BaseActivity
 		Btn_switchVoice.setOnClickListener(this);
 		Btn_Send.setOnClickListener(this);
 		list_Content = (ListView)findViewById(R.id.listView_contect);
-		
+		Btn_Talk.setOnTouchListener(new OnTouchListener()
+		{
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event)
+			{
+				// TODO Auto-generated method stub
+				switch (event.getAction())
+				{
+				case MotionEvent.ACTION_DOWN:
+					talkTouchDown(map.get("number").toString());
+					
+					break;
+				case MotionEvent.ACTION_UP:
+					talkTouchUp(event, map.get("number").toString());
+					refreshList();
+					break;
+				}
+				return false;
+			}
+		});
 		refreshList();
 		
 	}
@@ -216,7 +195,7 @@ public class ShortmsgListActivity extends BaseActivity
 				}
 				else if(message.get("msgtype").toString().equals("1"))
 				{
-					text.setText("<<<");
+					text.setText("(((");
 					text.setOnClickListener(new OnClickListener()
 					{
 						
