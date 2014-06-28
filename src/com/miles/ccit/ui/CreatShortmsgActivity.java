@@ -1,7 +1,5 @@
 package com.miles.ccit.ui;
 
-import java.util.List;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -12,11 +10,10 @@ import android.widget.EditText;
 
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.R;
-import com.miles.ccit.util.BaseMapObject;
-import com.miles.ccit.util.MsgRecorderActivity;
+import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.MutiChoiseDlg;
 
-public class CreatShortmsgActivity extends MsgRecorderActivity
+public class CreatShortmsgActivity extends AbsMsgRecorderActivity
 {
 	private EditText edit_inputContact;
 	private Button Btn_addContact;
@@ -88,7 +85,7 @@ public class CreatShortmsgActivity extends MsgRecorderActivity
 					
 					break;
 				case MotionEvent.ACTION_UP:
-					talkTouchUp(event, edit_inputContact.getText().toString());
+					talkTouchUp(event);
 					CreatShortmsgActivity.this.finish();
 					break;
 				}

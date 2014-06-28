@@ -1,33 +1,45 @@
 package com.miles.ccit.ui;
 
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.miles.ccit.adapter.VoicecodeAdapter;
+import com.miles.ccit.database.GetData4DB;
+import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.duomo.R;
-import com.miles.ccit.util.BaseFragment;
+import com.miles.ccit.util.AbsBaseFragment;
+import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.OverAllData;
 
-public class VoicecodeFragment extends BaseFragment
+public class VoicecodeFragment extends AbsBaseFragment
 {
-
-	private ListView listview;
-	private BaseAdapter adapter;
-
+	private VoicecodeAdapter adapter;
+	private List<BaseMapObject> voiceList = new Vector<BaseMapObject>();
+	private LinearLayout linear_Del;
+	public Button Btn_Delete;
+	public Button Btn_Canle;
+	
 	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler()
 	{
@@ -59,14 +71,27 @@ public class VoicecodeFragment extends BaseFragment
 	}
 
 	
-	private void refreshList(List<HashMap<String, Object>> contentList)
+	@Override
+	public void onResume()
 	{
-		if (contentList == null)
+		// TODO Auto-generated method stub
+		refreshList();
+		super.onResume();
+	}
+
+
+	private void refreshList()
+	{
+		voiceList = GetData4DB.getObjectListData(getActivity(), "voicecoderecord");
+		
+		if (voiceList == null)
 		{
 			Toast.makeText(getActivity(), "网络连接异常，请检查后重试...", 0).show();
 			return;
 		}
 
+		adapter = new VoicecodeAdapter(getActivity(), voiceList);
+		
 	
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new OnItemClickListener()
@@ -80,7 +105,54 @@ public class VoicecodeFragment extends BaseFragment
 
 			}
 		});
+
+		listview.setOnCreateContextMenuListener(new OnCreateContextMenuListener()
+		{
+			
+			@Override
+			public void onCreateContextMenu(ContextMenu menu, View v,
+					ContextMenuInfo menuInfo)
+			{
+				// TODO Auto-generated method stub
+				menu.setHeaderTitle(OverAllData.TitleName);
+				menu.add(0, 0, 0, "删除该记录");
+				menu.add(0, 1, 1, "批量删除记录");
+				menu.add(0, 3, 3, "取消");
+			}
+		});
 	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item)
+	{
+		// TODO Auto-generated method stub
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
+		int ListItem = (int)info.position;
+		switch(item.getItemId())
+		{
+		case 0:
+			BaseMapObject selectItem = voiceList.get(ListItem);
+			long ret = BaseMapObject.DelObj4DB(getActivity(), "shortmsg", "number",selectItem.get("number").toString());
+			if(ret != -1)
+			{
+				voiceList.remove(ListItem);
+				adapter.notifyDataSetChanged();
+			}
+			break;
+		case 1:
+			for(BaseMapObject tmp:voiceList)
+			{
+				tmp.put("exp1", "0");
+			}
+			adapter.notifyDataSetChanged();
+			linear_Del.setVisibility(View.VISIBLE);
+			break;
+		case 3:
+			break;
+		}
+		return super.onContextItemSelected(item);
+	}
+
 
 
 	@Override
@@ -90,9 +162,17 @@ public class VoicecodeFragment extends BaseFragment
 		initBaseView(view, "声码话");
 		Btn_Left.setText("返回");
 		Btn_Right.setText("拨打");
+		Btn_Left.setOnClickListener(this);
+		Btn_Right.setOnClickListener(this);
+		linear_Del = (LinearLayout)view.findViewById(R.id.linear_del);
+		Btn_Delete = (Button)view.findViewById(R.id.bt_sure);
+		Btn_Canle = (Button)view.findViewById(R.id.bt_canle);
+		Btn_Delete.setOnClickListener(this);
+		Btn_Canle.setOnClickListener(this);
+		refreshList();
 	}
 
-
+	
 	@Override
 	public void onClick(View v)
 	{
@@ -102,7 +182,40 @@ public class VoicecodeFragment extends BaseFragment
 		case R.id.bt_left:
 			getActivity().finish();			
 			break;
-
+		case R.id.bt_right:
+			startActivity(new Intent(getActivity(), InputNumActivity.class));
+			break;
+		case R.id.bt_sure:
+			Iterator<BaseMapObject> iter = voiceList.iterator();  
+			List<String> Idlist = new Vector<String>();
+			while(iter.hasNext())
+			{  
+			    BaseMapObject s = iter.next();  
+			    if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
+			    {  
+			    	Idlist.add(s.get("id").toString());
+			        iter.remove();
+			    }  
+			}  
+		
+			UserDatabase.DelListObj(getActivity(),"voicecoderecord", "id", Idlist);
+			
+			for(BaseMapObject tmp:voiceList)
+			{
+				tmp.put("exp1", null);
+				tmp.put("exp2", null);
+			}
+			adapter.notifyDataSetChanged();
+			linear_Del.setVisibility(View.GONE);
+			break;
+		case R.id.bt_canle:
+			for(BaseMapObject tmp:voiceList)
+			{
+				tmp.put("exp1", null);
+				tmp.put("exp2", null);
+			}
+			linear_Del.setVisibility(View.GONE);
+			break;
 		default:
 			break;
 		}

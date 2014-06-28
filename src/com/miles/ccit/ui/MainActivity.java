@@ -18,11 +18,11 @@ import com.miles.ccit.duomo.R;
 import com.miles.ccit.net.ComposeData;
 import com.miles.ccit.net.SocketClient;
 import com.miles.ccit.service.HeartbeatService;
-import com.miles.ccit.util.BaseActivity;
+import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.FileUtils;
 import com.miles.ccit.util.OverAllData;
 
-public class MainActivity extends BaseActivity
+public class MainActivity extends AbsBaseActivity
 {
 
 	

@@ -10,7 +10,7 @@ import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.duomo.R.layout;
 import com.miles.ccit.duomo.R.menu;
-import com.miles.ccit.util.BaseActivity;
+import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.UnixTime;
@@ -32,7 +32,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class WiredModelActivity extends BaseActivity
+public class WiredModelActivity extends AbsBaseActivity
 {
 
 	private ListView list_Content;

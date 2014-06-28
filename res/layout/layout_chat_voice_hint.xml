@@ -25,7 +25,16 @@
         android:textSize="14sp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:layout_below="@id/voice_hint_flash"
+        android:layout_below="@+id/voidHinttime"
         />
+
+      <TextView
+          android:id="@+id/voidHinttime"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/voice_hint_flash"
+          android:layout_centerHorizontal="true"
+          android:text="还剩13秒" />
+
     </RelativeLayout>
 

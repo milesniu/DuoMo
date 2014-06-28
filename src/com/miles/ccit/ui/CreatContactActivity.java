@@ -5,7 +5,7 @@ import java.util.HashMap;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.duomo.R.layout;
 import com.miles.ccit.duomo.R.menu;
-import com.miles.ccit.util.BaseActivity;
+import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.UnixTime;
 
@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-public class CreatContactActivity extends BaseActivity
+public class CreatContactActivity extends AbsBaseActivity
 {
 
 	private EditText edit_Num;
@@ -27,6 +27,7 @@ public class CreatContactActivity extends BaseActivity
 	private EditText edit_Remarks;
 	private RadioButton radio_wireness,radio_wired;
 	private BaseMapObject tmp;
+	private String havecode="";
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -37,6 +38,10 @@ public class CreatContactActivity extends BaseActivity
 		if(getIntent().getSerializableExtra("contact")!=null)
 		{
 			tmp = BaseMapObject.HashtoMyself((HashMap<String,Object>)getIntent().getSerializableExtra("contact"));
+		}
+		else if(getIntent().getStringExtra("number")!=null)
+		{
+			havecode = getIntent().getStringExtra("number");
 		}
 	}
 	
@@ -80,6 +85,10 @@ public class CreatContactActivity extends BaseActivity
 			{
 				radio_wired.setChecked(true);
 			}
+		}
+		else
+		{
+			edit_Num.setText(havecode);
 		}
 		
 	}

@@ -24,24 +24,27 @@ import android.widget.Toast;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.BaseMapObject;
-import com.miles.ccit.util.MsgRecorderActivity;
+import com.miles.ccit.util.AbsMsgRecorderActivity;
 
-public class ShortmsgListActivity extends MsgRecorderActivity
+public class ShortmsgListActivity extends AbsMsgRecorderActivity
 {
 
 	private BaseMapObject map = null;
 	private List<BaseMapObject> shortList = new Vector<BaseMapObject>();
 	private ListView list_Content;
-	
+	private MediaPlayer mp;
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_shortmsg_list);
-		if(getIntent().getSerializableExtra("item")!=null)
+		if (getIntent().getSerializableExtra("item") != null)
 		{
-			map = BaseMapObject.HashtoMyself((HashMap<String,Object>)getIntent().getSerializableExtra("item"));
+			map = BaseMapObject
+					.HashtoMyself((HashMap<String, Object>) getIntent()
+							.getSerializableExtra("item"));
 		}
 	}
 
@@ -57,7 +60,8 @@ public class ShortmsgListActivity extends MsgRecorderActivity
 	public void onClick(View v)
 	{
 		// TODO Auto-generated method stub
-		switch(v.getId())
+		stopMediaplayer();
+		switch (v.getId())
 		{
 		case R.id.bt_left:
 			this.finish();
@@ -77,47 +81,53 @@ public class ShortmsgListActivity extends MsgRecorderActivity
 
 	private void refreshList()
 	{
-		shortList = GetData4DB.getObjectListData(mContext, "shortmsg", "number", map.get("number").toString());
-		
+		shortList = GetData4DB.getObjectListData(mContext, "shortmsg",
+				"number", map.get("number").toString());
+
 		if (shortList == null)
 		{
 			Toast.makeText(mContext, "暂无消息记录...", 0).show();
 			return;
 		}
 
-		list_Content.setAdapter(new MessageListAdapter(mContext, shortList, list_Content));
+		list_Content.setAdapter(new MessageListAdapter(mContext, shortList,
+				list_Content));
+
+		list_Content.setSelection(shortList.size() - 1);
 
 	}
-	
+
 	@Override
 	public void initView()
 	{
 		// TODO Auto-generated method stub
-		initBaseView(map.get("name")==null?map.get("number").toString():map.get("name").toString());
+		initBaseView(map.get("name") == null ? map.get("number").toString()
+				: map.get("name").toString());
 		Btn_Left.setText("返回");
 		Btn_Right.setVisibility(View.INVISIBLE);
-		edit_inputMsg = (EditText)findViewById(R.id.edit_inputmsg);
-		Btn_switchVoice = (Button)findViewById(R.id.bt_swicthvoice);
-		Btn_Send = (Button)findViewById(R.id.bt_send);
-		Btn_Talk = (Button)findViewById(R.id.bt_talk);
+		edit_inputMsg = (EditText) findViewById(R.id.edit_inputmsg);
+		Btn_switchVoice = (Button) findViewById(R.id.bt_swicthvoice);
+		Btn_Send = (Button) findViewById(R.id.bt_send);
+		Btn_Talk = (Button) findViewById(R.id.bt_talk);
 		Btn_switchVoice.setOnClickListener(this);
 		Btn_Send.setOnClickListener(this);
-		list_Content = (ListView)findViewById(R.id.listView_contect);
+		list_Content = (ListView) findViewById(R.id.listView_contect);
 		Btn_Talk.setOnTouchListener(new OnTouchListener()
 		{
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event)
 			{
 				// TODO Auto-generated method stub
+				stopMediaplayer();
 				switch (event.getAction())
 				{
 				case MotionEvent.ACTION_DOWN:
 					talkTouchDown(map.get("number").toString());
-					
+
 					break;
 				case MotionEvent.ACTION_UP:
-					talkTouchUp(event, map.get("number").toString());
+					talkTouchUp(event);
 					refreshList();
 					break;
 				}
@@ -125,16 +135,35 @@ public class ShortmsgListActivity extends MsgRecorderActivity
 			}
 		});
 		refreshList();
-		
+	}
+
+	@Override
+	protected void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		stopMediaplayer();
+		super.onDestroy();
 	}
 	
+	private void stopMediaplayer()
+	{
+		if(mp!=null && mp.isPlaying())
+		{
+			mp.stop();
+			mp.release();
+			mp=null;
+		}
+	}
+
 	private class MessageListAdapter extends BaseAdapter
 	{
 
 		private List<BaseMapObject> items;
 		private Context context;
 		private ListView adapterList;
-		public MessageListAdapter(Context context, List<BaseMapObject> items, ListView adapterList)
+
+		public MessageListAdapter(Context context, List<BaseMapObject> items,
+				ListView adapterList)
 		{
 			this.context = context;
 			this.items = items;
@@ -164,53 +193,60 @@ public class ShortmsgListActivity extends MsgRecorderActivity
 		{
 			final BaseMapObject message = items.get(position);
 
-			View talkView = null;//LayoutInflater.from(ChatActivity.this).inflate(R.layout.child, null);
-			
-			switch(Integer.parseInt(message.get("sendtype").toString()))
+			View talkView = null;// LayoutInflater.from(ChatActivity.this).inflate(R.layout.child,
+									// null);
+
+			switch (Integer.parseInt(message.get("sendtype").toString()))
 			{
 			case 1:
-				talkView = LayoutInflater.from(mContext).inflate(R.layout.outcometalk, null);
-				
+				talkView = LayoutInflater.from(mContext).inflate(
+						R.layout.outcometalk, null);
+
 				break;
 			case 2:
-				talkView = LayoutInflater.from(mContext).inflate(R.layout.incometalk, null);
-				
+				talkView = LayoutInflater.from(mContext).inflate(
+						R.layout.incometalk, null);
+
 				break;
 			case 3:
 				break;
 			}
-			
-			
-			TextView text = (TextView)talkView.findViewById(R.id.textcontent);
-			
-			if(message.get("msgcontent")==null||message.get("msgcontent").equals("null"))
+
+			TextView text = (TextView) talkView.findViewById(R.id.textcontent);
+
+			if (message.get("msgcontent") == null
+					|| message.get("msgcontent").equals("null"))
 			{
 				text.setText("无效信息");
 			}
 			else
 			{
-				if(message.get("msgtype").toString().equals("0"))
+				if (message.get("msgtype").toString().equals("0"))
 				{
 					text.setText(message.get("msgcontent").toString());
 				}
-				else if(message.get("msgtype").toString().equals("1"))
+				else if (message.get("msgtype").toString().equals("1"))
 				{
 					text.setText("(((");
 					text.setOnClickListener(new OnClickListener()
 					{
-						
+
 						@Override
 						public void onClick(View v)
 						{
 							// TODO Auto-generated method stub
 							try
 							{
-								MediaPlayer mp = new MediaPlayer();
-								mp.setDataSource(message.get("msgcontent").toString());
+								stopMediaplayer();
+
+								mp = new MediaPlayer();
+								mp.setDataSource(message.get("msgcontent")
+										.toString());
 								mp.prepare();
 								mp.start();
+								
 							}
-							catch(Exception e)
+							catch (Exception e)
 							{
 								e.printStackTrace();
 							}
@@ -219,7 +255,7 @@ public class ShortmsgListActivity extends MsgRecorderActivity
 				}
 			}
 			return talkView;
-			
+
 		}
 
 	}

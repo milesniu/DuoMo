@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.miles.ccit.duomo.R;
 
-public abstract class BaseFragment extends Fragment implements OnClickListener {
+public abstract class AbsBaseFragment extends Fragment implements OnClickListener {
 	public ProgressDialog pdialog;
 	public boolean isHead = false;
 	public static String title = "多模系统";

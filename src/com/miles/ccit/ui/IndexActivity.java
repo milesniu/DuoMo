@@ -13,10 +13,10 @@ import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.net.ComposeData;
 import com.miles.ccit.net.SocketClient;
-import com.miles.ccit.util.BaseActivity;
+import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.MutiChoiseDlg;
 
-public class IndexActivity extends BaseActivity
+public class IndexActivity extends AbsBaseActivity
 {
 
 	@Override

@@ -1,9 +1,14 @@
 package com.miles.ccit.util;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.ui.CreatShortmsgActivity;
 
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Handler;
+import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -13,14 +18,74 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public abstract class MsgRecorderActivity extends BaseActivity
+public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 {
 	public EditText edit_inputMsg;
 	public Button Btn_switchVoice;
 	public Button Btn_Send;
 	public Button Btn_Talk;
 	public MsgRecorderutil mediaRecorder;
+	public Timer timer;
+	private long currentlong=0;
+	public String strContatc="";
+	public boolean isUp = false;
+	Handler handle = new Handler(){
+
+		@Override
+		public void handleMessage(Message msg)
+		{
+			// TODO Auto-generated method stub
+			if(currentlong>=14)
+			{
+				mediaRecorder.stopRecorder();
+				talkTouchUp(null);
+				isUp = true;
+				MyLog.showToast(mContext, "超过最大时间,立即发送...");
+				currentlong=0;
+				timer.cancel();
+			}
+			else
+			{
+				((TextView) findViewById(R.id.voidHinttime)).setText("还剩"+(14-currentlong)+"秒");
+			}
+			super.handleMessage(msg);
+		}
+		
+	};
 	
+	
+	
+	@Override
+	public void onClick(View v)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void initView()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
+
+	public String getStrContatc()
+	{
+		return strContatc;
+	}
+
+	public void setStrContatc(String strContatc)
+	{
+		this.strContatc = strContatc;
+	}
+
 	public void switchVoice()
 	{
 		if (edit_inputMsg.getVisibility() == View.VISIBLE)
@@ -28,12 +93,14 @@ public abstract class MsgRecorderActivity extends BaseActivity
 			edit_inputMsg.setVisibility(View.GONE);
 			Btn_Talk.setVisibility(View.VISIBLE);
 			Btn_switchVoice.setText("文字");
+			Btn_Send.setEnabled(false);
 		}
 		else
 		{
 			edit_inputMsg.setVisibility(View.VISIBLE);
 			Btn_Talk.setVisibility(View.GONE);
 			Btn_switchVoice.setText("语音");
+			Btn_Send.setEnabled(true);
 		}
 	}
 	
@@ -73,6 +140,7 @@ public abstract class MsgRecorderActivity extends BaseActivity
 			MyLog.showToast(mContext, "请输入联系人号码...");
 			return false;
 		}
+		setStrContatc(contact);
 		findViewById(R.id.voice_hint_layout).setVisibility(
 				View.VISIBLE);
 		((AnimationDrawable) ((ImageView) findViewById(R.id.voice_hint_flash))
@@ -83,26 +151,48 @@ public abstract class MsgRecorderActivity extends BaseActivity
 		
 		mediaRecorder = new MsgRecorderutil();
 		mediaRecorder.startRecorder();
+		timer = new Timer();
+		timer.schedule(new TimerTask()
+		{
+			
+			@Override
+			public void run()
+			{
+				// TODO Auto-generated method stub
+				currentlong++;
+				handle.sendMessage(new Message());
+				
+			}
+		}, 10, 1000);
 		return false;
 	}
 	
-	public boolean talkTouchUp(MotionEvent event,String contact)
+	public boolean talkTouchUp(MotionEvent event)
 	{
-		findViewById(R.id.voice_hint_layout).setVisibility(
-				View.GONE);
-		((TextView) findViewById(R.id.voiceHintText))
-				.setText("松开手指发送");
-		Btn_Talk.setText("按住录音");
-		
-		mediaRecorder.stopRecorder();
-
-		if (event.getY() < 0)
+		if(isUp)
 		{
-			Toast.makeText(mContext, "取消发送...", 0).show();
-			return false;
+			isUp = false;
 		}
-		MsgRecorderutil.insertVoicemsg(mContext, contact, mediaRecorder.getRecorderpath());
+		else
+		{
+			findViewById(R.id.voice_hint_layout).setVisibility(
+					View.GONE);
+			((TextView) findViewById(R.id.voiceHintText))
+					.setText("松开手指发送");
+			Btn_Talk.setText("按住录音");
+			
+			mediaRecorder.stopRecorder();
 	
+			if(event!=null)
+			{
+				if (event.getY() < 0)
+				{
+					Toast.makeText(mContext, "取消发送...", 0).show();
+					return false;
+				}
+			}
+			MsgRecorderutil.insertVoicemsg(mContext, getStrContatc(), mediaRecorder.getRecorderpath());
+		}
 		return false;
 	}
 	

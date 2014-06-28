@@ -22,11 +22,11 @@ import com.miles.ccit.adapter.ContactAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.duomo.R;
-import com.miles.ccit.util.BaseActivity;
+import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.OverAllData;
 
-public class ContactActivity extends BaseActivity {
+public class ContactActivity extends AbsBaseActivity {
 
 	List<BaseMapObject> wireness = new Vector<BaseMapObject>();
 	List<BaseMapObject> wired = new Vector<BaseMapObject>();

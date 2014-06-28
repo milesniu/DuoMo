@@ -1,6 +1,8 @@
 package com.miles.ccit.util;
 
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 import android.content.Context;
@@ -12,6 +14,7 @@ public class MsgRecorderutil
 	public File voiceFile;
 	public long startTime;
 	public long endTime;
+
 	
 	public void startRecorder()
 	{
@@ -30,7 +33,9 @@ public class MsgRecorderutil
 			mediaRecorder.setOutputFile(voiceFile.getAbsolutePath());
 			mediaRecorder.prepare();
 			startTime = System.currentTimeMillis();
+
 			mediaRecorder.start();
+			
 		}
 		catch (Exception e)
 		{
@@ -41,9 +46,14 @@ public class MsgRecorderutil
 	
 	public void stopRecorder()
 	{
-		endTime = System.currentTimeMillis();
-		mediaRecorder.stop();
-		mediaRecorder.release();
+		if(mediaRecorder!=null)
+		{
+			endTime = System.currentTimeMillis();
+			mediaRecorder.stop();
+			mediaRecorder.release();
+			
+			mediaRecorder =null;
+		}
 	}
 	
 	public String getRecorderpath()
@@ -79,6 +89,11 @@ public class MsgRecorderutil
 		shortmsg.put("priority", "1");
 		shortmsg.put("acknowledgemen", "1");
 		shortmsg.InsertObj2DB(contex, "shortmsg");
+	}
+	
+	public long getTimeline()
+	{
+		return endTime-startTime;
 	}
 	
 }

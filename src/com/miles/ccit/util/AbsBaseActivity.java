@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.miles.ccit.duomo.R;
 
-public abstract class BaseActivity extends Activity implements OnClickListener {
+public abstract class AbsBaseActivity extends Activity implements OnClickListener {
 	
 	public Context mContext = this;
 	public View LayoutTitle;

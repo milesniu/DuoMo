@@ -3,7 +3,7 @@ package com.miles.ccit.ui;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.duomo.R.layout;
 import com.miles.ccit.duomo.R.menu;
-import com.miles.ccit.util.BaseActivity;
+import com.miles.ccit.util.AbsBaseActivity;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends AbsBaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -18,9 +18,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.miles.ccit.duomo.R;
-import com.miles.ccit.util.BaseFragment;
+import com.miles.ccit.util.AbsBaseFragment;
 
-public class CodeDirectFragment extends BaseFragment
+public class CodeDirectFragment extends AbsBaseFragment
 {
 
 	private ListView listview;
