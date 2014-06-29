@@ -63,9 +63,9 @@ public class CreatContactActivity extends AbsBaseActivity
 	{
 		// TODO Auto-generated method stub
 		initBaseView("联系人");
-		Btn_Left.setText("返回");
-		Btn_Right.setText("添加");
-		
+//		Btn_Left.setText("返回");
+//		Btn_Right.setText("添加");
+		Btn_Right.setBackgroundResource(R.drawable.btsure);
 		edit_Num = (EditText)findViewById(R.id.edit_num);
 		edit_Company = (EditText)findViewById(R.id.edit_company);
 		edit_Remarks = (EditText)findViewById(R.id.edit_remarks);

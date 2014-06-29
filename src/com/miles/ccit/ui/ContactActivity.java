@@ -57,8 +57,9 @@ public class ContactActivity extends AbsBaseActivity {
 	{
 		// TODO Auto-generated method stub
 		initSwitchBaseView("无线侧", "有线侧");
-		Btn_Left.setText("返回");
-		Btn_Right.setText("新建");
+//		Btn_Left.setText("返回");
+//		Btn_Right.setText("新建");
+		Btn_Right.setBackgroundResource(R.drawable.btaddcontact);
 		Btn_Left.setOnClickListener(this);
 		Btn_Right.setOnClickListener(this);
 		Btn_Delete = (Button)findViewById(R.id.bt_sure);
@@ -189,9 +190,11 @@ public class ContactActivity extends AbsBaseActivity {
 			startActivity(new Intent(this, CreatContactActivity.class));
 			break;
 		case R.id.text_left:
+			changeSiwtchLeft();
 			refreshList(true);
 			break;
 		case R.id.text_right:
+			changeSiwtchRight();
 			refreshList(false);
 			break;
 		case R.id.bt_sure:

@@ -46,6 +46,25 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 		initView();
 		super.onStart();
 	}
+	
+	public void changeSiwtchLeft()
+	{
+		linear_Select.setBackgroundResource(R.drawable.selectleft);
+		text_left.setTextColor(getResources().getColor(R.color.white));
+		text_right.setTextColor(getResources().getColor(R.color.black));
+		
+	}
+	
+
+	public void changeSiwtchRight()
+	{
+		linear_Select.setBackgroundResource(R.drawable.selectright);
+		text_left.setTextColor(getResources().getColor(R.color.black));
+		text_right.setTextColor(getResources().getColor(R.color.white));
+		
+	}
+	
+
 
 	
 	public void initSwitchBaseView(String leftname,String rightname)

@@ -6,19 +6,21 @@
     android:padding="5dp"
     android:background="@color/white" >
 
-    <ImageView
-        android:id="@+id/image_title"
+    <LinearLayout
+        android:id="@+id/linear_title"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
+        android:orientation="horizontal"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_launcher" />
+        android:background="@drawable/indextitlenologin" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/image_title"
+        android:layout_below="@+id/linear_title"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
         android:gravity="center" >
 
         <LinearLayout
@@ -33,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
-                android:text="广播模式" />
+                android:background="@drawable/indexbroadcast" />
 
             <Button
                 android:id="@+id/bt_specialway"
@@ -41,7 +43,8 @@
                 android:layout_width="match_parent"
                 android:layout_weight="4"
                 android:layout_height="0dp"
-                android:text="专向语音" />
+                android:layout_marginTop="3dp"
+                 android:background="@drawable/indexspecisevoice" />
 
             <Button
                 android:id="@+id/bt_setting"
@@ -49,7 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
-                android:text="系统设置" />
+                 android:layout_marginTop="3dp"
+                 android:background="@drawable/indexsetting" />
 
             <Button
                 android:id="@+id/bt_about"
@@ -57,7 +61,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
-                android:text="关于" />
+                 android:layout_marginTop="3dp"
+                 android:background="@drawable/indexabout" />
 
         </LinearLayout>
 
@@ -74,23 +79,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="4"
-                android:text="专网模式" />
+                android:background="@drawable/indexspecisenet"/>
 
             <Button
                 android:id="@+id/bt_contact"
                 style="?android:attr/buttonStyleSmall"
                android:layout_width="match_parent"
                 android:layout_height="0dp"
+                 android:layout_marginTop="3dp"
                 android:layout_weight="2"
-                android:text="通讯录" />
+                 android:background="@drawable/indexcontact"/>
 
             <Button
                 android:id="@+id/bt_haveline"
                 style="?android:attr/buttonStyleSmall"
                android:layout_width="match_parent"
                 android:layout_height="0dp"
+                 android:layout_marginTop="3dp"
                 android:layout_weight="4"
-                android:text="有线模式" />
+                 android:background="@drawable/indexwired" />
 
         </LinearLayout>
 

@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.miles.ccit.duomo.R;
-import com.miles.ccit.util.AbsInputNumActivity;
+import com.miles.ccit.util.AbsToCallActivity;
 
-public class InputNumActivity extends AbsInputNumActivity
+public class InputNumActivity extends AbsToCallActivity
 {
 	
 	@Override

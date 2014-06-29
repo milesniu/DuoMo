@@ -16,7 +16,7 @@
         android:id="@+id/listView_contect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/relative_bottom"
+        android:layout_above="@+id/linear_del"
         android:layout_below="@+id/include_layout"
         android:divider="@null" >
     </ListView>
@@ -72,5 +72,31 @@
         layout="@layout/layout_chat_voice_hint"
         android:visibility="gone"
          />
+
+    <LinearLayout
+        android:id="@+id/linear_del"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/relative_bottom"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"
+        android:gravity="center" >
+
+     <Button
+         android:id="@+id/bt_canle"
+         android:layout_width="0dp"
+         android:layout_height="wrap_content"
+         android:layout_weight="1"
+         android:text="取消" />
+      <Button
+         android:id="@+id/bt_sure"
+         android:layout_width="0dp"
+         android:layout_height="wrap_content"
+         android:layout_weight="1"
+         android:layout_marginLeft="15dp"
+         android:text="删除" />
+
+ </LinearLayout>
 
 </RelativeLayout>

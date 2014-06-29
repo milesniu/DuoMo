@@ -17,6 +17,8 @@
      android:layout_height="wrap_content"
      android:layout_below="@+id/include_layout"
      android:layout_centerHorizontal="true"
+        android:divider="@drawable/diver"
+     android:dividerHeight="1px"
      android:cacheColorHint="#00000000" >
 
  </ListView>

@@ -33,7 +33,7 @@ public class SpecialNetFragmentActivity extends FragmentActivity
 
 		// 定义数组来存放按钮图片
 		private int mImageViewArray[] =
-		{ R.drawable.tab_message_btn, R.drawable.tab_message_btn, R.drawable.tab_message_btn, R.drawable.tab_message_btn};
+		{ R.drawable.tab_msg_btn, R.drawable.tab_voice_btn, R.drawable.tab_mail_btn, R.drawable.tab_direct_btn};
 
 		// Tab选项卡的文字
 		private String mTextviewArray[] =
@@ -78,22 +78,7 @@ public class SpecialNetFragmentActivity extends FragmentActivity
 			mTabHost.addTab(tabSpec, fragmentArray[i], null);
 			// 设置Tab按钮的背景
 			mTabHost.getTabWidget().getChildAt(i).setBackgroundResource(R.drawable.selector_tab_background);
-			
-//			mTabHost.setOnTabChangedListener(new OnTabChangeListener()
-//			{
-//				
-//				@Override
-//				public void onTabChanged(String tabId)
-//				{
-//					// TODO Auto-generated method stub
-////					if (tabId.equals(mTextviewArray[3])||tabId.equals(mTextviewArray[1]))
-////					{
-////						//
-////					}
-//					
-//				}
-//			});
-			
+		
 		}
 	}
 	

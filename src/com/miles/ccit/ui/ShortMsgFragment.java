@@ -136,8 +136,9 @@ public class ShortMsgFragment extends AbsBaseFragment
 	{
 		// TODO Auto-generated method stub
 		initBaseView(view, "短消息");
-		Btn_Left.setText("返回");
-		Btn_Right.setText("新建");
+//		Btn_Left.setText("返回");
+//		Btn_Right.setText("新建");
+		Btn_Right.setBackgroundResource(R.drawable.creatmsg);
 		linear_Del = (LinearLayout)view.findViewById(R.id.linear_del);
 		Btn_Delete = (Button)view.findViewById(R.id.bt_sure);
 		Btn_Canle = (Button)view.findViewById(R.id.bt_canle);

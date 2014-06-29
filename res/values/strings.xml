@@ -13,5 +13,6 @@
     <string name="title_activity_creat_shortmsg">CreatShortmsgActivity</string>
     <string name="title_activity_shortmsg_list">ShortmsgListActivity</string>
     <string name="title_activity_input_num">InputNumActivity</string>
+    <string name="title_activity_call_wait">CallWaitActivity</string>
 
 </resources>

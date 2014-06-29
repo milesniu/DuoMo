@@ -14,13 +14,16 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" >
 
             <TextView
                 android:id="@+id/text_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
+                android:textSize="20sp"
                 android:text="TextView" />
 
             <TextView
@@ -29,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/black"
+                android:textSize="16sp"
                 android:text="TextView" />
 
         </RelativeLayout>
@@ -42,7 +46,9 @@
                 android:id="@+id/text_contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/graytext"
+                android:textSize="16sp"
+                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:text="TextView" />
 
         </LinearLayout>

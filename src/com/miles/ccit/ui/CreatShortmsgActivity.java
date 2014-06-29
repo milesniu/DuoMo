@@ -60,7 +60,7 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity
 	{
 		// TODO Auto-generated method stub
 		initBaseView("新建消息");
-		Btn_Left.setText("返回");
+//		Btn_Left.setText("返回");
 		Btn_Right.setVisibility(View.INVISIBLE);
 
 		edit_inputContact = (EditText) findViewById(R.id.edit_concotact);

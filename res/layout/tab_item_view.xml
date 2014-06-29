@@ -12,7 +12,7 @@
         android:focusable="false"
         android:scaleType="fitXY"
         android:layout_marginTop="3dp"
-        android:src="@drawable/tab_home_btn">
+        android:src="@drawable/tab_msg_btn">
     </ImageView>
 
     <TextView

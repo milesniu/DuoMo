@@ -12,16 +12,15 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/phoneicon" />
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/image_head"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/image_head"
         android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/image_head"
         android:gravity="center_vertical"
         android:orientation="vertical" >
@@ -31,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
+            android:textSize="20sp"
             android:text="TextView" />
 
         <TextView
@@ -38,7 +38,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:textColor="@color/black"
+            android:textColor="@color/graytext"
+            android:textSize="14sp"
             android:text="TextView" />
     </LinearLayout>
 

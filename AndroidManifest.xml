@@ -90,7 +90,13 @@
             android:name="com.miles.ccit.ui.InputNumActivity"
             android:label="@string/title_activity_input_num"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"  >
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CallWaitActivity"
+            android:label="@string/title_activity_call_wait"
+              android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>
 

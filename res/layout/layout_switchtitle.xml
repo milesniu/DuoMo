@@ -3,17 +3,16 @@
         android:id="@+id/relativeLayout1"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:background="@color/whitetitle"
+        android:background="@drawable/titlebg"
         android:gravity="center_vertical" >
 
         <Button
             android:id="@+id/bt_right"
-             android:layout_width="60dp"
-            android:layout_height="40dp"
+             android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:text="电话"
             android:textColor="@color/bule"
             android:textSize="12sp" />
 
@@ -23,6 +22,7 @@
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:background="@drawable/selectleft"
             android:gravity="center" >
 
             <TextView
@@ -32,7 +32,7 @@
                  android:layout_marginLeft="3dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:textColor="#0078ff"
+                android:textColor="@color/white"
                 android:text="收件箱" />
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="#0078ff"
+                android:textColor="@color/black"
                 android:layout_height="match_parent"
                 android:text="发件箱" />
 
@@ -58,13 +58,11 @@
 
             <Button
                 android:id="@+id/bt_left"
-                android:layout_width="70dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
-                android:paddingLeft="5dp"
-                android:text="返回"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:textColor="@color/bule"
                 android:textSize="16sp"
+                android:background="@drawable/btback"
                 android:visibility="visible" />
         </LinearLayout>
     </RelativeLayout>

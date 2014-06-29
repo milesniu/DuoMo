@@ -89,8 +89,9 @@ public class EmailFragment extends AbsBaseFragment
 	{
 		// TODO Auto-generated method stub
 		initSwitchBaseView(view, "收件箱", "发件箱");
-		Btn_Left.setText("返回");
-		Btn_Right.setText("写邮件");
+//		Btn_Left.setText("返回");
+//		Btn_Right.setText("写邮件");
+		Btn_Right.setBackgroundResource(R.drawable.creatmail);
 	}
 
 
@@ -104,7 +105,12 @@ public class EmailFragment extends AbsBaseFragment
 		case R.id.bt_left:
 			getActivity().finish();			
 			break;
-
+		case R.id.text_left:
+			changeSiwtchLeft();
+			break;
+		case R.id.text_right:
+			changeSiwtchRight();
+			break;
 		default:
 			break;
 		}

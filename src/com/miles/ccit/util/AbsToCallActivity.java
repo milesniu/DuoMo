@@ -5,22 +5,27 @@ import java.util.Vector;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.miles.ccit.adapter.ContactAdapter;
 import com.miles.ccit.database.GetData4DB;
+import com.miles.ccit.duomo.CallWaitActivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.ui.CreatContactActivity;
 
-public abstract class AbsInputNumActivity extends AbsBaseActivity
+public abstract class AbsToCallActivity extends AbsBaseActivity
 {
 	private String strNumber ="";
 	private EditText editInputFrom;
 	private ListView listview;
 	private ContactAdapter adapter;
 	private List<BaseMapObject> all;
+	public static final int TOCALLVOICE = 0;
+	public static final int TOCALLWIRED = 1;
+	
 
 	public List<BaseMapObject> getContact(String code)
 	{
@@ -43,9 +48,21 @@ public abstract class AbsInputNumActivity extends AbsBaseActivity
 	{
 		adapter = new ContactAdapter(mContext, getContact(strNumber),"name","name","number"); 
 		listview.setAdapter(adapter);
+		listview.setOnItemClickListener(new OnItemClickListener()
+		{
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3)
+			{
+				// TODO Auto-generated method stub
+//				toCall(TOCALLVOICE, getContact(strNumber).get(arg2).get("number").toString());
+				insertRecord(getContact(strNumber).get(arg2).get("number").toString());
+			}
+		});
 	}
 	
-	public void inserNum(String num)
+	public void insertNum(String num)
 	{
 		strNumber+=num;
 		editInputFrom.setText(strNumber);
@@ -85,43 +102,43 @@ public abstract class AbsInputNumActivity extends AbsBaseActivity
 			this.finish();
 			break;
 		case R.id.button0:
-			inserNum("0");
+			insertNum("0");
 			break;
 		case R.id.button1:
-			inserNum("1");
+			insertNum("1");
 			break;
 		case R.id.button2:
-			inserNum("2");
+			insertNum("2");
 			break;
 		case R.id.button3:
-			inserNum("3");
+			insertNum("3");
 			break;
 		case R.id.button4:
-			inserNum("4");
+			insertNum("4");
 			break;
 		case R.id.button5:
-			inserNum("5");
+			insertNum("5");
 			break;
 		case R.id.button6:
-			inserNum("6");
+			insertNum("6");
 			break;
 		case R.id.button7:
-			inserNum("7");
+			insertNum("7");
 			break;
 		case R.id.button8:
-			inserNum("8");
+			insertNum("8");
 			break;
 		case R.id.button9:
-			inserNum("9");
+			insertNum("9");
 			break;
 		case R.id.buttonx:
-			inserNum("*");
+			insertNum("*");
 			break;
 		case R.id.buttony:
-			inserNum("#");
+			insertNum("#");
 			break;
 		case R.id.buttoncall:
-			insertRecord();
+			insertRecord(strNumber);
 			break;
 		case R.id.buttonadd:
 			inserContact();
@@ -133,16 +150,29 @@ public abstract class AbsInputNumActivity extends AbsBaseActivity
 		}
 	}
 	
-	public void insertRecord()
+	public void insertRecord(String code)
 	{
+		if(code.equals(""))
+		{
+			return;
+		}
 		BaseMapObject record = new BaseMapObject();
 		record.put("id",null);
-		record.put("number",strNumber);
+		record.put("number",code);
 		record.put("status","2");
 		record.put("creattime", UnixTime.getStrCurrentUnixTime());
 		record.put("priority", "1");
 		record.put("acknowledgemen", "1");
 		record.InsertObj2DB(mContext, "voicecoderecord");
+		toCall(TOCALLVOICE,code);
+	}
+	
+	public void toCall(int voiceOrwired,String code)
+	{
+		if(voiceOrwired==TOCALLVOICE)
+		{
+			startActivity(new Intent(mContext, CallWaitActivity.class).putExtra("code", code));
+		}
 	}
 	
 	public void inserContact()
@@ -166,7 +196,6 @@ public abstract class AbsInputNumActivity extends AbsBaseActivity
 	{
 		// TODO Auto-generated method stub
 		initBaseView("拨号");
-		Btn_Left.setText("返回");
 		Btn_Left.setOnClickListener(this);
 		Btn_Right.setVisibility(View.INVISIBLE);
 		editInputFrom = (EditText)findViewById(R.id.edit_form);

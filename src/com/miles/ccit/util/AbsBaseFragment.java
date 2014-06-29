@@ -59,6 +59,25 @@ public abstract class AbsBaseFragment extends Fragment implements OnClickListene
 		Btn_Right.setOnClickListener(this);
 	}
 	
+	
+	public void changeSiwtchLeft()
+	{
+		linear_Select.setBackgroundResource(R.drawable.selectleft);
+		text_left.setTextColor(getResources().getColor(R.color.white));
+		text_right.setTextColor(getResources().getColor(R.color.black));
+		
+	}
+	
+
+	public void changeSiwtchRight()
+	{
+		linear_Select.setBackgroundResource(R.drawable.selectright);
+		text_left.setTextColor(getResources().getColor(R.color.black));
+		text_right.setTextColor(getResources().getColor(R.color.white));
+		
+	}
+	
+	
 	public void initSwitchBaseView(View view, String leftname,String rightname) {
 		listview = (ListView) view.findViewById(R.id.listView_content);
 		

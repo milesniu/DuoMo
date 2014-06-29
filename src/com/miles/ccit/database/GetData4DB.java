@@ -36,6 +36,19 @@ public class GetData4DB
 		}
 	}
 	
+	public static BaseMapObject getObjectByRowName(Context context,String table,String wherename,String value)
+	{
+		List<BaseMapObject> list = UserDatabase.queryByCondition(context, table, wherename+"=?", new String[]{value},null);
+		if(list!=null && list.size()>0)
+		{
+			return list.get(0);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
 	public static List<BaseMapObject> getObjList4LeftJoin(Context contex,String tableleft,String tableright,String wherename)
 	{
 		String strSql =  "SELECT "+tableleft+".*,"+tableright+".name"+" FROM "+tableleft+" LEFT JOIN "+tableright+" ON "+tableleft+"."+wherename+"="+tableright+"."+wherename;

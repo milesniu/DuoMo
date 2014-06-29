@@ -160,8 +160,10 @@ public class VoicecodeFragment extends AbsBaseFragment
 	{
 		// TODO Auto-generated method stub
 		initBaseView(view, "声码话");
-		Btn_Left.setText("返回");
-		Btn_Right.setText("拨打");
+//		Btn_Left.setText("返回");
+//		Btn_Right.setText("拨打");
+		Btn_Right.setBackgroundResource(R.drawable.creatmail);
+		Btn_Right.setBackgroundResource(R.drawable.creatcall);
 		Btn_Left.setOnClickListener(this);
 		Btn_Right.setOnClickListener(this);
 		linear_Del = (LinearLayout)view.findViewById(R.id.linear_del);
