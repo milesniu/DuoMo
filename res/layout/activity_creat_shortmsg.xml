@@ -2,88 +2,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ContactActivity"
-    android:background="@color/white"  >
+    android:background="@color/white"
+    tools:context=".ContactActivity" >
 
- <include
+    <include
         android:id="@+id/include_layout"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         layout="@layout/layout_title" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/activity_horizontal_margin" >
 
-     <LinearLayout
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-           android:layout_below="@+id/include_layout"
-           android:layout_margin="@dimen/activity_horizontal_margin"
-     android:layout_centerHorizontal="true" >
+        <EditText
+            android:id="@+id/edit_concotact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10" >
+        </EditText>
 
-         <EditText
-             android:id="@+id/edit_concotact"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:ems="10" >
-         </EditText>
-
-         <Button
-             android:id="@+id/bt_addcontact"
+        <Button
+            android:id="@+id/bt_addcontact"
             android:layout_width="42dp"
-                android:layout_height="36dp"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/addcontact" />
+            android:layout_height="36dp"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/addcontact" />
+    </LinearLayout>
 
-     </LinearLayout>
- <include 
-         layout="@layout/layout_chat_voice_hint"
-		  android:layout_width="wrap_content"
-		  android:layout_centerInParent="true"
-		  android:visibility="gone"
-		  android:id="@+id/voice_hint_layout"
-		  android:layout_height="wrap_content" />
-     <RelativeLayout
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:layout_alignParentBottom="true"
-         android:gravity="bottom"
-         android:layout_marginBottom="3dp" >
+    <include
+        android:id="@+id/voice_hint_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        layout="@layout/layout_chat_voice_hint"
+        android:visibility="gone" />
 
-         <Button
-             android:id="@+id/bt_swicthvoice"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentLeft="true"
-             android:layout_alignParentTop="true"
-             android:text="语音" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="3dp"
+        android:gravity="bottom" >
 
-         <EditText
-             android:id="@+id/edit_inputmsg"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_toLeftOf="@+id/bt_send"
-             android:layout_toRightOf="@+id/bt_swicthvoice" >
+        <Button
+            android:id="@+id/bt_swicthvoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="语音" />
 
-             <requestFocus />
-         </EditText>
+        <EditText
+            android:id="@+id/edit_inputmsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/bt_send"
+            android:layout_toRightOf="@+id/bt_swicthvoice" >
 
-         <Button
-             android:id="@+id/bt_send"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentRight="true"
-             android:text="发送" />
+            <requestFocus />
+        </EditText>
 
-         <Button
-             android:id="@+id/bt_talk"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_toLeftOf="@+id/bt_send"
-             android:layout_toRightOf="@+id/bt_swicthvoice"
-             android:text="按住说话" 
-             android:visibility="gone"/>
+        <Button
+            android:id="@+id/bt_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="发送" />
 
-     </RelativeLayout>
+        <Button
+            android:id="@+id/bt_talk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/bt_send"
+            android:layout_toRightOf="@+id/bt_swicthvoice"
+            android:text="按住说话"
+            android:visibility="gone" />
+    </RelativeLayout>
 
 </RelativeLayout>

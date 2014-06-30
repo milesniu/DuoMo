@@ -71,10 +71,11 @@ public class MsgRecorderutil
 		shortmsg.put("msgtype", "0");	//语音
 		shortmsg.put("msgcontent", msgcontent);
 		shortmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
-		shortmsg.put("priority", "1");
-		shortmsg.put("acknowledgemen", "1");
+		shortmsg.put("priority", OverAllData.Priority);
+		shortmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
+		
 		shortmsg.InsertObj2DB(contex, "shortmsg");
-		insertRecvTextmsg(contex, contact, msgcontent);
+//		insertRecvTextmsg(contex, contact, msgcontent);
 	}
 	
 	public static void insertRecvTextmsg(Context contex,String contact,String msgcontent)
@@ -87,8 +88,9 @@ public class MsgRecorderutil
 		shortmsg.put("msgtype", "0");	//语音
 		shortmsg.put("msgcontent", msgcontent);
 		shortmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
-		shortmsg.put("priority", "1");
-		shortmsg.put("acknowledgemen", "1");
+		shortmsg.put("priority", OverAllData.Priority);
+		shortmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
+		
 		shortmsg.InsertObj2DB(contex, "shortmsg");
 	}
 	
@@ -102,10 +104,11 @@ public class MsgRecorderutil
 		shortmsg.put("msgtype", "1");
 		shortmsg.put("msgcontent", msgcontent);
 		shortmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
-		shortmsg.put("priority", "1");
-		shortmsg.put("acknowledgemen", "1");
+		shortmsg.put("priority", OverAllData.Priority);
+		shortmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
+		
 		shortmsg.InsertObj2DB(contex, "shortmsg");
-		insertRecvVoicemsg(contex, contact, msgcontent);
+//		insertRecvVoicemsg(contex, contact, msgcontent);
 	}
 	
 	public static void insertRecvVoicemsg(Context contex,String contact,String msgcontent)
@@ -118,8 +121,9 @@ public class MsgRecorderutil
 		shortmsg.put("msgtype", "1");
 		shortmsg.put("msgcontent", msgcontent);
 		shortmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
-		shortmsg.put("priority", "1");
-		shortmsg.put("acknowledgemen", "1");
+		shortmsg.put("priority", OverAllData.Priority);
+		shortmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
+		
 		shortmsg.InsertObj2DB(contex, "shortmsg");
 	}
 	

@@ -49,6 +49,7 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity
 			switchVoice();
 			break;
 		case R.id.bt_send:
+			setStrContatc(edit_inputContact.getText().toString());
 			sendTextmsg(edit_inputContact.getText().toString());
 			this.finish();
 			break;

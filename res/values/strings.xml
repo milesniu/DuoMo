@@ -14,5 +14,7 @@
     <string name="title_activity_shortmsg_list">ShortmsgListActivity</string>
     <string name="title_activity_input_num">InputNumActivity</string>
     <string name="title_activity_call_wait">CallWaitActivity</string>
-
+    <string name="title_activity_creat_email">CreatEMailActivity</string>
+	<item type="id" name="img_path"></item>
+	<item type="id" name="img_name"></item>
 </resources>

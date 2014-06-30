@@ -161,8 +161,9 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		record.put("number",code);
 		record.put("status","2");
 		record.put("creattime", UnixTime.getStrCurrentUnixTime());
-		record.put("priority", "1");
-		record.put("acknowledgemen", "1");
+		record.put("priority", OverAllData.Priority);
+		record.put("acknowledgemen", OverAllData.Acknowledgemen);
+		
 		record.InsertObj2DB(mContext, "voicecoderecord");
 		toCall(TOCALLVOICE,code);
 	}

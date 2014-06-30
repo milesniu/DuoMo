@@ -95,7 +95,13 @@
         <activity
             android:name="com.miles.ccit.duomo.CallWaitActivity"
             android:label="@string/title_activity_call_wait"
-              android:screenOrientation="portrait"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CreatEMailActivity"
+            android:label="@string/title_activity_creat_email"
+             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>
