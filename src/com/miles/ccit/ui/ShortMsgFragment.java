@@ -20,7 +20,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.miles.ccit.adapter.ShortMsgSetAdapter;
+import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.duomo.R;
@@ -31,7 +31,7 @@ import com.miles.ccit.util.OverAllData;
 public class ShortMsgFragment extends AbsBaseFragment
 {
 
-	private ShortMsgSetAdapter adapter;
+	private MsgorMailSetAdapter adapter;
 	private List<BaseMapObject> msgList = new Vector<BaseMapObject>();
 	private LinearLayout linear_Del;
 	public Button Btn_Delete;
@@ -66,7 +66,7 @@ public class ShortMsgFragment extends AbsBaseFragment
 			return;
 		}
 
-		adapter = new ShortMsgSetAdapter(getActivity(), msgList);
+		adapter = new MsgorMailSetAdapter(getActivity(), msgList,"shortmsg");
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new OnItemClickListener()
 		{

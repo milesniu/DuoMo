@@ -116,7 +116,7 @@ public abstract class AbsEmailCodeActivity extends AbsBaseActivity
 		BaseMapObject email = new BaseMapObject();
 		email.put("id", null);
 		email.put("number", contact);
-		email.put("sendtype", "1");	//发送
+		email.put("sendtype", "2");	//发送
 		email.put("subject", subject);	
 		email.put("mailcontent", conent);	//语音
 		email.put("haveattachments", fjpath==null?"0":"1");
@@ -125,7 +125,7 @@ public abstract class AbsEmailCodeActivity extends AbsBaseActivity
 		email.put("creattime", UnixTime.getStrCurrentUnixTime());
 		email.put("priority", OverAllData.Priority);
 		email.put("acknowledgemen", OverAllData.Acknowledgemen);
-		email.InsertObj2DB(mContext, "shortmsg");
+		email.InsertObj2DB(mContext, "emailmsg");
 	}
 
 

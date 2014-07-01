@@ -21,36 +21,23 @@
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:orientation="vertical" >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <EditText
-                android:id="@+id/edit_concotact"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/bt_addcontact"
-                android:ems="10"
-                android:hint="请输入联系人号码" >
-            </EditText>
-
-            <Button
-                android:id="@+id/bt_addcontact"
-                android:layout_width="42dp"
-                android:layout_height="36dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/addcontact" />
-        </RelativeLayout>
-
-        <EditText
-            android:id="@+id/edit_subject"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/text_contact"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:ems="10"
-            android:hint="请输入邮件主题" />
+             android:layout_marginTop="3dp"
+             android:text="aaa"
+              android:textColor="@color/black"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        
+        <TextView
+            android:id="@+id/text_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="主题：xxxx"
+            android:layout_marginTop="3dp"
+             android:textColor="@color/black"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
             android:id="@+id/edit_mailcontent"
@@ -59,9 +46,11 @@
             android:layout_marginTop="5dp"
             android:ems="10"
             android:gravity="top"
-            android:hint="请输入邮件内容"
+            android:enabled="false"
+            android:textColor="@color/black"
             android:inputType="textMultiLine"
             />
+
     </LinearLayout>
 
     <RelativeLayout
@@ -73,21 +62,14 @@
         android:layout_alignRight="@+id/linearLayout1"
         android:layout_marginBottom="@dimen/activity_vertical_margin" >
 
-        <Button
-            android:id="@+id/bt_selectfj"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/fujian" />
-
         <ImageView
             android:id="@+id/image_fujian"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/bt_selectfj"
-            android:visibility="invisible"
-            android:src="@null" />
+            android:src="@null"
+            android:visibility="invisible" />
+
     </RelativeLayout>
 
 </RelativeLayout>

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.miles.ccit.database.GetData4DB;
+import com.miles.ccit.duomo.BroadCastctivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.net.ComposeData;
 import com.miles.ccit.net.SocketClient;
@@ -50,6 +51,8 @@ public class IndexActivity extends AbsBaseActivity
 			break;
 		case R.id.bt_broadcast:
 //			new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0")).getDlg();
+			startActivity(new Intent(mContext, BroadCastctivity.class));
+			
 			break;
 		case R.id.bt_specialway:
 			break;

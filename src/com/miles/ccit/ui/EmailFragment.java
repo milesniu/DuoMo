@@ -2,6 +2,7 @@ package com.miles.ccit.ui;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,16 +19,23 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.miles.ccit.adapter.MsgorMailSetAdapter;
+import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.CreatEMailActivity;
+import com.miles.ccit.duomo.EmailInfoActivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.AbsBaseFragment;
+import com.miles.ccit.util.BaseMapObject;
 
 public class EmailFragment extends AbsBaseFragment
 {
 
 	private ListView listview;
-	private BaseAdapter adapter;
-
+	private MsgorMailSetAdapter adapter;
+	List<BaseMapObject> emailList = new Vector<BaseMapObject>();
+	List<BaseMapObject> sendemail = new Vector<BaseMapObject>();
+	List<BaseMapObject> recvemail = new Vector<BaseMapObject>();
+	
 	private Handler handler = new Handler()
 	{
 		@Override
@@ -61,14 +69,10 @@ public class EmailFragment extends AbsBaseFragment
 
 
 		
-	private void refreshList(List<HashMap<String, Object>> contentList)
+	private void refreshList(final List<BaseMapObject> list)
 	{
-		if (contentList == null)
-		{
-			Toast.makeText(getActivity(), "网络连接异常，请检查后重试...", 0).show();
-			return;
-		}
-
+		
+		adapter = new MsgorMailSetAdapter(getActivity(), list, "mail");
 	
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new OnItemClickListener()
@@ -78,8 +82,7 @@ public class EmailFragment extends AbsBaseFragment
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
 				// TODO Auto-generated method stub
-				
-
+				getActivity().startActivity(new Intent(getActivity(), EmailInfoActivity.class).putExtra("item", list.get(arg2)));
 			}
 		});
 	}
@@ -94,6 +97,32 @@ public class EmailFragment extends AbsBaseFragment
 //		Btn_Left.setText("返回");
 //		Btn_Right.setText("写邮件");
 		Btn_Right.setBackgroundResource(R.drawable.creatmail);
+		emailList.clear();
+		recvemail.clear();
+		sendemail.clear();
+		emailList = GetData4DB.getObjList4LeftJoin(getActivity(), "emailmsg", "contact", "number");
+		
+		if (emailList == null)
+		{
+			Toast.makeText(getActivity(), "网络连接异常，请检查后重试...", 0).show();
+			return;
+		}
+		else
+		{
+			for(BaseMapObject item:emailList)
+			{
+				if(item.get("sendtype").toString().equals("1"))//收件
+				{
+					recvemail.add(item);
+				}
+				else
+				{
+					sendemail.add(item);
+				}
+			}
+		}
+		refreshList(recvemail);
+		
 	}
 
 
@@ -109,9 +138,11 @@ public class EmailFragment extends AbsBaseFragment
 			break;
 		case R.id.text_left:
 			changeSiwtchLeft();
+			refreshList(recvemail);
 			break;
 		case R.id.text_right:
 			changeSiwtchRight();
+			refreshList(sendemail);
 			break;
 		case R.id.bt_right:
 			startActivity(new Intent(getActivity(), CreatEMailActivity.class));

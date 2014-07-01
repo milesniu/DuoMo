@@ -1,5 +1,8 @@
 package com.miles.ccit.duomo;
 
+import java.io.File;
+
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,15 +50,15 @@ public class CreatEMailActivity extends AbsEmailCodeActivity
 			this.finish();
 			break;
 		case R.id.bt_right:
-			sendEmail(edit_inputContact.getText().toString(), edit_inputSubject.getText().toString(), edit_inputmailContent.getText().toString(), img_Fj.getTag(R.id.img_path)==null?null:img_Fj.getTag(R.id.img_path).toString());
+			sendEmail(edit_inputContact.getText().toString(), edit_inputSubject.getText().toString(), edit_inputmailContent.getText().toString(), img_Fj.getTag(R.id.img_path) == null ? null : img_Fj.getTag(R.id.img_path).toString());
+			this.finish();
 			break;
 		case R.id.bt_selectfj:
-			if(img_Fj.getVisibility() == View.INVISIBLE)
+			if (img_Fj.getVisibility() == View.INVISIBLE)
 			{
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 				intent.setType("image/*");
 				intent.addCategory(Intent.CATEGORY_OPENABLE);
-	
 				try
 				{
 					startActivityForResult(Intent.createChooser(intent, "请选择附件"), 0);
@@ -63,8 +66,7 @@ public class CreatEMailActivity extends AbsEmailCodeActivity
 				{
 					Toast.makeText(this, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
 				}
-			}
-			else
+			} else
 			{
 				img_Fj.setVisibility(View.INVISIBLE);
 				img_Fj.setTag(R.id.img_name, null);
@@ -74,10 +76,24 @@ public class CreatEMailActivity extends AbsEmailCodeActivity
 		case R.id.bt_addcontact:
 			new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0")).getDlg(edit_inputContact);
 			break;
+		case R.id.image_fujian:
+			showFile(mContext,img_Fj.getTag(R.id.img_name).toString(),img_Fj.getTag(R.id.img_path).toString());
+			break;
 
 		}
 	}
 
+	public static void showFile(Context contex,String name,String path)
+	{
+		Intent intent = new Intent("android.intent.action.VIEW");
+		intent.addCategory("android.intent.category.DEFAULT");
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		Uri uri = Uri.fromFile(new File(path));
+		intent.setDataAndType(uri, isImage(getFileType(name)) ? "image/*" : "text/plain");
+		contex.startActivity(intent);
+		
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
@@ -91,14 +107,13 @@ public class CreatEMailActivity extends AbsEmailCodeActivity
 				String path = FileUtils.getPath(this, uri);
 				String name = getFileName(path);
 				img_Fj.setTag(R.id.img_name, name);
-				img_Fj.setTag(R.id.img_path,path);
+				img_Fj.setTag(R.id.img_path, path);
 				img_Fj.setVisibility(View.VISIBLE);
-				if(isImage(getFileType(name)))
+				if (isImage(getFileType(name)))
 				{
-					
+
 					img_Fj.setImageResource(R.drawable.image_enriched);
-				}
-				else
+				} else
 				{
 					img_Fj.setImageResource(R.drawable.text_enriched);
 				}
@@ -109,7 +124,6 @@ public class CreatEMailActivity extends AbsEmailCodeActivity
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	
 	@Override
 	public void initView()
 	{
@@ -122,6 +136,7 @@ public class CreatEMailActivity extends AbsEmailCodeActivity
 		Btn_addContact = (Button) findViewById(R.id.bt_addcontact);
 		edit_inputContact = (EditText) findViewById(R.id.edit_concotact);
 		img_Fj = (ImageView) findViewById(R.id.image_fujian);
+		img_Fj.setOnClickListener(this);
 		Btn_Fujian.setOnClickListener(this);
 		Btn_addContact.setOnClickListener(this);
 	}

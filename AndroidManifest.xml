@@ -101,8 +101,20 @@
         <activity
             android:name="com.miles.ccit.duomo.CreatEMailActivity"
             android:label="@string/title_activity_creat_email"
-             android:screenOrientation="portrait"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.EmailInfoActivity"
+            android:label="@string/title_activity_email_info"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.BroadCastctivity"
+            android:label="@string/title_activity_broad_castctivity" 
+              android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar">
         </activity>
     </application>
 

@@ -15,6 +15,11 @@
     <string name="title_activity_input_num">InputNumActivity</string>
     <string name="title_activity_call_wait">CallWaitActivity</string>
     <string name="title_activity_creat_email">CreatEMailActivity</string>
-	<item type="id" name="img_path"></item>
-	<item type="id" name="img_name"></item>
+
+    <item name="img_path" type="id"></item>
+    <item name="img_name" type="id"></item>
+
+    <string name="title_activity_email_info">EmailInfoActivity</string>
+    <string name="title_activity_broad_castctivity">BroadCastctivity</string>
+
 </resources>

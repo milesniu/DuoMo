@@ -193,8 +193,7 @@ public class WiredModelActivity extends AbsBaseActivity
 	{
 		// TODO Auto-generated method stub
 		initBaseView("有线模式");
-		Btn_Left.setText("返回");
-		Btn_Right.setText("呼叫");
+		Btn_Right.setBackgroundResource(R.drawable.creatcall);
 		Btn_Left.setOnClickListener(this);
 		Btn_Right.setOnClickListener(this);
 		Btn_Delete = (Button)findViewById(R.id.bt_sure);
