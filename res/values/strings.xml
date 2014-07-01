@@ -21,5 +21,8 @@
 
     <string name="title_activity_email_info">EmailInfoActivity</string>
     <string name="title_activity_broad_castctivity">BroadCastctivity</string>
+    <string name="title_activity_special_voice">SpecialVoiceActivity</string>
+    <string name="title_activity_creat_specialvoice">CreatSpecialvoiceActivity</string>
+    <string name="title_activity_setting">SettingActivity</string>
 
 </resources>

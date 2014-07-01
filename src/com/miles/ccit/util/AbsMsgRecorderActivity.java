@@ -172,6 +172,7 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 		if(timer!=null)
 		{
 			timer.cancel();
+			currentlong = 0;
 		}
 		if (isUp)
 		{
@@ -194,7 +195,10 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 						return false;
 					}
 				}
-
+				if(getStrContatc().equals("null"))
+				{
+					return false;
+				}
 				if (getStrContatc().indexOf(",") == -1)
 				{
 					MsgRecorderutil.insertVoicemsg(mContext, getStrContatc(),

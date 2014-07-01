@@ -33,7 +33,7 @@
                 android:layout_alignParentRight="true"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:text="TextView" />
+                android:text="" />
 
         </RelativeLayout>
 

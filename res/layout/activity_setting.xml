@@ -1,0 +1,134 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ContactActivity" >
+
+ <include
+        android:id="@+id/include_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        layout="@layout/layout_title" />
+
+ <LinearLayout
+     android:id="@+id/linear_set1"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_below="@+id/include_layout"
+     android:layout_centerHorizontal="true"
+     android:padding="10dp"
+     android:orientation="vertical" >
+
+     <RelativeLayout
+         android:id="@+id/rela_syssetting"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content" >
+
+         <TextView
+             android:id="@+id/textView1"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="系统参数设置"
+             android:textColor="@color/black"
+             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+     </RelativeLayout>
+
+     <RelativeLayout
+         android:id="@+id/rela_sendsetting"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content" >
+
+         <TextView
+             android:id="@+id/textView2"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="信息发送配置"
+                android:textColor="@color/black"
+             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+     </RelativeLayout>
+
+ </LinearLayout>
+
+ <LinearLayout
+     android:id="@+id/LinearLayout01"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_alignParentLeft="true"
+     android:layout_below="@+id/linear_set1"
+     android:orientation="vertical"
+     android:padding="10dp" >
+
+     <RelativeLayout
+         android:id="@+id/rela_checkstatus"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content" >
+
+         <TextView
+             android:id="@+id/TextView02"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="查看主机状态"
+                android:textColor="@color/black"
+             android:textAppearance="?android:attr/textAppearanceMedium" />
+     </RelativeLayout>
+
+     <RelativeLayout
+         android:id="@+id/RelativeLayout02"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content" >
+
+         <TextView
+             android:id="@+id/rela_checkversion"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="查看主机软件版本"
+                android:textColor="@color/black"
+             android:textAppearance="?android:attr/textAppearanceMedium" />
+     </RelativeLayout>
+
+     <RelativeLayout
+         android:id="@+id/RelativeLayout04"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content" >
+
+         <TextView
+             android:id="@+id/rela_checklocation"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="查看位置信息"
+                android:textColor="@color/black"
+             android:textAppearance="?android:attr/textAppearanceMedium" />
+     </RelativeLayout>
+
+ </LinearLayout>
+
+ <LinearLayout
+     android:id="@+id/LinearLayout02"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_alignParentLeft="true"
+     android:layout_below="@+id/linear_set1"
+     android:layout_marginTop="130dp"
+     android:orientation="vertical"
+     android:padding="10dp" >
+
+     <RelativeLayout
+         android:id="@+id/rela_changepws"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content" >
+
+         <TextView
+             android:id="@+id/TextView03"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="修改密码"
+                android:textColor="@color/black"
+             android:textAppearance="?android:attr/textAppearanceMedium" />
+     </RelativeLayout>
+ </LinearLayout>
+
+</RelativeLayout>

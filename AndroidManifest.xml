@@ -112,9 +112,27 @@
         </activity>
         <activity
             android:name="com.miles.ccit.duomo.BroadCastctivity"
-            android:label="@string/title_activity_broad_castctivity" 
-              android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:label="@string/title_activity_broad_castctivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.SpecialVoiceActivity"
+            android:label="@string/title_activity_special_voice"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CreatSpecialvoiceActivity"
+            android:label="@string/title_activity_creat_specialvoice"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.SettingActivity"
+            android:label="@string/title_activity_setting"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"  >
         </activity>
     </application>
 

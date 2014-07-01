@@ -12,6 +12,8 @@ import android.view.View.OnClickListener;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.BroadCastctivity;
 import com.miles.ccit.duomo.R;
+import com.miles.ccit.duomo.SettingActivity;
+import com.miles.ccit.duomo.SpecialVoiceActivity;
 import com.miles.ccit.net.ComposeData;
 import com.miles.ccit.net.SocketClient;
 import com.miles.ccit.util.AbsBaseActivity;
@@ -55,8 +57,12 @@ public class IndexActivity extends AbsBaseActivity
 			
 			break;
 		case R.id.bt_specialway:
+			startActivity(new Intent(mContext, SpecialVoiceActivity.class));
+			
 			break;
 		case R.id.bt_setting:
+			startActivity(new Intent(mContext, SettingActivity.class));
+			
 			break;
 		case R.id.bt_about:
 			new test().execute();
