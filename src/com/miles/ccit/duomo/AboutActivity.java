@@ -6,21 +6,21 @@ import android.view.View;
 
 import com.miles.ccit.util.AbsBaseActivity;
 
-public class SettingActivity extends AbsBaseActivity
+public class AboutActivity extends AbsBaseActivity
 {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_setting);
+		setContentView(R.layout.activity_about);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.setting, menu);
+		getMenuInflater().inflate(R.menu.about, menu);
 		return true;
 	}
 
@@ -40,7 +40,7 @@ public class SettingActivity extends AbsBaseActivity
 	public void initView()
 	{
 		// TODO Auto-generated method stub
-		initBaseView("设置");
+		initBaseView("关于我们");
 		Btn_Left.setOnClickListener(this);
 		Btn_Right.setVisibility(View.INVISIBLE);
 	}

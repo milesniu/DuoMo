@@ -131,4 +131,13 @@
      </RelativeLayout>
  </LinearLayout>
 
+ <Button
+     android:id="@+id/bt_singout"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_alignParentBottom="true"
+     android:layout_centerHorizontal="true"
+     android:layout_marginBottom="44dp"
+     android:text="注销" />
+
 </RelativeLayout>

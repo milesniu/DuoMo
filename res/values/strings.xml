@@ -24,5 +24,6 @@
     <string name="title_activity_special_voice">SpecialVoiceActivity</string>
     <string name="title_activity_creat_specialvoice">CreatSpecialvoiceActivity</string>
     <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
 
 </resources>

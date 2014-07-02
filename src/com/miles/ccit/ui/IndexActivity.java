@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.miles.ccit.database.GetData4DB;
+import com.miles.ccit.duomo.AboutActivity;
 import com.miles.ccit.duomo.BroadCastctivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.duomo.SettingActivity;
@@ -65,7 +66,9 @@ public class IndexActivity extends AbsBaseActivity
 			
 			break;
 		case R.id.bt_about:
-			new test().execute();
+			startActivity(new Intent(mContext, AboutActivity.class));
+			
+			
 			break;
 		}
 	}
