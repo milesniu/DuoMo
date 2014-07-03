@@ -27,7 +27,7 @@ public class IndexActivity extends AbsBaseActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_index);		
+		setContentView(R.layout.activity_index);
 	}
 
 	@Override
@@ -39,9 +39,10 @@ public class IndexActivity extends AbsBaseActivity
 	}
 
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v)
+	{
 		// TODO Auto-generated method stub
-		switch(v.getId())
+		switch (v.getId())
 		{
 		case R.id.bt_specialnet:
 			startActivity(new Intent(mContext, SpecialNetFragmentActivity.class));
@@ -53,52 +54,59 @@ public class IndexActivity extends AbsBaseActivity
 			startActivity(new Intent(mContext, WiredModelActivity.class));
 			break;
 		case R.id.bt_broadcast:
-//			new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0")).getDlg();
+			// new MutiChoiseDlg(mContext,
+			// GetData4DB.getObjectListData(mContext, "contact", "type",
+			// "0")).getDlg();
 			startActivity(new Intent(mContext, BroadCastctivity.class));
-			
+
 			break;
 		case R.id.bt_specialway:
 			startActivity(new Intent(mContext, SpecialVoiceActivity.class));
-			
+
 			break;
 		case R.id.bt_setting:
 			startActivity(new Intent(mContext, SettingActivity.class));
-			
+
 			break;
 		case R.id.bt_about:
 			startActivity(new Intent(mContext, AboutActivity.class));
-			
-			
+
+			break;
+		case R.id.linear_title:
+			startActivity(new Intent(mContext, LoginActivity.class));
+
 			break;
 		}
 	}
+
 	byte[] red = null;
+
 	class test extends AsyncTask<Void, Void, String>
 	{
-		
+
 		@Override
-		protected String doInBackground(Void... params) {
+		protected String doInBackground(Void... params)
+		{
 			// TODO Auto-generated method stub
-				try
-				{
-					DataOutputStream out = new DataOutputStream(SocketClient.getInstance().getOutputStream());
-					ComposeData df = new ComposeData();
-					byte[] buf = df.sendTest();
-					out.write(buf);
-					out.flush();
-					
-					
-					//等待服务器返回，并阻塞线程
-//					red = new byte[256];
-//					DataInputStream dis = new DataInputStream(SocketClient.getInstance().getInputStream());//服务器通过输入管道接收数据流  
-//					int a = dis.read(red);
-//					System.out.println(a);
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-					return e.toString();
-				}
+			try
+			{
+				DataOutputStream out = new DataOutputStream(SocketClient.getInstance().getOutputStream());
+				ComposeData df = new ComposeData();
+				byte[] buf = df.sendTest();
+				out.write(buf);
+				out.flush();
+
+				// 等待服务器返回，并阻塞线程
+				// red = new byte[256];
+				// DataInputStream dis = new
+				// DataInputStream(SocketClient.getInstance().getInputStream());//服务器通过输入管道接收数据流
+				// int a = dis.read(red);
+				// System.out.println(a);
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+				return e.toString();
+			}
 			return null;
 		}
 
@@ -106,12 +114,14 @@ public class IndexActivity extends AbsBaseActivity
 		protected void onPostExecute(String result)
 		{
 			// TODO Auto-generated method stub
-			//连接断开，管道破裂
-//			Toast.makeText(mContext, red.length+"", Toast.LENGTH_LONG).show();
+			// 连接断开，管道破裂
+			// Toast.makeText(mContext, red.length+"",
+			// Toast.LENGTH_LONG).show();
 			super.onPostExecute(result);
 		}
 
 	}
+
 	@Override
 	public void initView()
 	{
@@ -123,6 +133,8 @@ public class IndexActivity extends AbsBaseActivity
 		findViewById(R.id.bt_specialway).setOnClickListener(this);
 		findViewById(R.id.bt_setting).setOnClickListener(this);
 		findViewById(R.id.bt_about).setOnClickListener(this);
+		findViewById(R.id.linear_title).setOnClickListener(this);
+
 	}
 
 }

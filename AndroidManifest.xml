@@ -140,6 +140,48 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.SystemCfgActivity"
+            android:label="@string/title_activity_system_cfg"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.SendCfgActivity"
+            android:label="@string/title_activity_send_cfg"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.HostStatusActivity"
+            android:label="@string/title_activity_host_status"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.HostVersionActivity"
+            android:label="@string/title_activity_host_version"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.HostLocationActivity"
+            android:label="@string/title_activity_host_location"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.ChangePwdActivity"
+            android:label="@string/title_activity_change_pwd"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CreatCodedirecActivity"
+            android:label="@string/title_activity_creat_codedirec"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
     </application>
 
 </manifest>

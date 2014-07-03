@@ -3,6 +3,7 @@ package com.miles.ccit.ui;
 import java.util.HashMap;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.miles.ccit.duomo.CreatCodedirecActivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.AbsBaseFragment;
 
@@ -107,6 +109,9 @@ public class CodeDirectFragment extends AbsBaseFragment
 			break;
 		case R.id.text_right:
 			changeSiwtchRight();
+			break;
+		case R.id.bt_right:
+			startActivity(new Intent(getActivity(), CreatCodedirecActivity.class));
 			break;
 		default:
 			break;

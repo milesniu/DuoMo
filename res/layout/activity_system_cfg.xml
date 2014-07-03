@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ContactActivity" >
+
+ <include
+        android:id="@+id/include_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        layout="@layout/layout_title" />
+
+ <LinearLayout
+     android:id="@+id/linear_set1"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_below="@+id/include_layout"
+     android:layout_centerHorizontal="true"
+     android:padding="10dp"
+     android:orientation="vertical" >
+
+     <EditText
+         android:id="@+id/edit_senddelay"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:ems="10"
+          android:layout_marginTop="10dp"
+         android:hint="请输入发送延时（0~99）"
+         android:inputType="number" />
+
+     <EditText
+         android:id="@+id/edit_recedelay"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:ems="10"
+         android:layout_marginTop="10dp"
+         android:hint="请输入接收延时（0~99）"
+         android:inputType="number" >
+
+         <requestFocus />
+     </EditText>
+
+     <Spinner
+         android:id="@+id/sp_casttype"
+         android:layout_width="match_parent"
+          android:layout_marginTop="10dp"
+         android:layout_height="wrap_content" />
+
+     <Spinner
+         android:id="@+id/sp_casrpower"
+         android:layout_width="match_parent"
+          android:layout_marginTop="10dp"
+         android:layout_height="wrap_content" />
+
+ </LinearLayout>
+
+</RelativeLayout>

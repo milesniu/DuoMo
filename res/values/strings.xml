@@ -25,5 +25,12 @@
     <string name="title_activity_creat_specialvoice">CreatSpecialvoiceActivity</string>
     <string name="title_activity_setting">SettingActivity</string>
     <string name="title_activity_about">AboutActivity</string>
+    <string name="title_activity_system_cfg">SystemCfgActivity</string>
+    <string name="title_activity_send_cfg">SendCfgActivity</string>
+    <string name="title_activity_host_status">HostStatusActivity</string>
+    <string name="title_activity_host_version">HostVersionActivity</string>
+    <string name="title_activity_host_location">HostLocationActivity</string>
+    <string name="title_activity_change_pwd">ChangePwdActivity</string>
+    <string name="title_activity_creat_codedirec">CreatCodedirecActivity</string>
 
 </resources>

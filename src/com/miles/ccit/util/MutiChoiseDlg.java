@@ -29,7 +29,7 @@ public class MutiChoiseDlg
 	{
 		Dialog dialog = null;
 		Builder builder = new AlertDialog.Builder(mContext);
-		builder.setTitle("多选列表对话框");
+		builder.setTitle("联系人选择");
 		builder.setIcon(R.drawable.ic_launcher);
 		DialogInterface.OnMultiChoiceClickListener mutiListener = new DialogInterface.OnMultiChoiceClickListener()
 		{

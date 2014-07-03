@@ -37,6 +37,7 @@ public class LoginActivity extends AbsBaseActivity {
 	{
 		// TODO Auto-generated method stub
 		initBaseView("登录");
+		Btn_Left.setOnClickListener(this);
 		Btn_Right.setVisibility(View.INVISIBLE);
 	}
 
@@ -46,7 +47,12 @@ public class LoginActivity extends AbsBaseActivity {
 	public void onClick(View v)
 	{
 		// TODO Auto-generated method stub
-		
+		switch(v.getId())
+		{
+		case R.id.bt_left:
+			this.finish();
+			break;
+		}
 	}
 
 }
