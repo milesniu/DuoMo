@@ -184,7 +184,7 @@ public class VoicecodeFragment extends AbsBaseFragment
 			getActivity().finish();			
 			break;
 		case R.id.bt_right:
-			startActivity(new Intent(getActivity(), InputNumActivity.class));
+			startActivity(new Intent(getActivity(), CreatVoicecodeActivity.class));
 			break;
 		case R.id.bt_sure:
 			Iterator<BaseMapObject> iter = voiceList.iterator();  

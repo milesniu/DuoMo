@@ -32,5 +32,7 @@
     <string name="title_activity_host_location">HostLocationActivity</string>
     <string name="title_activity_change_pwd">ChangePwdActivity</string>
     <string name="title_activity_creat_codedirec">CreatCodedirecActivity</string>
+    <string name="title_activity_creat_wired">CreatWiredActivity</string>
+    <string name="title_activity_creatcode_sky">CreatcodeSkyActivity</string>
 
 </resources>

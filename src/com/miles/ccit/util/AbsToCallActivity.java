@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.miles.ccit.adapter.ContactAdapter;
 import com.miles.ccit.database.GetData4DB;
@@ -18,14 +19,14 @@ import com.miles.ccit.ui.CreatContactActivity;
 
 public abstract class AbsToCallActivity extends AbsBaseActivity
 {
-	private String strNumber ="";
+	public String strNumber ="";
 	private EditText editInputFrom;
 	private ListView listview;
 	private ContactAdapter adapter;
-	private List<BaseMapObject> all;
+	public List<BaseMapObject> all;
 	public static final int TOCALLVOICE = 0;
 	public static final int TOCALLWIRED = 1;
-	
+	public int CurrentType = -1;
 
 	public List<BaseMapObject> getContact(String code)
 	{
@@ -57,7 +58,14 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 			{
 				// TODO Auto-generated method stub
 //				toCall(TOCALLVOICE, getContact(strNumber).get(arg2).get("number").toString());
-				insertRecord(getContact(strNumber).get(arg2).get("number").toString());
+				if(CurrentType==TOCALLVOICE)
+				{
+					insertVoiceRecord(getContact(strNumber).get(arg2).get("number").toString());
+				}
+				else if(CurrentType == TOCALLWIRED)
+				{
+					
+				}
 			}
 		});
 	}
@@ -138,7 +146,7 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 			insertNum("#");
 			break;
 		case R.id.buttoncall:
-			insertRecord(strNumber);
+			insertVoiceRecord(strNumber);
 			break;
 		case R.id.buttonadd:
 			inserContact();
@@ -146,11 +154,28 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		case R.id.buttondel:
 			delNum();
 			break;
+		case R.id.buttoncallvoice:
+			insertWiredRecord(strNumber, null);
+			break;
+		case R.id.buttoncallfile:
+//			insertWiredRecord(strNumber, 1);
+			Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+			intent.setType("image/*");
+			intent.addCategory(Intent.CATEGORY_OPENABLE);
+			try
+			{
+				startActivityForResult(Intent.createChooser(intent, "请选择附件"), 0);
+			} catch (android.content.ActivityNotFoundException ex)
+			{
+				Toast.makeText(this, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
+			}
+			break;
+			
 
 		}
 	}
 	
-	public void insertRecord(String code)
+	public void insertVoiceRecord(String code)
 	{
 		if(code.equals(""))
 		{
@@ -165,14 +190,37 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		record.put("acknowledgemen", OverAllData.Acknowledgemen);
 		
 		record.InsertObj2DB(mContext, "voicecoderecord");
-		toCall(TOCALLVOICE,code);
+		toCall(code);
 	}
 	
-	public void toCall(int voiceOrwired,String code)
+	public void insertWiredRecord(String code,String filepath)
 	{
-		if(voiceOrwired==TOCALLVOICE)
+		if(code.equals(""))
+		{
+			return;
+		}
+		BaseMapObject record = new BaseMapObject();
+		record.put("id",null);
+		record.put("number",code);
+		record.put("sendtype",filepath==null?"0":"1");//语音0.文件1
+		record.put("status","2");//呼入成功/呼出成功/呼入失败/呼出失败(1,2,3,4)
+		record.put("filepath",filepath);
+		record.put("creattime", UnixTime.getStrCurrentUnixTime());
+		
+		record.InsertObj2DB(mContext, "wiredrecord");
+		toCall(code);
+	}
+	
+	
+	public void toCall(String code)
+	{
+		if(CurrentType==TOCALLVOICE)
 		{
 			startActivity(new Intent(mContext, CallWaitActivity.class).putExtra("code", code));
+		}
+		else if(CurrentType == TOCALLWIRED)
+		{
+			
 		}
 	}
 	
@@ -213,12 +261,10 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		findViewById(R.id.button9).setOnClickListener(this);
 		findViewById(R.id.buttonx).setOnClickListener(this);
 		findViewById(R.id.buttony).setOnClickListener(this);
-		findViewById(R.id.buttoncall).setOnClickListener(this);
 		findViewById(R.id.buttonadd).setOnClickListener(this);
 		findViewById(R.id.buttondel).setOnClickListener(this);
 		
 		
-		all = GetData4DB.getObjectListData(mContext, "contact", "type", "0");
 		
 	}
 	

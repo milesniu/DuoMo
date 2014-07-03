@@ -87,7 +87,7 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.miles.ccit.ui.InputNumActivity"
+            android:name="com.miles.ccit.ui.CreatVoicecodeActivity"
             android:label="@string/title_activity_input_num"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
@@ -181,6 +181,18 @@
             android:label="@string/title_activity_creat_codedirec"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CreatWiredActivity"
+            android:label="@string/title_activity_creat_wired"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CreatcodeSkyActivity"
+            android:label="@string/title_activity_creatcode_sky" 
+              android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar">
         </activity>
     </application>
 

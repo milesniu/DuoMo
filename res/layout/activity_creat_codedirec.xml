@@ -64,7 +64,7 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:id="@+id/ImageView02"
+                        android:id="@+id/img_sky"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:src="@drawable/codedt" />
@@ -85,7 +85,7 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:id="@+id/image_codesky"
+                        android:id="@+id/img_earth"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:src="@drawable/codedt" />
@@ -106,7 +106,7 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:id="@+id/ImageView01"
+                        android:id="@+id/img_water"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:src="@drawable/codedt" />
@@ -127,7 +127,7 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:id="@+id/ImageView03"
+                        android:id="@+id/img_other"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:src="@drawable/codedt" />
@@ -155,7 +155,7 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:id="@+id/ImageView05"
+                        android:id="@+id/img_action"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:src="@drawable/codedt" />
@@ -176,7 +176,7 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:id="@+id/ImageView07"
+                        android:id="@+id/img_actionback"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:src="@drawable/codedt" />
@@ -197,7 +197,7 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:id="@+id/ImageView04"
+                        android:id="@+id/img_applyres"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:src="@drawable/codedt" />
@@ -218,7 +218,7 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:id="@+id/ImageView06"
+                        android:id="@+id/img_warning"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:src="@drawable/codedt" />
@@ -246,7 +246,7 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:id="@+id/ImageView09"
+                        android:id="@+id/img_ctrl"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:src="@drawable/codedt" />
@@ -267,7 +267,7 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:id="@+id/ImageView11"
+                        android:id="@+id/img_bddata"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:src="@drawable/codedt" />

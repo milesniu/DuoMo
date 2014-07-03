@@ -7,6 +7,7 @@ import java.util.Vector;
 import com.miles.ccit.adapter.ContactAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
+import com.miles.ccit.duomo.CreatWiredActivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.duomo.R.layout;
 import com.miles.ccit.duomo.R.menu;
@@ -79,7 +80,7 @@ public class WiredModelActivity extends AbsBaseActivity
 			this.finish();
 			break;
 		case R.id.bt_right:
-//			startActivity(new Intent(this, NewcontactActivity.class));
+			startActivity(new Intent(this, CreatWiredActivity.class));
 			break;
 	
 		case R.id.bt_sure:

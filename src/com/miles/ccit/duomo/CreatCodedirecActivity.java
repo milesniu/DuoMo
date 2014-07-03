@@ -6,10 +6,12 @@ import com.miles.ccit.util.MutiChoiseDlg;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class CreatCodedirecActivity extends AbsBaseActivity
 {
@@ -43,10 +45,51 @@ public class CreatCodedirecActivity extends AbsBaseActivity
 		case R.id.bt_addcontact:
 			new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0")).getDlg(edit_inputContact);
 			break;
+		case R.id.img_sky:
+			goCreatCode(CreatcodeSkyActivity.class);
+			break;
+		case R.id.img_earth:
+			goCreatCode(CreatcodeSkyActivity.class);
+			break;
+		case R.id.img_water:
+			goCreatCode(CreatcodeSkyActivity.class);
+			break;
+		case R.id.img_other:
+			goCreatCode(CreatcodeSkyActivity.class);
+			break;
+		case R.id.img_action:
+			goCreatCode(CreatcodeSkyActivity.class);
+			break;
+		case R.id.img_actionback:
+			goCreatCode(CreatcodeSkyActivity.class);
+			break;
+		case R.id.img_applyres:
+			goCreatCode(CreatcodeSkyActivity.class);
+			break;
+		case R.id.img_warning:
+			goCreatCode(CreatcodeSkyActivity.class);
+			break;
+		case R.id.img_ctrl:
+			goCreatCode(CreatcodeSkyActivity.class);
+			break;
+		case R.id.img_bddata:
+			goCreatCode(CreatcodeSkyActivity.class);
+			break;
 		}
 		
 	}
 
+	private void goCreatCode( Class<?> cls)
+	{
+		if(edit_inputContact.getText().toString().equals(""))
+		{
+			Toast.makeText(mContext, "联系人为空，无法新建...", 0).show();
+			return;
+		}
+		startActivity(new Intent(mContext, cls).putExtra("contact", edit_inputContact.getText().toString()));
+		
+	}
+	
 	@Override
 	public void initView()
 	{
@@ -57,6 +100,16 @@ public class CreatCodedirecActivity extends AbsBaseActivity
 		Btn_addContact = (Button) findViewById(R.id.bt_addcontact);
 		edit_inputContact = (EditText) findViewById(R.id.edit_concotact);
 		Btn_addContact.setOnClickListener(this);
+		findViewById(R.id.img_sky).setOnClickListener(this);
+		findViewById(R.id.img_earth).setOnClickListener(this);
+		findViewById(R.id.img_water).setOnClickListener(this);
+		findViewById(R.id.img_other).setOnClickListener(this);
+		findViewById(R.id.img_action).setOnClickListener(this);
+		findViewById(R.id.img_actionback).setOnClickListener(this);
+		findViewById(R.id.img_applyres).setOnClickListener(this);
+		findViewById(R.id.img_warning).setOnClickListener(this);
+		findViewById(R.id.img_ctrl).setOnClickListener(this);
+		findViewById(R.id.img_bddata).setOnClickListener(this);
 	}
 
 }

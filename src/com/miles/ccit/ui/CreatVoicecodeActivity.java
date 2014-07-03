@@ -3,10 +3,11 @@ package com.miles.ccit.ui;
 import android.os.Bundle;
 import android.view.Menu;
 
+import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.AbsToCallActivity;
 
-public class InputNumActivity extends AbsToCallActivity
+public class CreatVoicecodeActivity extends AbsToCallActivity
 {
 	
 	@Override
@@ -14,6 +15,8 @@ public class InputNumActivity extends AbsToCallActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_input_num);
+		all = GetData4DB.getObjectListData(mContext, "contact", "type", "0");
+		CurrentType = TOCALLVOICE;
 	}
 
 	@Override
@@ -23,6 +26,17 @@ public class InputNumActivity extends AbsToCallActivity
 		getMenuInflater().inflate(R.menu.input_num, menu);
 		return true;
 	}
+
+	@Override
+	public void initView()
+	{
+		// TODO Auto-generated method stub
+		super.initView();
+		findViewById(R.id.buttoncall).setOnClickListener(this);
+		
+	}
+	
+	
 
 
 }

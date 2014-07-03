@@ -30,7 +30,7 @@ public abstract class AbsEmailCodeActivity extends AbsBaseActivity
 		
 	}
 	
-	public String getFileName(String path)
+	public static String getFileName(String path)
 	{
 		String[] filearr = path.split("/");
 		return filearr[filearr.length - 1];
