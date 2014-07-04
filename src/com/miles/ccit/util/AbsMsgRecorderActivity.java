@@ -92,14 +92,15 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 		{
 			edit_inputMsg.setVisibility(View.GONE);
 			Btn_Talk.setVisibility(View.VISIBLE);
-			Btn_switchVoice.setText("文字");
+			Btn_switchVoice.setBackgroundResource(R.drawable.btntext);
 			Btn_Send.setEnabled(false);
 		}
 		else
 		{
 			edit_inputMsg.setVisibility(View.VISIBLE);
 			Btn_Talk.setVisibility(View.GONE);
-			Btn_switchVoice.setText("语音");
+			Btn_switchVoice.setBackgroundResource(R.drawable.btnvoice);
+			
 			Btn_Send.setEnabled(true);
 		}
 	}

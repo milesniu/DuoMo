@@ -47,16 +47,16 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="3dp"
+        android:layout_margin="5dp"
         android:gravity="bottom" >
 
         <Button
             android:id="@+id/bt_swicthvoice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:text="语音" />
+            android:background="@drawable/btnvoice" />
 
         <EditText
             android:id="@+id/edit_inputmsg"
@@ -70,10 +70,10 @@
 
         <Button
             android:id="@+id/bt_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_alignParentRight="true"
-            android:text="发送" />
+            android:background="@drawable/btnsend" />
 
         <Button
             android:id="@+id/bt_talk"

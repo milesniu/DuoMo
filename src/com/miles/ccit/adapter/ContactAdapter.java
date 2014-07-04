@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.miles.ccit.duomo.R;
@@ -67,6 +68,15 @@ public class ContactAdapter extends BaseAdapter
 		view = mInflater.inflate(R.layout.listitem_contact, null);
 		((TextView)  view.findViewById(R.id.text_name)).setText(map.get(showtitle)==null?map.get(showretitle).toString():map.get(showtitle).toString());
 		((TextView) view.findViewById(R.id.text_number)).setText(showinfo.equals("creattime")?UnixTime.unixTime2Simplese(map.get(showinfo).toString(),"yyyy-MM-dd HH:mm:ss"):map.get(showinfo).toString());
+		ImageView img = (ImageView) view.findViewById(R.id.image_head);
+		if(map.get("type").toString().equals("0"))
+		{
+			img.setImageResource(R.drawable.phoneicon);
+		}
+		else
+		{
+			img.setImageResource(R.drawable.wiredphone);
+		}
 		CheckBox checkDel = (CheckBox)view.findViewById(R.id.check_del);
 		if(map.get("exp1")!=null&&map.get("exp1").toString().equals("0"))
 		{

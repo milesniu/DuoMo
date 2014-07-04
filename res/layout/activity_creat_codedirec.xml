@@ -67,7 +67,7 @@
                         android:id="@+id/img_sky"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/codedt" />
+                        android:src="@drawable/sky" />
 
                     <TextView
                         android:id="@+id/TextView02"
@@ -88,7 +88,7 @@
                         android:id="@+id/img_earth"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/codedt" />
+                        android:src="@drawable/earth" />
 
                     <TextView
                         android:id="@+id/textView1"
@@ -109,7 +109,7 @@
                         android:id="@+id/img_water"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/codedt" />
+                        android:src="@drawable/water" />
 
                     <TextView
                         android:id="@+id/TextView01"
@@ -130,7 +130,7 @@
                         android:id="@+id/img_other"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/codedt" />
+                        android:src="@drawable/other" />
 
                     <TextView
                         android:id="@+id/TextView03"
@@ -145,6 +145,7 @@
                 android:id="@+id/TableRow01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:gravity="center" >
 
                 <LinearLayout
@@ -158,7 +159,7 @@
                         android:id="@+id/img_action"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/codedt" />
+                        android:src="@drawable/action" />
 
                     <TextView
                         android:id="@+id/TextView05"
@@ -179,7 +180,7 @@
                         android:id="@+id/img_actionback"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/codedt" />
+                        android:src="@drawable/actionback" />
 
                     <TextView
                         android:id="@+id/TextView04"
@@ -200,7 +201,7 @@
                         android:id="@+id/img_applyres"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/codedt" />
+                        android:src="@drawable/applyres" />
 
                     <TextView
                         android:id="@+id/TextView06"
@@ -221,7 +222,7 @@
                         android:id="@+id/img_warning"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/codedt" />
+                        android:src="@drawable/warning" />
 
                     <TextView
                         android:id="@+id/TextView07"
@@ -236,6 +237,7 @@
                 android:id="@+id/TableRow02"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                 android:layout_marginTop="5dp"
                 android:gravity="center" >
 
                 <LinearLayout
@@ -249,7 +251,7 @@
                         android:id="@+id/img_ctrl"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/codedt" />
+                        android:src="@drawable/ctrl" />
 
                     <TextView
                         android:id="@+id/TextView11"
@@ -270,7 +272,7 @@
                         android:id="@+id/img_bddata"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/codedt" />
+                        android:src="@drawable/bddata" />
 
                     <TextView
                         android:id="@+id/TextView10"

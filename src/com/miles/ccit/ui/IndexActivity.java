@@ -28,6 +28,9 @@ public class IndexActivity extends AbsBaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_index);
+		ComposeData c = new ComposeData();
+		byte[] da = c.sendLogin("820123","abc1234");
+		int a = da.length;
 	}
 
 	@Override
@@ -74,7 +77,7 @@ public class IndexActivity extends AbsBaseActivity
 			break;
 		case R.id.linear_title:
 			startActivity(new Intent(mContext, LoginActivity.class));
-
+			findViewById(R.id.linear_title).setBackgroundResource(R.drawable.loginok8);
 			break;
 		}
 	}
