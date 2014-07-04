@@ -34,5 +34,14 @@
     <string name="title_activity_creat_codedirec">CreatCodedirecActivity</string>
     <string name="title_activity_creat_wired">CreatWiredActivity</string>
     <string name="title_activity_creatcode_sky">CreatcodeSkyActivity</string>
+    <string name="title_activity_creatcode_earth">CreatcodeEarthActivity</string>
+    <string name="title_activity_creatcode_water">CreatcodeWaterActivity</string>
+    <string name="title_activity_creatcode_other">CreatcodeOtherActivity</string>
+    <string name="title_activity_creatcode_action">CreatcodeActionActivity</string>
+    <string name="title_activity_creatcode_actionback">CreatcodeActionbackActivity</string>
+    <string name="title_activity_creatcode_applyres">CreatcodeApplyresActivity</string>
+    <string name="title_activity_creatcode_warning">CreatcodeWarningActivity</string>
+    <string name="title_activity_creatcode_ctrl">CreatcodeCtrlActivity</string>
+    <string name="title_activity_creat_bddata">CreatBDdataActivity</string>
 
 </resources>

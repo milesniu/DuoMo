@@ -49,31 +49,31 @@ public class CreatCodedirecActivity extends AbsBaseActivity
 			goCreatCode(CreatcodeSkyActivity.class);
 			break;
 		case R.id.img_earth:
-			goCreatCode(CreatcodeSkyActivity.class);
+			goCreatCode(CreatcodeEarthActivity.class);
 			break;
 		case R.id.img_water:
-			goCreatCode(CreatcodeSkyActivity.class);
+			goCreatCode(CreatcodeWaterActivity.class);
 			break;
 		case R.id.img_other:
-			goCreatCode(CreatcodeSkyActivity.class);
+			goCreatCode(CreatcodeOtherActivity.class);
 			break;
 		case R.id.img_action:
-			goCreatCode(CreatcodeSkyActivity.class);
+			goCreatCode(CreatcodeActionActivity.class);
 			break;
 		case R.id.img_actionback:
-			goCreatCode(CreatcodeSkyActivity.class);
+			goCreatCode(CreatcodeActionbackActivity.class);
 			break;
 		case R.id.img_applyres:
-			goCreatCode(CreatcodeSkyActivity.class);
+			goCreatCode(CreatcodeApplyresActivity.class);
 			break;
 		case R.id.img_warning:
-			goCreatCode(CreatcodeSkyActivity.class);
+			goCreatCode(CreatcodeWarningActivity.class);
 			break;
 		case R.id.img_ctrl:
-			goCreatCode(CreatcodeSkyActivity.class);
+			goCreatCode(CreatcodeCtrlActivity.class);
 			break;
 		case R.id.img_bddata:
-			goCreatCode(CreatcodeSkyActivity.class);
+			goCreatCode(CreatBDdataActivity.class);
 			break;
 		}
 		

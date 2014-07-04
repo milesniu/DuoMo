@@ -190,9 +190,63 @@
         </activity>
         <activity
             android:name="com.miles.ccit.duomo.CreatcodeSkyActivity"
-            android:label="@string/title_activity_creatcode_sky" 
-              android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:label="@string/title_activity_creatcode_sky"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CreatcodeEarthActivity"
+            android:label="@string/title_activity_creatcode_earth"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CreatcodeWaterActivity"
+            android:label="@string/title_activity_creatcode_water"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CreatcodeOtherActivity"
+            android:label="@string/title_activity_creatcode_other"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CreatcodeActionActivity"
+            android:label="@string/title_activity_creatcode_action"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CreatcodeActionbackActivity"
+            android:label="@string/title_activity_creatcode_actionback"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CreatcodeApplyresActivity"
+            android:label="@string/title_activity_creatcode_applyres"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CreatcodeWarningActivity"
+            android:label="@string/title_activity_creatcode_warning"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CreatcodeCtrlActivity"
+            android:label="@string/title_activity_creatcode_ctrl"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.miles.ccit.duomo.CreatBDdataActivity"
+            android:label="@string/title_activity_creat_bddata"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>
 
