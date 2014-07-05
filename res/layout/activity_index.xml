@@ -81,6 +81,15 @@
                 android:background="@drawable/indexspecisenet"/>
 
             <Button
+                android:id="@+id/bt_haveline"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="3dp"
+                android:layout_weight="4"
+                android:background="@drawable/indexwired" />
+
+            <Button
                 android:id="@+id/bt_contact"
                 style="?android:attr/buttonStyleSmall"
                android:layout_width="match_parent"
@@ -88,15 +97,6 @@
                  android:layout_marginTop="3dp"
                 android:layout_weight="2"
                  android:background="@drawable/indexcontact"/>
-
-            <Button
-                android:id="@+id/bt_haveline"
-                style="?android:attr/buttonStyleSmall"
-               android:layout_width="match_parent"
-                android:layout_height="0dp"
-                 android:layout_marginTop="3dp"
-                android:layout_weight="4"
-                 android:background="@drawable/indexwired" />
 
         </LinearLayout>
 

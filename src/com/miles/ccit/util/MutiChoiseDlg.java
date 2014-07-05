@@ -61,7 +61,7 @@ public class MutiChoiseDlg
 								+ contactList.get(i).get("number").toString()+ "," ;
 					}
 				}
-				edit.setText(selectedStr.subSequence(0, selectedStr.length()-1));
+				edit.setText(selectedStr.equals("")?"":selectedStr.subSequence(0, selectedStr.length()-1));
 //				Toast.makeText(mContext, selectedStr.subSequence(0, selectedStr.length()-1), 0).show();
 			}
 		};
