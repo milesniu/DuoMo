@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,10 +16,12 @@ import com.miles.ccit.duomo.BroadCastctivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.duomo.SettingActivity;
 import com.miles.ccit.duomo.SpecialVoiceActivity;
+import com.miles.ccit.net.APICode;
 import com.miles.ccit.net.ComposeData;
 import com.miles.ccit.net.SocketClient;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.MutiChoiseDlg;
+import com.miles.ccit.util.SendDataTask;
 
 public class IndexActivity extends AbsBaseActivity
 {
@@ -28,9 +31,7 @@ public class IndexActivity extends AbsBaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_index);
-		ComposeData c = new ComposeData();
-		byte[] da = c.sendLogin("820123","abc1234");
-		int a = da.length;
+		new SendDataTask().execute(APICode.SEND_Login+"","123456","abdc123");
 	}
 
 	@Override
@@ -39,6 +40,24 @@ public class IndexActivity extends AbsBaseActivity
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.index, menu);
 		return true;
+	}
+
+	
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
+		// TODO Auto-generated method stub
+		
+		if(keyCode == KeyEvent.KEYCODE_BACK)		//Back键实现Home键返回，activity后台压栈
+		 { 
+		        Intent intent = new Intent(Intent.ACTION_MAIN); 
+		        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// 注意  
+		        intent.addCategory(Intent.CATEGORY_HOME); 
+		        this.startActivity(intent); 
+		        return true; 
+		 }
+		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
@@ -82,7 +101,6 @@ public class IndexActivity extends AbsBaseActivity
 		}
 	}
 
-	byte[] red = null;
 
 	class test extends AsyncTask<Void, Void, String>
 	{

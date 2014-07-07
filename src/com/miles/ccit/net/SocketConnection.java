@@ -26,8 +26,8 @@ public class SocketConnection
 	private volatile Socket socket;
 
 	private boolean isNetworkConnect = false; // 网络是否已连接
-//	private static String host;
-//	private static int port;
+	// private static String host;
+	// private static int port;
 	static InputStream inStream = null;
 	static OutputStream outStream = null;
 
@@ -38,19 +38,20 @@ public class SocketConnection
 	private final ReentrantLock lock = new ReentrantLock();
 	private String result;
 	public static boolean isSocketRun = false;
-//	private final ConcurrentHashMap<Byte, Object> recMsgMap = new ConcurrentHashMap<Byte, Object>();   
-	
+	// private final ConcurrentHashMap<Byte, Object> recMsgMap = new
+	// ConcurrentHashMap<Byte, Object>();
+//	public static boolean iswait = false;
+
 	private SocketConnection()
 	{
 		// Properties conf = new Properties();
 		try
 		{
 			init(OverAllData.Ipaddress, OverAllData.Port);
-		}
-		catch (IOException e)
+		} catch (IOException e)
 		{
 			// log.fatal("socket初始化异常!",e);
-//			throw new RuntimeException("socket初始化异常,请检查配置参数");
+			// throw new RuntimeException("socket初始化异常,请检查配置参数");
 			isSocketRun = false;
 			e.printStackTrace();
 		}
@@ -83,7 +84,7 @@ public class SocketConnection
 	private void init(String host, int port) throws IOException
 	{
 		InetSocketAddress addr = new InetSocketAddress(host, port);
-//		MyLog.SystemOut(host+":"+port+":"+addr);
+		// MyLog.SystemOut(host+":"+port+":"+addr);
 		socket = new Socket();
 		synchronized (this)
 		{
@@ -99,8 +100,8 @@ public class SocketConnection
 			isNetworkConnect = true;
 			receiveThread = new Thread(new ReceiveWorker());
 			receiveThread.start();
-//			SocketConnection.host = host;
-//			SocketConnection.port = port;
+			// SocketConnection.host = host;
+			// SocketConnection.port = port;
 			isSocketRun = true;
 		}
 	}
@@ -114,20 +115,19 @@ public class SocketConnection
 		{
 			public void run()
 			{
-//				MyLog.SystemOut("重新建立与" + host + ":" + port + "的连接");
+				// MyLog.SystemOut("重新建立与" + host + ":" + port + "的连接");
 				MyApplication.handle.sendMessage(new Message());
 				// 清理工作，中断计时器，中断接收线程，恢复初始变量
-				if(heartTimer!=null)
+				if (heartTimer != null)
 					heartTimer.cancel();
 				// isLaunchHeartcheck = false;
 				isNetworkConnect = false;
-				if(receiveThread !=null && receiveThread.isAlive())
+				if (receiveThread != null && receiveThread.isAlive())
 					receiveThread.interrupt();
 				try
 				{
 					socket.close();
-				}
-				catch (IOException e1)
+				} catch (IOException e1)
 				{
 				}
 				// ----------------
@@ -143,12 +143,10 @@ public class SocketConnection
 							launchHeartcheck();
 							this.notifyAll();
 							break;
-						}
-						catch (IOException e)
+						} catch (IOException e)
 						{
 
-						}
-						catch (InterruptedException e)
+						} catch (InterruptedException e)
 						{
 
 						}
@@ -166,8 +164,7 @@ public class SocketConnection
 	 * @throws SocketTimeoutException
 	 * @throws IOException
 	 */
-	public String readReqMsg(byte[] requestMsg, boolean needBack)
-			throws IOException
+	public String readReqMsg(byte[] requestMsg) throws IOException
 	{
 		if (requestMsg == null)
 		{
@@ -184,8 +181,7 @@ public class SocketConnection
 					{
 						throw new IOException("网络连接中断！");
 					}
-				}
-				catch (InterruptedException e)
+				} catch (InterruptedException e)
 				{
 
 				}
@@ -194,7 +190,7 @@ public class SocketConnection
 		outStream = socket.getOutputStream();
 		outStream.write(requestMsg);
 		outStream.flush();
-		
+
 		return "ok";
 	}
 
@@ -217,36 +213,35 @@ public class SocketConnection
 				int reconnCounter = 1;
 				while (true)
 				{
-					try
-					{
-						result = SocketConnection.getInstance().readReqMsg(new ComposeData().sendHeartbeat(), false);
+						try
+						{
+							result = SocketConnection.getInstance().readReqMsg(new ComposeData().sendHeartbeat());
+						} catch (IOException e)
+						{
+							MyLog.SystemOut("IO流异常" + e.toString());
+							reconnCounter++;
+						}
+						if (result != null)
+						{
+							MyLog.SystemOut("心跳响应包 <- IVR " + result);
+							reconnCounter = 1;
+							break;
+						} else
+						{
+							reconnCounter++;
+						}
+						if (reconnCounter > 3)
+						{
+							// 重连次数已达三次，判定网络连接中断，重新建立连接。连接未被建立时不释放锁
+							reConnectToCTCC();
+							break;
+						}
 					}
-					catch (IOException e)
-					{
-						MyLog.SystemOut("IO流异常"+e.toString());
-						reconnCounter++;
-					}
-					if (result != null)
-					{
-						MyLog.SystemOut("心跳响应包 <- IVR " + result);
-						reconnCounter = 1;
-						break;
-					}
-					else
-					{
-						reconnCounter++;
-					}
-					if (reconnCounter > 3)
-					{
-						// 重连次数已达三次，判定网络连接中断，重新建立连接。连接未被建立时不释放锁
-						reConnectToCTCC();
-						break;
-					}
-				}
 			}
+
 		}, 1000, OverAllData.HeartbeatTime);
 	}
-	
+
 	public void finalize()
 	{
 		if (socket != null)
@@ -254,8 +249,7 @@ public class SocketConnection
 			try
 			{
 				socket.close();
-			}
-			catch (IOException e)
+			} catch (IOException e)
 			{
 				e.printStackTrace();
 			}
@@ -308,20 +302,17 @@ public class SocketConnection
 					{
 						lock.lock();
 						// msglock.signalAll();
-					}
-					finally
+					} finally
 					{
 						lock.unlock();
 					}
-				}
-				catch (SocketException e)
+				} catch (SocketException e)
 				{
-					MyLog.SystemOut("服务端关闭socket"+e.toString());
+					MyLog.SystemOut("服务端关闭socket" + e.toString());
 					reConnectToCTCC();
-				}
-				catch (IOException e)
+				} catch (IOException e)
 				{
-					MyLog.SystemOut("接收线程读取响应数据时发生IO流异常"+e.toString());
+					MyLog.SystemOut("接收线程读取响应数据时发生IO流异常" + e.toString());
 				}
 			}
 		}
