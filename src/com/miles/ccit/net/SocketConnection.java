@@ -14,9 +14,11 @@ import java.util.TimerTask;
 import java.util.concurrent.locks.ReentrantLock;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Message;
 
+import com.miles.ccit.ui.MainActivity;
 import com.miles.ccit.util.MyApplication;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
@@ -276,6 +278,17 @@ public class SocketConnection
 					// tmp = headBytes;
 					// String tempStr = new String(tmp).trim();
 					MyLog.SystemOut("接收到消息：" + heart);
+					switch(heart[4])
+					{
+					case APICode.BACK_Login:
+						Intent intent = new Intent();
+						intent.setAction("cn.broadcast.login");
+						intent.putExtra("con", heart);
+						MyApplication.getAppContext().sendBroadcast(intent);
+
+						break;
+					}
+					
 					// if (tempStr == null || tempStr.equals(""))
 					// {
 					// // log.error("received message is null");

@@ -1,33 +1,41 @@
 package com.miles.ccit.ui;
 
-import com.miles.ccit.duomo.R;
-import com.miles.ccit.duomo.R.layout;
-import com.miles.ccit.duomo.R.menu;
-import com.miles.ccit.util.AbsBaseActivity;
-
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
-public class LoginActivity extends AbsBaseActivity {
+import com.miles.ccit.duomo.R;
+import com.miles.ccit.net.APICode;
+import com.miles.ccit.util.AbsBaseActivity;
+import com.miles.ccit.util.MyLog;
+import com.miles.ccit.util.SendDataTask;
+
+public class LoginActivity extends AbsBaseActivity
+{
+	private EditText edit_Account;
+	private EditText edit_Password;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
-		
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.login, menu);
+		return true;
 	}
 
 	
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.login, menu);
-		return true;
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_login);
 	}
 
 
@@ -39,20 +47,65 @@ public class LoginActivity extends AbsBaseActivity {
 		initBaseView("登录");
 		Btn_Left.setOnClickListener(this);
 		Btn_Right.setVisibility(View.INVISIBLE);
+
+		edit_Account = (EditText) findViewById(R.id.edit_account);
+		edit_Password = (EditText) findViewById(R.id.edit_pwd);
+
+		findViewById(R.id.bt_login).setOnClickListener(this);
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("cn.broadcast.login");
+		this.registerReceiver(new MyBroadcastReciver(), intentFilter);
 	}
-
-
 
 	@Override
 	public void onClick(View v)
 	{
 		// TODO Auto-generated method stub
-		switch(v.getId())
+		switch (v.getId())
 		{
 		case R.id.bt_left:
 			this.finish();
 			break;
+		case R.id.bt_login:
+			String name = edit_Account.getText().toString();
+			String pwd = edit_Password.getText().toString();
+			if (name.equals(""))
+			{
+				MyLog.showToast(mContext, "用户账号不能为空...");
+				return;
+			}
+			if (pwd.equals(""))
+			{
+				MyLog.showToast(mContext, "密码不能为空...");
+				return;
+			}
+			showprogressdialog();
+			new SendDataTask().execute(APICode.SEND_Login + "", name, pwd);
+			break;
 		}
+	}
+
+	public class MyBroadcastReciver extends BroadcastReceiver
+	{
+
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			// TODO Auto-generated method stub
+			String action = intent.getAction();
+			if (action.equals("cn.broadcast.login"))
+			{
+				byte[] con = intent.getByteArrayExtra("con");
+				if(con.length>4)
+				{
+					hideProgressDlg();
+					MyLog.showToast(mContext, "登陆成功");
+					LoginActivity.this.finish();
+				}
+			}
+
+		}
+
 	}
 
 }

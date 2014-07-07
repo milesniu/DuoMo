@@ -1,7 +1,10 @@
 package com.miles.ccit.util;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +28,9 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 	public Button Btn_Canle;
 	public abstract void initView();
 	public ImageView img_Empty;
+	public ProgressDialog pdialog;
+	public static String title = "Anzer";
+	public static String message = "正在努力加载···";
 	
 	public void initBaseView(String titlename)
 	{
@@ -56,6 +62,25 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 		if(img_Empty!=null)
 		{
 			img_Empty.setVisibility(View.GONE);
+		}
+	}
+	
+
+	public void showprogressdialog()
+	{
+		if (pdialog == null || !pdialog.isShowing())
+		{
+			pdialog = ProgressDialog.show(this, title, message);
+			pdialog.setIcon(R.drawable.ic_launcher);
+			pdialog.setCancelable(true);
+		}
+	}
+
+	public void hideProgressDlg()
+	{
+		if (pdialog != null && pdialog.isShowing())
+		{
+			pdialog.dismiss();
 		}
 	}
 	
@@ -103,5 +128,7 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 		text_left.setOnClickListener(this);
 		text_right.setOnClickListener(this);
 	}
+	
+	
 
 }

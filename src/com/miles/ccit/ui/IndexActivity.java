@@ -31,7 +31,7 @@ public class IndexActivity extends AbsBaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_index);
-		new SendDataTask().execute(APICode.SEND_Login+"","123456","abdc123");
+//		new SendDataTask().execute(APICode.SEND_Login+"","123456","abdc123");
 	}
 
 	@Override
