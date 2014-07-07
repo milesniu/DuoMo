@@ -68,6 +68,7 @@ public class CreatEMailActivity extends AbsEmailCodeActivity
 				}
 			} else
 			{
+				Btn_Fujian.setBackgroundResource(R.drawable.fujian);
 				img_Fj.setVisibility(View.INVISIBLE);
 				img_Fj.setTag(R.id.img_name, null);
 				img_Fj.setTag(R.id.img_path, null);
@@ -109,6 +110,7 @@ public class CreatEMailActivity extends AbsEmailCodeActivity
 				img_Fj.setTag(R.id.img_name, name);
 				img_Fj.setTag(R.id.img_path, path);
 				img_Fj.setVisibility(View.VISIBLE);
+				Btn_Fujian.setBackgroundResource(R.drawable.delfj);
 				if (isImage(getFileType(name)))
 				{
 

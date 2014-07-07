@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 	public Button Btn_Delete;
 	public Button Btn_Canle;
 	public abstract void initView();
+	public ImageView img_Empty;
 	
 	public void initBaseView(String titlename)
 	{
@@ -35,9 +37,27 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 		Btn_Right = (Button)LayoutTitle.findViewById(R.id.bt_right);
 		Btn_Left.setOnClickListener(this);
 		Btn_Right.setOnClickListener(this);
+		img_Empty = (ImageView)findViewById(R.id.image_empty);
+		
 	}
 	
+	public void showEmpty()
+	{
+
+		if(img_Empty!=null)
+		{
+			img_Empty.setVisibility(View.VISIBLE);
+		}
+	}
 	
+	public void hideEmpty()
+	{
+
+		if(img_Empty!=null)
+		{
+			img_Empty.setVisibility(View.GONE);
+		}
+	}
 	
 	@Override
 	protected void onStart()
@@ -77,6 +97,7 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 		text_right.setText(rightname);
 		Btn_Left = (Button)LayoutTitle.findViewById(R.id.bt_left);
 		Btn_Right = (Button)LayoutTitle.findViewById(R.id.bt_right);
+		img_Empty = (ImageView)findViewById(R.id.image_empty);
 		Btn_Left.setOnClickListener(this);
 		Btn_Right.setOnClickListener(this);
 		text_left.setOnClickListener(this);

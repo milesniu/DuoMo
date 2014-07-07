@@ -22,5 +22,10 @@
      android:cacheColorHint="#00000000" >
 
  </ListView>
-
+<ImageView
+     android:id="@+id/image_empty"
+     android:layout_width="148dp"
+     android:layout_height="148dp"
+     android:src="@drawable/emptylist"
+     android:layout_centerInParent="true" />
 </RelativeLayout>

@@ -219,18 +219,19 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:id="@+id/img_warning"
+                        android:id="@+id/img_bddata"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/warning" />
+                        android:src="@drawable/bddata" />
 
                     <TextView
-                        android:id="@+id/TextView07"
+                        android:id="@+id/TextView10"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="报警通告"
+                        android:text="北斗报文"
                         android:textColor="@color/black" />
                 </LinearLayout>
+
             </TableRow>
 
             <TableRow
@@ -269,16 +270,16 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:id="@+id/img_bddata"
+                        android:id="@+id/img_warning"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/bddata" />
+                        android:src="@drawable/warning" />
 
                     <TextView
-                        android:id="@+id/TextView10"
+                        android:id="@+id/TextView07"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="北斗报文"
+                        android:text="报警通告"
                         android:textColor="@color/black" />
                 </LinearLayout>
 

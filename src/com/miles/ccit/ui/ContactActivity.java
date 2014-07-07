@@ -151,28 +151,30 @@ public class ContactActivity extends AbsBaseActivity {
 		{
 			if(wireness==null||wireness.size()<1)
 			{
-				Toast.makeText(mContext, "无线侧没有联系人，请添加...", 0).show();
-				return;
+				showEmpty();
+				
 			}
 			else
 			{
-				adapter = new ContactAdapter(mContext, wireness,"name","name","number"); 
-				list_Content.setAdapter(adapter);
+				hideEmpty();
 				
 			}
+			adapter = new ContactAdapter(mContext, wireness,"name","name","number"); 
+			list_Content.setAdapter(adapter);
 		}
 		else
 		{
 			if(wired==null||wired.size()<1)
 			{
-				Toast.makeText(mContext, "有线侧没有联系人，请添加...", 0).show();	
-				return;
+				showEmpty();
 			}
 			else
 			{
-				adapter = new ContactAdapter(mContext, wired,"name","name","number"); 
-				list_Content.setAdapter(adapter);
+				hideEmpty();
+			
 			}
+			adapter = new ContactAdapter(mContext, wired,"name","name","number"); 
+			list_Content.setAdapter(adapter);
 		}
 		isWireness = iswireness;
 	}

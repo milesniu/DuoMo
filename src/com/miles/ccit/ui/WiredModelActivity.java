@@ -121,11 +121,12 @@ public class WiredModelActivity extends AbsBaseActivity
 	{
 			if(wiredlist==null||wiredlist.size()<1)
 			{
-				Toast.makeText(mContext, "当前没有通讯记录...", 0).show();	
+				showEmpty();
 				return;
 			}
 			else
 			{
+				hideEmpty();
 				adapter = new ContactAdapter(mContext, wiredlist,"name","number","creattime"); 
 				list_Content.setAdapter(adapter);
 			}

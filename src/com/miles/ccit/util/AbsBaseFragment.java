@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public abstract class AbsBaseFragment extends Fragment implements OnClickListene
 	public LinearLayout linear_Select;
 	public TextView text_left;
 	public TextView text_right;
+	public ImageView img_Empty;
 
 	public void showprogressdialog(Context context) {
 		if (pdialog == null || !pdialog.isShowing()) {
@@ -44,10 +46,27 @@ public abstract class AbsBaseFragment extends Fragment implements OnClickListene
 
 	public abstract void initView(View view);
 	
+	public void showEmpty()
+	{
 
+		if(img_Empty!=null)
+		{
+			img_Empty.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	public void hideEmpty()
+	{
+
+		if(img_Empty!=null)
+		{
+			img_Empty.setVisibility(View.GONE);
+		}
+	}
 	public void initBaseView(View view, String titlename) {
 		listview = (ListView) view.findViewById(R.id.listView_content);
-
+		img_Empty = (ImageView)view.findViewById(R.id.image_empty);
+		
 		LayoutTitle = (View) view.findViewById(R.id.include_layout);
 		if (LayoutTitle.findViewById(R.id.title_text) != null) {
 			((TextView) LayoutTitle.findViewById(R.id.title_text))
@@ -80,6 +99,7 @@ public abstract class AbsBaseFragment extends Fragment implements OnClickListene
 	
 	public void initSwitchBaseView(View view, String leftname,String rightname) {
 		listview = (ListView) view.findViewById(R.id.listView_content);
+		img_Empty = (ImageView)view.findViewById(R.id.image_empty);
 		
 		LayoutTitle = (View) view.findViewById(R.id.include_layout);
 		linear_Select = (LinearLayout)view.findViewById(R.id.linear_select);

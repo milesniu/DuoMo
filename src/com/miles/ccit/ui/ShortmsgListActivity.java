@@ -57,9 +57,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		setContentView(R.layout.activity_shortmsg_list);
 		if (getIntent().getSerializableExtra("item") != null)
 		{
-			map = BaseMapObject
-					.HashtoMyself((HashMap<String, Object>) getIntent()
-							.getSerializableExtra("item"));
+			map = BaseMapObject.HashtoMyself((HashMap<String, Object>) getIntent().getSerializableExtra("item"));
 		}
 	}
 
@@ -97,8 +95,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 			while (iter.hasNext())
 			{
 				BaseMapObject s = iter.next();
-				if (s.get("exp2") != null
-						&& s.get("exp2").toString().equals("1"))
+				if (s.get("exp2") != null && s.get("exp2").toString().equals("1"))
 				{
 					Idlist.add(s.get("id").toString());
 					iter.remove();
@@ -128,33 +125,31 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 
 	private void refreshList()
 	{
-		shortList = GetData4DB.getObjectListData(mContext, "shortmsg",
-				"number", map.get("number").toString());
+		shortList = GetData4DB.getObjectListData(mContext, "shortmsg", "number", map.get("number").toString());
 
-		if (shortList == null)
+		if (shortList == null || shortList.size() < 1)
 		{
-			Toast.makeText(mContext, "暂无消息记录...", 0).show();
+			showEmpty();
 			return;
 		}
-
+		hideEmpty();
 		adapter = new MessageListAdapter(mContext, shortList, list_Content);
 		list_Content.setAdapter(adapter);
 
 		list_Content.setSelection(shortList.size() - 1);
 		list_Content.setOnCreateContextMenuListener(new OnCreateContextMenuListener()
-				{
+		{
 
-					@Override
-					public void onCreateContextMenu(ContextMenu menu, View v,
-							ContextMenuInfo menuInfo)
-					{
-						// TODO Auto-generated method stub
-						menu.setHeaderTitle(OverAllData.TitleName);
-						menu.add(0, 0, 0, "删除该信息");
-						menu.add(0, 1, 1, "批量删除");
-						menu.add(0, 3, 3, "取消");
-					}
-				});
+			@Override
+			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
+			{
+				// TODO Auto-generated method stub
+				menu.setHeaderTitle(OverAllData.TitleName);
+				menu.add(0, 0, 0, "删除该信息");
+				menu.add(0, 1, 1, "批量删除");
+				menu.add(0, 3, 3, "取消");
+			}
+		});
 
 	}
 
@@ -162,15 +157,13 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 	public boolean onContextItemSelected(MenuItem item)
 	{
 		// TODO Auto-generated method stub
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		int ListItem = (int) info.position;
 		switch (item.getItemId())
 		{
 		case 0:
 			BaseMapObject selectItem = shortList.get(ListItem);
-			long ret = BaseMapObject.DelObj4DB(mContext, "shortmsg", "id",
-					selectItem.get("id").toString());
+			long ret = BaseMapObject.DelObj4DB(mContext, "shortmsg", "id", selectItem.get("id").toString());
 			if (ret != -1)
 			{
 				shortList.remove(ListItem);
@@ -195,8 +188,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 	public void initView()
 	{
 		// TODO Auto-generated method stub
-		initBaseView(map.get("name") == null ? map.get("number").toString()
-				: map.get("name").toString());
+		initBaseView(map.get("name") == null ? map.get("number").toString() : map.get("name").toString());
 		// Btn_Left.setText("返回");
 		Btn_Right.setVisibility(View.INVISIBLE);
 		edit_inputMsg = (EditText) findViewById(R.id.edit_inputmsg);
@@ -261,8 +253,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		private Context context;
 		private ListView adapterList;
 
-		public MessageListAdapter(Context context, List<BaseMapObject> items,
-				ListView adapterList)
+		public MessageListAdapter(Context context, List<BaseMapObject> items, ListView adapterList)
 		{
 			this.context = context;
 			this.items = items;
@@ -298,13 +289,11 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 			switch (Integer.parseInt(message.get("sendtype").toString()))
 			{
 			case 1:
-				talkView = LayoutInflater.from(mContext).inflate(
-						R.layout.outcometalk, null);
+				talkView = LayoutInflater.from(mContext).inflate(R.layout.outcometalk, null);
 
 				break;
 			case 2:
-				talkView = LayoutInflater.from(mContext).inflate(
-						R.layout.incometalk, null);
+				talkView = LayoutInflater.from(mContext).inflate(R.layout.incometalk, null);
 
 				break;
 			case 3:
@@ -313,14 +302,11 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 
 			TextView text = (TextView) talkView.findViewById(R.id.textcontent);
 
-			CheckBox checkDel = (CheckBox) talkView
-					.findViewById(R.id.check_del);
-			if (message.get("exp1") != null
-					&& message.get("exp1").toString().equals("0"))
+			CheckBox checkDel = (CheckBox) talkView.findViewById(R.id.check_del);
+			if (message.get("exp1") != null && message.get("exp1").toString().equals("0"))
 			{
 				checkDel.setVisibility(View.VISIBLE);
-			}
-			else
+			} else
 			{
 				checkDel.setVisibility(View.GONE);
 			}
@@ -328,33 +314,28 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 			{
 
 				@Override
-				public void onCheckedChanged(CompoundButton buttonView,
-						boolean isChecked)
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 				{
 					// TODO Auto-generated method stub
 					if (isChecked)
 					{
 						message.put("exp2", "1");
-					}
-					else
+					} else
 					{
 						message.put("exp2", null);
 					}
 				}
 			});
 
-			if (message.get("msgcontent") == null
-					|| message.get("msgcontent").equals("null"))
+			if (message.get("msgcontent") == null || message.get("msgcontent").equals("null"))
 			{
 				text.setText("无效信息");
-			}
-			else
+			} else
 			{
 				if (message.get("msgtype").toString().equals("0"))
 				{
 					text.setText(message.get("msgcontent").toString());
-				}
-				else if (message.get("msgtype").toString().equals("1"))
+				} else if (message.get("msgtype").toString().equals("1"))
 				{
 					text.setText("(((");
 					text.setOnClickListener(new OnClickListener()
@@ -369,13 +350,11 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 								stopMediaplayer();
 
 								mp = new MediaPlayer();
-								mp.setDataSource(message.get("msgcontent")
-										.toString());
+								mp.setDataSource(message.get("msgcontent").toString());
 								mp.prepare();
 								mp.start();
 
-							}
-							catch (Exception e)
+							} catch (Exception e)
 							{
 								e.printStackTrace();
 							}

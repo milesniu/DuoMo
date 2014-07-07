@@ -85,6 +85,12 @@ public class EmailFragment extends AbsBaseFragment
 				getActivity().startActivity(new Intent(getActivity(), EmailInfoActivity.class).putExtra("item", list.get(arg2)));
 			}
 		});
+		if(list==null || list.size()<1)
+		{
+			showEmpty();
+			return;
+		}
+		hideEmpty();
 	}
 
 

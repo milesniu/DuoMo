@@ -60,12 +60,13 @@ public class ShortMsgFragment extends AbsBaseFragment
 	{
 		msgList = GetData4DB.getObjecSet(getActivity(), "shortmsg", "contact", "number", "number");
 		
-		if (msgList == null)
+		if (msgList == null || msgList.size()<1)
 		{
-			Toast.makeText(getActivity(), "暂无消息记录...", 0).show();
+			showEmpty();
+//			Toast.makeText(getActivity(), "暂无消息记录...", 0).show();
 			return;
 		}
-
+		hideEmpty();
 		adapter = new MsgorMailSetAdapter(getActivity(), msgList,"shortmsg");
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new OnItemClickListener()
