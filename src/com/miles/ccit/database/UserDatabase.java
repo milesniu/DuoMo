@@ -1,6 +1,8 @@
 package com.miles.ccit.database;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import android.content.Context;
@@ -42,6 +44,30 @@ public class UserDatabase
 					rowData.put(columnNames[i], cursor.getString(i));
 				}
 				data.add(rowData);
+			}
+			cursor.close();
+			db.close();
+			return data;
+		}
+	}
+	
+	public static HashMap<String,BaseMapObject> queryByConditionforMap(Context context, String tableName, String condition, String[] selectionArgs,String order,String hashkey)
+	{
+		synchronized (DataBaseLock)
+		{
+			DatabaseHelper dbHelper = new DatabaseHelper(context);
+			HashMap<String,BaseMapObject> data = new HashMap<String, BaseMapObject>();
+			SQLiteDatabase db = dbHelper.getReadableDatabase();
+			Cursor cursor = db.query(tableName, null, condition, selectionArgs, null, null, order);
+			while (cursor.moveToNext())
+			{
+				BaseMapObject rowData = new BaseMapObject();
+				String[] columnNames = cursor.getColumnNames();
+				for (int i = 0; i < columnNames.length; i++)
+				{
+					rowData.put(columnNames[i], cursor.getString(i));
+				}
+				data.put(rowData.get(hashkey).toString(), rowData);
 			}
 			cursor.close();
 			db.close();

@@ -61,7 +61,7 @@ public class MsgRecorderutil
 		return voiceFile.getAbsolutePath();
 	}
 	
-	public static void insertTextmsg(Context contex,String contact,String msgcontent)
+	public static long insertTextmsg(Context contex,String contact,String msgcontent)
 	{
 		BaseMapObject shortmsg = new BaseMapObject();
 		shortmsg.put("id", null);
@@ -74,9 +74,11 @@ public class MsgRecorderutil
 		shortmsg.put("priority", OverAllData.Priority);
 		shortmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
 		
-		shortmsg.InsertObj2DB(contex, "shortmsg");
+		return shortmsg.InsertObj2DB(contex, "shortmsg");
 //		insertRecvTextmsg(contex, contact, msgcontent);
 	}
+	
+	
 	
 	public static void insertRecvTextmsg(Context contex,String contact,String msgcontent)
 	{

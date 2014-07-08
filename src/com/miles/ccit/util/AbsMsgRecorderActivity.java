@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.miles.ccit.duomo.R;
+import com.miles.ccit.net.APICode;
 import com.miles.ccit.ui.CreatShortmsgActivity;
 
 import android.graphics.drawable.AnimationDrawable;
@@ -44,11 +45,9 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 				MyLog.showToast(mContext, "超过最大时间,立即发送...");
 				currentlong = 0;
 				timer.cancel();
-			}
-			else
+			} else
 			{
-				((TextView) findViewById(R.id.voidHinttime)).setText("还剩"
-						+ (14 - currentlong) + "秒");
+				((TextView) findViewById(R.id.voidHinttime)).setText("还剩" + (14 - currentlong) + "秒");
 			}
 			super.handleMessage(msg);
 		}
@@ -94,13 +93,12 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 			Btn_Talk.setVisibility(View.VISIBLE);
 			Btn_switchVoice.setBackgroundResource(R.drawable.btntext);
 			Btn_Send.setEnabled(false);
-		}
-		else
+		} else
 		{
 			edit_inputMsg.setVisibility(View.VISIBLE);
 			Btn_Talk.setVisibility(View.GONE);
 			Btn_switchVoice.setBackgroundResource(R.drawable.btnvoice);
-			
+
 			Btn_Send.setEnabled(true);
 		}
 	}
@@ -111,30 +109,43 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 		{
 			Toast.makeText(mContext, "联系人不能为空...", 0).show();
 			return;
-		}
-		else if (edit_inputMsg.getText().toString().equals(""))
+		} else if (edit_inputMsg.getText().toString().equals(""))
 		{
 			Toast.makeText(mContext, "发送内容不能为空...", 0).show();
 			return;
-		}
-		else
+		} else
 		{
 			if (contact.indexOf(",") == -1)
 			{
-				MsgRecorderutil.insertTextmsg(mContext, contact, edit_inputMsg
-						.getText().toString());
-			}
-			else
+				long ret = MsgRecorderutil.insertTextmsg(mContext, contact, edit_inputMsg.getText().toString());
+				sendTextMsgtoNet(new long[]{ret}, new String[]{contact}, edit_inputMsg.getText().toString());
+			} else
 			{
 				String[] tmparray = contact.split(",");
+				long[] arrayid = new long[tmparray.length];
 				for (int i = 0; i < tmparray.length; i++)
 				{
-					MsgRecorderutil.insertTextmsg(mContext, tmparray[i],
-							edit_inputMsg.getText().toString());
+					long ret = MsgRecorderutil.insertTextmsg(mContext, tmparray[i], edit_inputMsg.getText().toString());
+					arrayid[i] = ret;
 				}
+				sendTextMsgtoNet(arrayid, tmparray, edit_inputMsg.getText().toString());
 			}
 		}
 	}
+	
+	public static void sendTextMsgtoNet(long[] id,String[] contact,String msgcontent)
+	{
+		String desCon = "";
+		for(int i=0;i<id.length;i++)
+		{
+			desCon+=(contact[i]+","+id[i]+",");
+		}
+		desCon = desCon.substring(0, desCon.length()-1);
+		new SendDataTask().execute(APICode.SEND_ShortTextMsg+"",OverAllData.Account,desCon,msgcontent);
+		
+	}
+	
+	
 
 	public boolean talkTouchDown(String contact)
 	{
@@ -145,8 +156,7 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 		}
 		setStrContatc(contact);
 		findViewById(R.id.voice_hint_layout).setVisibility(View.VISIBLE);
-		((AnimationDrawable) ((ImageView) findViewById(R.id.voice_hint_flash))
-				.getDrawable()).start();
+		((AnimationDrawable) ((ImageView) findViewById(R.id.voice_hint_flash)).getDrawable()).start();
 		((TextView) findViewById(R.id.voiceHintText)).setText("上滑手指,取消发送");
 		Btn_Talk.setText("松开发送");
 
@@ -170,7 +180,7 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 
 	public boolean talkTouchUp(MotionEvent event)
 	{
-		if(timer!=null)
+		if (timer != null)
 		{
 			timer.cancel();
 			currentlong = 0;
@@ -178,8 +188,7 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 		if (isUp)
 		{
 			isUp = false;
-		}
-		else
+		} else
 		{
 			findViewById(R.id.voice_hint_layout).setVisibility(View.GONE);
 			((TextView) findViewById(R.id.voiceHintText)).setText("松开手指发送");
@@ -196,22 +205,19 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 						return false;
 					}
 				}
-				if(getStrContatc().equals("null"))
+				if (getStrContatc().equals("null"))
 				{
 					return false;
 				}
 				if (getStrContatc().indexOf(",") == -1)
 				{
-					MsgRecorderutil.insertVoicemsg(mContext, getStrContatc(),
-							mediaRecorder.getRecorderpath());
-				}
-				else
+					MsgRecorderutil.insertVoicemsg(mContext, getStrContatc(), mediaRecorder.getRecorderpath());
+				} else
 				{
 					String[] tmparray = getStrContatc().split(",");
 					for (int i = 0; i < tmparray.length; i++)
 					{
-						MsgRecorderutil.insertVoicemsg(mContext, tmparray[i],
-								mediaRecorder.getRecorderpath());
+						MsgRecorderutil.insertVoicemsg(mContext, tmparray[i], mediaRecorder.getRecorderpath());
 					}
 				}
 			}

@@ -14,8 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.miles.ccit.database.UserDatabase;
 
-public class BaseMapObject extends HashMap<String, Object> implements
-		Serializable
+public class BaseMapObject extends HashMap<String, Object> implements Serializable
 {
 
 	/**
@@ -45,8 +44,8 @@ public class BaseMapObject extends HashMap<String, Object> implements
 			return ret;
 		}
 	}
-	
-	public long UpdateMyself(Context contex,String tables)
+
+	public long UpdateMyself(Context contex, String tables)
 	{
 
 		ContentValues values = new ContentValues();
@@ -57,11 +56,12 @@ public class BaseMapObject extends HashMap<String, Object> implements
 			String s = (String) it.next();
 			values.put(s, (String) this.get(s));
 		}
-		
+
 		synchronized (UserDatabase.DataBaseLock)
 		{
 			SQLiteDatabase db = UserDatabase.OpenOrCreatDataBase(contex);
-			int ret = db.update(tables, values, "id=?", new String[]{values.get("id").toString()});
+			int ret = db.update(tables, values, "id=?", new String[]
+			{ values.get("id").toString() });
 			db.close();
 			return ret;
 		}
@@ -80,27 +80,35 @@ public class BaseMapObject extends HashMap<String, Object> implements
 		return tmp;
 	}
 
-	public static long DelObj4DB(Context contex, String tables,
-			String wherename, String value)
+	public static long DelObj4DB(Context contex, String tables, String wherename, String value)
 	{
 		synchronized (UserDatabase.DataBaseLock)
 		{
 			SQLiteDatabase db = UserDatabase.OpenOrCreatDataBase(contex);
-			int ret = db.delete(tables, wherename + "=" + '"' + value + '"',
-					null); // 删除设备节点
+			int ret = db.delete(tables, wherename + "=" + '"' + value + '"', null); // 删除设备节点
 			db.close();
 			return ret;
 		}
 	}
 
 	// 更改对象属性
-	public static long UpdateObj2DB(Context contex, String tables,
-			ContentValues values, String wherename, String[] whereid)
+	public long UpdateObj2DBbyId(Context contex, String tables)
 	{
+
+		ContentValues upvalues = new ContentValues();
+
+		Set<String> key = this.keySet();
+		for (Iterator it = key.iterator(); it.hasNext();)
+		{
+			String s = (String) it.next();
+			upvalues.put(s, (String) this.get(s));
+		}
+
 		synchronized (UserDatabase.DataBaseLock)
 		{
 			SQLiteDatabase db = UserDatabase.OpenOrCreatDataBase(contex);
-			int ret = db.update(tables, values, wherename + "=?", whereid);
+			int ret = db.update(tables, upvalues, "id=?", new String[]
+			{ this.get("id").toString() });
 			db.close();
 			return ret;
 		}

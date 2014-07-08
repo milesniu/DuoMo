@@ -1,7 +1,9 @@
 package com.miles.ccit.database;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import com.miles.ccit.util.BaseMapObject;
@@ -16,6 +18,11 @@ public class GetData4DB
 	public static List<BaseMapObject> getObjectListData(Context context,String table)
 	{
 		return  UserDatabase.queryByCondition(context, table,null,null, null);
+	}
+	
+	public static HashMap<String,BaseMapObject> getObjectHashData(Context context,String table,String key)
+	{
+		return UserDatabase.queryByConditionforMap(context, table, null, null, null, key);
 	}
 	
 	public static List<BaseMapObject> getObjectListData(Context context,String table,String wherename,String value)

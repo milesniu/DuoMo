@@ -33,6 +33,8 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 			case APICode.SEND_ChangePwd:
 				break;
 			case APICode.SEND_ShortTextMsg:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendShortTextmsg(parm[1],parm[2],parm[3]));
+				
 				break;
 			case APICode.SEND_ShortVoiceMsg:
 				break;

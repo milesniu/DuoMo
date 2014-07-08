@@ -1,8 +1,5 @@
 package com.miles.ccit.ui;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,13 +10,16 @@ import com.miles.ccit.duomo.R;
 import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.MyLog;
+import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.SendDataTask;
 
 public class LoginActivity extends AbsBaseActivity
 {
 	private EditText edit_Account;
 	private EditText edit_Password;
-
+	public static final String broadAction = "cn.broadcast.login";
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -53,7 +53,7 @@ public class LoginActivity extends AbsBaseActivity
 
 		findViewById(R.id.bt_login).setOnClickListener(this);
 		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction("cn.broadcast.login");
+		intentFilter.addAction(broadAction);
 		this.registerReceiver(new MyBroadcastReciver(), intentFilter);
 	}
 
@@ -80,32 +80,12 @@ public class LoginActivity extends AbsBaseActivity
 				return;
 			}
 			showprogressdialog();
+			OverAllData.Account = name;
+			OverAllData.Pwd = pwd;
 			new SendDataTask().execute(APICode.SEND_Login + "", name, pwd);
 			break;
 		}
 	}
 
-	public class MyBroadcastReciver extends BroadcastReceiver
-	{
-
-		@Override
-		public void onReceive(Context context, Intent intent)
-		{
-			// TODO Auto-generated method stub
-			String action = intent.getAction();
-			if (action.equals("cn.broadcast.login"))
-			{
-				byte[] con = intent.getByteArrayExtra("con");
-				if(con.length>4)
-				{
-					hideProgressDlg();
-					MyLog.showToast(mContext, "登陆成功");
-					LoginActivity.this.finish();
-				}
-			}
-
-		}
-
-	}
-
+	
 }

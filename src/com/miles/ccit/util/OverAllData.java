@@ -14,4 +14,8 @@ public class OverAllData
 	public static String SDCardRoot = Environment.getExternalStorageDirectory().getAbsolutePath() + "/com.miles.ccit.duomo" + File.separator;
 	public static String Priority = "1";//优先级
 	public static String Acknowledgemen = "1";	//是否回执
+
+	public static String Account = "";
+	public static String Pwd = "";
+	
 }

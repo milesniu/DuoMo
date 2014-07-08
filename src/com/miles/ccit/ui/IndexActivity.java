@@ -26,6 +26,8 @@ import com.miles.ccit.util.SendDataTask;
 public class IndexActivity extends AbsBaseActivity
 {
 
+	public static boolean result = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -95,10 +97,33 @@ public class IndexActivity extends AbsBaseActivity
 
 			break;
 		case R.id.linear_title:
-			startActivity(new Intent(mContext, LoginActivity.class));
-			findViewById(R.id.linear_title).setBackgroundResource(R.drawable.loginok8);
+			if(!result)
+			{
+				startActivityForResult(new Intent(mContext, LoginActivity.class),3);
+			}
+//			startActivityForResult(new Intent(mContext, LoginActivity.class),3);
+//			findViewById(R.id.linear_title).setBackgroundResource(R.drawable.loginok8);
 			break;
 		}
+	}
+
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		// TODO Auto-generated method stub
+		if(requestCode==3)
+		{
+			if(data!=null&&data.getStringExtra("result").toString().equals("true"))
+			{
+				result = true;
+				findViewById(R.id.linear_title).setBackgroundResource(R.drawable.loginok8);
+				return;
+			}
+		}
+		result = false;
+		
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 

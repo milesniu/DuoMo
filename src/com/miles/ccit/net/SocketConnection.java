@@ -18,6 +18,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Message;
 
+import com.miles.ccit.ui.LoginActivity;
 import com.miles.ccit.ui.MainActivity;
 import com.miles.ccit.util.MyApplication;
 import com.miles.ccit.util.MyLog;
@@ -282,8 +283,8 @@ public class SocketConnection
 					{
 					case APICode.BACK_Login:
 						Intent intent = new Intent();
-						intent.setAction("cn.broadcast.login");
-						intent.putExtra("con", heart);
+						intent.setAction(LoginActivity.broadAction);
+						intent.putExtra("data", heart);
 						MyApplication.getAppContext().sendBroadcast(intent);
 
 						break;
