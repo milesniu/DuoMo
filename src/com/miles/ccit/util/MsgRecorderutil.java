@@ -96,7 +96,7 @@ public class MsgRecorderutil
 		shortmsg.InsertObj2DB(contex, "shortmsg");
 	}
 	
-	public static void insertVoicemsg(Context contex,String contact,String msgcontent)
+	public static long insertVoicemsg(Context contex,String contact,String msgcontent)
 	{
 		BaseMapObject shortmsg = new BaseMapObject();
 		shortmsg.put("id", null);
@@ -109,7 +109,7 @@ public class MsgRecorderutil
 		shortmsg.put("priority", OverAllData.Priority);
 		shortmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
 		
-		shortmsg.InsertObj2DB(contex, "shortmsg");
+		return shortmsg.InsertObj2DB(contex, "shortmsg");
 //		insertRecvVoicemsg(contex, contact, msgcontent);
 	}
 	

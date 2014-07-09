@@ -1,27 +1,17 @@
 package com.miles.ccit.ui;
 
-import java.io.DataOutputStream;
-
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 
-import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.AboutActivity;
 import com.miles.ccit.duomo.BroadCastctivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.duomo.SettingActivity;
 import com.miles.ccit.duomo.SpecialVoiceActivity;
-import com.miles.ccit.net.APICode;
-import com.miles.ccit.net.ComposeData;
-import com.miles.ccit.net.SocketClient;
 import com.miles.ccit.util.AbsBaseActivity;
-import com.miles.ccit.util.MutiChoiseDlg;
-import com.miles.ccit.util.SendDataTask;
 
 public class IndexActivity extends AbsBaseActivity
 {
@@ -124,48 +114,6 @@ public class IndexActivity extends AbsBaseActivity
 		result = false;
 		
 		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-
-	class test extends AsyncTask<Void, Void, String>
-	{
-
-		@Override
-		protected String doInBackground(Void... params)
-		{
-			// TODO Auto-generated method stub
-			try
-			{
-				DataOutputStream out = new DataOutputStream(SocketClient.getInstance().getOutputStream());
-				ComposeData df = new ComposeData();
-				byte[] buf = df.sendTest();
-				out.write(buf);
-				out.flush();
-
-				// 等待服务器返回，并阻塞线程
-				// red = new byte[256];
-				// DataInputStream dis = new
-				// DataInputStream(SocketClient.getInstance().getInputStream());//服务器通过输入管道接收数据流
-				// int a = dis.read(red);
-				// System.out.println(a);
-			} catch (Exception e)
-			{
-				e.printStackTrace();
-				return e.toString();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(String result)
-		{
-			// TODO Auto-generated method stub
-			// 连接断开，管道破裂
-			// Toast.makeText(mContext, red.length+"",
-			// Toast.LENGTH_LONG).show();
-			super.onPostExecute(result);
-		}
-
 	}
 
 	@Override

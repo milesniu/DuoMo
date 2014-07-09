@@ -1,5 +1,14 @@
 package com.miles.ccit.util;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class ByteUtil
 {
 	/**
@@ -17,8 +26,18 @@ public class ByteUtil
         return b;
     }
 
+    public static byte[] intToByteArray2(int i) throws Exception {
+    	  ByteArrayOutputStream buf = new ByteArrayOutputStream();   
+    	  DataOutputStream out = new DataOutputStream(buf);   
+    	  out.writeInt(i);   
+    	  byte[] b = buf.toByteArray();
+    	  out.close();
+    	  buf.close();
+    	  return b;
+    	 }
+    
     /**
-     * 4位字节数组转换为整型
+     * 2位字节数组转换为整型
      * @param b
      * @return
      */
@@ -29,4 +48,60 @@ public class ByteUtil
         }
         return intValue;
     }
+    
+    public static byte[] getBytes(String filePath){  
+        byte[] buffer = null;  
+        try {  
+            File file = new File(filePath);  
+            FileInputStream fis = new FileInputStream(file);  
+            ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);  
+            byte[] b = new byte[1000];  
+            int n;  
+            while ((n = fis.read(b)) != -1) {  
+                bos.write(b, 0, n);  
+            }  
+            fis.close();  
+            bos.close();  
+            buffer = bos.toByteArray();  
+        } catch (FileNotFoundException e) {  
+            e.printStackTrace();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+        return buffer;  
+    }
+    
+    public static void getFile(byte[] bfile, String filePath,String fileName) {  
+        BufferedOutputStream bos = null;  
+        FileOutputStream fos = null;  
+        File file = null;  
+        try {  
+            File dir = new File(filePath);  
+            if(!dir.exists()&&dir.isDirectory()){//判断文件目录是否存在  
+                dir.mkdirs();  
+            }  
+            file = new File(filePath+"\\"+fileName);  
+            fos = new FileOutputStream(file);  
+            bos = new BufferedOutputStream(fos);  
+            bos.write(bfile);  
+        } catch (Exception e) {  
+            e.printStackTrace();  
+        } finally {  
+            if (bos != null) {  
+                try {  
+                    bos.close();  
+                } catch (IOException e1) {  
+                    e1.printStackTrace();  
+                }  
+            }  
+            if (fos != null) {  
+                try {  
+                    fos.close();  
+                } catch (IOException e1) {  
+                    e1.printStackTrace();  
+                }  
+            }  
+        }  
+    }  
+    
 }

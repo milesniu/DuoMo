@@ -18,8 +18,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Message;
 
+import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.ui.LoginActivity;
 import com.miles.ccit.ui.MainActivity;
+import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.MyApplication;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
@@ -143,7 +146,7 @@ public class SocketConnection
 							Thread.currentThread();
 							Thread.sleep(1000 * 1);
 							init(OverAllData.Ipaddress, OverAllData.Port);
-							launchHeartcheck();
+//							launchHeartcheck();
 							this.notifyAll();
 							break;
 						} catch (IOException e)
@@ -286,32 +289,35 @@ public class SocketConnection
 						intent.setAction(LoginActivity.broadAction);
 						intent.putExtra("data", heart);
 						MyApplication.getAppContext().sendBroadcast(intent);
-
+						break;
+					case APICode.BACK_ShortTextMsg:
+//						if(heart[5] == (byte)0x01)
+//						{
+//							int lentpos = 0;
+//							for(int i=6;i<heart.length;i++)
+//							{
+//								if(heart[i] == 0)
+//								{
+//									lentpos = i-1;
+//									break;
+//								}
+//							}
+//							
+//							byte[] id = new byte[lentpos-5];
+//							System.arraycopy(heart, lentpos, id, 0, lentpos-5);
+//							
+//							int intid = ByteUtil.byte2Int(id);
+//							BaseMapObject item = GetData4DB.getObjectByRowName(MyApplication.getAppContext(), "shortmsg", "id", intid+"");
+//							if(item!=null)
+//							{
+//								item.put("sendtype", "1");
+//								item.UpdateMyself(MyApplication.getAppContext(), "shortmsg");
+//							
+//							}
+//							}
 						break;
 					}
 					
-					// if (tempStr == null || tempStr.equals(""))
-					// {
-					// // log.error("received message is null");
-					// continue;
-					// }
-					// intStr = new String(tmp);
-					// int totalLength = Integer.parseInt(intStr);
-					// // ----------------
-					// byte[] msgBytes = new byte[totalLength - 4];
-					// inStream.read(msgBytes);
-					// String resultMsg = new String(headBytes)+ new
-					// String(msgBytes);
-					// // 抽出消息ID
-					// String msgNo = resultMsg.substring(8, 8 + 24);
-					// Condition msglock = (Condition) recMsgMap.get(msgNo);
-					// if (msglock == null)
-					// {
-					// // log.warn(msgNo+"序号可能已被注销！响应消息丢弃");
-					// recMsgMap.remove(msgNo);
-					// continue;
-					// }
-					// recMsgMap.put(msgNo, resultMsg);
 					try
 					{
 						lock.lock();

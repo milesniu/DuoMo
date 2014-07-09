@@ -145,6 +145,18 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 		
 	}
 	
+	public static void sendVoiceMsgtoNet(long[] id,String[] contact,String voicepath)
+	{
+		String desCon = "";
+		for(int i=0;i<id.length;i++)
+		{
+			desCon+=(contact[i]+","+id[i]+",");
+		}
+		desCon = desCon.substring(0, desCon.length()-1);
+		new SendDataTask().execute(APICode.SEND_ShortVoiceMsg+"",OverAllData.Account,desCon,voicepath);
+		
+	}
+	
 	
 
 	public boolean talkTouchDown(String contact)
@@ -211,14 +223,22 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 				}
 				if (getStrContatc().indexOf(",") == -1)
 				{
-					MsgRecorderutil.insertVoicemsg(mContext, getStrContatc(), mediaRecorder.getRecorderpath());
+					long ret = MsgRecorderutil.insertVoicemsg(mContext, getStrContatc(), mediaRecorder.getRecorderpath());
+					
+					sendVoiceMsgtoNet(new long[]{ret}, new String[]{getStrContatc()}, mediaRecorder.getRecorderpath());
+				
 				} else
 				{
 					String[] tmparray = getStrContatc().split(",");
+					long[] arrayid = new long[tmparray.length];
+						
 					for (int i = 0; i < tmparray.length; i++)
 					{
-						MsgRecorderutil.insertVoicemsg(mContext, tmparray[i], mediaRecorder.getRecorderpath());
+						long ret = MsgRecorderutil.insertVoicemsg(mContext, tmparray[i], mediaRecorder.getRecorderpath());
+						arrayid[i] = ret;
 					}
+					sendVoiceMsgtoNet(arrayid, tmparray, mediaRecorder.getRecorderpath());
+					
 				}
 			}
 		}
