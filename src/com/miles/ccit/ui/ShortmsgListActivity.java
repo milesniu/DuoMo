@@ -288,15 +288,15 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 
 			switch (Integer.parseInt(message.get("sendtype").toString()))
 			{
-			case 1:
-				talkView = LayoutInflater.from(mContext).inflate(R.layout.outcometalk, null);
-
-				break;
-			case 2:
+			case AbsMsgRecorderActivity.RECVFROM:
 				talkView = LayoutInflater.from(mContext).inflate(R.layout.incometalk, null);
 
 				break;
-			case 3:
+			case AbsMsgRecorderActivity.SENDTO:
+				talkView = LayoutInflater.from(mContext).inflate(R.layout.outcometalk, null);
+
+				break;
+			case AbsMsgRecorderActivity.SENDERROR:
 				break;
 			}
 

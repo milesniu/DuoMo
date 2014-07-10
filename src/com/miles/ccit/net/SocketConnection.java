@@ -21,11 +21,13 @@ import android.os.Message;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.ui.LoginActivity;
 import com.miles.ccit.ui.MainActivity;
+import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.MyApplication;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.UnixTime;
 
 public class SocketConnection
 {
@@ -317,6 +319,40 @@ public class SocketConnection
 							}*/
 						break;
 					case APICode.RECV_ShortTextMsg:
+						int cursor = 5;
+						int namelen = ByteUtil.oneByte2oneInt(heart[cursor++]);
+						byte[] srcname = new byte[namelen];
+						System.arraycopy(heart, cursor, srcname, 0,namelen);
+						String strsrcname = new String(srcname, "UTF-8");
+						System.out.print(strsrcname);
+						cursor+=namelen;
+						
+						int deslen = ByteUtil.oneByte2oneInt(heart[cursor++]);
+						byte[] desname = new byte[deslen];
+						System.arraycopy(heart, cursor, desname, 0,deslen);
+						String strdesname = new String(desname, "UTF-8");
+						System.out.print(strdesname);
+						cursor+=deslen;
+						
+						int clen = ByteUtil.oneByte2oneInt(heart[cursor++]);
+						byte[] conten = new byte[clen];
+						System.arraycopy(heart, cursor, conten, 0,clen);
+						String co = new String(conten, "UTF-8");
+						System.out.print(co);;
+						
+						BaseMapObject recvmsg = new BaseMapObject();
+						recvmsg.put("id", null);
+						recvmsg.put("number",strsrcname);
+						recvmsg.put("sendtype", AbsMsgRecorderActivity.RECVFROM+"");
+						recvmsg.put("status", "0");
+						recvmsg.put("msgtype", "0");
+						recvmsg.put("msgcontent", co);
+						recvmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
+						recvmsg.put("priority", OverAllData.Priority);
+						recvmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
+						
+						recvmsg.InsertObj2DB(MyApplication.getAppContext(), "shortmsg");
+						
 						
 						break;
 					}

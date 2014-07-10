@@ -66,7 +66,7 @@ public class MsgRecorderutil
 		BaseMapObject shortmsg = new BaseMapObject();
 		shortmsg.put("id", null);
 		shortmsg.put("number", contact);
-		shortmsg.put("sendtype", "1");	//发送
+		shortmsg.put("sendtype", AbsMsgRecorderActivity.SENDTO+"");	//发送
 		shortmsg.put("status", "1");	//已读
 		shortmsg.put("msgtype", "0");	//语音
 		shortmsg.put("msgcontent", msgcontent);
@@ -79,29 +79,29 @@ public class MsgRecorderutil
 	}
 	
 	
-	
-	public static void insertRecvTextmsg(Context contex,String contact,String msgcontent)
-	{
-		BaseMapObject shortmsg = new BaseMapObject();
-		shortmsg.put("id", null);
-		shortmsg.put("number", contact);
-		shortmsg.put("sendtype", "2");	//发送
-		shortmsg.put("status", "1");	//已读
-		shortmsg.put("msgtype", "0");	//语音
-		shortmsg.put("msgcontent", msgcontent);
-		shortmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
-		shortmsg.put("priority", OverAllData.Priority);
-		shortmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
-		
-		shortmsg.InsertObj2DB(contex, "shortmsg");
-	}
+//	
+//	public static void insertRecvTextmsg(Context contex,String contact,String msgcontent)
+//	{
+//		BaseMapObject shortmsg = new BaseMapObject();
+//		shortmsg.put("id", null);
+//		shortmsg.put("number", contact);
+//		shortmsg.put("sendtype", AbsMsgRecorderActivity.SENDTO);	//发送
+//		shortmsg.put("status", "1");	//已读
+//		shortmsg.put("msgtype", "0");	//文字
+//		shortmsg.put("msgcontent", msgcontent);
+//		shortmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
+//		shortmsg.put("priority", OverAllData.Priority);
+//		shortmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
+//		
+//		shortmsg.InsertObj2DB(contex, "shortmsg");
+//	}
 	
 	public static long insertVoicemsg(Context contex,String contact,String msgcontent)
 	{
 		BaseMapObject shortmsg = new BaseMapObject();
 		shortmsg.put("id", null);
 		shortmsg.put("number",contact);
-		shortmsg.put("sendtype", "1");
+		shortmsg.put("sendtype", AbsMsgRecorderActivity.SENDTO+"");
 		shortmsg.put("status", "1");
 		shortmsg.put("msgtype", "1");
 		shortmsg.put("msgcontent", msgcontent);
@@ -113,21 +113,21 @@ public class MsgRecorderutil
 //		insertRecvVoicemsg(contex, contact, msgcontent);
 	}
 	
-	public static void insertRecvVoicemsg(Context contex,String contact,String msgcontent)
-	{
-		BaseMapObject shortmsg = new BaseMapObject();
-		shortmsg.put("id", null);
-		shortmsg.put("number",contact);
-		shortmsg.put("sendtype", "2");
-		shortmsg.put("status", "1");
-		shortmsg.put("msgtype", "1");
-		shortmsg.put("msgcontent", msgcontent);
-		shortmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
-		shortmsg.put("priority", OverAllData.Priority);
-		shortmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
-		
-		shortmsg.InsertObj2DB(contex, "shortmsg");
-	}
+//	public static void insertRecvVoicemsg(Context contex,String contact,String msgcontent)
+//	{
+//		BaseMapObject shortmsg = new BaseMapObject();
+//		shortmsg.put("id", null);
+//		shortmsg.put("number",contact);
+//		shortmsg.put("sendtype", "2");
+//		shortmsg.put("status", "1");
+//		shortmsg.put("msgtype", "1");
+//		shortmsg.put("msgcontent", msgcontent);
+//		shortmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
+//		shortmsg.put("priority", OverAllData.Priority);
+//		shortmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
+//		
+//		shortmsg.InsertObj2DB(contex, "shortmsg");
+//	}
 	
 	public long getTimeline()
 	{
