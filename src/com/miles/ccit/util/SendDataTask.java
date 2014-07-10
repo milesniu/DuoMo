@@ -1,13 +1,10 @@
 package com.miles.ccit.util;
 
-import java.io.DataOutputStream;
+import android.os.AsyncTask;
 
 import com.miles.ccit.net.APICode;
 import com.miles.ccit.net.ComposeData;
-import com.miles.ccit.net.SocketClient;
 import com.miles.ccit.net.SocketConnection;
-
-import android.os.AsyncTask;
 
 public class SendDataTask extends AsyncTask<String, Void, byte[]>
 {

@@ -271,7 +271,7 @@ public class SocketConnection
 			{
 				try
 				{
-					byte[] heart = new byte[512];
+					byte[] heart = new byte[20480];	//缓冲区20K
 					if (inStream.read(heart) == -1)
 					{
 						// log.warn("读到流未尾，对方已关闭流!");
@@ -291,30 +291,33 @@ public class SocketConnection
 						MyApplication.getAppContext().sendBroadcast(intent);
 						break;
 					case APICode.BACK_ShortTextMsg:
-//						if(heart[5] == (byte)0x01)
-//						{
-//							int lentpos = 0;
-//							for(int i=6;i<heart.length;i++)
-//							{
-//								if(heart[i] == 0)
-//								{
-//									lentpos = i-1;
-//									break;
-//								}
-//							}
-//							
-//							byte[] id = new byte[lentpos-5];
-//							System.arraycopy(heart, lentpos, id, 0, lentpos-5);
-//							
-//							int intid = ByteUtil.byte2Int(id);
-//							BaseMapObject item = GetData4DB.getObjectByRowName(MyApplication.getAppContext(), "shortmsg", "id", intid+"");
-//							if(item!=null)
-//							{
-//								item.put("sendtype", "1");
-//								item.UpdateMyself(MyApplication.getAppContext(), "shortmsg");
-//							
-//							}
-//							}
+					/**	if(heart[5] == (byte)0x01)
+						{
+							int lentpos = 0;
+							for(int i=6;i<heart.length;i++)
+							{
+								if(heart[i] == 0)
+								{
+									lentpos = i-1;
+									break;
+								}
+							}
+							
+							byte[] id = new byte[lentpos-5];
+							System.arraycopy(heart, lentpos, id, 0, lentpos-5);
+							
+							int intid = ByteUtil.byte2Int(id);
+							BaseMapObject item = GetData4DB.getObjectByRowName(MyApplication.getAppContext(), "shortmsg", "id", intid+"");
+							if(item!=null)
+							{
+								item.put("sendtype", "1");
+								item.UpdateMyself(MyApplication.getAppContext(), "shortmsg");
+							
+							}
+							}*/
+						break;
+					case APICode.RECV_ShortTextMsg:
+						
 						break;
 					}
 					

@@ -29,15 +29,15 @@ public class SpecialNetFragmentActivity extends FragmentActivity
 
 		// 定义数组来存放Fragment界面
 		private Class fragmentArray[] =
-		{ ShortMsgFragment.class, VoicecodeFragment.class, EmailFragment.class, CodeDirectFragment.class};
+		{ ShortMsgFragment.class, VoicecodeFragment.class, EmailFragment.class, CodeDirectFragment.class,SendsetFragment.class};
 
 		// 定义数组来存放按钮图片
 		private int mImageViewArray[] =
-		{ R.drawable.tab_msg_btn, R.drawable.tab_voice_btn, R.drawable.tab_mail_btn, R.drawable.tab_direct_btn};
+		{ R.drawable.tab_msg_btn, R.drawable.tab_voice_btn, R.drawable.tab_mail_btn, R.drawable.tab_direct_btn,R.drawable.tab_set_btn};
 
 		// Tab选项卡的文字
 		private String mTextviewArray[] =
-		{ "短消息", "声码话", "邮件", "代码指挥"};
+		{ "短消息", "声码话", "邮件", "代码指挥","发送设置"};
 
 
 	@Override

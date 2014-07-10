@@ -66,6 +66,28 @@ public class BaseMapObject extends HashMap<String, Object> implements Serializab
 			return ret;
 		}
 	}
+	
+	public long UpdateMyself(Context contex, String tables,String row)
+	{
+
+		ContentValues values = new ContentValues();
+
+		Set<String> key = this.keySet();
+		for (Iterator it = key.iterator(); it.hasNext();)
+		{
+			String s = (String) it.next();
+			values.put(s, (String) this.get(s));
+		}
+
+		synchronized (UserDatabase.DataBaseLock)
+		{
+			SQLiteDatabase db = UserDatabase.OpenOrCreatDataBase(contex);
+			int ret = db.update(tables, values, row+"=?", new String[]
+			{ values.get(row).toString() });
+			db.close();
+			return ret;
+		}
+	}
 
 	public static BaseMapObject HashtoMyself(HashMap<String, Object> map)
 	{

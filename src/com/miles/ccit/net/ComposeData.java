@@ -1,7 +1,12 @@
 package com.miles.ccit.net;
 
+import android.content.Context;
+
+import com.miles.ccit.database.GetData4DB;
+import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.HexSwapString;
+import com.miles.ccit.util.MyApplication;
 
 
 /**
@@ -14,7 +19,15 @@ public class ComposeData
 	DataFrame data = new DataFrame();
 
 	public int switchchoice = 0;
-
+	private byte[] sendcfg = new byte[]{(byte)0x00,(byte)0x00};
+	public ComposeData()
+	{
+		// TODO Auto-generated constructor stub
+		BaseMapObject cfg = GetData4DB.getObjectByRowName(MyApplication.getAppContext(), "systeminto", "key", "sendcfg");
+		if(cfg!=null)
+			sendcfg = HexSwapString.HexString2Bytes(cfg.get("value").toString());
+	}
+	
 	/**
 	 * 发送心跳包数据
 	 * */
@@ -113,7 +126,7 @@ public class ComposeData
 			currentpos += item.length();
 		}
 		//拷贝优先级与是否回执，后期从数据库配置表中读取
-		System.arraycopy(new byte[]{(byte)0x00,(byte)0x01}, 0, mData, currentpos, 2);
+		System.arraycopy(sendcfg, 0, mData, currentpos, 2);
 		
 		
 		byte[] head = data.head;
@@ -169,7 +182,7 @@ public class ComposeData
 		
 		
 		//拷贝优先级与是否回执，后期从数据库配置表中读取
-		System.arraycopy(new byte[]{(byte)0x00,(byte)0x01}, 0, mData, currentpos, 2);
+		System.arraycopy(sendcfg, 0, mData, currentpos, 2);
 		
 		
 		byte[] head = data.head;

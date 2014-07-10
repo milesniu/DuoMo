@@ -9,7 +9,7 @@ public class HexSwapString
 		// 根据默认编码获取字节数组
 		//byte[] bytes = str.getBytes();
 		StringBuilder sb = new StringBuilder(bytes.length * 2);
-		int DataLength = (bytes[26]&0xff)+28;
+		int DataLength = bytes.length;
 		// 将字节数组中每个字节拆解成2位16进制整数
 		for (int i = 0; i < DataLength; i++)
 		{
