@@ -1,5 +1,7 @@
 package com.miles.ccit.util;
 
+import com.miles.ccit.net.APICode;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -93,7 +95,7 @@ public abstract class AbsEmailCodeActivity extends AbsBaseActivity
 		{
 			if (contact.indexOf(",") == -1)
 			{
-				insertEmail(contact, subject, conent, fjpath);
+				long ret = insertEmail(contact, subject, conent, fjpath);
 //				MsgRecorderutil.insertTextmsg(mContext, contact, edit_inputMsg
 //						.getText().toString());
 			}
@@ -111,7 +113,19 @@ public abstract class AbsEmailCodeActivity extends AbsBaseActivity
 		}
 	}
 	
-	public void insertEmail(String contact,String subject,String conent,String fjpath)
+	public static void sendEmailtoNet(long[] id,String[] contact,String msgcontent)
+	{
+		String desCon = "";
+		for(int i=0;i<id.length;i++)
+		{
+			desCon+=(contact[i]+","+id[i]+",");
+		}
+		desCon = desCon.substring(0, desCon.length()-1);
+		new SendDataTask().execute(APICode.SEND_Email+"",OverAllData.Account,desCon,msgcontent);
+		
+	}
+	
+	public long insertEmail(String contact,String subject,String conent,String fjpath)
 	{
 		BaseMapObject email = new BaseMapObject();
 		email.put("id", null);
@@ -125,7 +139,7 @@ public abstract class AbsEmailCodeActivity extends AbsBaseActivity
 		email.put("creattime", UnixTime.getStrCurrentUnixTime());
 		email.put("priority", OverAllData.Priority);
 		email.put("acknowledgemen", OverAllData.Acknowledgemen);
-		email.InsertObj2DB(mContext, "emailmsg");
+		return email.InsertObj2DB(mContext, "emailmsg");
 	}
 
 

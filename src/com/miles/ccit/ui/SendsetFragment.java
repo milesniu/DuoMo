@@ -114,7 +114,6 @@ public class SendsetFragment extends AbsBaseFragment
 				read4DB.put("key", "sendcfg");
 				read4DB.put("value", HexSwapString.encode(byteconfig));
 				read4DB.UpdateMyself(getActivity(), "systeminto","key");
-				
 			}
 			else
 			{

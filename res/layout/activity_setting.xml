@@ -5,182 +5,186 @@
     android:background="@color/white"
     tools:context=".ContactActivity" >
 
- <include
+    <include
         android:id="@+id/include_layout"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         layout="@layout/layout_title" />
 
- <LinearLayout
-     android:id="@+id/linear_set1"
-     android:layout_width="fill_parent"
-     android:layout_height="wrap_content"
-     android:layout_below="@+id/include_layout"
-     android:layout_centerHorizontal="true"
-     android:padding="10dp"
-     android:orientation="vertical" >
+    <LinearLayout
+        android:id="@+id/linear_set1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include_layout"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:padding="10dp" >
 
-     <RelativeLayout
-         android:id="@+id/rela_syssetting"
-         android:layout_width="fill_parent"
-           android:gravity="center_vertical" 
-         android:layout_height="50dp" >
+        <RelativeLayout
+            android:id="@+id/rela_sendsetting"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:visibility="gone" >
 
-         <TextView
-             android:id="@+id/textView1"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="系统参数设置"
-             android:textColor="@color/black"
-             android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="信息发送配置"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
 
-         <ImageView
-             android:id="@+id/imageView1"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentRight="true"
-             android:src="@drawable/rightarrow" />
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/rightarrow" />
+        </RelativeLayout>
+    </LinearLayout>
 
-     </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/LinearLayout01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linear_set1"
+        android:orientation="vertical"
+        android:padding="10dp" >
 
-     <RelativeLayout
-         android:id="@+id/rela_sendsetting"
-         android:layout_width="fill_parent"
-           android:gravity="center_vertical" 
-         android:layout_height="50dp" >
+        <RelativeLayout
+            android:id="@+id/rela_syssetting"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical" >
 
-         <TextView
-             android:id="@+id/textView2"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="信息发送配置"
-                android:textColor="@color/black"
-             android:textAppearance="?android:attr/textAppearanceMedium" />
-<ImageView
-             android:id="@+id/imageView1"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentRight="true"
-             android:src="@drawable/rightarrow" />
-     </RelativeLayout>
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="系统参数设置"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
 
- </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/rightarrow" />
+        </RelativeLayout>
 
- <LinearLayout
-     android:id="@+id/LinearLayout01"
-     android:layout_width="fill_parent"
-     android:layout_height="wrap_content"
-     android:layout_alignParentLeft="true"
-     android:layout_below="@+id/linear_set1"
-     android:orientation="vertical"
-     android:padding="10dp" >
+        <RelativeLayout
+            android:id="@+id/rela_checkstatus"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical" >
 
-     <RelativeLayout
-         android:id="@+id/rela_checkstatus"
-         android:layout_width="fill_parent"
-           android:gravity="center_vertical" 
-         android:layout_height="50dp" >
+            <TextView
+                android:id="@+id/TextView02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看主机状态"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
 
-         <TextView
-             android:id="@+id/TextView02"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="查看主机状态"
-                android:textColor="@color/black"
-             android:textAppearance="?android:attr/textAppearanceMedium" />
-         <ImageView
-             android:id="@+id/imageView1"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentRight="true"
-             android:src="@drawable/rightarrow" />
-     </RelativeLayout>
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/rightarrow" />
+        </RelativeLayout>
 
-     <RelativeLayout
-         android:id="@+id/rela_checkversion"
-         android:layout_width="fill_parent"
-           android:gravity="center_vertical" 
-         android:layout_height="50dp" >
+        <RelativeLayout
+            android:id="@+id/rela_checkversion"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical" >
 
-         <TextView
-             android:id="@+id/rela_checkversion"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="查看主机软件版本"
-                android:textColor="@color/black"
-             android:textAppearance="?android:attr/textAppearanceMedium" />
-         <ImageView
-             android:id="@+id/imageView1"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentRight="true"
-             android:src="@drawable/rightarrow" />
-     </RelativeLayout>
+            <TextView
+                android:id="@+id/rela_checkversion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看主机软件版本"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
 
-     <RelativeLayout
-         android:id="@+id/rela_checklocation"
-         android:layout_width="fill_parent"  android:gravity="center_vertical" 
-         android:layout_height="50dp" >
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/rightarrow" />
+        </RelativeLayout>
 
-         <TextView
-             android:id="@+id/rela_checklocation"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="查看位置信息"
-                android:textColor="@color/black"
-             android:textAppearance="?android:attr/textAppearanceMedium" />
-         <ImageView
-             android:id="@+id/imageView1"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentRight="true"
-             android:src="@drawable/rightarrow" />
-     </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rela_checklocation"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical" >
 
- </LinearLayout>
+            <TextView
+                android:id="@+id/rela_checklocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看位置信息"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
 
- <LinearLayout
-     android:id="@+id/LinearLayout02"
-     android:layout_width="fill_parent"
-     android:layout_height="wrap_content"
-     android:layout_alignParentLeft="true"
-     android:layout_below="@+id/LinearLayout01"
-  android:gravity="center_vertical" 
-     android:orientation="vertical"
-     android:padding="10dp" >
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/rightarrow" />
+        </RelativeLayout>
+    </LinearLayout>
 
-     <RelativeLayout
-         android:id="@+id/rela_changepws"
-         android:layout_width="fill_parent"
-         android:layout_height="50dp"
-         android:gravity="center_vertical" >
+    <LinearLayout
+        android:id="@+id/LinearLayout02"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/LinearLayout01"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="10dp" >
 
-         <TextView
-             android:id="@+id/TextView03"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="修改密码"
-                android:textColor="@color/black"
-             android:textAppearance="?android:attr/textAppearanceMedium" />
-         <ImageView
-             android:id="@+id/imageView1"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentRight="true"
-             android:src="@drawable/rightarrow" />
-     </RelativeLayout>
- </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/rela_changepws"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical" >
 
- <Button
-     android:id="@+id/bt_singout"
-     android:layout_width="300dp"
-     android:layout_height="50dp"
-     android:layout_alignParentBottom="true"
-     android:layout_centerHorizontal="true"
-     android:layout_marginBottom="44dp"
-      android:layout_marginLeft="30dp"
-       android:layout_marginRight="30dp"
-     android:background="@drawable/btloginout" />
+            <TextView
+                android:id="@+id/TextView03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="修改密码"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/rightarrow" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_singout"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="44dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/btloginout" />
 
 </RelativeLayout>

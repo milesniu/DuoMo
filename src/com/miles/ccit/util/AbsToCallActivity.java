@@ -15,6 +15,7 @@ import com.miles.ccit.adapter.ContactAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.CallWaitActivity;
 import com.miles.ccit.duomo.R;
+import com.miles.ccit.net.APICode;
 import com.miles.ccit.ui.CreatContactActivity;
 
 public abstract class AbsToCallActivity extends AbsBaseActivity
@@ -211,11 +212,16 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		toCall(code);
 	}
 	
+	public void sendVoiceStarttoNet(String contact)
+	{
+		new SendDataTask().execute(APICode.SEND_VoiceCode+"",OverAllData.Account,contact);
+	}
 	
 	public void toCall(String code)
 	{
 		if(CurrentType==TOCALLVOICE)
 		{
+			sendVoiceStarttoNet(code);
 			startActivity(new Intent(mContext, CallWaitActivity.class).putExtra("code", code));
 		}
 		else if(CurrentType == TOCALLWIRED)
