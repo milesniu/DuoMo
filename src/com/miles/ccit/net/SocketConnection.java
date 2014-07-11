@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Message;
 
+import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.ui.ShortmsgListActivity;
 import com.miles.ccit.util.AbsBaseActivity;
@@ -138,7 +139,6 @@ public class SocketConnection
 				// 清理工作，中断计时器，中断接收线程，恢复初始变量
 				if (heartTimer != null)
 					heartTimer.cancel();
-				// isLaunchHeartcheck = false;
 				isNetworkConnect = false;
 				if (receiveThread != null && receiveThread.isAlive())
 					receiveThread.interrupt();
@@ -151,7 +151,7 @@ public class SocketConnection
 				// ----------------
 				synchronized (this)
 				{
-					for (;;)
+					for (int i=0;i<3;i++)//重连三次
 					{
 						try
 						{
@@ -161,13 +161,11 @@ public class SocketConnection
 							// launchHeartcheck();
 							this.notifyAll();
 							break;
-						} catch (IOException e)
-						{
-
-						} catch (InterruptedException e)
+						} catch (Exception e)
 						{
 
 						}
+						i++;
 					}
 				}
 			}
@@ -290,9 +288,6 @@ public class SocketConnection
 						reConnectToCTCC();// 读到流未尾，对方已关闭流
 						return;
 					}
-					// byte[] tmp = new byte[4];
-					// tmp = headBytes;
-					// String tempStr = new String(tmp).trim();
 					MyLog.SystemOut("接收到消息：" + heart);
 					Intent intent = new Intent();
 					switch (heart[4])
@@ -304,23 +299,7 @@ public class SocketConnection
 						MyApplication.getAppContext().sendBroadcast(intent);
 						break;
 					case APICode.BACK_ShortTextMsg:
-						/**
-						 * if(heart[5] == (byte)0x01) { int lentpos = 0; for(int
-						 * i=6;i<heart.length;i++) { if(heart[i] == 0) { lentpos
-						 * = i-1; break; } }
-						 * 
-						 * byte[] id = new byte[lentpos-5];
-						 * System.arraycopy(heart, lentpos, id, 0, lentpos-5);
-						 * 
-						 * int intid = ByteUtil.byte2Int(id); BaseMapObject item
-						 * = GetData4DB.getObjectByRowName(MyApplication.
-						 * getAppContext(), "shortmsg", "id", intid+"");
-						 * if(item!=null) { item.put("sendtype", "1");
-						 * item.UpdateMyself(MyApplication.getAppContext(),
-						 * "shortmsg");
-						 * 
-						 * } }
-						 */
+						
 						break;
 					case APICode.RECV_ShortTextMsg:
 						int cursor = 5;
@@ -328,22 +307,18 @@ public class SocketConnection
 						byte[] srcname = new byte[namelen];
 						System.arraycopy(heart, cursor, srcname, 0, namelen);
 						String strsrcname = new String(srcname, "UTF-8");
-						System.out.print(strsrcname);
 						cursor += namelen;
 
 						int deslen = ByteUtil.oneByte2oneInt(heart[cursor++]);
 						byte[] desname = new byte[deslen];
 						System.arraycopy(heart, cursor, desname, 0, deslen);
 						String strdesname = new String(desname, "UTF-8");
-						System.out.print(strdesname);
 						cursor += deslen;
 
 						int clen = ByteUtil.oneByte2oneInt(heart[cursor++]);
 						byte[] conten = new byte[clen];
 						System.arraycopy(heart, cursor, conten, 0, clen);
 						String co = new String(conten, "UTF-8");
-						System.out.print(co);
-						;
 
 						BaseMapObject recvmsg = new BaseMapObject();
 						recvmsg.put("id", null);
@@ -355,8 +330,7 @@ public class SocketConnection
 						recvmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
 						recvmsg.put("priority", OverAllData.Priority);
 						recvmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
-
-						long ret = recvmsg.InsertObj2DB(MyApplication.getAppContext(), "shortmsg");
+						recvmsg.InsertObj2DB(MyApplication.getAppContext(), "shortmsg");
 
 						if (ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(strsrcname))
 						{
@@ -365,35 +339,33 @@ public class SocketConnection
 							MyApplication.getAppContext().sendBroadcast(intent);
 						} else
 						{
+							BaseMapObject contact = GetData4DB.getObjectByRowName(AppContext, "contact", "number", strsrcname);
+							if (contact != null)
+							{
+								recvmsg.put("name", contact.get("name").toString());
+							}
 							messageNotification = new Notification();
 							messageNotification.icon = R.drawable.ic_launcher;
-							messageNotification.tickerText = "你有新的短消息哦";
+							messageNotification.tickerText = "你有一条新的短消息";
 							messageNotification.flags = messageNotification.FLAG_AUTO_CANCEL;
 							messageNotification.defaults = Notification.DEFAULT_SOUND;
-							 
 							messageNotificatioManager = (NotificationManager) AppContext.getSystemService(AppContext.NOTIFICATION_SERVICE);
-
 							messageIntent = new Intent(AppContext, ShortmsgListActivity.class);
 							messageIntent.putExtra("item", recvmsg);
 							messageIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//							messageIntent.putExtra("to", msg.getFromSubJid());
 							messagePendingIntent = PendingIntent.getActivity(AppContext, 0, messageIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-							messageNotificationID =(int) ret;//Integer.parseInt(toNum.length() == 4 ? toNum : (toJid.substring(0, 3) + toJid.substring(7, 11)));
+							messageNotificationID = Integer.parseInt(strsrcname);
 							// 更新通知栏
-							messageNotification.setLatestEventInfo(AppContext, "多模系统的新消息","系统发来一条消息", messagePendingIntent);
+							messageNotification.setLatestEventInfo(AppContext, contact == null ? strsrcname : (contact.get("name").toString() + "的新消息"), co, messagePendingIntent);
 							messageNotificatioManager.notify(messageNotificationID, messageNotification);
-							// 每次通知完，通知ID递增一下，避免消息覆盖掉a
-							// messageNotificationID++;
 
 						}
-
 						break;
 					}
 
 					try
 					{
 						lock.lock();
-						// msglock.signalAll();
 					} finally
 					{
 						lock.unlock();

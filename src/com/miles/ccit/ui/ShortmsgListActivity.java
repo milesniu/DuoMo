@@ -251,7 +251,9 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 	public void initView()
 	{
 		// TODO Auto-generated method stub
+		
 		initBaseView(map.get("name") == null ? map.get("number").toString() : map.get("name").toString());
+
 		// Btn_Left.setText("返回");
 		Btn_Right.setVisibility(View.INVISIBLE);
 		edit_inputMsg = (EditText) findViewById(R.id.edit_inputmsg);
@@ -295,6 +297,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 	protected void onDestroy()
 	{
 		// TODO Auto-generated method stub
+		number = null;
 		stopMediaplayer();
 		super.onDestroy();
 	}
