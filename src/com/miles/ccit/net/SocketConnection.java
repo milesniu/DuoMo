@@ -14,13 +14,16 @@ import java.util.TimerTask;
 import java.util.concurrent.locks.ReentrantLock;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Message;
 
-import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.ui.LoginActivity;
-import com.miles.ccit.ui.MainActivity;
+import com.miles.ccit.duomo.R;
+import com.miles.ccit.ui.ShortmsgListActivity;
+import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.ByteUtil;
@@ -46,9 +49,15 @@ public class SocketConnection
 	private final ReentrantLock lock = new ReentrantLock();
 	private String result;
 	public static boolean isSocketRun = false;
-	// private final ConcurrentHashMap<Byte, Object> recMsgMap = new
-	// ConcurrentHashMap<Byte, Object>();
-//	public static boolean iswait = false;
+	private Context AppContext;
+	// 点击查看
+	private Intent messageIntent = null;
+	private PendingIntent messagePendingIntent = null;
+
+	// 通知栏消息
+	private int messageNotificationID = 10001;
+	private Notification messageNotification = null;
+	private NotificationManager messageNotificatioManager = null;
 
 	private SocketConnection()
 	{
@@ -56,6 +65,7 @@ public class SocketConnection
 		try
 		{
 			init(OverAllData.Ipaddress, OverAllData.Port);
+			AppContext = MyApplication.getAppContext();
 		} catch (IOException e)
 		{
 			// log.fatal("socket初始化异常!",e);
@@ -148,7 +158,7 @@ public class SocketConnection
 							Thread.currentThread();
 							Thread.sleep(1000 * 1);
 							init(OverAllData.Ipaddress, OverAllData.Port);
-//							launchHeartcheck();
+							// launchHeartcheck();
 							this.notifyAll();
 							break;
 						} catch (IOException e)
@@ -221,30 +231,30 @@ public class SocketConnection
 				int reconnCounter = 1;
 				while (true)
 				{
-						try
-						{
-							result = SocketConnection.getInstance().readReqMsg(new ComposeData().sendHeartbeat());
-						} catch (IOException e)
-						{
-							MyLog.SystemOut("IO流异常" + e.toString());
-							reconnCounter++;
-						}
-						if (result != null)
-						{
-							MyLog.SystemOut("心跳响应包 <- IVR " + result);
-							reconnCounter = 1;
-							break;
-						} else
-						{
-							reconnCounter++;
-						}
-						if (reconnCounter > 3)
-						{
-							// 重连次数已达三次，判定网络连接中断，重新建立连接。连接未被建立时不释放锁
-							reConnectToCTCC();
-							break;
-						}
+					try
+					{
+						result = SocketConnection.getInstance().readReqMsg(new ComposeData().sendHeartbeat());
+					} catch (IOException e)
+					{
+						MyLog.SystemOut("IO流异常" + e.toString());
+						reconnCounter++;
 					}
+					if (result != null)
+					{
+						MyLog.SystemOut("心跳响应包 <- IVR " + result);
+						reconnCounter = 1;
+						break;
+					} else
+					{
+						reconnCounter++;
+					}
+					if (reconnCounter > 3)
+					{
+						// 重连次数已达三次，判定网络连接中断，重新建立连接。连接未被建立时不释放锁
+						reConnectToCTCC();
+						break;
+					}
+				}
 			}
 
 		}, 1000, OverAllData.HeartbeatTime);
@@ -273,7 +283,7 @@ public class SocketConnection
 			{
 				try
 				{
-					byte[] heart = new byte[20480];	//缓冲区20K
+					byte[] heart = new byte[20480]; // 缓冲区20K
 					if (inStream.read(heart) == -1)
 					{
 						// log.warn("读到流未尾，对方已关闭流!");
@@ -284,79 +294,102 @@ public class SocketConnection
 					// tmp = headBytes;
 					// String tempStr = new String(tmp).trim();
 					MyLog.SystemOut("接收到消息：" + heart);
-					switch(heart[4])
+					Intent intent = new Intent();
+					switch (heart[4])
 					{
 					case APICode.BACK_Login:
-						Intent intent = new Intent();
-						intent.setAction(LoginActivity.broadAction);
+
+						intent.setAction(AbsBaseActivity.broad_login_Action);
 						intent.putExtra("data", heart);
 						MyApplication.getAppContext().sendBroadcast(intent);
 						break;
 					case APICode.BACK_ShortTextMsg:
-					/**	if(heart[5] == (byte)0x01)
-						{
-							int lentpos = 0;
-							for(int i=6;i<heart.length;i++)
-							{
-								if(heart[i] == 0)
-								{
-									lentpos = i-1;
-									break;
-								}
-							}
-							
-							byte[] id = new byte[lentpos-5];
-							System.arraycopy(heart, lentpos, id, 0, lentpos-5);
-							
-							int intid = ByteUtil.byte2Int(id);
-							BaseMapObject item = GetData4DB.getObjectByRowName(MyApplication.getAppContext(), "shortmsg", "id", intid+"");
-							if(item!=null)
-							{
-								item.put("sendtype", "1");
-								item.UpdateMyself(MyApplication.getAppContext(), "shortmsg");
-							
-							}
-							}*/
+						/**
+						 * if(heart[5] == (byte)0x01) { int lentpos = 0; for(int
+						 * i=6;i<heart.length;i++) { if(heart[i] == 0) { lentpos
+						 * = i-1; break; } }
+						 * 
+						 * byte[] id = new byte[lentpos-5];
+						 * System.arraycopy(heart, lentpos, id, 0, lentpos-5);
+						 * 
+						 * int intid = ByteUtil.byte2Int(id); BaseMapObject item
+						 * = GetData4DB.getObjectByRowName(MyApplication.
+						 * getAppContext(), "shortmsg", "id", intid+"");
+						 * if(item!=null) { item.put("sendtype", "1");
+						 * item.UpdateMyself(MyApplication.getAppContext(),
+						 * "shortmsg");
+						 * 
+						 * } }
+						 */
 						break;
 					case APICode.RECV_ShortTextMsg:
 						int cursor = 5;
 						int namelen = ByteUtil.oneByte2oneInt(heart[cursor++]);
 						byte[] srcname = new byte[namelen];
-						System.arraycopy(heart, cursor, srcname, 0,namelen);
+						System.arraycopy(heart, cursor, srcname, 0, namelen);
 						String strsrcname = new String(srcname, "UTF-8");
 						System.out.print(strsrcname);
-						cursor+=namelen;
-						
+						cursor += namelen;
+
 						int deslen = ByteUtil.oneByte2oneInt(heart[cursor++]);
 						byte[] desname = new byte[deslen];
-						System.arraycopy(heart, cursor, desname, 0,deslen);
+						System.arraycopy(heart, cursor, desname, 0, deslen);
 						String strdesname = new String(desname, "UTF-8");
 						System.out.print(strdesname);
-						cursor+=deslen;
-						
+						cursor += deslen;
+
 						int clen = ByteUtil.oneByte2oneInt(heart[cursor++]);
 						byte[] conten = new byte[clen];
-						System.arraycopy(heart, cursor, conten, 0,clen);
+						System.arraycopy(heart, cursor, conten, 0, clen);
 						String co = new String(conten, "UTF-8");
-						System.out.print(co);;
-						
+						System.out.print(co);
+						;
+
 						BaseMapObject recvmsg = new BaseMapObject();
 						recvmsg.put("id", null);
-						recvmsg.put("number",strsrcname);
-						recvmsg.put("sendtype", AbsMsgRecorderActivity.RECVFROM+"");
+						recvmsg.put("number", strsrcname);
+						recvmsg.put("sendtype", AbsMsgRecorderActivity.RECVFROM + "");
 						recvmsg.put("status", "0");
 						recvmsg.put("msgtype", "0");
 						recvmsg.put("msgcontent", co);
 						recvmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
 						recvmsg.put("priority", OverAllData.Priority);
 						recvmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
-						
-						recvmsg.InsertObj2DB(MyApplication.getAppContext(), "shortmsg");
-						
-						
+
+						long ret = recvmsg.InsertObj2DB(MyApplication.getAppContext(), "shortmsg");
+
+						if (ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(strsrcname))
+						{
+							intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
+							intent.putExtra("data", recvmsg);
+							MyApplication.getAppContext().sendBroadcast(intent);
+						} else
+						{
+							messageNotification = new Notification();
+							messageNotification.icon = R.drawable.ic_launcher;
+							messageNotification.tickerText = "你有新的短消息哦";
+							messageNotification.flags = messageNotification.FLAG_AUTO_CANCEL;
+							messageNotification.defaults = Notification.DEFAULT_SOUND;
+							 
+							messageNotificatioManager = (NotificationManager) AppContext.getSystemService(AppContext.NOTIFICATION_SERVICE);
+
+							messageIntent = new Intent(AppContext, ShortmsgListActivity.class);
+							messageIntent.putExtra("item", recvmsg);
+							messageIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//							messageIntent.putExtra("to", msg.getFromSubJid());
+							messagePendingIntent = PendingIntent.getActivity(AppContext, 0, messageIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+							messageNotificationID =(int) ret;//Integer.parseInt(toNum.length() == 4 ? toNum : (toJid.substring(0, 3) + toJid.substring(7, 11)));
+							// 更新通知栏
+							messageNotification.setLatestEventInfo(AppContext, "多模系统的新消息","系统发来一条消息", messagePendingIntent);
+							messageNotificatioManager.notify(messageNotificationID, messageNotification);
+							// 每次通知完，通知ID递增一下，避免消息覆盖掉a
+							// messageNotificationID++;
+
+						}
+
 						break;
 					}
-					
+
 					try
 					{
 						lock.lock();

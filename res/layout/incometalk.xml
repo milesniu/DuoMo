@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
     android:background="#ffffff"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
     android:padding="15dp" >
 
     <TextView
@@ -14,13 +14,16 @@
         android:layout_marginRight="50dp"
         android:background="@drawable/incoming"
         android:gravity="center_vertical"
+        android:paddingBottom="8dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="8dp"
         android:text="你好"
-            android:textSize="16sp"
-        android:padding="8dp"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
 
     <CheckBox
-         android:id="@+id/check_del"
+        android:id="@+id/check_del"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true" />

@@ -1,5 +1,9 @@
 package com.miles.ccit.ui;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,7 +21,7 @@ public class LoginActivity extends AbsBaseActivity
 {
 	private EditText edit_Account;
 	private EditText edit_Password;
-	public static final String broadAction = "cn.broadcast.login";
+	private MyBroadcastReciver broad = null;
 	
 	
 	@Override
@@ -39,6 +43,18 @@ public class LoginActivity extends AbsBaseActivity
 	}
 
 
+	@Override
+	public boolean isDestroyed()
+	{
+		// TODO Auto-generated method stub
+		if(broad!=null)
+		{
+			this.unregisterReceiver(broad);
+		}
+		return super.isDestroyed();
+	}
+
+
 
 	@Override
 	public void initView()
@@ -53,9 +69,51 @@ public class LoginActivity extends AbsBaseActivity
 
 		findViewById(R.id.bt_login).setOnClickListener(this);
 		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(broadAction);
-		this.registerReceiver(new MyBroadcastReciver(), intentFilter);
+		intentFilter.addAction(broad_login_Action);
+		broad = new MyBroadcastReciver();
+		this.registerReceiver(broad, intentFilter);
 	}
+	
+	public class MyBroadcastReciver extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			// TODO Auto-generated method stub
+			hideProgressDlg();
+			String action = intent.getAction();
+
+			if (action.equals(broad_login_Action))
+			{
+				byte[] con = intent.getByteArrayExtra("data");
+				if (con == null || con.length < 4)
+				{
+					return;
+				}
+				if (con.length > 4 && con[5] == (byte) 0x01)
+				{
+					checkContact(con);
+
+					Intent it = new Intent();
+					it.putExtra("result", "true");
+					it.putExtra("data", con);
+					LoginActivity.this.setResult(Activity.RESULT_OK, it);
+					MyLog.showToast(mContext, "登陆成功");
+					LoginActivity.this.finish();
+				} else
+				{
+					MyLog.showToast(mContext, "登陆失败，请检查用户名及密码");
+					return;
+				}
+			} else if (action.equals(""))
+			{
+
+			}
+		}
+
+	}
+
+	
 
 	@Override
 	public void onClick(View v)

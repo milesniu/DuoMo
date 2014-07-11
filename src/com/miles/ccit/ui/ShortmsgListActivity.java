@@ -5,38 +5,45 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.duomo.R;
-import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.ui.LoginActivity.MyBroadcastReciver;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
+import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 
 public class ShortmsgListActivity extends AbsMsgRecorderActivity
@@ -48,6 +55,8 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 	private MediaPlayer mp;
 	private MessageListAdapter adapter;
 	private LinearLayout linear_Del;
+	private MyBroadcastReciver broad = null;
+	public static String number = null;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -58,8 +67,62 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		if (getIntent().getSerializableExtra("item") != null)
 		{
 			map = BaseMapObject.HashtoMyself((HashMap<String, Object>) getIntent().getSerializableExtra("item"));
+			number = map.get("number").toString();
 		}
+		
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(broad_recvtextmsg_Action);
+		broad = new MyBroadcastReciver();
+		this.registerReceiver(broad, intentFilter);
+		
 	}
+	
+	
+	
+	
+	@Override
+	public boolean isDestroyed()
+	{
+		// TODO Auto-generated method stub
+		number = null;
+		if(broad!=null)
+		{
+			this.unregisterReceiver(broad);
+		}
+		return super.isDestroyed();
+	}
+
+
+
+
+	public class MyBroadcastReciver extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			// TODO Auto-generated method stub
+//			hideProgressDlg();
+			String action = intent.getAction();
+
+			if (action.equals(broad_recvtextmsg_Action))
+			{
+				if (intent.getSerializableExtra("data") == null)
+				{
+					return;
+				}
+				else
+				{
+					BaseMapObject broadmap = BaseMapObject.HashtoMyself((HashMap<String, Object>) getIntent().getSerializableExtra("item"));
+					if(broadmap.get("number").toString().equals(map.get("number").toString()))
+					{
+						refreshList();
+					}
+				}
+			}
+		}
+
+	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)

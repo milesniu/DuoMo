@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.ui.LoginActivity;
+import com.miles.ccit.ui.LoginActivity.MyBroadcastReciver;
 
 public abstract class AbsBaseActivity extends Activity implements OnClickListener
 {
@@ -31,6 +32,10 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 	public TextView text_right;
 	public Button Btn_Delete;
 	public Button Btn_Canle;
+	
+
+	public static final String broad_login_Action = "cn.broadcast.login";
+	public static final String broad_recvtextmsg_Action = "cn.broadcast.recvtextmsg";
 
 	public abstract void initView();
 
@@ -53,12 +58,29 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 		img_Empty = (ImageView) findViewById(R.id.image_empty);
 
 	}
+	
+	
+	
+
+	
+
+
+
+	@Override
+	protected void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
+
+
+
 
 	public void checkContact(byte[] data)
 	{
-		
-		HashMap<String,BaseMapObject> contacthash = GetData4DB.getObjectHashData(this, "contact", "number");
-		
+
+		HashMap<String, BaseMapObject> contacthash = GetData4DB.getObjectHashData(this, "contact", "number");
+
 		try
 		{
 			int contactlenth = ByteUtil.byte2Int(new byte[]
@@ -72,29 +94,27 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 				String num = arraycon[j];
 				String name = arraycon[j + 1];
 				BaseMapObject item = contacthash.get(num);
-				if(item==null)
+				if (item == null)
 				{
-					//直接添加
+					// 直接添加
 					BaseMapObject contact = new BaseMapObject();
-					contact.put("id",null);
-					contact.put("name",name);
-					contact.put("number",num);
-					contact.put("type","0");//默认加为无线侧
-					contact.put("remarks","");
-					contact.put("creattime",UnixTime.getStrCurrentUnixTime());
+					contact.put("id", null);
+					contact.put("name", name);
+					contact.put("number", num);
+					contact.put("type", "0");// 默认加为无线侧
+					contact.put("remarks", "");
+					contact.put("creattime", UnixTime.getStrCurrentUnixTime());
 					contact.InsertObj2DB(mContext, "contact");
-					
-				}
-				else if(num.equals(item.get("number").toString())&&name.equals(item.get("name").toString()))
+
+				} else if (num.equals(item.get("number").toString()) && name.equals(item.get("name").toString()))
 				{
-					//直接返回
-				}
-				else
+					// 直接返回
+				} else
 				{
-					//更新
+					// 更新
 					item.put("name", name);
 					item.UpdateObj2DBbyId(mContext, "contact");
-		
+
 				}
 				MyLog.SystemOut(name);
 			}
@@ -107,48 +127,7 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 
 	}
 
-	public class MyBroadcastReciver extends BroadcastReceiver
-	{
-		@Override
-		public void onReceive(Context context, Intent intent)
-		{
-			// TODO Auto-generated method stub
-			hideProgressDlg();
-			String action = intent.getAction();
-			byte[] con = intent.getByteArrayExtra("data");
-			if (con == null || con.length < 4)
-			{
-				return;
-			} else
-			{
-				if (action.equals(LoginActivity.broadAction))
-				{
-
-					if (con.length > 4 && con[5] == (byte) 0x01)
-					{
-						checkContact(con);
-
-						Intent it = new Intent();
-						it.putExtra("result", "true");
-						it.putExtra("data", con);
-						AbsBaseActivity.this.setResult(Activity.RESULT_OK, it);
-						MyLog.showToast(mContext, "登陆成功");
-						AbsBaseActivity.this.finish();
-					} else
-					{
-						MyLog.showToast(mContext, "登陆失败，请检查用户名及密码");
-						return;
-					}
-				} else if (action.equals(""))
-				{
-
-				}
-			}
-
-		}
-
-	}
-
+	
 	public void showEmpty()
 	{
 

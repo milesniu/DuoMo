@@ -1,8 +1,6 @@
 package com.miles.ccit.util;
 
 import java.io.File;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 
 import android.content.Context;
