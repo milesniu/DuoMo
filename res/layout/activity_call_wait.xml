@@ -6,33 +6,47 @@
     android:background="@color/white"
     tools:context=".CallWaitActivity" >
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/ic_launcher" />
+
+    <Button
+        android:id="@+id/bt_cut"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#f13a16"
+        android:text="挂断"
+        android:textSize="25sp"
+        android:textColor="@color/white" />
+
     <TextView
         android:id="@+id/text_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
-        android:text="江苏国光"
-        android:textColor="@color/black"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <Button
-        android:id="@+id/bt_cut"
-        android:layout_width="256dp"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/imageView1"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="56dp"
-        android:text="挂断" />
+        android:text="江苏国光"
+        android:gravity="center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/black" />
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/text_number"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/imgcall" />
+        android:layout_marginTop="20dp"
+        android:text="正在拨号..."
+           android:gravity="center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/black" />
 
 </RelativeLayout>

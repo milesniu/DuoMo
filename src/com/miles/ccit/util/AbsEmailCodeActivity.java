@@ -74,7 +74,7 @@ public abstract class AbsEmailCodeActivity extends AbsBaseActivity
 	}
 
 
-	public void sendEmail(String contact,String subject,String conent,String fjpath)
+	public void sendEmail(String contact,String cscontact,String subject,String conent,String fjpath)
 	{
 		if (contact.equals(""))
 		{
@@ -95,25 +95,30 @@ public abstract class AbsEmailCodeActivity extends AbsBaseActivity
 		{
 			if (contact.indexOf(",") == -1)
 			{
-				long ret = insertEmail(contact, subject, conent, fjpath);
+				long ret = insertEmail(contact, cscontact,subject, conent, fjpath);
 //				MsgRecorderutil.insertTextmsg(mContext, contact, edit_inputMsg
 //						.getText().toString());
+				SendEmailtoNet(new long[]{ret}, new String[]{contact}, cscontact, subject, conent, fjpath);
 			}
 			else
 			{
 				String[] tmparray = contact.split(",");
+				long[] arrayid = new long[tmparray.length];
 				for (int i = 0; i < tmparray.length; i++)
 				{
-					insertEmail(tmparray[i], subject, conent, fjpath);
-//					
+					long ret = insertEmail(tmparray[i], cscontact,subject, conent, fjpath);
+					arrayid[i] = ret;
+					
 //					MsgRecorderutil.insertTextmsg(mContext, tmparray[i],
 //							edit_inputMsg.getText().toString());
 				}
+				SendEmailtoNet(arrayid, tmparray, cscontact, subject, conent, fjpath);
+				
 			}
 		}
 	}
 	
-	public static void sendEmailtoNet(long[] id,String[] contact,String msgcontent)
+	public void SendEmailtoNet(long[] id,String[] contact,String cscontact,String subject,String conent,String fjpath)
 	{
 		String desCon = "";
 		for(int i=0;i<id.length;i++)
@@ -121,15 +126,28 @@ public abstract class AbsEmailCodeActivity extends AbsBaseActivity
 			desCon+=(contact[i]+","+id[i]+",");
 		}
 		desCon = desCon.substring(0, desCon.length()-1);
-		new SendDataTask().execute(APICode.SEND_Email+"",OverAllData.Account,desCon,msgcontent);
+		new SendDataTask().execute(APICode.SEND_Email+"",OverAllData.Account,desCon,cscontact,subject,conent,fjpath);
 		
 	}
 	
-	public long insertEmail(String contact,String subject,String conent,String fjpath)
+//	public static void sendEmailtoNet(long[] id,String[] contact,String msgcontent)
+//	{
+//		String desCon = "";
+//		for(int i=0;i<id.length;i++)
+//		{
+//			desCon+=(contact[i]+","+id[i]+",");
+//		}
+//		desCon = desCon.substring(0, desCon.length()-1);
+//		new SendDataTask().execute(APICode.SEND_Email+"",OverAllData.Account,desCon,msgcontent);
+//		
+//	}
+	
+	public long insertEmail(String contact,String cscontact,String subject,String conent,String fjpath)
 	{
 		BaseMapObject email = new BaseMapObject();
 		email.put("id", null);
 		email.put("number", contact);
+		email.put("csnumber", cscontact);
 		email.put("sendtype", "2");	//发送
 		email.put("subject", subject);	
 		email.put("mailcontent", conent);	//语音

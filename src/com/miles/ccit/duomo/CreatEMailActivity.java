@@ -24,6 +24,8 @@ public class CreatEMailActivity extends AbsEmailCodeActivity
 	private EditText edit_inputmailContent;
 	private Button Btn_Fujian;
 	private ImageView img_Fj;
+	private EditText edit_inputChaosong;
+	private Button Btn_Chaosong;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -50,7 +52,7 @@ public class CreatEMailActivity extends AbsEmailCodeActivity
 			this.finish();
 			break;
 		case R.id.bt_right:
-			sendEmail(edit_inputContact.getText().toString(), edit_inputSubject.getText().toString(), edit_inputmailContent.getText().toString(), img_Fj.getTag(R.id.img_path) == null ? null : img_Fj.getTag(R.id.img_path).toString());
+			sendEmail(edit_inputContact.getText().toString(),edit_inputChaosong.getText().toString(), edit_inputSubject.getText().toString(), edit_inputmailContent.getText().toString(), img_Fj.getTag(R.id.img_path) == null ? null : img_Fj.getTag(R.id.img_path).toString());
 			this.finish();
 			break;
 		case R.id.bt_selectfj:
@@ -76,6 +78,10 @@ public class CreatEMailActivity extends AbsEmailCodeActivity
 			break;
 		case R.id.bt_addcontact:
 			new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0")).getDlg(edit_inputContact);
+			break;
+		case R.id.bt_addchasong:
+			new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0")).getDlg(edit_inputChaosong);
+			
 			break;
 		case R.id.image_fujian:
 			showFile(mContext,img_Fj.getTag(R.id.img_name).toString(),img_Fj.getTag(R.id.img_path).toString());
@@ -136,11 +142,14 @@ public class CreatEMailActivity extends AbsEmailCodeActivity
 		edit_inputmailContent = (EditText) findViewById(R.id.edit_mailcontent);
 		Btn_Fujian = (Button) findViewById(R.id.bt_selectfj);
 		Btn_addContact = (Button) findViewById(R.id.bt_addcontact);
+		edit_inputChaosong = (EditText)findViewById(R.id.edit_chaosong);
 		edit_inputContact = (EditText) findViewById(R.id.edit_concotact);
+		Btn_Chaosong = (Button)findViewById(R.id.bt_addchasong);
 		img_Fj = (ImageView) findViewById(R.id.image_fujian);
 		img_Fj.setOnClickListener(this);
 		Btn_Fujian.setOnClickListener(this);
 		Btn_addContact.setOnClickListener(this);
+		Btn_Chaosong.setOnClickListener(this);
 	}
 
 }

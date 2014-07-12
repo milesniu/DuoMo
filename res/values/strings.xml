@@ -43,5 +43,6 @@
     <string name="title_activity_creatcode_warning">CreatcodeWarningActivity</string>
     <string name="title_activity_creatcode_ctrl">CreatcodeCtrlActivity</string>
     <string name="title_activity_creat_bddata">CreatBDdataActivity</string>
+    <string name="title_activity_duihuan">DuihuanActivity</string>
 
 </resources>

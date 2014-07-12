@@ -35,6 +35,8 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 	public static final int SENDERROR = 3;
 	
 	
+	
+	
 	Handler handle = new Handler()
 	{
 

@@ -1,6 +1,5 @@
 package com.miles.ccit.ui;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -10,12 +9,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -96,13 +92,9 @@ public class EmailFragment extends AbsBaseFragment
 
 
 	@Override
-	public void initView(View view)
+	public void onResume()
 	{
 		// TODO Auto-generated method stub
-		initSwitchBaseView(view, "收件箱", "发件箱");
-//		Btn_Left.setText("返回");
-//		Btn_Right.setText("写邮件");
-		Btn_Right.setBackgroundResource(R.drawable.creatmail);
 		emailList.clear();
 		recvemail.clear();
 		sendemail.clear();
@@ -128,6 +120,20 @@ public class EmailFragment extends AbsBaseFragment
 			}
 		}
 		refreshList(recvemail);
+		super.onResume();
+	}
+
+
+
+	@Override
+	public void initView(View view)
+	{
+		// TODO Auto-generated method stub
+		initSwitchBaseView(view, "收件箱", "发件箱");
+//		Btn_Left.setText("返回");
+//		Btn_Right.setText("写邮件");
+		Btn_Right.setBackgroundResource(R.drawable.creatmail);
+		
 		
 	}
 

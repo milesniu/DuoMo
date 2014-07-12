@@ -29,6 +29,15 @@
              android:text="aaa"
               android:textColor="@color/black"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/text_chaosong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="aaa"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black" />
         
         <TextView
             android:id="@+id/text_subject"

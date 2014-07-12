@@ -36,6 +36,7 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 			case APICode.SEND_TalkVoiceCode:
 				break;
 			case APICode.SEND_Email:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendEMail(parm[1], parm[2],parm[3],parm[4],parm[5],parm[6]));
 				
 				break;
 			case APICode.SEND_CodeDirec:

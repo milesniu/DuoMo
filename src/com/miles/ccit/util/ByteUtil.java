@@ -88,7 +88,7 @@ public class ByteUtil
 		return buffer;
 	}
 
-	public static void getFile(byte[] bfile, String filePath, String fileName)
+	public static String getFile(byte[] bfile, String filePath, String fileName)
 	{
 		BufferedOutputStream bos = null;
 		FileOutputStream fos = null;
@@ -100,10 +100,11 @@ public class ByteUtil
 			{// 判断文件目录是否存在
 				dir.mkdirs();
 			}
-			file = new File(filePath + "\\" + fileName);
+			file = new File(filePath + fileName);
 			fos = new FileOutputStream(file);
 			bos = new BufferedOutputStream(fos);
 			bos.write(bfile);
+			return file.getAbsolutePath();
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -130,6 +131,7 @@ public class ByteUtil
 				}
 			}
 		}
+		return null;
 	}
 
 }

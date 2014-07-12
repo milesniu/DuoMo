@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsEmailCodeActivity;
 import com.miles.ccit.util.BaseMapObject;
@@ -20,6 +21,7 @@ public class EmailInfoActivity extends AbsBaseActivity
 	private BaseMapObject map = null;
 	private TextView text_Subject;
 	private TextView text_Contact;
+	private TextView text_Chaosong;
 	private EditText text_content;
 	private ImageView img_fj;
 
@@ -69,8 +71,26 @@ public class EmailInfoActivity extends AbsBaseActivity
 		text_Subject = (TextView) findViewById(R.id.text_subject);
 		text_content = (EditText) findViewById(R.id.edit_mailcontent);
 		text_Contact = (TextView)findViewById(R.id.text_contact);
+		text_Chaosong = (TextView)findViewById(R.id.text_chaosong);
 		img_fj = (ImageView) findViewById(R.id.image_fujian);
 		text_Subject.setText("主题："+map.get("subject").toString());
+		String[] csarr = map.get("csnumber").toString().split(",");
+		String csStr = "";
+		for(String i:csarr)
+		{
+			BaseMapObject csb = GetData4DB.getObjectByRowName(mContext, "contact", "number", i);
+			if(csb!=null)
+			{
+				csStr+=csb.get("name").toString();
+			}
+			else
+			{
+				csStr+=i;
+			}
+		}
+		
+		text_Chaosong.setText("抄送人："+csStr);
+		
 		text_content.setText(map.get("mailcontent").toString());
 		text_Contact.setText("联系人："+(map.get("name")==null?map.get("number").toString():map.get("name").toString()));
 		if (map.get("haveattachments").toString().equals("1"))

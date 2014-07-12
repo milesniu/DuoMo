@@ -51,15 +51,15 @@ public class SocketConnection
 	private String result;
 	public static boolean isSocketRun = false;
 	private Context AppContext;
+
 	// 点击查看
-	private Intent messageIntent = null;
-	private PendingIntent messagePendingIntent = null;
-
-	// 通知栏消息
-	private int messageNotificationID = 10001;
-	private Notification messageNotification = null;
-	private NotificationManager messageNotificatioManager = null;
-
+	// private Intent messageIntent = null;
+	// private PendingIntent messagePendingIntent = null;
+	// // 通知栏消息
+	// private int messageNotificationID = 10001;
+	// private Notification messageNotification = null;
+	// private NotificationManager messageNotificatioManager = null;
+	// //
 	private SocketConnection()
 	{
 		// Properties conf = new Properties();
@@ -151,7 +151,7 @@ public class SocketConnection
 				// ----------------
 				synchronized (this)
 				{
-					for (int i=0;i<3;i++)//重连三次
+					for (int i = 0; i < 3; i++)// 重连三次
 					{
 						try
 						{
@@ -277,11 +277,12 @@ public class SocketConnection
 	{
 		public void run()
 		{
+			byte[] heart = null;
 			while (!Thread.interrupted())
 			{
 				try
 				{
-					byte[] heart = new byte[20480]; // 缓冲区20K
+					heart = new byte[20480]; // 缓冲区20K
 					if (inStream.read(heart) == -1)
 					{
 						// log.warn("读到流未尾，对方已关闭流!");
@@ -289,79 +290,6 @@ public class SocketConnection
 						return;
 					}
 					MyLog.SystemOut("接收到消息：" + heart);
-					Intent intent = new Intent();
-					switch (heart[4])
-					{
-					case APICode.BACK_Login:
-
-						intent.setAction(AbsBaseActivity.broad_login_Action);
-						intent.putExtra("data", heart);
-						MyApplication.getAppContext().sendBroadcast(intent);
-						break;
-					case APICode.BACK_ShortTextMsg:
-						
-						break;
-					case APICode.RECV_ShortTextMsg:
-						int cursor = 5;
-						int namelen = ByteUtil.oneByte2oneInt(heart[cursor++]);
-						byte[] srcname = new byte[namelen];
-						System.arraycopy(heart, cursor, srcname, 0, namelen);
-						String strsrcname = new String(srcname, "UTF-8");
-						cursor += namelen;
-
-						int deslen = ByteUtil.oneByte2oneInt(heart[cursor++]);
-						byte[] desname = new byte[deslen];
-						System.arraycopy(heart, cursor, desname, 0, deslen);
-						String strdesname = new String(desname, "UTF-8");
-						cursor += deslen;
-
-						int clen = ByteUtil.oneByte2oneInt(heart[cursor++]);
-						byte[] conten = new byte[clen];
-						System.arraycopy(heart, cursor, conten, 0, clen);
-						String co = new String(conten, "UTF-8");
-
-						BaseMapObject recvmsg = new BaseMapObject();
-						recvmsg.put("id", null);
-						recvmsg.put("number", strsrcname);
-						recvmsg.put("sendtype", AbsMsgRecorderActivity.RECVFROM + "");
-						recvmsg.put("status", "0");
-						recvmsg.put("msgtype", "0");
-						recvmsg.put("msgcontent", co);
-						recvmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
-						recvmsg.put("priority", OverAllData.Priority);
-						recvmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
-						recvmsg.InsertObj2DB(MyApplication.getAppContext(), "shortmsg");
-
-						if (ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(strsrcname))
-						{
-							intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
-							intent.putExtra("data", recvmsg);
-							MyApplication.getAppContext().sendBroadcast(intent);
-						} else
-						{
-							BaseMapObject contact = GetData4DB.getObjectByRowName(AppContext, "contact", "number", strsrcname);
-							if (contact != null)
-							{
-								recvmsg.put("name", contact.get("name").toString());
-							}
-							messageNotification = new Notification();
-							messageNotification.icon = R.drawable.ic_launcher;
-							messageNotification.tickerText = "你有一条新的短消息";
-							messageNotification.flags = messageNotification.FLAG_AUTO_CANCEL;
-							messageNotification.defaults = Notification.DEFAULT_SOUND;
-							messageNotificatioManager = (NotificationManager) AppContext.getSystemService(AppContext.NOTIFICATION_SERVICE);
-							messageIntent = new Intent(AppContext, ShortmsgListActivity.class);
-							messageIntent.putExtra("item", recvmsg);
-							messageIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							messagePendingIntent = PendingIntent.getActivity(AppContext, 0, messageIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-							messageNotificationID = Integer.parseInt(strsrcname);
-							// 更新通知栏
-							messageNotification.setLatestEventInfo(AppContext, contact == null ? strsrcname : (contact.get("name").toString() + "的新消息"), co, messagePendingIntent);
-							messageNotificatioManager.notify(messageNotificationID, messageNotification);
-
-						}
-						break;
-					}
 
 					try
 					{
@@ -378,8 +306,40 @@ public class SocketConnection
 				{
 					MyLog.SystemOut("接收线程读取响应数据时发生IO流异常" + e.toString());
 				}
+				try
+				{
+					AnalysisRecvData analyUtil = new AnalysisRecvData();
+					int alllen = ByteUtil.byte2Int(new byte[]{heart[2],heart[3]});
+//					while((heart[alllen]+heart[alllen-1]+heart[alllen-1])==0)
+//					{
+//						;
+//					}
+					switch (heart[4])
+					{
+					case APICode.BACK_Login:
+						analyUtil.analyLogin(heart);
+						// intent.setAction(AbsBaseActivity.broad_login_Action);
+						// intent.putExtra("data", heart);
+						// MyApplication.getAppContext().sendBroadcast(intent);
+						break;
+					case APICode.BACK_ShortTextMsg:
+
+						break;
+					case APICode.RECV_ShortTextMsg:
+						analyUtil.analyTextMsg(heart);
+						break;
+					case APICode.RECV_ShortVoiceMsg:
+						analyUtil.analyVoiceMsg(heart);
+						break;
+					}
+				} catch (Exception e)
+				{
+					// TODO: handle exception
+				}
+
 			}
 		}
+
 	}
 
 }

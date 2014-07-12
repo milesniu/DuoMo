@@ -1,7 +1,5 @@
 package com.miles.ccit.duomo;
 
-import java.util.List;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -22,8 +20,7 @@ public class CallWaitActivity extends AbsBaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_call_wait);
-		code = getIntent().getStringExtra("code");
-		
+		code = getIntent().getStringExtra("code");		
 	}
 
 
@@ -64,7 +61,7 @@ public class CallWaitActivity extends AbsBaseActivity
 			BaseMapObject map = GetData4DB.getObjectByRowName(mContext, "contact", "number", code);
 			if(map!=null&&map.get("name")!=null)
 			{
-				text_Num.setText(map.get("name").toString());
+				text_Num.setText(map.get("name").toString()+"\r\n"+code);
 			}
 			else
 			{
