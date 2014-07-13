@@ -3,6 +3,7 @@ package com.miles.ccit.net;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
@@ -50,23 +51,13 @@ public class SocketConnection
 	private final ReentrantLock lock = new ReentrantLock();
 	private String result;
 	public static boolean isSocketRun = false;
-	private Context AppContext;
 
-	// 点击查看
-	// private Intent messageIntent = null;
-	// private PendingIntent messagePendingIntent = null;
-	// // 通知栏消息
-	// private int messageNotificationID = 10001;
-	// private Notification messageNotification = null;
-	// private NotificationManager messageNotificatioManager = null;
-	// //
 	private SocketConnection()
 	{
 		// Properties conf = new Properties();
 		try
 		{
 			init(OverAllData.Ipaddress, OverAllData.Port);
-			AppContext = MyApplication.getAppContext();
 		} catch (IOException e)
 		{
 			// log.fatal("socket初始化异常!",e);
@@ -103,7 +94,6 @@ public class SocketConnection
 	private void init(String host, int port) throws IOException
 	{
 		InetSocketAddress addr = new InetSocketAddress(host, port);
-		// MyLog.SystemOut(host+":"+port+":"+addr);
 		socket = new Socket();
 		synchronized (this)
 		{
@@ -112,15 +102,13 @@ public class SocketConnection
 			MyLog.SystemOut("【与" + addr + "连接已建立】");
 			inStream = socket.getInputStream();
 			outStream = socket.getOutputStream();
-			socket.setTcpNoDelay(true); // 数据不作缓冲，立即发送
-			socket.setSoLinger(true, 0); // socket关闭时，立即释放资源
+			socket.setTcpNoDelay(true); 			// 数据不作缓冲，立即发送
+			socket.setSoLinger(true, 0); 			// socket关闭时，立即释放资源
 			socket.setKeepAlive(true);
-			socket.setTrafficClass(0x04 | 0x10); // 高可靠性和最小延迟传输
+			socket.setTrafficClass(0x04 | 0x10); 	// 高可靠性和最小延迟传输
 			isNetworkConnect = true;
 			receiveThread = new Thread(new ReceiveWorker());
 			receiveThread.start();
-			// SocketConnection.host = host;
-			// SocketConnection.port = port;
 			isSocketRun = true;
 		}
 	}
@@ -148,7 +136,6 @@ public class SocketConnection
 				} catch (IOException e1)
 				{
 				}
-				// ----------------
 				synchronized (this)
 				{
 					for (int i = 0; i < 3; i++)// 重连三次
@@ -277,43 +264,23 @@ public class SocketConnection
 	{
 		public void run()
 		{
-			byte[] heart = null;
+			byte[] heart = new byte[20480];
 			while (!Thread.interrupted())
 			{
 				try
 				{
-					heart = new byte[20480]; // 缓冲区20K
-					if (inStream.read(heart) == -1)
+					byte[] b = new byte[1024]; // 缓冲区20K
+					while (inStream.read(heart) == -1)
 					{
 						// log.warn("读到流未尾，对方已关闭流!");
 						reConnectToCTCC();// 读到流未尾，对方已关闭流
 						return;
 					}
+
 					MyLog.SystemOut("接收到消息：" + heart);
 
-					try
-					{
-						lock.lock();
-					} finally
-					{
-						lock.unlock();
-					}
-				} catch (SocketException e)
-				{
-					MyLog.SystemOut("服务端关闭socket" + e.toString());
-					reConnectToCTCC();
-				} catch (IOException e)
-				{
-					MyLog.SystemOut("接收线程读取响应数据时发生IO流异常" + e.toString());
-				}
-				try
-				{
 					AnalysisRecvData analyUtil = new AnalysisRecvData();
-					int alllen = ByteUtil.byte2Int(new byte[]{heart[2],heart[3]});
-//					while((heart[alllen]+heart[alllen-1]+heart[alllen-1])==0)
-//					{
-//						;
-//					}
+
 					switch (heart[4])
 					{
 					case APICode.BACK_Login:
@@ -331,10 +298,25 @@ public class SocketConnection
 					case APICode.RECV_ShortVoiceMsg:
 						analyUtil.analyVoiceMsg(heart);
 						break;
+					case APICode.RECV_Email:
+						analyUtil.analyEmail(heart);
+						break;
 					}
-				} catch (Exception e)
+
+					try
+					{
+						lock.lock();
+					} finally
+					{
+						lock.unlock();
+					}
+				} catch (SocketException e)
 				{
-					// TODO: handle exception
+					MyLog.SystemOut("服务端关闭socket" + e.toString());
+					reConnectToCTCC();
+				} catch (IOException e)
+				{
+					MyLog.SystemOut("接收线程读取响应数据时发生IO流异常" + e.toString());
 				}
 
 			}

@@ -1,5 +1,7 @@
 package com.miles.ccit.ui;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -7,21 +9,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnCreateContextMenuListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
+import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.duomo.CreatEMailActivity;
 import com.miles.ccit.duomo.EmailInfoActivity;
 import com.miles.ccit.duomo.R;
+import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsBaseFragment;
 import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.OverAllData;
 
 public class EmailFragment extends AbsBaseFragment
 {
@@ -31,6 +43,10 @@ public class EmailFragment extends AbsBaseFragment
 	List<BaseMapObject> emailList = new Vector<BaseMapObject>();
 	List<BaseMapObject> sendemail = new Vector<BaseMapObject>();
 	List<BaseMapObject> recvemail = new Vector<BaseMapObject>();
+	List<BaseMapObject> currentlist = null;;
+	private LinearLayout linear_Del;
+	public Button Btn_Delete;
+	public Button Btn_Canle;
 	
 	private Handler handler = new Handler()
 	{
@@ -68,6 +84,8 @@ public class EmailFragment extends AbsBaseFragment
 	private void refreshList(final List<BaseMapObject> list)
 	{
 		
+		Collections.reverse(list);
+		
 		adapter = new MsgorMailSetAdapter(getActivity(), list, "mail");
 	
 		listview.setAdapter(adapter);
@@ -87,8 +105,52 @@ public class EmailFragment extends AbsBaseFragment
 			return;
 		}
 		hideEmpty();
+		listview.setOnCreateContextMenuListener(new OnCreateContextMenuListener()
+		{
+
+			@Override
+			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
+			{
+				// TODO Auto-generated method stub
+				menu.setHeaderTitle(OverAllData.TitleName);
+				menu.add(0, 0, 0, "删除邮件");
+				menu.add(0, 1, 1, "批量删除邮件");
+				menu.add(0, 3, 3, "取消");
+			}
+		});
 	}
 
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item)
+	{
+		// TODO Auto-generated method stub
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		int ListItem = (int) info.position;
+		switch (item.getItemId())
+		{
+		case 0:
+			BaseMapObject selectItem = currentlist.get(ListItem);
+			long ret = BaseMapObject.DelObj4DB(getActivity(), "emailmsg", "id", selectItem.get("id").toString());
+			if (ret != -1)
+			{
+				currentlist.remove(ListItem);
+				adapter.notifyDataSetChanged();
+			}
+			break;
+		case 1:
+			for (BaseMapObject tmp : currentlist)
+			{
+				tmp.put("exp1", "0");
+			}
+			adapter.notifyDataSetChanged();
+			linear_Del.setVisibility(View.VISIBLE);
+			break;
+		case 3:
+			break;
+		}
+		return super.onContextItemSelected(item);
+	}
 
 
 	@Override
@@ -109,7 +171,7 @@ public class EmailFragment extends AbsBaseFragment
 		{
 			for(BaseMapObject item:emailList)
 			{
-				if(item.get("sendtype").toString().equals("1"))//收件
+				if(item.get("sendtype").toString().equals(AbsBaseActivity.RECVFROM+""))//收件
 				{
 					recvemail.add(item);
 				}
@@ -119,7 +181,8 @@ public class EmailFragment extends AbsBaseFragment
 				}
 			}
 		}
-		refreshList(recvemail);
+		currentlist = recvemail;
+		refreshList(currentlist);
 		super.onResume();
 	}
 
@@ -133,7 +196,11 @@ public class EmailFragment extends AbsBaseFragment
 //		Btn_Left.setText("返回");
 //		Btn_Right.setText("写邮件");
 		Btn_Right.setBackgroundResource(R.drawable.creatmail);
-		
+		linear_Del = (LinearLayout)view.findViewById(R.id.linear_del);
+		Btn_Delete = (Button)view.findViewById(R.id.bt_sure);
+		Btn_Canle = (Button)view.findViewById(R.id.bt_canle);
+		Btn_Delete.setOnClickListener(this);
+		Btn_Canle.setOnClickListener(this);
 		
 	}
 
@@ -150,14 +217,48 @@ public class EmailFragment extends AbsBaseFragment
 			break;
 		case R.id.text_left:
 			changeSiwtchLeft();
-			refreshList(recvemail);
+		
+			currentlist = recvemail;
+			refreshList(currentlist);
 			break;
 		case R.id.text_right:
 			changeSiwtchRight();
-			refreshList(sendemail);
+			currentlist = sendemail;
+			refreshList(currentlist);
 			break;
 		case R.id.bt_right:
 			startActivity(new Intent(getActivity(), CreatEMailActivity.class));
+			break;
+		case R.id.bt_sure:
+			Iterator<BaseMapObject> iter = currentlist.iterator();  
+			List<String> Idlist = new Vector<String>();
+			while(iter.hasNext())
+			{  
+			    BaseMapObject s = iter.next();  
+			    if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
+			    {  
+			    	Idlist.add(s.get("id").toString());
+			        iter.remove();
+			    }  
+			}  
+		
+			UserDatabase.DelListObj(getActivity(),"emailmsg", "id", Idlist);
+			
+			for(BaseMapObject tmp:currentlist)
+			{
+				tmp.put("exp1", null);
+				tmp.put("exp2", null);
+			}
+			adapter.notifyDataSetChanged();
+			linear_Del.setVisibility(View.GONE);
+			break;
+		case R.id.bt_canle:
+			for(BaseMapObject tmp:currentlist)
+			{
+				tmp.put("exp1", null);
+				tmp.put("exp2", null);
+			}
+			linear_Del.setVisibility(View.GONE);
 			break;
 		default:
 			break;

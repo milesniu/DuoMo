@@ -32,10 +32,13 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 	public TextView text_right;
 	public Button Btn_Delete;
 	public Button Btn_Canle;
-	
+	public static final int RECVFROM = 1;
+	public static final int SENDTO = 2;
+	public static final int SENDERROR = 3;
 
 	public static final String broad_login_Action = "cn.broadcast.login";
 	public static final String broad_recvtextmsg_Action = "cn.broadcast.recvtextmsg";
+	public static final String broad_Email_Action = "cn.broadcast.recvemail";
 
 	public abstract void initView();
 

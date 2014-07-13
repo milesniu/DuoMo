@@ -35,7 +35,7 @@ public class ComposeData
 		byte[] mData = new byte[]{};
 		byte[] head = data.head;
 		byte[] DataLenth = HexSwapString.short2Byte((short)(mData.length+1));//new byte[]{(byte)(mData.length+1)}; // 数据区长度
-		byte[] frame = new byte[]{(byte)0x01}; // 命令码
+		byte[] frame = new byte[]{APICode.SEND_HearBeat}; // 命令码
 	
 		byte[] SendData = new byte[mData.length+5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
 		int lenth = 0; // 记录当前拷贝到目的数组的下标
@@ -54,7 +54,7 @@ public class ComposeData
 		byte[] mData = new byte[]{};	//数据区
 		byte[] head = data.head;		//数据头
 		byte[] DataLenth = HexSwapString.short2Byte((short)(mData.length+1));// 数据区长度
-		byte[] frame = new byte[]{(byte)0x32}; // 命令码
+		byte[] frame = new byte[]{APICode.SEND_FindIP}; // 命令码
 		byte[] SendData = new byte[mData.length+5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
 		int lenth = 0; // 记录当前拷贝到目的数组的下标
 		System.arraycopy(head, 0, SendData, lenth, head.length);
@@ -88,7 +88,7 @@ public class ComposeData
 		}
 		byte[] head = data.head;
 		byte[] DataLenth = HexSwapString.short2Byte((short)(mData.length+1));//new byte[]{(byte)(mData.length+1)}; // 数据区长度
-		byte[] frame = new byte[]{(byte)0x03}; // 命令码
+		byte[] frame = new byte[]{APICode.SEND_Login}; // 命令码
 	
 		byte[] SendData = new byte[mData.length+5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
 		int lenth = 0; // 记录当前拷贝到目的数组的下标
@@ -130,7 +130,7 @@ public class ComposeData
 		
 		byte[] head = data.head;
 		byte[] DataLenth = HexSwapString.short2Byte((short)(mData.length+1));//new byte[]{(byte)(mData.length+1)}; // 数据区长度
-		byte[] frame = new byte[]{(byte)0x08}; // 命令码
+		byte[] frame = new byte[]{APICode.SEND_ShortTextMsg}; // 命令码
 	
 		byte[] SendData = new byte[mData.length+5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
 		int lenth = 0; // 记录当前拷贝到目的数组的下标
@@ -181,7 +181,7 @@ public class ComposeData
 		
 		byte[] head = data.head;
 		byte[] DataLenth = HexSwapString.short2Byte((short)(mData.length+1));//new byte[]{(byte)(mData.length+1)}; // 数据区长度
-		byte[] frame = new byte[]{(byte)0x0B}; // 命令码
+		byte[] frame = new byte[]{APICode.SEND_ShortVoiceMsg}; // 命令码
 	
 		byte[] SendData = new byte[mData.length+5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
 		int lenth = 0; // 记录当前拷贝到目的数组的下标
@@ -219,7 +219,7 @@ public class ComposeData
 		
 		byte[] head = data.head;
 		byte[] DataLenth = HexSwapString.short2Byte((short)(mData.length+1));//new byte[]{(byte)(mData.length+1)}; // 数据区长度
-		byte[] frame = new byte[]{(byte)0x0E}; // 命令码
+		byte[] frame = new byte[]{APICode.SEND_VoiceCode}; // 命令码
 	
 		byte[] SendData = new byte[mData.length+5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
 		int lenth = 0; // 记录当前拷贝到目的数组的下标
@@ -232,7 +232,7 @@ public class ComposeData
 	
 	/**
 	 * 发送邮件
-	 * @param info 源地址、目的地址、抄送地址、标题、内容、附件
+	 * @param info 源地址、抄送地址、目的地址、标题、内容、附件
 	 * */
 	public byte[] sendEMail(String... info)
 	{
@@ -244,9 +244,13 @@ public class ComposeData
 		}
 		mLen +=2;//加2是加上优先级与是否回执两个字段
 		
-		byte fjbyte[] = info[5]==null?new byte[0]:ByteUtil.getBytes(info[5]);
-		mLen+=fjbyte.length;	//添加语音长度
+		int fjnamelen = AbsEmailCodeActivity.getFileName(info[5]).toString().getBytes().length;
+		byte fjnamebyte[] = info[5]==null?new byte[0]:ByteUtil.int2Byte(1, fjnamelen);
+		mLen+=fjnamebyte.length;	//添加附件名长度的位置长度
+		mLen+=fjnamelen;//添加附件名的长度
 		
+		byte fjbyte[] = info[5]==null?new byte[0]:ByteUtil.getBytes(info[5]);
+		mLen+=fjbyte.length;	//添加附件长度
 		
 		byte[] mData = new byte[mLen+(info[5]==null?9:12)];//源地址长度1字节，目的地址长度2字节，抄送地址2字节，标题长度1，内容长度2，附件标示1，附件名长度1，附件长度2,
 		
@@ -281,7 +285,7 @@ public class ComposeData
 		}
 		else	//有附件
 		{
-			mData[currentpos++] = (byte)0x00;	//附件标示有，继续组装名字与内容
+			mData[currentpos++] = (byte)0x01;	//附件标示有，继续组装名字与内容
 			String fName = AbsEmailCodeActivity.getFileName(info[5]).toString();
 			//组装文件名
 			byte[] fnamelen = ByteUtil.int2Byte(1,fName.getBytes().length);
@@ -308,7 +312,7 @@ public class ComposeData
 		
 		byte[] head = data.head;
 		byte[] DataLenth = HexSwapString.short2Byte((short)(mData.length+1));//new byte[]{(byte)(mData.length+1)}; // 数据区长度
-		byte[] frame = new byte[]{(byte)0x0B}; // 命令码
+		byte[] frame = new byte[]{APICode.SEND_Email}; // 命令码
 	
 		byte[] SendData = new byte[mData.length+5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
 		int lenth = 0; // 记录当前拷贝到目的数组的下标

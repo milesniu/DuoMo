@@ -30,9 +30,7 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 	private long currentlong = 0;
 	public String strContatc = "";
 	public boolean isUp = false;
-	public static final int RECVFROM = 1;
-	public static final int SENDTO = 2;
-	public static final int SENDERROR = 3;
+	
 	
 	
 	

@@ -126,21 +126,10 @@ public abstract class AbsEmailCodeActivity extends AbsBaseActivity
 			desCon+=(contact[i]+","+id[i]+",");
 		}
 		desCon = desCon.substring(0, desCon.length()-1);
-		new SendDataTask().execute(APICode.SEND_Email+"",OverAllData.Account,desCon,cscontact,subject,conent,fjpath);
+		new SendDataTask().execute(APICode.SEND_Email+"",OverAllData.Account,cscontact,desCon,subject,conent,fjpath);
 		
 	}
 	
-//	public static void sendEmailtoNet(long[] id,String[] contact,String msgcontent)
-//	{
-//		String desCon = "";
-//		for(int i=0;i<id.length;i++)
-//		{
-//			desCon+=(contact[i]+","+id[i]+",");
-//		}
-//		desCon = desCon.substring(0, desCon.length()-1);
-//		new SendDataTask().execute(APICode.SEND_Email+"",OverAllData.Account,desCon,msgcontent);
-//		
-//	}
 	
 	public long insertEmail(String contact,String cscontact,String subject,String conent,String fjpath)
 	{
@@ -150,7 +139,7 @@ public abstract class AbsEmailCodeActivity extends AbsBaseActivity
 		email.put("csnumber", cscontact);
 		email.put("sendtype", "2");	//发送
 		email.put("subject", subject);	
-		email.put("mailcontent", conent);	//语音
+		email.put("mailcontent", conent);
 		email.put("haveattachments", fjpath==null?"0":"1");
 		email.put("attachmentsname", fjpath==null?" ":getFileName(fjpath));
 		email.put("attachmentspath", fjpath==null?" ":fjpath);
