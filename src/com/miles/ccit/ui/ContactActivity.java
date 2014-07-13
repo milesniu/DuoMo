@@ -12,11 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.miles.ccit.adapter.ContactAdapter;
 import com.miles.ccit.database.GetData4DB;
@@ -31,7 +32,7 @@ public class ContactActivity extends AbsBaseActivity {
 	List<BaseMapObject> wireness = new Vector<BaseMapObject>();
 	List<BaseMapObject> wired = new Vector<BaseMapObject>();
 	private ContactAdapter adapter;
-	private LinearLayout linear_Del;
+	
 	private ListView list_Content;
 	private boolean isWireness = true;
 	
@@ -83,7 +84,17 @@ public class ContactActivity extends AbsBaseActivity {
 			}
 		}
 		refreshList(isWireness);
-		
+		list_Content.setOnItemClickListener(new OnItemClickListener()
+		{
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{
+				// TODO Auto-generated method stub
+				startActivity(new Intent(mContext, CreatContactActivity.class).putExtra("contact", getCurrentList().get(arg2)));
+				
+			}
+		});
 		list_Content.setOnCreateContextMenuListener(new OnCreateContextMenuListener()
 		{
 			
@@ -92,7 +103,7 @@ public class ContactActivity extends AbsBaseActivity {
 					ContextMenuInfo menuInfo)
 			{
 				// TODO Auto-generated method stub
-				menu.setHeaderTitle(OverAllData.TitleName);
+				menu.setHeaderTitle("联系人");
 				menu.add(0, 0, 0, "删除该联系人");
 				menu.add(0, 1, 1, "批量删除");
 				menu.add(0, 2, 2, "修改联系人");
@@ -110,6 +121,10 @@ public class ContactActivity extends AbsBaseActivity {
 			return wired;
 	}
 	
+	
+	
+	
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
 	{
@@ -119,13 +134,10 @@ public class ContactActivity extends AbsBaseActivity {
 		switch(item.getItemId())
 		{
 		case 0:
-			BaseMapObject selectItem = getCurrentList().get(ListItem);
-			long ret = BaseMapObject.DelObj4DB(mContext, "contact", "id",selectItem.get("id").toString());
-			if(ret != -1)
-			{
-				getCurrentList().remove(ListItem);
-				adapter.notifyDataSetChanged();
-			}
+//			BaseMapObject selectItem =;
+			confirmDlg("删除联系人", "contact", getCurrentList().get(ListItem), getCurrentList(), adapter);
+			
+			
 			break;
 		case 1:
 			for(BaseMapObject tmp:getCurrentList())
@@ -200,27 +212,7 @@ public class ContactActivity extends AbsBaseActivity {
 			refreshList(false);
 			break;
 		case R.id.bt_sure:
-			Iterator<BaseMapObject> iter = getCurrentList().iterator();  
-			List<String> Idlist = new Vector<String>();
-			while(iter.hasNext())
-			{  
-			    BaseMapObject s = iter.next();  
-			    if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
-			    {  
-			    	Idlist.add(s.get("id").toString());
-			        iter.remove();
-			    }  
-			}  
-		
-			UserDatabase.DelListObj(mContext,"contact", "id", Idlist);
-			
-			for(BaseMapObject tmp:getCurrentList())
-			{
-				tmp.put("exp1", null);
-				tmp.put("exp2", null);
-			}
-			adapter.notifyDataSetChanged();
-			linear_Del.setVisibility(View.GONE);
+			confirmDlg("删除联系人", "contact", null, getCurrentList(), adapter);
 			break;
 		case R.id.bt_canle:
 			for(BaseMapObject tmp:getCurrentList())

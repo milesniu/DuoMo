@@ -39,7 +39,6 @@ public class WiredModelActivity extends AbsBaseActivity
 	private ListView list_Content;
 	private List<BaseMapObject> wiredlist = new Vector<BaseMapObject>();
 	private ContactAdapter adapter;
-	private LinearLayout linear_Del;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -84,27 +83,29 @@ public class WiredModelActivity extends AbsBaseActivity
 			break;
 	
 		case R.id.bt_sure:
-			Iterator<BaseMapObject> iter = wiredlist.iterator();  
-			List<String> Idlist = new Vector<String>();
-			while(iter.hasNext())
-			{  
-			    BaseMapObject s = iter.next();  
-			    if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
-			    {  
-			    	Idlist.add(s.get("id").toString());
-			        iter.remove();
-			    }  
-			}  
-		
-			UserDatabase.DelListObj(mContext,"wiredrecord", "id", Idlist);
-			
-			for(BaseMapObject tmp:wiredlist)
-			{
-				tmp.put("exp1", null);
-				tmp.put("exp2", null);
-			}
-			adapter.notifyDataSetChanged();
-			linear_Del.setVisibility(View.GONE);
+			confirmDlg("删除记录", "wiredrecord", null, wiredlist, adapter);
+//			
+//			Iterator<BaseMapObject> iter = wiredlist.iterator();  
+//			List<String> Idlist = new Vector<String>();
+//			while(iter.hasNext())
+//			{  
+//			    BaseMapObject s = iter.next();  
+//			    if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
+//			    {  
+//			    	Idlist.add(s.get("id").toString());
+//			        iter.remove();
+//			    }  
+//			}  
+//		
+//			UserDatabase.DelListObj(mContext,"wiredrecord", "id", Idlist);
+//			
+//			for(BaseMapObject tmp:wiredlist)
+//			{
+//				tmp.put("exp1", null);
+//				tmp.put("exp2", null);
+//			}
+//			adapter.notifyDataSetChanged();
+//			linear_Del.setVisibility(View.GONE);
 			break;
 		case R.id.bt_canle:
 			for(BaseMapObject tmp:wiredlist)
@@ -138,7 +139,7 @@ public class WiredModelActivity extends AbsBaseActivity
 						ContextMenuInfo menuInfo)
 				{
 					// TODO Auto-generated method stub
-					menu.setHeaderTitle(OverAllData.TitleName);
+					menu.setHeaderTitle("优先模式");
 					menu.add(0, 0, 0, "删除该联系人");
 					menu.add(0, 1, 1, "批量删除");
 					menu.add(0, 2, 2, "取消");
@@ -167,13 +168,14 @@ public class WiredModelActivity extends AbsBaseActivity
 		switch(item.getItemId())
 		{
 		case 0:
-			BaseMapObject selectItem = wiredlist.get(ListItem);
-			long ret = BaseMapObject.DelObj4DB(mContext, "wiredrecord", "id",selectItem.get("id").toString());
-			if(ret != -1)
-			{
-				wiredlist.remove(ListItem);
-				adapter.notifyDataSetChanged();
-			}
+			confirmDlg("删除记录", "wiredrecord", wiredlist.get(ListItem), wiredlist, adapter);
+//			BaseMapObject selectItem = wiredlist.get(ListItem);
+//			long ret = BaseMapObject.DelObj4DB(mContext, "wiredrecord", "id",selectItem.get("id").toString());
+//			if(ret != -1)
+//			{
+//				wiredlist.remove(ListItem);
+//				adapter.notifyDataSetChanged();
+//			}
 			break;
 		case 1:
 			for(BaseMapObject tmp:wiredlist)

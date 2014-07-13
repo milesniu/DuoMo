@@ -44,7 +44,6 @@ public class EmailFragment extends AbsBaseFragment
 	List<BaseMapObject> sendemail = new Vector<BaseMapObject>();
 	List<BaseMapObject> recvemail = new Vector<BaseMapObject>();
 	List<BaseMapObject> currentlist = null;;
-	private LinearLayout linear_Del;
 	public Button Btn_Delete;
 	public Button Btn_Canle;
 	
@@ -112,7 +111,7 @@ public class EmailFragment extends AbsBaseFragment
 			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 			{
 				// TODO Auto-generated method stub
-				menu.setHeaderTitle(OverAllData.TitleName);
+				menu.setHeaderTitle("电子邮件");
 				menu.add(0, 0, 0, "删除邮件");
 				menu.add(0, 1, 1, "批量删除邮件");
 				menu.add(0, 3, 3, "取消");
@@ -130,13 +129,14 @@ public class EmailFragment extends AbsBaseFragment
 		switch (item.getItemId())
 		{
 		case 0:
-			BaseMapObject selectItem = currentlist.get(ListItem);
-			long ret = BaseMapObject.DelObj4DB(getActivity(), "emailmsg", "id", selectItem.get("id").toString());
-			if (ret != -1)
-			{
-				currentlist.remove(ListItem);
-				adapter.notifyDataSetChanged();
-			}
+			confirmDlg("删除邮件", "emailmsg", "id", currentlist.get(ListItem), currentlist, adapter);
+//			BaseMapObject selectItem = currentlist.get(ListItem);
+//			long ret = BaseMapObject.DelObj4DB(getActivity(), "emailmsg", "id", selectItem.get("id").toString());
+//			if (ret != -1)
+//			{
+//				currentlist.remove(ListItem);
+//				adapter.notifyDataSetChanged();
+//			}
 			break;
 		case 1:
 			for (BaseMapObject tmp : currentlist)
@@ -230,27 +230,28 @@ public class EmailFragment extends AbsBaseFragment
 			startActivity(new Intent(getActivity(), CreatEMailActivity.class));
 			break;
 		case R.id.bt_sure:
-			Iterator<BaseMapObject> iter = currentlist.iterator();  
-			List<String> Idlist = new Vector<String>();
-			while(iter.hasNext())
-			{  
-			    BaseMapObject s = iter.next();  
-			    if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
-			    {  
-			    	Idlist.add(s.get("id").toString());
-			        iter.remove();
-			    }  
-			}  
-		
-			UserDatabase.DelListObj(getActivity(),"emailmsg", "id", Idlist);
-			
-			for(BaseMapObject tmp:currentlist)
-			{
-				tmp.put("exp1", null);
-				tmp.put("exp2", null);
-			}
-			adapter.notifyDataSetChanged();
-			linear_Del.setVisibility(View.GONE);
+			confirmDlg("删除邮件", "emailmsg", "id", null, currentlist, adapter);
+//			Iterator<BaseMapObject> iter = currentlist.iterator();  
+//			List<String> Idlist = new Vector<String>();
+//			while(iter.hasNext())
+//			{  
+//			    BaseMapObject s = iter.next();  
+//			    if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
+//			    {  
+//			    	Idlist.add(s.get("id").toString());
+//			        iter.remove();
+//			    }  
+//			}  
+//		
+//			UserDatabase.DelListObj(getActivity(),"emailmsg", "id", Idlist);
+//			
+//			for(BaseMapObject tmp:currentlist)
+//			{
+//				tmp.put("exp1", null);
+//				tmp.put("exp2", null);
+//			}
+//			adapter.notifyDataSetChanged();
+//			linear_Del.setVisibility(View.GONE);
 			break;
 		case R.id.bt_canle:
 			for(BaseMapObject tmp:currentlist)

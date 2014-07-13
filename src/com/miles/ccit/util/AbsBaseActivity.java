@@ -1,21 +1,28 @@
 package com.miles.ccit.util;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.miles.ccit.database.GetData4DB;
+import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.ui.LoginActivity;
 import com.miles.ccit.ui.LoginActivity.MyBroadcastReciver;
@@ -32,6 +39,7 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 	public TextView text_right;
 	public Button Btn_Delete;
 	public Button Btn_Canle;
+	public LinearLayout linear_Del;
 	public static final int RECVFROM = 1;
 	public static final int SENDTO = 2;
 	public static final int SENDERROR = 3;
@@ -62,7 +70,87 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 
 	}
 	
+	public void delList(List<BaseMapObject> list,String table,BaseAdapter adapter)
+	{
+		Iterator<BaseMapObject> iter = list.iterator();  
+		List<String> Idlist = new Vector<String>();
+		while(iter.hasNext())
+		{  
+		    BaseMapObject s = iter.next();  
+		    if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
+		    {  
+		    	Idlist.add(s.get("id").toString());
+		        iter.remove();
+		    }  
+		}  
 	
+		UserDatabase.DelListObj(mContext,table, "id", Idlist);
+		
+		for(BaseMapObject tmp:list)
+		{
+			tmp.put("exp1", null);
+			tmp.put("exp2", null);
+		}
+		adapter.notifyDataSetChanged();
+		linear_Del.setVisibility(View.GONE);
+	}
+	
+	
+	
+	
+	public void candel(List<BaseMapObject> list)
+	{
+		for(BaseMapObject tmp:list)
+		{
+			tmp.put("exp1", null);
+			tmp.put("exp2", null);
+		}
+		linear_Del.setVisibility(View.GONE);
+	}
+	
+	public void deloneItem(BaseMapObject oneitem,String tables,List<BaseMapObject> list,BaseAdapter adapter)
+	{
+		long ret = BaseMapObject.DelObj4DB(mContext, tables, "id",oneitem.get("id").toString());
+		if(ret != -1)
+		{
+			list.remove(oneitem);
+			adapter.notifyDataSetChanged();
+		}
+	}
+	
+	public void confirmDlg(String title,final String table,final BaseMapObject oneitem,final List<BaseMapObject> list,final BaseAdapter adapter)
+	{
+		AlertDialog.Builder builder = new Builder(mContext);
+		builder.setMessage("确定删除所选信息吗？");
+		builder.setTitle(title);
+		builder.setPositiveButton("确定", new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				// TODO Auto-generated method stub
+				if(oneitem!=null)
+				{
+					deloneItem(oneitem, table, list, adapter);
+				}
+				else
+				{
+					delList(list, table, adapter);
+				}
+			}
+		}).setNegativeButton("取消", new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				// TODO Auto-generated method stub
+				candel(list);
+			}
+		});
+		builder.show();
+	}
 	
 
 	

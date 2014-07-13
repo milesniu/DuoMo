@@ -73,7 +73,7 @@ public class CreatContactActivity extends AbsBaseActivity
 		radio_wired = (RadioButton)findViewById(R.id.radio_wired);
 		if(tmp != null)
 		{
-			Btn_Right.setText("修改");
+//			Btn_Right.setText("修改");
 			edit_Num.setText(tmp.get("number").toString());
 			edit_Company.setText(tmp.get("name").toString());
 			edit_Remarks.setText(tmp.get("remarks").toString());
@@ -136,7 +136,11 @@ public class CreatContactActivity extends AbsBaseActivity
 				tmp.put("number",edit_Num.getText().toString());
 				tmp.put("type",radio_wireness.isChecked()?"0":"1");
 				tmp.put("remarks",edit_Remarks.getText().toString());
-				tmp.UpdateMyself(mContext, "contact");
+				if(tmp.UpdateMyself(mContext, "contact")==-1)
+				{
+					Toast.makeText(mContext, "号码已经存在，请检查...", 0).show();
+					return;
+				}
 			}
 			this.finish();
 			break;

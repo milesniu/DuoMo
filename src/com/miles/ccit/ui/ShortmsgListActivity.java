@@ -54,7 +54,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 	private ListView list_Content;
 	private MediaPlayer mp;
 	private MessageListAdapter adapter;
-	private LinearLayout linear_Del;
+	
 	private MyBroadcastReciver broad = null;
 	public static String number = null;
 
@@ -153,27 +153,29 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 			refreshList();
 			break;
 		case R.id.bt_sure:
-			Iterator<BaseMapObject> iter = shortList.iterator();
-			List<String> Idlist = new Vector<String>();
-			while (iter.hasNext())
-			{
-				BaseMapObject s = iter.next();
-				if (s.get("exp2") != null && s.get("exp2").toString().equals("1"))
-				{
-					Idlist.add(s.get("id").toString());
-					iter.remove();
-				}
-			}
-
-			UserDatabase.DelListObj(mContext, "shortmsg", "id", Idlist);
-
-			for (BaseMapObject tmp : shortList)
-			{
-				tmp.put("exp1", null);
-				tmp.put("exp2", null);
-			}
-			adapter.notifyDataSetChanged();
-			linear_Del.setVisibility(View.GONE);
+			confirmDlg("删除记录", "shortmsg", null, shortList, adapter);
+//			
+//			Iterator<BaseMapObject> iter = shortList.iterator();
+//			List<String> Idlist = new Vector<String>();
+//			while (iter.hasNext())
+//			{
+//				BaseMapObject s = iter.next();
+//				if (s.get("exp2") != null && s.get("exp2").toString().equals("1"))
+//				{
+//					Idlist.add(s.get("id").toString());
+//					iter.remove();
+//				}
+//			}
+//
+//			UserDatabase.DelListObj(mContext, "shortmsg", "id", Idlist);
+//
+//			for (BaseMapObject tmp : shortList)
+//			{
+//				tmp.put("exp1", null);
+//				tmp.put("exp2", null);
+//			}
+//			adapter.notifyDataSetChanged();
+//			linear_Del.setVisibility(View.GONE);
 			break;
 		case R.id.bt_canle:
 			for (BaseMapObject tmp : shortList)
@@ -207,7 +209,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 			{
 				// TODO Auto-generated method stub
-				menu.setHeaderTitle(OverAllData.TitleName);
+				menu.setHeaderTitle("短消息");
 				menu.add(0, 0, 0, "删除该信息");
 				menu.add(0, 1, 1, "批量删除");
 				menu.add(0, 3, 3, "取消");
@@ -225,13 +227,15 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		switch (item.getItemId())
 		{
 		case 0:
-			BaseMapObject selectItem = shortList.get(ListItem);
-			long ret = BaseMapObject.DelObj4DB(mContext, "shortmsg", "id", selectItem.get("id").toString());
-			if (ret != -1)
-			{
-				shortList.remove(ListItem);
-				adapter.notifyDataSetChanged();
-			}
+			confirmDlg("删除记录", "shortmsg", shortList.get(ListItem), shortList, adapter);
+//			
+//			BaseMapObject selectItem = shortList.get(ListItem);
+//			long ret = BaseMapObject.DelObj4DB(mContext, "shortmsg", "id", selectItem.get("id").toString());
+//			if (ret != -1)
+//			{
+//				shortList.remove(ListItem);
+//				adapter.notifyDataSetChanged();
+//			}
 			break;
 		case 1:
 			for (BaseMapObject tmp : shortList)

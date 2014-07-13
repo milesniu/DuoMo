@@ -33,7 +33,6 @@ import com.miles.ccit.util.OverAllData;
 public class SpecialVoiceActivity extends AbsBaseActivity
 {
 
-	private LinearLayout linear_Del;
 	public Button Btn_Delete;
 	public Button Btn_Canle;
 	private List<BaseMapObject> voiceList = new Vector<BaseMapObject>();
@@ -67,27 +66,28 @@ public class SpecialVoiceActivity extends AbsBaseActivity
 			startActivity(new Intent(mContext, CreatSpecialvoiceActivity.class));
 			break;
 		case R.id.bt_sure:
-			Iterator<BaseMapObject> iter = voiceList.iterator();  
-			List<String> Idlist = new Vector<String>();
-			while(iter.hasNext())
-			{  
-			    BaseMapObject s = iter.next();  
-			    if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
-			    {  
-			    	Idlist.add(s.get("id").toString());
-			        iter.remove();
-			    }  
-			}  
-		
-			UserDatabase.DelListObj(mContext,"specialway", "id", Idlist);
-			
-			for(BaseMapObject tmp:voiceList)
-			{
-				tmp.put("exp1", null);
-				tmp.put("exp2", null);
-			}
-			adapter.notifyDataSetChanged();
-			linear_Del.setVisibility(View.GONE);
+			confirmDlg("删除记录", "specialway", null, voiceList, adapter);
+//			Iterator<BaseMapObject> iter = voiceList.iterator();  
+//			List<String> Idlist = new Vector<String>();
+//			while(iter.hasNext())
+//			{  
+//			    BaseMapObject s = iter.next();  
+//			    if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
+//			    {  
+//			    	Idlist.add(s.get("id").toString());
+//			        iter.remove();
+//			    }  
+//			}  
+//		
+//			UserDatabase.DelListObj(mContext,"specialway", "id", Idlist);
+//			
+//			for(BaseMapObject tmp:voiceList)
+//			{
+//				tmp.put("exp1", null);
+//				tmp.put("exp2", null);
+//			}
+//			adapter.notifyDataSetChanged();
+//			linear_Del.setVisibility(View.GONE);
 			break;
 		case R.id.bt_canle:
 			for(BaseMapObject tmp:voiceList)
@@ -134,7 +134,7 @@ public class SpecialVoiceActivity extends AbsBaseActivity
 					ContextMenuInfo menuInfo)
 			{
 				// TODO Auto-generated method stub
-				menu.setHeaderTitle(OverAllData.TitleName);
+				menu.setHeaderTitle("专向语音");
 				menu.add(0, 0, 0, "删除该记录");
 				menu.add(0, 1, 1, "批量删除记录");
 				menu.add(0, 3, 3, "取消");
@@ -152,14 +152,15 @@ public class SpecialVoiceActivity extends AbsBaseActivity
 		switch (item.getItemId())
 		{
 		case 0:
-			BaseMapObject selectItem = voiceList.get(ListItem);
-			long ret = BaseMapObject.DelObj4DB(mContext, "specialway", "id",
-					selectItem.get("id").toString());
-			if (ret != -1)
-			{
-				voiceList.remove(ListItem);
-				adapter.notifyDataSetChanged();
-			}
+			confirmDlg("删除记录", "specialway", voiceList.get(ListItem), voiceList, adapter);
+//			BaseMapObject selectItem = voiceList.get(ListItem);
+//			long ret = BaseMapObject.DelObj4DB(mContext, "specialway", "id",
+//					selectItem.get("id").toString());
+//			if (ret != -1)
+//			{
+//				voiceList.remove(ListItem);
+//				adapter.notifyDataSetChanged();
+//			}
 			break;
 		case 1:
 			for (BaseMapObject tmp : voiceList)

@@ -36,7 +36,6 @@ public class VoicecodeFragment extends AbsBaseFragment
 {
 	private VoicecodeAdapter adapter;
 	private List<BaseMapObject> voiceList = new Vector<BaseMapObject>();
-	private LinearLayout linear_Del;
 	public Button Btn_Delete;
 	public Button Btn_Canle;
 
@@ -109,7 +108,7 @@ public class VoicecodeFragment extends AbsBaseFragment
 			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 			{
 				// TODO Auto-generated method stub
-				menu.setHeaderTitle(OverAllData.TitleName);
+				menu.setHeaderTitle("声码话");
 				menu.add(0, 0, 0, "删除该记录");
 				menu.add(0, 1, 1, "批量删除记录");
 				menu.add(0, 3, 3, "取消");
@@ -126,13 +125,15 @@ public class VoicecodeFragment extends AbsBaseFragment
 		switch (item.getItemId())
 		{
 		case 0:
-			BaseMapObject selectItem = voiceList.get(ListItem);
-			long ret = BaseMapObject.DelObj4DB(getActivity(), "voicecoderecord", "id", selectItem.get("id").toString());
-			if (ret != -1)
-			{
-				voiceList.remove(ListItem);
-				adapter.notifyDataSetChanged();
-			}
+			confirmDlg("删除记录", "voicecoderecord","id",voiceList.get(ListItem), voiceList, adapter);
+//			
+//			BaseMapObject selectItem = voiceList.get(ListItem);
+//			long ret = BaseMapObject.DelObj4DB(getActivity(), "voicecoderecord", "id", selectItem.get("id").toString());
+//			if (ret != -1)
+//			{
+//				voiceList.remove(ListItem);
+//				adapter.notifyDataSetChanged();
+//			}
 			break;
 		case 1:
 			for (BaseMapObject tmp : voiceList)
@@ -179,35 +180,37 @@ public class VoicecodeFragment extends AbsBaseFragment
 			startActivity(new Intent(getActivity(), CreatVoicecodeActivity.class));
 			break;
 		case R.id.bt_sure:
-			Iterator<BaseMapObject> iter = voiceList.iterator();
-			List<String> Idlist = new Vector<String>();
-			while (iter.hasNext())
-			{
-				BaseMapObject s = iter.next();
-				if (s.get("exp2") != null && s.get("exp2").toString().equals("1"))
-				{
-					Idlist.add(s.get("id").toString());
-					iter.remove();
-				}
-			}
-
-			UserDatabase.DelListObj(getActivity(), "voicecoderecord", "id", Idlist);
-
-			for (BaseMapObject tmp : voiceList)
-			{
-				tmp.put("exp1", null);
-				tmp.put("exp2", null);
-			}
-			adapter.notifyDataSetChanged();
-			linear_Del.setVisibility(View.GONE);
-			break;
-		case R.id.bt_canle:
-			for (BaseMapObject tmp : voiceList)
-			{
-				tmp.put("exp1", null);
-				tmp.put("exp2", null);
-			}
-			linear_Del.setVisibility(View.GONE);
+			confirmDlg("删除记录", "voicecoderecord", "id",null, voiceList, adapter);
+//			
+//			Iterator<BaseMapObject> iter = voiceList.iterator();
+//			List<String> Idlist = new Vector<String>();
+//			while (iter.hasNext())
+//			{
+//				BaseMapObject s = iter.next();
+//				if (s.get("exp2") != null && s.get("exp2").toString().equals("1"))
+//				{
+//					Idlist.add(s.get("id").toString());
+//					iter.remove();
+//				}
+//			}
+//
+//			UserDatabase.DelListObj(getActivity(), "voicecoderecord", "id", Idlist);
+//
+//			for (BaseMapObject tmp : voiceList)
+//			{
+//				tmp.put("exp1", null);
+//				tmp.put("exp2", null);
+//			}
+//			adapter.notifyDataSetChanged();
+//			linear_Del.setVisibility(View.GONE);
+//			break;
+//		case R.id.bt_canle:
+//			for (BaseMapObject tmp : voiceList)
+//			{
+//				tmp.put("exp1", null);
+//				tmp.put("exp2", null);
+//			}
+//			linear_Del.setVisibility(View.GONE);
 			break;
 		default:
 			break;

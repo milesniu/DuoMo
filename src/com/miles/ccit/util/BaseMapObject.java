@@ -60,8 +60,16 @@ public class BaseMapObject extends HashMap<String, Object> implements Serializab
 		synchronized (UserDatabase.DataBaseLock)
 		{
 			SQLiteDatabase db = UserDatabase.OpenOrCreatDataBase(contex);
-			int ret = db.update(tables, values, "id=?", new String[]
-			{ values.get("id").toString() });
+			int ret = -1;
+			try
+			{
+				db.update(tables, values, "id=?", new String[]{ values.get("id").toString() });
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
 			db.close();
 			return ret;
 		}
