@@ -1,5 +1,6 @@
 package com.miles.ccit.util;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.miles.ccit.net.APICode;
@@ -54,6 +55,10 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+			Intent intent = new Intent();
+			intent.setAction(AbsBaseActivity.broad_login_Action);
+//			intent.putExtra("data", null);
+			MyApplication.getAppContext().sendBroadcast(intent);
 		}
 		return null;
 	}

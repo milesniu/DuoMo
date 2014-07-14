@@ -1,11 +1,16 @@
 package com.miles.ccit.ui;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -22,7 +27,25 @@ public class LoginActivity extends AbsBaseActivity
 	private EditText edit_Account;
 	private EditText edit_Password;
 	private MyBroadcastReciver broad = null;
-	
+//	private Timer timer = null;
+//	private TimerTask ttask = null;
+//	private int deltime = 5;
+//	Handler hander = new Handler(){
+//
+//		@Override
+//		public void handleMessage(Message msg)
+//		{
+//			// TODO Auto-generated method stub
+//			Intent it = new Intent();
+//			it.putExtra("result", "false");
+//			it.putExtra("data", "");
+//			LoginActivity.this.setResult(Activity.RESULT_OK, it);
+//			MyLog.showToast(mContext, "登陆超时...");
+//			LoginActivity.this.finish();
+//			super.handleMessage(msg);
+//		}
+//		
+//	};
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -40,6 +63,19 @@ public class LoginActivity extends AbsBaseActivity
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+//		ttask = new TimerTask()
+//		{
+//			
+//			@Override
+//			public void run()
+//			{
+//				// TODO Auto-generated method stub
+//				while((deltime--)<=0)
+//				{
+//					hander.sendMessage(new Message())
+//				}
+//			}
+//		};
 	}
 
 
@@ -86,8 +122,15 @@ public class LoginActivity extends AbsBaseActivity
 			if (action.equals(broad_login_Action))
 			{
 				byte[] con = intent.getByteArrayExtra("data");
+
 				if (con == null || con.length < 4)
 				{
+					Intent it = new Intent();
+					it.putExtra("result", "false");
+					it.putExtra("data", con);
+					LoginActivity.this.setResult(Activity.RESULT_OK, it);
+					MyLog.showToast(mContext, "登陆超时");
+					LoginActivity.this.finish();
 					return;
 				}
 				if (con.length > 4 && con[5] == (byte) 0x01)
@@ -141,6 +184,8 @@ public class LoginActivity extends AbsBaseActivity
 			OverAllData.Account = name;
 			OverAllData.Pwd = pwd;
 			new SendDataTask().execute(APICode.SEND_Login + "", name, pwd);
+//			timer = new Timer();
+//			timer.schedule(ttask, 100, 5000);
 			break;
 		}
 	}

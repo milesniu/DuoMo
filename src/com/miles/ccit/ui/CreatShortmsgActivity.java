@@ -51,7 +51,7 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity
 		case R.id.bt_send:
 			setStrContatc(edit_inputContact.getText().toString());
 			sendTextmsg(edit_inputContact.getText().toString());
-			this.finish();
+			
 			break;
 		}
 	}
@@ -87,7 +87,7 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity
 					break;
 				case MotionEvent.ACTION_UP:
 					talkTouchUp(event);
-					CreatShortmsgActivity.this.finish();
+					
 					break;
 				}
 				return false;

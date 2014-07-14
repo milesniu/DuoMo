@@ -45,6 +45,7 @@ import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.UnixTime;
 
 public class ShortmsgListActivity extends AbsMsgRecorderActivity
 {
@@ -404,10 +405,11 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 			{
 				if (message.get("msgtype").toString().equals("0"))
 				{
-					text.setText(message.get("msgcontent").toString());
+					text.setText(message.get("msgcontent").toString()+"\r\n"+UnixTime.unixTime2Simplese(message.get("creattime").toString(), "MM-dd HH:mm"));
 				} else if (message.get("msgtype").toString().equals("1"))
 				{
-					text.setText("(((");
+					text.setText("((("+"\r\n"+UnixTime.unixTime2Simplese(message.get("creattime").toString(), "MM-dd HH:mm"));
+					
 					text.setOnClickListener(new OnClickListener()
 					{
 

@@ -110,6 +110,10 @@ public class IndexActivity extends AbsBaseActivity
 				findViewById(R.id.linear_title).setBackgroundResource(R.drawable.loginok8);
 				return;
 			}
+//			else
+//			{
+//				
+//			}
 		}
 		result = false;
 		

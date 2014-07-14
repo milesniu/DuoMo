@@ -52,7 +52,7 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 
 	public ImageView img_Empty;
 	public ProgressDialog pdialog;
-	public static String title = "Anzer";
+	public static String title = "多模系统";
 	public static String message = "正在努力加载···";
 
 	public void initBaseView(String titlename)

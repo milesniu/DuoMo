@@ -21,6 +21,7 @@
      android:layout_below="@+id/include_layout"
      android:divider="@drawable/diver"
      android:dividerHeight="1px"
+     android:listSelector="@drawable/listview_seselector"
      android:choiceMode="multipleChoice" >
 
  </ListView>

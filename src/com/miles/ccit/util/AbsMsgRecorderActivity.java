@@ -135,6 +135,7 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 				}
 				sendTextMsgtoNet(arrayid, tmparray, edit_inputMsg.getText().toString());
 			}
+			this.finish();
 		}
 	}
 	
@@ -231,7 +232,7 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 					long ret = MsgRecorderutil.insertVoicemsg(mContext, getStrContatc(), mediaRecorder.getRecorderpath());
 					
 					sendVoiceMsgtoNet(new long[]{ret}, new String[]{getStrContatc()}, mediaRecorder.getRecorderpath());
-				
+					this.finish();
 				} else
 				{
 					String[] tmparray = getStrContatc().split(",");
@@ -243,7 +244,7 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 						arrayid[i] = ret;
 					}
 					sendVoiceMsgtoNet(arrayid, tmparray, mediaRecorder.getRecorderpath());
-					
+					this.finish();
 				}
 			}
 		}

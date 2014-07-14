@@ -33,7 +33,7 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 	{
 		if(code.equals(""))
 		{
-			return new Vector<BaseMapObject>();
+			return all;
 		}
 		List<BaseMapObject> have = new Vector<BaseMapObject>();
 		for(BaseMapObject item : all)
@@ -270,7 +270,7 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		findViewById(R.id.buttonadd).setOnClickListener(this);
 		findViewById(R.id.buttondel).setOnClickListener(this);
 		
-		
+		refreshList();
 		
 	}
 	
