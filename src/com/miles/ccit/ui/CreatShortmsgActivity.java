@@ -12,12 +12,13 @@ import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.MutiChoiseDlg;
+import com.miles.ccit.util.MyLog;
 
 public class CreatShortmsgActivity extends AbsMsgRecorderActivity
 {
 	private EditText edit_inputContact;
 	private Button Btn_addContact;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -49,11 +50,33 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity
 			switchVoice();
 			break;
 		case R.id.bt_send:
+			if (!checkContactNum(edit_inputContact.getText().toString()))
+			{
+				MyLog.showToast(mContext, "输入号码有误,请检查...");
+				return;
+			}
+			if (edit_inputContact.getText().toString().equals(""))
+			{
+				return;
+			}
 			setStrContatc(edit_inputContact.getText().toString());
 			sendTextmsg(edit_inputContact.getText().toString());
-			
+			this.finish();
 			break;
 		}
+	}
+
+	public boolean checkContactNum(String contact)
+	{
+		for (int i = 0; i < contact.length(); i++)
+		{
+			char c = contact.charAt(i);
+			if (c > 60)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -61,7 +84,7 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity
 	{
 		// TODO Auto-generated method stub
 		initBaseView("新建消息");
-//		Btn_Left.setText("返回");
+		// Btn_Left.setText("返回");
 		Btn_Right.setVisibility(View.INVISIBLE);
 
 		edit_inputContact = (EditText) findViewById(R.id.edit_concotact);
@@ -83,11 +106,15 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity
 				{
 				case MotionEvent.ACTION_DOWN:
 					talkTouchDown(edit_inputContact.getText().toString());
-					
+
 					break;
 				case MotionEvent.ACTION_UP:
+					if (edit_inputContact.getText().toString().equals(""))
+					{
+						return false;
+					}
 					talkTouchUp(event);
-					
+					CreatShortmsgActivity.this.finish();
 					break;
 				}
 				return false;

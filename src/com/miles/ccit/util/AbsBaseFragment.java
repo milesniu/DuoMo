@@ -49,6 +49,7 @@ public abstract class AbsBaseFragment extends Fragment implements OnClickListene
 		}
 	}
 
+	
 	public void hideProgressDlg() {
 		if (pdialog != null && pdialog.isShowing()) {
 			pdialog.dismiss();

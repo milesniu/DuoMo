@@ -146,12 +146,26 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		case R.id.bt_addcontact:
 			break;
 		case R.id.bt_swicthvoice:
-			switchVoice();
+			if(LoginActivity.isLogin)
+			{
+				switchVoice();
+			}
+			else
+			{
+				MyLog.showToast(mContext, "请登录后再执行该操作...");
+			}
 			break;
 		case R.id.bt_send:
-			sendTextmsg(map.get("number").toString());
-			edit_inputMsg.setText("");
-			refreshList();
+			if(LoginActivity.isLogin)
+			{
+				sendTextmsg(map.get("number").toString());
+				edit_inputMsg.setText("");
+				refreshList();
+			}
+			else
+			{
+				MyLog.showToast(mContext, "请登录后再执行该操作...");
+			}
 			break;
 		case R.id.bt_sure:
 			confirmDlg("删除记录", "shortmsg", null, shortList, adapter);

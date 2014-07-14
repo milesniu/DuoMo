@@ -1,6 +1,5 @@
 package com.miles.ccit.ui;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -22,11 +21,10 @@ import android.widget.Toast;
 
 import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.AbsBaseFragment;
 import com.miles.ccit.util.BaseMapObject;
-import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.MyLog;
 
 public class ShortMsgFragment extends AbsBaseFragment
 {
@@ -161,7 +159,14 @@ public class ShortMsgFragment extends AbsBaseFragment
 			getActivity().finish();			
 			break;
 		case R.id.bt_right:
-			startActivity(new Intent(getActivity(), CreatShortmsgActivity.class));
+			if(LoginActivity.isLogin)
+			{
+				startActivity(new Intent(getActivity(), CreatShortmsgActivity.class));
+			}
+			else
+			{
+				MyLog.showToast(getActivity(), "请登录后再执行该操作...");
+			}
 			break;
 		case R.id.bt_sure:
 			confirmDlg("删除记录", "shortmsg", "number",null, msgList, adapter);

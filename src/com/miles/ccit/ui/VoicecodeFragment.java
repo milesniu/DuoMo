@@ -30,6 +30,7 @@ import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.AbsBaseFragment;
 import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 
 public class VoicecodeFragment extends AbsBaseFragment
@@ -177,7 +178,14 @@ public class VoicecodeFragment extends AbsBaseFragment
 			getActivity().finish();
 			break;
 		case R.id.bt_right:
-			startActivity(new Intent(getActivity(), CreatVoicecodeActivity.class));
+			if(LoginActivity.isLogin)
+			{
+				startActivity(new Intent(getActivity(), CreatVoicecodeActivity.class));
+			}
+			else
+			{
+				MyLog.showToast(getActivity(), "请登录后再执行该操作...");
+			}
 			break;
 		case R.id.bt_sure:
 			confirmDlg("删除记录", "voicecoderecord", "id",null, voiceList, adapter);

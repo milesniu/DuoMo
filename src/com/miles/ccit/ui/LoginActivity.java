@@ -1,16 +1,11 @@
 package com.miles.ccit.ui;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -26,7 +21,9 @@ public class LoginActivity extends AbsBaseActivity
 {
 	private EditText edit_Account;
 	private EditText edit_Password;
+	private EditText edit_ip;
 	private MyBroadcastReciver broad = null;
+	public static boolean isLogin = false;
 //	private Timer timer = null;
 //	private TimerTask ttask = null;
 //	private int deltime = 5;
@@ -102,7 +99,7 @@ public class LoginActivity extends AbsBaseActivity
 
 		edit_Account = (EditText) findViewById(R.id.edit_account);
 		edit_Password = (EditText) findViewById(R.id.edit_pwd);
-
+		edit_ip = (EditText)findViewById(R.id.edit_ip);
 		findViewById(R.id.bt_login).setOnClickListener(this);
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(broad_login_Action);
@@ -130,6 +127,7 @@ public class LoginActivity extends AbsBaseActivity
 					it.putExtra("data", con);
 					LoginActivity.this.setResult(Activity.RESULT_OK, it);
 					MyLog.showToast(mContext, "登陆超时");
+					isLogin = false;
 					LoginActivity.this.finish();
 					return;
 				}
@@ -142,6 +140,7 @@ public class LoginActivity extends AbsBaseActivity
 					it.putExtra("data", con);
 					LoginActivity.this.setResult(Activity.RESULT_OK, it);
 					MyLog.showToast(mContext, "登陆成功");
+					isLogin = true;
 					LoginActivity.this.finish();
 				} else
 				{
@@ -170,6 +169,8 @@ public class LoginActivity extends AbsBaseActivity
 		case R.id.bt_login:
 			String name = edit_Account.getText().toString();
 			String pwd = edit_Password.getText().toString();
+			String ip = edit_ip.getText().toString();
+			OverAllData.Ipaddress = ip;
 			if (name.equals(""))
 			{
 				MyLog.showToast(mContext, "用户账号不能为空...");

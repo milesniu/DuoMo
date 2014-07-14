@@ -33,6 +33,7 @@ import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsBaseFragment;
 import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 
 public class EmailFragment extends AbsBaseFragment
@@ -46,7 +47,7 @@ public class EmailFragment extends AbsBaseFragment
 	List<BaseMapObject> currentlist = null;;
 	public Button Btn_Delete;
 	public Button Btn_Canle;
-	
+
 	private Handler handler = new Handler()
 	{
 		@Override
@@ -61,7 +62,7 @@ public class EmailFragment extends AbsBaseFragment
 				adapter.notifyDataSetChanged();
 				break;
 			case 2:
-				
+
 				break;
 			}
 			super.handleMessage(msg);
@@ -72,21 +73,19 @@ public class EmailFragment extends AbsBaseFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_email, null);
-		
+
 		listview = (ListView) view.findViewById(R.id.listView_content);
 		initView(view);
 		return view;
 	}
 
-
-		
 	private void refreshList(final List<BaseMapObject> list)
 	{
-		
+
 		Collections.reverse(list);
-		
+
 		adapter = new MsgorMailSetAdapter(getActivity(), list, "mail");
-	
+
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -98,7 +97,7 @@ public class EmailFragment extends AbsBaseFragment
 				getActivity().startActivity(new Intent(getActivity(), EmailInfoActivity.class).putExtra("item", list.get(arg2)));
 			}
 		});
-		if(list==null || list.size()<1)
+		if (list == null || list.size() < 1)
 		{
 			showEmpty();
 			return;
@@ -119,7 +118,6 @@ public class EmailFragment extends AbsBaseFragment
 		});
 	}
 
-
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
 	{
@@ -130,13 +128,14 @@ public class EmailFragment extends AbsBaseFragment
 		{
 		case 0:
 			confirmDlg("删除邮件", "emailmsg", "id", currentlist.get(ListItem), currentlist, adapter);
-//			BaseMapObject selectItem = currentlist.get(ListItem);
-//			long ret = BaseMapObject.DelObj4DB(getActivity(), "emailmsg", "id", selectItem.get("id").toString());
-//			if (ret != -1)
-//			{
-//				currentlist.remove(ListItem);
-//				adapter.notifyDataSetChanged();
-//			}
+			// BaseMapObject selectItem = currentlist.get(ListItem);
+			// long ret = BaseMapObject.DelObj4DB(getActivity(), "emailmsg",
+			// "id", selectItem.get("id").toString());
+			// if (ret != -1)
+			// {
+			// currentlist.remove(ListItem);
+			// adapter.notifyDataSetChanged();
+			// }
 			break;
 		case 1:
 			for (BaseMapObject tmp : currentlist)
@@ -152,7 +151,6 @@ public class EmailFragment extends AbsBaseFragment
 		return super.onContextItemSelected(item);
 	}
 
-
 	@Override
 	public void onResume()
 	{
@@ -161,21 +159,19 @@ public class EmailFragment extends AbsBaseFragment
 		recvemail.clear();
 		sendemail.clear();
 		emailList = GetData4DB.getObjList4LeftJoin(getActivity(), "emailmsg", "contact", "number");
-		
+
 		if (emailList == null)
 		{
 			Toast.makeText(getActivity(), "网络连接异常，请检查后重试...", 0).show();
 			return;
-		}
-		else
+		} else
 		{
-			for(BaseMapObject item:emailList)
+			for (BaseMapObject item : emailList)
 			{
-				if(item.get("sendtype").toString().equals(AbsBaseActivity.RECVFROM+""))//收件
+				if (item.get("sendtype").toString().equals(AbsBaseActivity.RECVFROM + ""))// 收件
 				{
 					recvemail.add(item);
-				}
-				else
+				} else
 				{
 					sendemail.add(item);
 				}
@@ -186,25 +182,21 @@ public class EmailFragment extends AbsBaseFragment
 		super.onResume();
 	}
 
-
-
 	@Override
 	public void initView(View view)
 	{
 		// TODO Auto-generated method stub
 		initSwitchBaseView(view, "收件箱", "发件箱");
-//		Btn_Left.setText("返回");
-//		Btn_Right.setText("写邮件");
+		// Btn_Left.setText("返回");
+		// Btn_Right.setText("写邮件");
 		Btn_Right.setBackgroundResource(R.drawable.creatmail);
-		linear_Del = (LinearLayout)view.findViewById(R.id.linear_del);
-		Btn_Delete = (Button)view.findViewById(R.id.bt_sure);
-		Btn_Canle = (Button)view.findViewById(R.id.bt_canle);
+		linear_Del = (LinearLayout) view.findViewById(R.id.linear_del);
+		Btn_Delete = (Button) view.findViewById(R.id.bt_sure);
+		Btn_Canle = (Button) view.findViewById(R.id.bt_canle);
 		Btn_Delete.setOnClickListener(this);
 		Btn_Canle.setOnClickListener(this);
-		
+
 	}
-
-
 
 	@Override
 	public void onClick(View v)
@@ -213,11 +205,11 @@ public class EmailFragment extends AbsBaseFragment
 		switch (v.getId())
 		{
 		case R.id.bt_left:
-			getActivity().finish();			
+			getActivity().finish();
 			break;
 		case R.id.text_left:
 			changeSiwtchLeft();
-		
+
 			currentlist = recvemail;
 			refreshList(currentlist);
 			break;
@@ -227,34 +219,40 @@ public class EmailFragment extends AbsBaseFragment
 			refreshList(currentlist);
 			break;
 		case R.id.bt_right:
-			startActivity(new Intent(getActivity(), CreatEMailActivity.class));
+			if (LoginActivity.isLogin)
+			{
+				startActivity(new Intent(getActivity(), CreatEMailActivity.class));
+			} else
+			{
+				MyLog.showToast(getActivity(), "请登录后再执行该操作...");
+			}
 			break;
 		case R.id.bt_sure:
 			confirmDlg("删除邮件", "emailmsg", "id", null, currentlist, adapter);
-//			Iterator<BaseMapObject> iter = currentlist.iterator();  
-//			List<String> Idlist = new Vector<String>();
-//			while(iter.hasNext())
-//			{  
-//			    BaseMapObject s = iter.next();  
-//			    if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
-//			    {  
-//			    	Idlist.add(s.get("id").toString());
-//			        iter.remove();
-//			    }  
-//			}  
-//		
-//			UserDatabase.DelListObj(getActivity(),"emailmsg", "id", Idlist);
-//			
-//			for(BaseMapObject tmp:currentlist)
-//			{
-//				tmp.put("exp1", null);
-//				tmp.put("exp2", null);
-//			}
-//			adapter.notifyDataSetChanged();
-//			linear_Del.setVisibility(View.GONE);
+			// Iterator<BaseMapObject> iter = currentlist.iterator();
+			// List<String> Idlist = new Vector<String>();
+			// while(iter.hasNext())
+			// {
+			// BaseMapObject s = iter.next();
+			// if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
+			// {
+			// Idlist.add(s.get("id").toString());
+			// iter.remove();
+			// }
+			// }
+			//
+			// UserDatabase.DelListObj(getActivity(),"emailmsg", "id", Idlist);
+			//
+			// for(BaseMapObject tmp:currentlist)
+			// {
+			// tmp.put("exp1", null);
+			// tmp.put("exp2", null);
+			// }
+			// adapter.notifyDataSetChanged();
+			// linear_Del.setVisibility(View.GONE);
 			break;
 		case R.id.bt_canle:
-			for(BaseMapObject tmp:currentlist)
+			for (BaseMapObject tmp : currentlist)
 			{
 				tmp.put("exp1", null);
 				tmp.put("exp2", null);
@@ -266,5 +264,4 @@ public class EmailFragment extends AbsBaseFragment
 		}
 	}
 
-	
 }
