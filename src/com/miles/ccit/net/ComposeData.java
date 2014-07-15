@@ -244,7 +244,7 @@ public class ComposeData
 		}
 		mLen +=2;//加2是加上优先级与是否回执两个字段
 		
-		int fjnamelen = AbsEmailCodeActivity.getFileName(info[5]).toString().getBytes().length;
+		int fjnamelen = info[5]==null?0:AbsEmailCodeActivity.getFileName(info[5]).toString().getBytes().length;
 		byte fjnamebyte[] = info[5]==null?new byte[0]:ByteUtil.int2Byte(1, fjnamelen);
 		mLen+=fjnamebyte.length;	//添加附件名长度的位置长度
 		mLen+=fjnamelen;//添加附件名的长度
@@ -252,7 +252,7 @@ public class ComposeData
 		byte fjbyte[] = info[5]==null?new byte[0]:ByteUtil.getBytes(info[5]);
 		mLen+=fjbyte.length;	//添加附件长度
 		
-		byte[] mData = new byte[mLen+(info[5]==null?9:12)];//源地址长度1字节，目的地址长度2字节，抄送地址2字节，标题长度1，内容长度2，附件标示1，附件名长度1，附件长度2,
+		byte[] mData = new byte[mLen+(info[5]==null?8:11)];//源地址长度1字节，目的地址长度1字节，抄送地址2字节，标题长度1，内容长度2，附件标示1，附件名长度1，附件长度2,
 		
 		int currentpos = 0;
 		for(int i=0;i<5;i++)
@@ -301,11 +301,7 @@ public class ComposeData
 			System.arraycopy(fjbyte, 0, mData, currentpos, fjbyte.length);
 			currentpos += fjbyte.length;	
 		}
-		
-		
-//		System.arraycopy(voicebyte, 0, mData, currentpos, voicebyte.length);
-//		currentpos += voicebyte.length;
-			
+					
 		//拷贝优先级与是否回执，后期从数据库配置表中读取
 		System.arraycopy(sendcfg, 0, mData, currentpos, 2);
 		

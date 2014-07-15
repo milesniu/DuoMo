@@ -226,8 +226,8 @@ public class AnalysisRecvData
 		String cstryvname = new String(csname, "UTF-8");
 		voicecursor += cslen;
 		//目的地址
-		int myvlen = ByteUtil.byte2Int(new byte[]{data[voicecursor],data[voicecursor+1]});
-		voicecursor+=2;
+		int myvlen = ByteUtil.oneByte2oneInt(data[voicecursor++]);
+//		voicecursor+=2;
 		byte[] myvname = new byte[myvlen];
 		System.arraycopy(data, voicecursor, myvname, 0, myvlen);
 		String mstryvname = new String(myvname, "UTF-8");

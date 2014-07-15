@@ -219,12 +219,13 @@ public class EmailFragment extends AbsBaseFragment
 			getActivity().finish();
 			break;
 		case R.id.text_left:
+			issend = false;
 			changeSiwtchLeft();
-
 			currentlist = recvemail;
 			refreshList(currentlist);
 			break;
 		case R.id.text_right:
+			issend = true;
 			changeSiwtchRight();
 			currentlist = sendemail;
 			refreshList(currentlist);
