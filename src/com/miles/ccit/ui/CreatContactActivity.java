@@ -28,6 +28,7 @@ public class CreatContactActivity extends AbsBaseActivity
 	private RadioButton radio_wireness,radio_wired;
 	private BaseMapObject tmp;
 	private String havecode="";
+	private String currentcode = "";
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -77,6 +78,7 @@ public class CreatContactActivity extends AbsBaseActivity
 			edit_Num.setText(tmp.get("number").toString());
 			edit_Company.setText(tmp.get("name").toString());
 			edit_Remarks.setText(tmp.get("remarks").toString());
+			currentcode = tmp.get("number").toString();
 			if(tmp.get("type").toString().equals("0"))
 			{
 				radio_wireness.setChecked(true);
@@ -136,6 +138,11 @@ public class CreatContactActivity extends AbsBaseActivity
 				tmp.put("number",edit_Num.getText().toString());
 				tmp.put("type",radio_wireness.isChecked()?"0":"1");
 				tmp.put("remarks",edit_Remarks.getText().toString());
+				if(edit_Num.getText().toString().equals(currentcode))
+				{
+					this.finish();
+					return;
+				}
 				if(tmp.UpdateMyself(mContext, "contact")==-1)
 				{
 					Toast.makeText(mContext, "号码已经存在，请检查...", 0).show();

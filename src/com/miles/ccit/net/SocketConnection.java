@@ -290,7 +290,8 @@ public class SocketConnection
 						// MyApplication.getAppContext().sendBroadcast(intent);
 						break;
 					case APICode.BACK_ShortTextMsg:
-
+					case APICode.BACK_ShortVoiceMsg:
+						analyUtil.analyBackTextMsg(heart);
 						break;
 					case APICode.RECV_ShortTextMsg:
 						analyUtil.analyTextMsg(heart);

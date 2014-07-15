@@ -16,6 +16,7 @@ import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.ByteUtil;
+import com.miles.ccit.util.HexSwapString;
 import com.miles.ccit.util.MyApplication;
 import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.UnixTime;
@@ -103,6 +104,31 @@ public class AnalysisRecvData
 		}
 	}
 	
+	public void analyBackTextMsg(byte[] data) throws UnsupportedEncodingException
+	{
+		Intent intent = new Intent();
+		int alllen = ByteUtil.byte2Int(new byte[]{data[2],data[3]});
+		int idlen = alllen-3;//长度本身1字节，命令码1字节，成败1字节
+		
+		byte[] srcname = new byte[idlen];
+		System.arraycopy(data, 6, srcname, 0, idlen);
+		String id = new String(srcname);
+		BaseMapObject senditem = GetData4DB.getObjectByid(AppContext, "shortmsg", id);
+		
+
+		if (senditem!=null&&ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(senditem.get("number").toString()))
+		{
+			senditem.put("sendtype", data[5]==0?AbsBaseActivity.SENDERROR+"":AbsBaseActivity.SENDSUCCESS+"");
+			senditem.UpdateMyself(AppContext, "shortmsg");
+			
+			intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
+			intent.putExtra("data", senditem);
+			AppContext.sendBroadcast(intent);
+		}
+		
+//		Intent intent = new Intent();
+	}
+	
 	public void analyVoiceMsg(byte[] data) throws UnsupportedEncodingException
 	{
 
@@ -178,6 +204,8 @@ public class AnalysisRecvData
 		
 		
 	}
+	
+
 	
 	public void analyEmail(byte[] data) throws UnsupportedEncodingException
 	{

@@ -3,6 +3,7 @@ package com.miles.ccit.util;
 import java.util.List;
 import java.util.Vector;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,7 +28,7 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 	public List<BaseMapObject> all;
 	public static final int TOCALLVOICE = 0;
 	public static final int TOCALLWIRED = 1;
-	public int CurrentType = -1;
+	public static int  CurrentType = -1;
 
 	public List<BaseMapObject> getContact(String code)
 	{
@@ -61,7 +62,7 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 //				toCall(TOCALLVOICE, getContact(strNumber).get(arg2).get("number").toString());
 				if(CurrentType==TOCALLVOICE)
 				{
-					insertVoiceRecord(getContact(strNumber).get(arg2).get("number").toString());
+					insertVoiceRecord(mContext,getContact(strNumber).get(arg2).get("number").toString());
 				}
 				else if(CurrentType == TOCALLWIRED)
 				{
@@ -147,7 +148,7 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 			insertNum("#");
 			break;
 		case R.id.buttoncall:
-			insertVoiceRecord(strNumber);
+			insertVoiceRecord(mContext,strNumber);
 			break;
 		case R.id.buttonadd:
 			inserContact();
@@ -176,7 +177,7 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		}
 	}
 	
-	public void insertVoiceRecord(String code)
+	public static void  insertVoiceRecord(Context contex,String code)
 	{
 		if(code.equals(""))
 		{
@@ -190,8 +191,8 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		record.put("priority", OverAllData.Priority);
 		record.put("acknowledgemen", OverAllData.Acknowledgemen);
 		
-		record.InsertObj2DB(mContext, "voicecoderecord");
-		toCall(code);
+		record.InsertObj2DB(contex, "voicecoderecord");
+		toCall(contex,code);
 	}
 	
 	public void insertWiredRecord(String code,String filepath)
@@ -209,20 +210,20 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		record.put("creattime", UnixTime.getStrCurrentUnixTime());
 		
 		record.InsertObj2DB(mContext, "wiredrecord");
-		toCall(code);
+		toCall(mContext,code);
 	}
 	
-	public void sendVoiceStarttoNet(String contact)
+	public static void  sendVoiceStarttoNet(String contact)
 	{
 		new SendDataTask().execute(APICode.SEND_VoiceCode+"",OverAllData.Account,contact);
 	}
 	
-	public void toCall(String code)
+	public  static void toCall(Context contex,String code)
 	{
 		if(CurrentType==TOCALLVOICE)
 		{
 			sendVoiceStarttoNet(code);
-			startActivity(new Intent(mContext, CallWaitActivity.class).putExtra("code", code));
+			contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("code", code));
 		}
 		else if(CurrentType == TOCALLWIRED)
 		{

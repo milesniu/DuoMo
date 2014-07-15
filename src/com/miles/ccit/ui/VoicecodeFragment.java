@@ -29,6 +29,7 @@ import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.AbsBaseFragment;
+import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
@@ -80,7 +81,7 @@ public class VoicecodeFragment extends AbsBaseFragment
 
 	private void refreshList()
 	{
-		voiceList = GetData4DB.getObjectListData(getActivity(), "voicecoderecord");
+		voiceList = GetData4DB.getObjList4LeftJoin(getActivity(), "voicecoderecord", "contact", "number");//getObjectListData(getActivity(), "voicecoderecord");
 
 		if (voiceList == null || voiceList.size() < 1)
 		{
@@ -98,7 +99,9 @@ public class VoicecodeFragment extends AbsBaseFragment
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
 				// TODO Auto-generated method stub
-
+				AbsToCallActivity.CurrentType = AbsToCallActivity.TOCALLVOICE;
+				AbsToCallActivity.insertVoiceRecord(getActivity(),voiceList.get(arg2).get("number").toString());
+				
 			}
 		});
 

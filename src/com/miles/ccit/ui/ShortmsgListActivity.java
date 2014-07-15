@@ -33,6 +33,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -105,7 +106,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 //			hideProgressDlg();
 			String action = intent.getAction();
 
-			if (action.equals(broad_recvtextmsg_Action))
+			if (action.equals(broad_recvtextmsg_Action) || action.equals(broad_recvtextmsg_Action))
 			{
 				if (intent.getSerializableExtra("data") == null)
 				{
@@ -382,11 +383,13 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 
 				break;
 			case AbsMsgRecorderActivity.SENDERROR:
+				talkView = LayoutInflater.from(mContext).inflate(R.layout.outcometalk, null);
+
 				break;
 			}
 
 			TextView text = (TextView) talkView.findViewById(R.id.textcontent);
-
+			ImageView img = (ImageView)talkView.findViewById(R.id.imageView_fail);
 			CheckBox checkDel = (CheckBox) talkView.findViewById(R.id.check_del);
 			if (message.get("exp1") != null && message.get("exp1").toString().equals("0"))
 			{
@@ -412,6 +415,15 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 				}
 			});
 
+			if(img!=null&&message.get("sendtype").toString().equals(AbsMsgRecorderActivity.SENDERROR+""))
+			{
+				img.setVisibility(View.VISIBLE);
+			}
+			else if(img!=null)
+			{
+				img.setVisibility(View.GONE);
+			}
+			
 			if (message.get("msgcontent") == null || message.get("msgcontent").equals("null"))
 			{
 				text.setText("无效信息");

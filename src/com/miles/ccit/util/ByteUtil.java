@@ -55,6 +55,23 @@ public class ByteUtil
 		}
 		return intValue;
 	}
+	
+	/**
+	 * 2位字节数组转换为整型
+	 * 
+	 * @param b
+	 * @return
+	 */
+	public static int nbyte2Int(byte[] b)
+	{
+		int intValue = 0;
+		for (int i = 0; i < b.length; i++)
+		{
+			intValue += (b[i] & 0xFF) << (8 * (b.length - i));
+		}
+		return intValue;
+	}
+
 
 	public static int oneByte2oneInt(byte b)
 	{

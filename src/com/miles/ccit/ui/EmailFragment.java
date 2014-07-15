@@ -47,6 +47,7 @@ public class EmailFragment extends AbsBaseFragment
 	List<BaseMapObject> currentlist = null;;
 	public Button Btn_Delete;
 	public Button Btn_Canle;
+	private boolean issend = false;
 
 	private Handler handler = new Handler()
 	{
@@ -94,6 +95,7 @@ public class EmailFragment extends AbsBaseFragment
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
 				// TODO Auto-generated method stub
+				issend = true;
 				getActivity().startActivity(new Intent(getActivity(), EmailInfoActivity.class).putExtra("item", list.get(arg2)));
 			}
 		});
@@ -177,8 +179,17 @@ public class EmailFragment extends AbsBaseFragment
 				}
 			}
 		}
-		currentlist = recvemail;
+		if(issend)
+		{
+			currentlist = sendemail;
+		}
+		else
+		{
+			currentlist = recvemail;
+		}
+		
 		refreshList(currentlist);
+		issend = false;
 		super.onResume();
 	}
 

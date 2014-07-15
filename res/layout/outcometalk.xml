@@ -2,33 +2,48 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
-    android:gravity="center_vertical|right"
     android:background="#ffffff"
-    
+    android:gravity="center_vertical|right"
+    android:orientation="horizontal"
     android:padding="15dp" >
 
-    <CheckBox
-        android:id="@+id/check_del"
+    <RelativeLayout
+        android:id="@+id/relamark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:visibility="visible"
-        android:layout_alignParentRight="true" />
+        android:src="@drawable/redfail"
+        android:gravity="center"
+        android:visibility="visible" >
+
+        <ImageView
+            android:id="@+id/imageView_fail"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/redfail"
+            android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/check_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textcontent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/check_del"
+        android:layout_marginLeft="50dp"
+        android:layout_toLeftOf="@+id/relamark"
         android:background="@drawable/outgoing"
         android:gravity="center_vertical"
+        android:paddingBottom="8dp"
         android:paddingLeft="15dp"
-         android:paddingRight="15dp"
-          android:paddingTop="8dp"
-           android:paddingBottom="8dp"
-        android:layout_marginLeft="50dp"
+        android:paddingRight="15dp"
+        android:paddingTop="8dp"
         android:text="hexxxxxxxxxddddddddddddddddddddddddddddddddddddxxxxxllo"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
