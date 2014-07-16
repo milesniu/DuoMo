@@ -49,6 +49,7 @@
                 android:background="@null"
                 android:ems="10"
                 android:hint="请输入账号"
+                android:text="123"
                 android:inputType="number"
                 android:paddingLeft="8dp" />
         </LinearLayout>
@@ -73,6 +74,7 @@
                 android:background="@null"
                 android:ems="10"
                 android:hint="请输入密码"
+                android:text="123"
                 android:inputType="numberPassword"
                 android:paddingLeft="8dp"
                 android:password="true" />
@@ -92,6 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:hint="请输入ip"
+            android:text="192.168.1.26"
             android:ems="10" >
 
         </EditText>

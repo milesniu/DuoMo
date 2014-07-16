@@ -1,5 +1,9 @@
 package com.miles.ccit.duomo;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -19,14 +23,20 @@ public class CallWaitActivity extends AbsBaseActivity
 	String code = "";
 	MediaPlayer player;
 	AudioManager audioManager;
-
+	public static boolean iswait = false;
+	private MyBroadcastReciver broad = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_call_wait);
 		code = getIntent().getStringExtra("code");
-
+		iswait = true;
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(broad_recvvoicecode_Action);
+		broad = new MyBroadcastReciver();
+		this.registerReceiver(broad, intentFilter);
 		// AssetFileDescriptor afd =.openFd("callbeep.mp3");
 		// player = new MediaPlayer();
 		try
@@ -77,11 +87,37 @@ public class CallWaitActivity extends AbsBaseActivity
 		}
 	}
 	
+	public class MyBroadcastReciver extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			// TODO Auto-generated method stub
+//			hideProgressDlg();
+			String action = intent.getAction();
+
+			if (action.equals(broad_recvvoicecode_Action))
+			{
+				if (intent.getSerializableExtra("data").equals("true"))
+				{
+					startActivity(new Intent(mContext, VoicecodeConnetActivity.class).putExtra("code", code));
+					CallWaitActivity.this.finish();
+				}
+				else
+				{
+					CallWaitActivity.this.finish();
+				}
+			}
+		}
+
+	}
+	
 
 	@Override
 	protected void onDestroy()
 	{
 		// TODO Auto-generated method stub
+		iswait = false;
 		if (player!=null && player.isPlaying())
 		{
 			player.stop();

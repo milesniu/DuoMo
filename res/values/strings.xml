@@ -13,7 +13,7 @@
     <string name="title_activity_creat_shortmsg">CreatShortmsgActivity</string>
     <string name="title_activity_shortmsg_list">ShortmsgListActivity</string>
     <string name="title_activity_input_num">InputNumActivity</string>
-    <string name="title_activity_call_wait">CallWaitActivity</string>
+    <string name="title_activity_call_wait">呼叫中...</string>
     <string name="title_activity_creat_email">CreatEMailActivity</string>
 
     <item name="img_path" type="id"></item>
@@ -44,5 +44,7 @@
     <string name="title_activity_creatcode_ctrl">CreatcodeCtrlActivity</string>
     <string name="title_activity_creat_bddata">CreatBDdataActivity</string>
     <string name="title_activity_duihuan">DuihuanActivity</string>
+    <string name="title_activity_voicecode_connet">通话中</string>
+    <string name="title_activity_have_call">来电接听</string>
 
 </resources>

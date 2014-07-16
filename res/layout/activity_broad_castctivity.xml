@@ -15,6 +15,7 @@
  <LinearLayout
      android:layout_width="fill_parent"
      android:layout_height="match_parent"
+     android:layout_above="@+id/linear_del"
      android:layout_below="@+id/include_layout"
      android:layout_centerHorizontal="true"
      android:gravity="right"
@@ -59,13 +60,50 @@
            android:background="@drawable/btngreenbg"
          android:text="设置" />
 
-     <ListView
-         android:id="@+id/list_Content"
+     <RelativeLayout
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-           android:layout_marginTop="20dp" >
-     </ListView>
+         android:layout_marginTop="20dp" >
 
+         <ListView
+             android:id="@+id/list_Content"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" >
+         </ListView>
+
+         <ImageView
+             android:id="@+id/image_empty"
+             android:layout_width="148dp"
+             android:layout_height="148dp"
+             android:layout_centerInParent="true"
+             android:src="@drawable/emptylist" />
+
+     </RelativeLayout>
+
+ </LinearLayout>
+
+ <LinearLayout
+     android:id="@+id/linear_del"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:gravity="center"
+     android:layout_alignParentBottom="true"
+     android:visibility="gone" >
+
+     <Button
+         android:id="@+id/bt_canle"
+         android:layout_width="0dp"
+         android:layout_height="wrap_content"
+         android:layout_weight="1"
+         android:text="取消" />
+
+     <Button
+         android:id="@+id/bt_sure"
+         android:layout_width="0dp"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="15dp"
+         android:layout_weight="1"
+         android:text="删除" />
  </LinearLayout>
 
 </RelativeLayout>

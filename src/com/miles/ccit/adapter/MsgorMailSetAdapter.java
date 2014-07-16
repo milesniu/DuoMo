@@ -58,11 +58,25 @@ public class MsgorMailSetAdapter extends BaseAdapter
 		View view = null;
 
 		LayoutInflater mInflater = LayoutInflater.from(mContext);
-		view = mInflater.inflate(R.layout.listitem_shortmsg, null);
+		if(Type.equals("broadcast"))
+		{
+			view = mInflater.inflate(R.layout.listitem_broadfile, null);
+		}
+		else
+		{
+			view = mInflater.inflate(R.layout.listitem_shortmsg, null);
+		}
+		
 		if(Type.equals("svoice"))
 		{
 			((TextView) view.findViewById(R.id.text_time)).setText("");
 			((TextView)  view.findViewById(R.id.text_number)).setText(map.get("frequency").toString());
+			
+		}
+		else if(Type.equals("broadcast"))
+		{
+			((TextView) view.findViewById(R.id.text_name)).setText(map.get("frequency").toString());
+			((TextView)  view.findViewById(R.id.text_number)).setText(UnixTime.unixTime2Simplese(map.get("creattime").toString(),"MM-dd HH:mm"));
 			
 		}
 		else
@@ -85,16 +99,23 @@ public class MsgorMailSetAdapter extends BaseAdapter
 			((TextView) view.findViewById(R.id.text_contact)).setText(UnixTime.unixTime2Simplese(map.get("creattime").toString(),"MM-dd HH:mm"));
 			
 		}
+
 		CheckBox checkDel = (CheckBox)view.findViewById(R.id.check_del);
 		if(map.get("exp1")!=null&&map.get("exp1").toString().equals("0"))
 		{
 			checkDel.setVisibility(View.VISIBLE);
-			view.findViewById(R.id.text_time).setVisibility(View.GONE);
+			if(view.findViewById(R.id.text_time)!=null)
+			{
+				view.findViewById(R.id.text_time).setVisibility(View.GONE);
+			}
 		}
 		else
 		{
 			checkDel.setVisibility(View.INVISIBLE);
-			view.findViewById(R.id.text_time).setVisibility(View.VISIBLE);
+			if(view.findViewById(R.id.text_time)!=null)
+			{
+				view.findViewById(R.id.text_time).setVisibility(View.VISIBLE);
+			}
 		}
 		checkDel.setOnCheckedChangeListener(new OnCheckedChangeListener()
 		{

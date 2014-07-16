@@ -35,9 +35,17 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 				SocketConnection.getInstance().readReqMsg(new ComposeData().sendStartVoicecode(parm[1], parm[2]));
 				break;
 			case APICode.SEND_TalkVoiceCode:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendVoiceTalk(parm[2]));
+				
 				break;
 			case APICode.SEND_Email:
 				SocketConnection.getInstance().readReqMsg(new ComposeData().sendEMail(parm[1], parm[2],parm[3],parm[4],parm[5],parm[6]));
+				break;
+			case APICode.BACK_RECV_VoiceCode:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendRecvVoicecode(parm[2]));
+				break;
+			case APICode.SEND_Broadcast:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendBroadcast(parm[2]));
 				
 				break;
 			case APICode.SEND_CodeDirec:
@@ -55,6 +63,7 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+			SocketConnection.getInstance().canleSocket();
 			Intent intent = new Intent();
 			intent.setAction(AbsBaseActivity.broad_login_Action);
 //			intent.putExtra("data", null);

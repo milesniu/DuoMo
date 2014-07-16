@@ -1,10 +1,13 @@
 package com.miles.ccit.util;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -29,6 +32,10 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 	public static final int TOCALLVOICE = 0;
 	public static final int TOCALLWIRED = 1;
 	public static int  CurrentType = -1;
+	public static String Recv_Call = "1";//接听
+	public static String Send_Call = "2";//拨打
+	public static String Recv_Error = "3";//未接
+	
 
 	public List<BaseMapObject> getContact(String code)
 	{
@@ -218,12 +225,22 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		new SendDataTask().execute(APICode.SEND_VoiceCode+"",OverAllData.Account,contact);
 	}
 	
-	public  static void toCall(Context contex,String code)
+	public  static void toCall(Context contex,final String code)
 	{
 		if(CurrentType==TOCALLVOICE)
 		{
-			sendVoiceStarttoNet(code);
 			contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("code", code));
+			new Timer().schedule(new TimerTask()
+			{
+				
+				@Override
+				public void run()
+				{
+					// TODO Auto-generated method stub
+					sendVoiceStarttoNet(code);
+				}
+			},1000);
+			
 		}
 		else if(CurrentType == TOCALLWIRED)
 		{

@@ -319,6 +319,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		// TODO Auto-generated method stub
 		number = null;
 		stopMediaplayer();
+		unregisterReceiver(broad);
 		super.onDestroy();
 	}
 

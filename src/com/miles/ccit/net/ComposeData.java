@@ -319,6 +319,84 @@ public class ComposeData
 		return SendData;
 	}
 	
+	/**
+	 * 发送接听声码话响应
+	 * @param info 是否接听
+	 * */
+	public byte[] sendRecvVoicecode(String... info)
+	{
+		
+		byte[] mData = new byte[]{info[0].equals("1")?((byte)0x01):((byte)0x00)};//是否同意1字节
+		
+		
+		
+		byte[] head = data.head;
+		byte[] DataLenth = HexSwapString.short2Byte((short)(mData.length+1));//new byte[]{(byte)(mData.length+1)}; // 数据区长度
+		byte[] frame = new byte[]{APICode.BACK_RECV_VoiceCode}; // 命令码
+	
+		byte[] SendData = new byte[mData.length+5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
+		int lenth = 0; // 记录当前拷贝到目的数组的下标
+		System.arraycopy(head, 0, SendData, lenth, head.length);
+		System.arraycopy(DataLenth, 0, SendData, lenth += head.length, DataLenth.length);
+		System.arraycopy(frame, 0, SendData, lenth += DataLenth.length, frame.length);
+		System.arraycopy(mData, 0, SendData, lenth += frame.length, mData.length);
+		return SendData;
+	}
+	
+	
+	/**
+	 * 开始讲话或结束讲话
+	 * @param info 讲话、结束
+	 * */
+	public byte[] sendVoiceTalk(String... info)
+	{
+		
+		byte[] mData = new byte[]{info[0].equals("1")?((byte)0x01):((byte)0x00)};//是否说话
+		
+		byte[] head = data.head;
+		byte[] DataLenth = HexSwapString.short2Byte((short)(mData.length+1));//new byte[]{(byte)(mData.length+1)}; // 数据区长度
+		byte[] frame = new byte[]{APICode.SEND_TalkVoiceCode}; // 命令码
+	
+		byte[] SendData = new byte[mData.length+5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
+		int lenth = 0; // 记录当前拷贝到目的数组的下标
+		System.arraycopy(head, 0, SendData, lenth, head.length);
+		System.arraycopy(DataLenth, 0, SendData, lenth += head.length, DataLenth.length);
+		System.arraycopy(frame, 0, SendData, lenth += DataLenth.length, frame.length);
+		System.arraycopy(mData, 0, SendData, lenth += frame.length, mData.length);
+		return SendData;
+	}
+	
+	/**
+	 * 发送广播设置
+	 * @param info 频率值
+	 * */
+	public byte[] sendBroadcast(String... info)
+	{
+		
+		int mLen =info[0].getBytes().length;
+		
+		byte[] mData = new byte[mLen+1];//频率长度1字节
+		
+		
+		byte[] len = ByteUtil.int2Byte(1,info[0].getBytes().length);
+		System.arraycopy(len, 0, mData, 0, len.length);
+		System.arraycopy(info[0].getBytes(), 0, mData, 1, info[0].getBytes().length);
+		
+		
+		
+		byte[] head = data.head;
+		byte[] DataLenth = HexSwapString.short2Byte((short)(mData.length+1));//new byte[]{(byte)(mData.length+1)}; // 数据区长度
+		byte[] frame = new byte[]{APICode.SEND_Broadcast}; // 命令码
+	
+		byte[] SendData = new byte[mData.length+5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
+		int lenth = 0; // 记录当前拷贝到目的数组的下标
+		System.arraycopy(head, 0, SendData, lenth, head.length);
+		System.arraycopy(DataLenth, 0, SendData, lenth += head.length, DataLenth.length);
+		System.arraycopy(frame, 0, SendData, lenth += DataLenth.length, frame.length);
+		System.arraycopy(mData, 0, SendData, lenth += frame.length, mData.length);
+		return SendData;
+	}
+	
 	
 	
 }

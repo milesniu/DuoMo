@@ -66,6 +66,25 @@ public class SocketConnection
 			e.printStackTrace();
 		}
 	}
+	
+	public void canleSocket()
+	{
+		if(socket!=null)
+		{
+			try
+			{
+				socketConnection = null;	
+				socket.close();
+				socket = null;
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
 
 	public Socket getsocket()
 	{
@@ -118,45 +137,52 @@ public class SocketConnection
 	 */
 	public void reConnectToCTCC()
 	{
-		new Thread(new Runnable()
-		{
-			public void run()
-			{
-				// MyLog.SystemOut("重新建立与" + host + ":" + port + "的连接");
-				MyApplication.handle.sendMessage(new Message());
-				// 清理工作，中断计时器，中断接收线程，恢复初始变量
-				if (heartTimer != null)
-					heartTimer.cancel();
-				isNetworkConnect = false;
-				if (receiveThread != null && receiveThread.isAlive())
-					receiveThread.interrupt();
-				try
-				{
-					socket.close();
-				} catch (IOException e1)
-				{
-				}
-				synchronized (this)
-				{
-					for (int i = 0; i < 3; i++)// 重连三次
-					{
-						try
-						{
-							Thread.currentThread();
-							Thread.sleep(1000 * 1);
-							init(OverAllData.Ipaddress, OverAllData.Port);
-							// launchHeartcheck();
-							this.notifyAll();
-							break;
-						} catch (Exception e)
-						{
-
-						}
-						i++;
-					}
-				}
-			}
-		}).start();
+		MyApplication.handle.sendMessage(new Message());
+		if (heartTimer != null)
+			heartTimer.cancel();
+		isNetworkConnect = false;
+		if (receiveThread != null && receiveThread.isAlive())
+			receiveThread.interrupt();
+		canleSocket();
+//		new Thread(new Runnable()
+//		{
+//			public void run()
+//			{
+//				// MyLog.SystemOut("重新建立与" + host + ":" + port + "的连接");
+//				MyApplication.handle.sendMessage(new Message());
+//				// 清理工作，中断计时器，中断接收线程，恢复初始变量
+//				if (heartTimer != null)
+//					heartTimer.cancel();
+//				isNetworkConnect = false;
+//				if (receiveThread != null && receiveThread.isAlive())
+//					receiveThread.interrupt();
+//				try
+//				{
+//					socket.close();
+//				} catch (IOException e1)
+//				{
+//				}
+//				synchronized (this)
+//				{
+//					for (int i = 0; i < 3; i++)// 重连三次
+//					{
+//						try
+//						{
+//							Thread.currentThread();
+//							Thread.sleep(1000 * 1);
+//							init(OverAllData.Ipaddress, OverAllData.Port);
+//							// launchHeartcheck();
+//							this.notifyAll();
+//							break;
+//						} catch (Exception e)
+//						{
+//
+//						}
+//						i++;
+//					}
+//				}
+//			}
+//		}).start();
 	}
 
 	/**
@@ -182,6 +208,7 @@ public class SocketConnection
 					this.wait(1000 * 5); // 等待5秒，如果网络还没有恢复，抛出IO流异常
 					if (!isNetworkConnect)
 					{
+						canleSocket();
 						throw new IOException("网络连接中断！");
 					}
 				} catch (InterruptedException e)
@@ -301,6 +328,15 @@ public class SocketConnection
 						break;
 					case APICode.RECV_Email:
 						analyUtil.analyEmail(heart);
+						break;
+					case APICode.BACK_VoiceCode:
+						analyUtil.analyBackVoiceCode(heart);
+						break;
+					case APICode.RECV_VoiceCode:
+						analyUtil.analyRecvVoicecode(heart);
+						break;
+					case APICode.RECV_BroadcastFile:
+						analyUtil.analyBroadcast(heart);
 						break;
 					}
 

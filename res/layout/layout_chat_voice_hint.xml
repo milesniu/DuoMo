@@ -34,7 +34,7 @@
           android:layout_height="wrap_content"
           android:layout_below="@+id/voice_hint_flash"
           android:layout_centerHorizontal="true"
-          android:text="还剩13秒" />
+          android:text="" />
 
     </RelativeLayout>
 

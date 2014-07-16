@@ -62,7 +62,6 @@ public class MutiChoiseDlg
 					}
 				}
 				edit.setText(selectedStr.equals("")?"":selectedStr.subSequence(0, selectedStr.length()-1));
-//				Toast.makeText(mContext, selectedStr.subSequence(0, selectedStr.length()-1), 0).show();
 			}
 		};
 		builder.setPositiveButton("确定", btnListener);

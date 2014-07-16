@@ -1,7 +1,11 @@
 package com.miles.ccit.util;
 
+import com.miles.ccit.duomo.HaveCallActivity;
+import com.miles.ccit.ui.LoginActivity;
+
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Message;
@@ -22,7 +26,12 @@ public class MyApplication extends Application
 			public void handleMessage(Message msg)
 			{
 				// TODO Auto-generated method stub
-				MyLog.showToast(getApplicationContext(), "重新连接中...");
+				Intent intent = new Intent();
+				intent.setClass(mcontext, LoginActivity.class);
+				 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
+				 mcontext.startActivity(intent);
+//				mcontext.startActivity(new Intent(mcontext, LoginActivity.class));
+				MyLog.showToast(getApplicationContext(), "连接断开，请重新登陆");
 				super.handleMessage(msg);
 			}
 			
