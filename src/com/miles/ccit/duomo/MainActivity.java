@@ -1,4 +1,4 @@
-package com.miles.ccit.ui;
+package com.miles.ccit.duomo;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

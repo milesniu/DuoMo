@@ -1,4 +1,4 @@
-package com.miles.ccit.ui;
+package com.miles.ccit.duomo;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -27,8 +27,6 @@ import android.widget.Toast;
 import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
-import com.miles.ccit.duomo.CreatEMailActivity;
-import com.miles.ccit.duomo.EmailInfoActivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsBaseFragment;

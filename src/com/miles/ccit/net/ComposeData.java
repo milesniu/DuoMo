@@ -462,6 +462,17 @@ public class ComposeData
 		return SendData;
 	}
 	
+	/**
+	 * 模式返回
+	 * @param info null
+	 * */
+	public byte[] sendBackmodel(String... info)
+	{
+
+		return new byte[]{(byte)0x55,(byte)0xAA,(byte)0x00,(byte)0x01,(byte)0x2B};
+
+	}
+	
 	
 	
 }

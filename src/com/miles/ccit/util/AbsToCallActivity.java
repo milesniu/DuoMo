@@ -18,9 +18,9 @@ import android.widget.Toast;
 import com.miles.ccit.adapter.ContactAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.CallWaitActivity;
+import com.miles.ccit.duomo.CreatContactActivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.net.APICode;
-import com.miles.ccit.ui.CreatContactActivity;
 
 public abstract class AbsToCallActivity extends AbsBaseActivity
 {

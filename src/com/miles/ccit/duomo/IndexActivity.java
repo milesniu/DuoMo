@@ -1,4 +1,4 @@
-package com.miles.ccit.ui;
+package com.miles.ccit.duomo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,11 +6,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 
-import com.miles.ccit.duomo.AboutActivity;
-import com.miles.ccit.duomo.BroadCastctivity;
 import com.miles.ccit.duomo.R;
-import com.miles.ccit.duomo.SettingActivity;
-import com.miles.ccit.duomo.SpecialVoiceActivity;
 import com.miles.ccit.util.AbsBaseActivity;
 
 public class IndexActivity extends AbsBaseActivity

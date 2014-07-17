@@ -3,9 +3,9 @@ package com.miles.ccit.util;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.miles.ccit.duomo.CreatShortmsgActivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.net.APICode;
-import com.miles.ccit.ui.CreatShortmsgActivity;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;

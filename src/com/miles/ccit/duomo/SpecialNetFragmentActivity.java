@@ -1,4 +1,4 @@
-package com.miles.ccit.ui;
+package com.miles.ccit.duomo;
 
 import java.util.Map;
 
@@ -15,6 +15,8 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 import com.miles.ccit.duomo.R;
+import com.miles.ccit.net.APICode;
+import com.miles.ccit.util.SendDataTask;
 
 public class SpecialNetFragmentActivity extends FragmentActivity 
 {
@@ -47,6 +49,18 @@ public class SpecialNetFragmentActivity extends FragmentActivity
 		initView();
 		fm = getSupportFragmentManager();
 	}
+	
+	
+
+	@Override
+	protected void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		new SendDataTask().execute(APICode.SEND_BackModel+"");
+		super.onDestroy();
+	}
+
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -14,7 +14,7 @@ import com.miles.ccit.duomo.CallWaitActivity;
 import com.miles.ccit.duomo.EmailInfoActivity;
 import com.miles.ccit.duomo.HaveCallActivity;
 import com.miles.ccit.duomo.R;
-import com.miles.ccit.ui.ShortmsgListActivity;
+import com.miles.ccit.duomo.ShortmsgListActivity;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.BaseMapObject;

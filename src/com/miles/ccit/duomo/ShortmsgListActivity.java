@@ -1,4 +1,4 @@
-package com.miles.ccit.ui;
+package com.miles.ccit.duomo;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -41,7 +41,6 @@ import android.widget.TextView;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.duomo.R;
-import com.miles.ccit.ui.LoginActivity.MyBroadcastReciver;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;

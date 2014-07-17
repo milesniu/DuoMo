@@ -26,9 +26,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.net.APICode;
-import com.miles.ccit.ui.CreatShortmsgActivity;
-import com.miles.ccit.ui.LoginActivity;
-import com.miles.ccit.ui.ShortmsgListActivity;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsEmailCodeActivity;
 import com.miles.ccit.util.BaseMapObject;
@@ -98,6 +95,15 @@ public class BroadCastctivity extends AbsBaseActivity
 	}
 	
 
+
+	@Override
+	protected void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		new SendDataTask().execute(APICode.SEND_BackModel+"");
+		super.onDestroy();
+	}
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
 	{

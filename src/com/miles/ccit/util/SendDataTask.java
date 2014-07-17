@@ -66,6 +66,10 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 				SocketConnection.getInstance().readReqMsg(new ComposeData().sendNormalInteraput());
 				
 				break;
+			case APICode.SEND_BackModel:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendBackmodel());
+				
+				break;
 
 			}
 

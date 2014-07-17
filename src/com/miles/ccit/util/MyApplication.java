@@ -1,7 +1,7 @@
 package com.miles.ccit.util;
 
 import com.miles.ccit.duomo.HaveCallActivity;
-import com.miles.ccit.ui.LoginActivity;
+import com.miles.ccit.duomo.LoginActivity;
 
 import android.app.Application;
 import android.content.Context;

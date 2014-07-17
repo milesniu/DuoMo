@@ -1,36 +1,30 @@
 package com.miles.ccit.duomo;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.miles.ccit.adapter.MsgorMailSetAdapter;
-import com.miles.ccit.adapter.VoicecodeAdapter;
 import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.database.UserDatabase;
-import com.miles.ccit.ui.CreatVoicecodeActivity;
-import com.miles.ccit.ui.LoginActivity;
+import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
-import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.SendDataTask;
 
 public class SpecialVoiceActivity extends AbsBaseActivity
 {
@@ -55,6 +49,15 @@ public class SpecialVoiceActivity extends AbsBaseActivity
 		return true;
 	}
 
+
+	@Override
+	protected void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		new SendDataTask().execute(APICode.SEND_BackModel+"");
+		super.onDestroy();
+	}
+	
 	@Override
 	public void onClick(View v)
 	{

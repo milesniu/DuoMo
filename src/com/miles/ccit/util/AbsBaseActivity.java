@@ -23,9 +23,9 @@ import android.widget.TextView;
 
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
+import com.miles.ccit.duomo.LoginActivity;
 import com.miles.ccit.duomo.R;
-import com.miles.ccit.ui.LoginActivity;
-import com.miles.ccit.ui.LoginActivity.MyBroadcastReciver;
+import com.miles.ccit.duomo.LoginActivity.MyBroadcastReciver;
 
 public abstract class AbsBaseActivity extends Activity implements OnClickListener
 {

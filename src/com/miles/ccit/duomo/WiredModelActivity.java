@@ -1,4 +1,4 @@
-package com.miles.ccit.ui;
+package com.miles.ccit.duomo;
 
 import java.util.Iterator;
 import java.util.List;
@@ -7,13 +7,14 @@ import java.util.Vector;
 import com.miles.ccit.adapter.ContactAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
-import com.miles.ccit.duomo.CreatWiredActivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.duomo.R.layout;
 import com.miles.ccit.duomo.R.menu;
+import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.SendDataTask;
 import com.miles.ccit.util.UnixTime;
 
 import android.os.Bundle;
@@ -61,6 +62,15 @@ public class WiredModelActivity extends AbsBaseActivity
 //		int a = list.size();
 	}
 
+
+	@Override
+	protected void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		new SendDataTask().execute(APICode.SEND_BackModel+"");
+		super.onDestroy();
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{

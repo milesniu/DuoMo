@@ -25,7 +25,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.miles.ccit.ui.MainActivity"
+            android:name="com.miles.ccit.duomo.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.miles.ccit.ui.IndexActivity"
+            android:name="com.miles.ccit.duomo.IndexActivity"
             android:label="@string/title_activity_index"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
@@ -46,49 +46,49 @@
         </service>
 
         <activity
-            android:name="com.miles.ccit.ui.SpecialNetFragmentActivity"
+            android:name="com.miles.ccit.duomo.SpecialNetFragmentActivity"
             android:label="@string/title_activity_special_net"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.miles.ccit.ui.ContactActivity"
+            android:name="com.miles.ccit.duomo.ContactActivity"
             android:label="@string/title_activity_contact"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.miles.ccit.ui.LoginActivity"
+            android:name="com.miles.ccit.duomo.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.miles.ccit.ui.CreatContactActivity"
+            android:name="com.miles.ccit.duomo.CreatContactActivity"
             android:label="@string/title_activity_newcontact"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.miles.ccit.ui.WiredModelActivity"
+            android:name="com.miles.ccit.duomo.WiredModelActivity"
             android:label="@string/title_activity_wired_model"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.miles.ccit.ui.CreatShortmsgActivity"
+            android:name="com.miles.ccit.duomo.CreatShortmsgActivity"
             android:label="@string/title_activity_creat_shortmsg"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.miles.ccit.ui.ShortmsgListActivity"
+            android:name="com.miles.ccit.duomo.ShortmsgListActivity"
             android:label="@string/title_activity_shortmsg_list"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.miles.ccit.ui.CreatVoicecodeActivity"
+            android:name="com.miles.ccit.duomo.CreatVoicecodeActivity"
             android:label="@string/title_activity_input_num"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >

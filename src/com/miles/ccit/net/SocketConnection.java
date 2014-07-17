@@ -24,7 +24,7 @@ import android.os.Message;
 
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.R;
-import com.miles.ccit.ui.ShortmsgListActivity;
+import com.miles.ccit.duomo.ShortmsgListActivity;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.BaseMapObject;
