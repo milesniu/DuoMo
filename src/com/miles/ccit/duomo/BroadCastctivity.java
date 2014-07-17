@@ -26,6 +26,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.net.APICode;
+import com.miles.ccit.ui.CreatShortmsgActivity;
+import com.miles.ccit.ui.LoginActivity;
 import com.miles.ccit.ui.ShortmsgListActivity;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsEmailCodeActivity;
@@ -148,6 +150,11 @@ public class BroadCastctivity extends AbsBaseActivity
 			this.finish();
 			break;
 		case R.id.bt_commit:
+			if(!LoginActivity.isLogin)
+			{
+				MyLog.showToast(mContext, "请登录后再执行该操作...");
+				return;
+			}
 			
 			number= edit_Boundry.getText().toString();
 			if(number.equals(""))

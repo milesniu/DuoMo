@@ -338,6 +338,9 @@ public class SocketConnection
 					case APICode.RECV_BroadcastFile:
 						analyUtil.analyBroadcast(heart);
 						break;
+					case APICode.BACK_SpecialVoice:
+						analyUtil.analyBackSpecialVoice(heart);
+						break;
 					}
 
 					try

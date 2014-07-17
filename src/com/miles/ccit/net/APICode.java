@@ -59,8 +59,8 @@ public class APICode
 	public static final byte SEND_SpecialVoice = (byte)0x18;
 	/**专向语音响应*/
 	public static final byte BACK_SpecialVoice = (byte)0x19;
-	/**收到专向语音话音*/
-	public static final byte RECV_TalkSpecialVoice = (byte)0x1A;
+	/**专向语音讲话或停止讲话*/
+	public static final byte SEND_TalkSpecialVoice = (byte)0x1A;
 	/**发送有线语音*/
 	public static final byte SEND_WiredVoice = (byte)0x1B;
 	/**响应有线语音*/

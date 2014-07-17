@@ -1,5 +1,12 @@
 package com.miles.ccit.duomo;
 
+import java.util.HashMap;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -7,25 +14,39 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.miles.ccit.adapter.MsgorMailSetAdapter;
+import com.miles.ccit.duomo.BroadCastctivity.MyBroadcastReciver;
+import com.miles.ccit.net.APICode;
+import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.SendDataTask;
 import com.miles.ccit.util.UnixTime;
 
-public class CreatSpecialvoiceActivity extends AbsMsgRecorderActivity
+public class CreatSpecialvoiceActivity extends AbsBaseActivity
 {
 
 //	private Button Btn_Talk;
 	private Button Btn_Commit;
 	private EditText  edit_frequency;
-	private MsgorMailSetAdapter adapter;
+	private Button Btn_Talk;
+	private String number;
+	private MyBroadcastReciver broad = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_creat_specialvoice);
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(broad_specialvoice_Action);
+		broad = new MyBroadcastReciver();
+		this.registerReceiver(broad, intentFilter);
 	}
 
 	@Override
@@ -47,11 +68,32 @@ public class CreatSpecialvoiceActivity extends AbsMsgRecorderActivity
 			break;
 		
 		case R.id.bt_commit:
-			Btn_Talk.setVisibility(View.VISIBLE);
-			insertSpecical(edit_frequency.getText().toString());
+			number= edit_frequency.getText().toString();
+			if(number.equals(""))
+			{
+				MyLog.showToast(mContext, "请输入有效频率");
+				return;
+			}
+			else
+			{
+				double num = Double.parseDouble(number);
+				if(num<3||num>30)
+				{
+					MyLog.showToast(mContext, "请输入有效频率");
+					return;
+				}
+				else
+				{
+					insertSpecical(number);
+					new SendDataTask().execute(APICode.SEND_SpecialVoice+"",OverAllData.Account,number);
+				}
+			}
 			break;
 		}
 	}
+	
+	
+	
 	
 	private void insertSpecical(String frequen)
 	{
@@ -59,7 +101,7 @@ public class CreatSpecialvoiceActivity extends AbsMsgRecorderActivity
 		email.put("id", null);
 		email.put("frequency", frequen);
 		email.put("creattime", UnixTime.getStrCurrentUnixTime());
-		email.InsertObj2DB(mContext, "specialway");
+		email.InsertObj2DB(mContext, "specialway");		
 	}
 
 	@Override
@@ -83,17 +125,56 @@ public class CreatSpecialvoiceActivity extends AbsMsgRecorderActivity
 				switch (event.getAction())
 				{
 				case MotionEvent.ACTION_DOWN:
-					talkTouchDown("null");
+					findViewById(R.id.voice_hint_layout).setVisibility(View.VISIBLE);
+					((AnimationDrawable) ((ImageView) findViewById(R.id.voice_hint_flash)).getDrawable()).start();
+					((TextView) findViewById(R.id.voiceHintText)).setText("松开手指,停止讲话");
 					
+					SendSpecialVoicetoNet(true);
 					break;
 				case MotionEvent.ACTION_UP:
-					setStrContatc("null");
-					talkTouchUp(event);
+					findViewById(R.id.voice_hint_layout).setVisibility(View.GONE);
+					((TextView) findViewById(R.id.voiceHintText)).setText("松开手指发送");
+					
+					SendSpecialVoicetoNet(false);
 					break;
 				}
 				return false;
 			}
 		});
+	}
+	
+	
+	public void SendSpecialVoicetoNet(boolean connet)
+	{
+
+		new SendDataTask().execute(APICode.SEND_TalkSpecialVoice+"",OverAllData.Account,connet?"1":"0");
+		
+	}
+	
+	
+	public class MyBroadcastReciver extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			// TODO Auto-generated method stub
+			String action = intent.getAction();
+
+
+			if (action.equals(broad_specialvoice_Action))
+			{
+				if (intent.getSerializableExtra("data").equals("true"))
+				{
+					Btn_Talk.setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					MyLog.showToast(mContext, "专项语音请求失败...");
+					Btn_Talk.setVisibility(View.GONE);
+				}
+			}
+		}
+
 	}
 
 }

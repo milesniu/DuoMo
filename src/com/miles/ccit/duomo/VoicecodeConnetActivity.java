@@ -49,6 +49,8 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 		switch(v.getId())
 		{
 		case R.id.bt_disconnet:
+			new SendDataTask().execute(APICode.SEND_NormalInteraput+"",OverAllData.Account);
+			
 			this.finish();
 			break;
 		}

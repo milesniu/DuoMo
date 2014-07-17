@@ -338,6 +338,23 @@ public class AnalysisRecvData
 		}
 
 	}
+	
+	public void analyBackSpecialVoice(byte[] data) throws UnsupportedEncodingException
+	{
+
+		Intent intent = new Intent();
+			intent.setAction(AbsBaseActivity.broad_specialvoice_Action);
+			if (data[5] == 1)// 成功响应
+			{
+				intent.putExtra("data", "true");
+			} else if (data[5] == 0)// 失败响应
+			{
+				intent.putExtra("data", "false");
+			}
+			AppContext.sendBroadcast(intent);
+
+	}
+
 
 	public void analyRecvVoicecode(byte[] data) throws UnsupportedEncodingException
 	{

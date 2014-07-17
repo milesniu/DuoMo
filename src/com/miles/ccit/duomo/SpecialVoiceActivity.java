@@ -26,8 +26,10 @@ import com.miles.ccit.adapter.VoicecodeAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.ui.CreatVoicecodeActivity;
+import com.miles.ccit.ui.LoginActivity;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 
 public class SpecialVoiceActivity extends AbsBaseActivity
@@ -63,6 +65,11 @@ public class SpecialVoiceActivity extends AbsBaseActivity
 			this.finish();			
 			break;
 		case R.id.bt_right:
+			if(!LoginActivity.isLogin)
+			{
+				MyLog.showToast(mContext, "请登录后再执行该操作...");
+				return;
+			}
 			startActivity(new Intent(mContext, CreatSpecialvoiceActivity.class));
 			break;
 		case R.id.bt_sure:
@@ -106,12 +113,14 @@ public class SpecialVoiceActivity extends AbsBaseActivity
 	{
 		voiceList = GetData4DB.getObjectListData(mContext, "specialway");
 		
-		if (voiceList == null)
+		if (voiceList == null || voiceList.size()<1)
 		{
-			Toast.makeText(mContext, "网络连接异常，请检查后重试...", 0).show();
+			showEmpty();
+//			Toast.makeText(getActivity(), "暂无消息记录...", 0).show();
 			return;
 		}
-
+		hideEmpty();
+		
 		adapter = new MsgorMailSetAdapter(mContext, voiceList, "svoice");
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new OnItemClickListener()

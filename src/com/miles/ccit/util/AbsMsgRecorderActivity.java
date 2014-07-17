@@ -210,7 +210,7 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 		{
 			findViewById(R.id.voice_hint_layout).setVisibility(View.GONE);
 			((TextView) findViewById(R.id.voiceHintText)).setText("松开手指发送");
-			Btn_Talk.setText("按住录音");
+			Btn_Talk.setText("按住说话");
 			if (mediaRecorder != null)
 			{
 				mediaRecorder.stopRecorder();
