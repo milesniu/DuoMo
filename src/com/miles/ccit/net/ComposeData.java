@@ -100,6 +100,42 @@ public class ComposeData
 	}
 	
 	/**
+	 * 发送修改密码
+	 * @param info 旧密码，新密码
+	 * */
+	public byte[] sendChangePwd(String... info)
+	{
+		int mLen = 0;
+		for(String i:info)
+		{
+			mLen+=i.getBytes().length;
+		}
+		
+		byte[] mData = new byte[mLen+info.length];
+		int currentpos = 0;
+		for(String item:info)
+		{
+			byte[] len = ByteUtil.int2Byte(1,item.getBytes().length);
+			System.arraycopy(len, 0, mData, currentpos, len.length);
+			currentpos += len.length;
+			System.arraycopy(item.getBytes(), 0, mData, currentpos, item.getBytes().length);
+			currentpos += item.length();
+		}
+		byte[] head = data.head;
+		byte[] DataLenth = HexSwapString.short2Byte((short)(mData.length+1));//new byte[]{(byte)(mData.length+1)}; // 数据区长度
+		byte[] frame = new byte[]{APICode.SEND_ChangePwd}; // 命令码
+	
+		byte[] SendData = new byte[mData.length+5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
+		int lenth = 0; // 记录当前拷贝到目的数组的下标
+		System.arraycopy(head, 0, SendData, lenth, head.length);
+		System.arraycopy(DataLenth, 0, SendData, lenth += head.length, DataLenth.length);
+		System.arraycopy(frame, 0, SendData, lenth += DataLenth.length, frame.length);
+		System.arraycopy(mData, 0, SendData, lenth += frame.length, mData.length);
+		return SendData;
+	}
+	
+	
+	/**
 	 * 发送短消息
 	 * @param info 源地址、目的地址、内容
 	 * */
@@ -467,6 +503,17 @@ public class ComposeData
 	 * @param info null
 	 * */
 	public byte[] sendBackmodel(String... info)
+	{
+
+		return new byte[]{(byte)0x55,(byte)0xAA,(byte)0x00,(byte)0x01,(byte)0x2B};
+
+	}
+	
+	/**
+	 * 系统设置
+	 * @param info 发送延时，接受延时，电台类型，电台功率
+	 * */
+	public byte[] sendConfig(String... info)
 	{
 
 		return new byte[]{(byte)0x55,(byte)0xAA,(byte)0x00,(byte)0x01,(byte)0x2B};

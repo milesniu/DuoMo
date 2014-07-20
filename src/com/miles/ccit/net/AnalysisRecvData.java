@@ -42,6 +42,15 @@ public class AnalysisRecvData
 		intent.putExtra("data", data);
 		AppContext.sendBroadcast(intent);
 	}
+	
+	public void analyChangePwd(byte[] data)
+	{
+		Intent intent = new Intent();
+		intent.setAction(AbsBaseActivity.broad_backchangepwd_Action);
+		intent.putExtra("data", data);
+		AppContext.sendBroadcast(intent);
+	}
+	
 
 	public void analyTextMsg(byte[] data) throws UnsupportedEncodingException
 	{

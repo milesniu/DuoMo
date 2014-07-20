@@ -341,6 +341,9 @@ public class SocketConnection
 					case APICode.BACK_SpecialVoice:
 						analyUtil.analyBackSpecialVoice(heart);
 						break;
+					case APICode.BACK_ChangePwd:
+						analyUtil.analyChangePwd(heart);
+						break;
 					}
 
 					try

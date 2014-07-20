@@ -39,7 +39,6 @@
          android:hint="请输入接收延时（0~99）"
          android:inputType="number" >
 
-         <requestFocus />
      </EditText>
 
      <Spinner

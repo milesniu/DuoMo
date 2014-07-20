@@ -24,6 +24,8 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 			case APICode.SEND_Logout:
 				break;
 			case APICode.SEND_ChangePwd:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendChangePwd(parm[1], parm[2]));
+				
 				break;
 			case APICode.SEND_ShortTextMsg:
 				SocketConnection.getInstance().readReqMsg(new ComposeData().sendShortTextmsg(parm[1], parm[2], parm[3]));
@@ -56,6 +58,10 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 				break;
 			case APICode.SEND_TalkSpecialVoice:
 				SocketConnection.getInstance().readReqMsg(new ComposeData().sendSpecialVoiceTalk(parm[2]));
+				
+				break;
+			case APICode.SEND_Config:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendSpecialVoiceTalk(parm[1],parm[2],parm[3],parm[4]));
 				
 				break;
 			case APICode.SEND_WiredVoice:
