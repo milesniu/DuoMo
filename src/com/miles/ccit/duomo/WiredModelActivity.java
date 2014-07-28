@@ -1,45 +1,40 @@
 package com.miles.ccit.duomo;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import com.miles.ccit.adapter.ContactAdapter;
-import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.database.UserDatabase;
-import com.miles.ccit.duomo.R;
-import com.miles.ccit.duomo.R.layout;
-import com.miles.ccit.duomo.R.menu;
-import com.miles.ccit.net.APICode;
-import com.miles.ccit.util.AbsBaseActivity;
-import com.miles.ccit.util.BaseMapObject;
-import com.miles.ccit.util.OverAllData;
-import com.miles.ccit.util.SendDataTask;
-import com.miles.ccit.util.UnixTime;
-
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
+
+import com.miles.ccit.adapter.WiredModelAdapter;
+import com.miles.ccit.database.GetData4DB;
+import com.miles.ccit.net.APICode;
+import com.miles.ccit.util.AbsBaseActivity;
+import com.miles.ccit.util.AbsToCallActivity;
+import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.MyLog;
+import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.SendDataTask;
 
 public class WiredModelActivity extends AbsBaseActivity
 {
 
 	private ListView list_Content;
 	private List<BaseMapObject> wiredlist = new Vector<BaseMapObject>();
-	private ContactAdapter adapter;
+	private WiredModelAdapter adapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -89,7 +84,14 @@ public class WiredModelActivity extends AbsBaseActivity
 			this.finish();
 			break;
 		case R.id.bt_right:
-			startActivity(new Intent(this, CreatWiredActivity.class));
+			if(LoginActivity.isLogin)
+			{
+				startActivity(new Intent(this, CreatWiredActivity.class));
+			}
+			else
+			{
+				MyLog.showToast(mContext, "请登录后再执行该操作...");
+			}
 			break;
 	
 		case R.id.bt_sure:
@@ -138,7 +140,7 @@ public class WiredModelActivity extends AbsBaseActivity
 			else
 			{
 				hideEmpty();
-				adapter = new ContactAdapter(mContext, wiredlist,"name","number","creattime"); 
+				adapter = new WiredModelAdapter(mContext, wiredlist); 
 				list_Content.setAdapter(adapter);
 			}
 			list_Content.setOnCreateContextMenuListener(new OnCreateContextMenuListener()
@@ -163,7 +165,9 @@ public class WiredModelActivity extends AbsBaseActivity
 						int arg2, long arg3)
 				{
 					// TODO Auto-generated method stub
-					Toast.makeText(mContext, arg2+"", 0).show();
+					AbsToCallActivity.CurrentType = AbsToCallActivity.TOCALLWIREDVOICE;
+					AbsToCallActivity.insertWiredRecord(mContext,wiredlist.get(arg2).get("number").toString(),null);
+					
 				}
 			});
 		}

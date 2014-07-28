@@ -20,8 +20,7 @@ public class CreatWiredActivity extends AbsToCallActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_creat_wired);
 		all = GetData4DB.getObjectListData(mContext, "contact", "type", "1");
-		CurrentType = TOCALLWIRED;
-	
+		CurrentType = TOCALLWIREDVOICE;
 	}
 	
 	@Override
@@ -36,7 +35,7 @@ public class CreatWiredActivity extends AbsToCallActivity
 				Uri uri = data.getData();
 				String path = FileUtils.getPath(this, uri);
 				String name = AbsEmailCodeActivity.getFileName(path);
-				insertWiredRecord(strNumber, path);
+				insertWiredRecord(mContext,strNumber, path);
 			}
 			break;
 		}

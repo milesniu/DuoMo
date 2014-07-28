@@ -3,6 +3,7 @@ package com.miles.ccit.util;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.miles.ccit.duomo.LoginActivity;
 import com.miles.ccit.net.APICode;
 import com.miles.ccit.net.ComposeData;
 import com.miles.ccit.net.SocketConnection;
@@ -61,10 +62,11 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 				
 				break;
 			case APICode.SEND_Config:
-				SocketConnection.getInstance().readReqMsg(new ComposeData().sendSpecialVoiceTalk(parm[1],parm[2],parm[3],parm[4]));
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendConfig(parm[1],parm[2],parm[3],parm[4]));
 				
 				break;
 			case APICode.SEND_WiredVoice:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendWiredVoice(parm[2]));
 				break;
 			case APICode.SEND_WiredFile:
 				break;
@@ -73,8 +75,10 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 				
 				break;
 			case APICode.SEND_BackModel:
-				SocketConnection.getInstance().readReqMsg(new ComposeData().sendBackmodel());
-				
+				if(LoginActivity.isLogin)
+				{
+					SocketConnection.getInstance().readReqMsg(new ComposeData().sendBackmodel());
+				}
 				break;
 
 			}

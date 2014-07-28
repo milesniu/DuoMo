@@ -34,20 +34,21 @@
      android:gravity="center"
       >
 
-     <Button
+           <Button
          android:id="@+id/bt_canle"
          android:layout_width="0dp"
-         android:layout_height="wrap_content"
+         android:layout_height="50dp"
          android:layout_weight="1"
-         android:text="取消" />
-
-     <Button
+         android:background="@drawable/muticanle" />
+      <Button
          android:id="@+id/bt_sure"
          android:layout_width="0dp"
-         android:layout_height="wrap_content"
-         android:layout_marginLeft="15dp"
+         android:layout_height="50dp"
          android:layout_weight="1"
-         android:text="删除" />
+         android:layout_marginLeft="15dp"
+        android:background="@drawable/mutidel" />
+
+
  </LinearLayout>
  <ImageView
      android:id="@+id/image_empty"

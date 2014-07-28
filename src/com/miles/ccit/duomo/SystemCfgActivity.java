@@ -49,6 +49,18 @@ public class SystemCfgActivity extends AbsBaseActivity
 			this.finish();
 			break;
 		case R.id.bt_right:
+			if(edit_senddelay.getText().toString().equals(""))
+			{
+				MyLog.showToast(mContext, "请输入发送延时");
+				return;
+			}
+			if(edit_recvdelay.getText().toString().equals(""))
+			{
+				MyLog.showToast(mContext, "请输入接收延时");
+				return;
+			}
+			
+			
 			int send = Integer.parseInt(edit_senddelay.getText().toString());
 			int recv = Integer.parseInt(edit_recvdelay.getText().toString());
 			

@@ -122,7 +122,7 @@ public class AnalysisRecvData
 		Intent intent = new Intent();
 		int alllen = ByteUtil.byte2Int(new byte[]
 		{ data[2], data[3] });
-		int idlen = alllen - 3;// 长度本身1字节，命令码1字节，成败1字节
+		int idlen = alllen - 2;// 长度本身1字节，命令码1字节，成败1字节
 
 		byte[] srcname = new byte[idlen];
 		System.arraycopy(data, 6, srcname, 0, idlen);

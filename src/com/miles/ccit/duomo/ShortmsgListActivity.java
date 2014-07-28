@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -37,7 +37,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.duomo.R;
@@ -47,6 +46,7 @@ import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.UnixTime;
 
+@SuppressLint("ViewHolder")
 public class ShortmsgListActivity extends AbsMsgRecorderActivity
 {
 
@@ -332,6 +332,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		}
 	}
 
+	@SuppressLint("ViewHolder")
 	private class MessageListAdapter extends BaseAdapter
 	{
 
@@ -364,6 +365,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 			return position;
 		}
 
+		@SuppressLint("ViewHolder")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
@@ -384,7 +386,6 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 				break;
 			case AbsMsgRecorderActivity.SENDERROR:
 				talkView = LayoutInflater.from(mContext).inflate(R.layout.outcometalk, null);
-
 				break;
 			}
 

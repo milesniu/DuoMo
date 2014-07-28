@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:id="@+id/linear_del"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content" 
+     android:gravity="center"
+     android:visibility="visible"
+     android:layout_marginLeft="10dp"
+     android:layout_marginRight="10dp"
+     
+     android:layout_alignParentBottom="true">
+
+     <Button
+         android:id="@+id/bt_canle"
+         android:layout_width="0dp"
+         android:layout_height="50dp"
+         android:layout_weight="1"
+         android:background="@drawable/muticanle" />
+      <Button
+         android:id="@+id/bt_sure"
+         android:layout_width="0dp"
+         android:layout_height="50dp"
+         android:layout_weight="1"
+         android:layout_marginLeft="15dp"
+        android:background="@drawable/mutidel" />
+
+ </LinearLayout>

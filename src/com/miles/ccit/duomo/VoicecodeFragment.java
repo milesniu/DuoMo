@@ -215,13 +215,13 @@ public class VoicecodeFragment extends AbsBaseFragment
 //			adapter.notifyDataSetChanged();
 //			linear_Del.setVisibility(View.GONE);
 //			break;
-//		case R.id.bt_canle:
-//			for (BaseMapObject tmp : voiceList)
-//			{
-//				tmp.put("exp1", null);
-//				tmp.put("exp2", null);
-//			}
-//			linear_Del.setVisibility(View.GONE);
+		case R.id.bt_canle:
+			for (BaseMapObject tmp : voiceList)
+			{
+				tmp.put("exp1", null);
+				tmp.put("exp2", null);
+			}
+			linear_Del.setVisibility(View.GONE);
 			break;
 		default:
 			break;

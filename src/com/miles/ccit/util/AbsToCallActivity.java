@@ -30,7 +30,8 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 	private ContactAdapter adapter;
 	public List<BaseMapObject> all;
 	public static final int TOCALLVOICE = 0;
-	public static final int TOCALLWIRED = 1;
+	public static final int TOCALLWIREDVOICE = 1;
+	public static final int TOCALLWIREDFILE = 2;
 	public static int  CurrentType = -1;
 	public static String Recv_Call = "1";//接听
 	public static String Send_Call = "2";//拨打
@@ -71,7 +72,11 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 				{
 					insertVoiceRecord(mContext,getContact(strNumber).get(arg2).get("number").toString());
 				}
-				else if(CurrentType == TOCALLWIRED)
+				else if(CurrentType == TOCALLWIREDVOICE)
+				{
+					insertWiredRecord(mContext, getContact(strNumber).get(arg2).get("number").toString(), null);
+				}
+				else if(CurrentType == TOCALLWIREDFILE)
 				{
 					
 				}
@@ -155,6 +160,12 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 			insertNum("#");
 			break;
 		case R.id.buttoncall:
+			if(strNumber.equals(""))
+			{
+				MyLog.showToast(mContext, "请输入有效号码");
+				return;
+			}
+			CurrentType = TOCALLVOICE;
 			insertVoiceRecord(mContext,strNumber);
 			break;
 		case R.id.buttonadd:
@@ -164,10 +175,22 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 			delNum();
 			break;
 		case R.id.buttoncallvoice:
-			insertWiredRecord(strNumber, null);
+			if(strNumber.equals(""))
+			{
+				MyLog.showToast(mContext, "请输入有效号码");
+				return;
+			}
+			CurrentType = TOCALLWIREDVOICE;
+			insertWiredRecord(mContext,strNumber, null);
 			break;
 		case R.id.buttoncallfile:
 //			insertWiredRecord(strNumber, 1);
+			if(strNumber.equals(""))
+			{
+				MyLog.showToast(mContext, "请输入有效号码");
+				return;
+			}
+			CurrentType = TOCALLWIREDFILE;
 			Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 			intent.setType("image/*");
 			intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -202,7 +225,7 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		toCall(contex,code);
 	}
 	
-	public void insertWiredRecord(String code,String filepath)
+	public static void insertWiredRecord(Context mcontext,String code,String filepath)
 	{
 		if(code.equals(""))
 		{
@@ -216,8 +239,8 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		record.put("filepath",filepath);
 		record.put("creattime", UnixTime.getStrCurrentUnixTime());
 		
-		record.InsertObj2DB(mContext, "wiredrecord");
-		toCall(mContext,code);
+		record.InsertObj2DB(mcontext, "wiredrecord");
+		toCall(mcontext,code);
 	}
 	
 	public static void  sendVoiceStarttoNet(String contact)
@@ -225,11 +248,16 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		new SendDataTask().execute(APICode.SEND_VoiceCode+"",OverAllData.Account,contact);
 	}
 	
+	public static void  sendWiredStarttoNet(String contact)
+	{
+		new SendDataTask().execute(APICode.SEND_WiredVoice+"",OverAllData.Account,contact);
+	}
+	
 	public  static void toCall(Context contex,final String code)
 	{
 		if(CurrentType==TOCALLVOICE)
 		{
-			contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("code", code));
+			contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOCALLVOICE).putExtra("code", code));
 			new Timer().schedule(new TimerTask()
 			{
 				
@@ -242,10 +270,34 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 			},1000);
 			
 		}
-		else if(CurrentType == TOCALLWIRED)
+		else if(CurrentType == TOCALLWIREDVOICE)
 		{
-			
+			contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOCALLWIREDVOICE).putExtra("code", code));
+			new Timer().schedule(new TimerTask()
+			{
+				
+				@Override
+				public void run()
+				{
+					// TODO Auto-generated method stub
+					sendWiredStarttoNet(code);
+				}
+			},1000);
 		}
+		else if(CurrentType == TOCALLWIREDFILE)
+		{
+			contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOCALLWIREDFILE).putExtra("code", code));
+			new Timer().schedule(new TimerTask()
+			{
+				@Override
+				public void run()
+				{
+					// TODO Auto-generated method stub
+					sendWiredStarttoNet(code);
+				}
+			},1000);
+		}
+			
 	}
 	
 	public void inserContact()
