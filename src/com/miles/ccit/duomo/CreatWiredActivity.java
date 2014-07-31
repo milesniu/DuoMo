@@ -10,6 +10,7 @@ import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.util.AbsEmailCodeActivity;
 import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.FileUtils;
+import com.miles.ccit.util.MyLog;
 
 public class CreatWiredActivity extends AbsToCallActivity
 {
@@ -36,6 +37,7 @@ public class CreatWiredActivity extends AbsToCallActivity
 				String path = FileUtils.getPath(this, uri);
 				String name = AbsEmailCodeActivity.getFileName(path);
 				insertWiredRecord(mContext,strNumber, path);
+				MyLog.showToast(mContext, path);
 			}
 			break;
 		}

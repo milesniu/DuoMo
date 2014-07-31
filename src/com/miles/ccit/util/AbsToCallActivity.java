@@ -222,7 +222,7 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		record.put("acknowledgemen", OverAllData.Acknowledgemen);
 		
 		record.InsertObj2DB(contex, "voicecoderecord");
-		toCall(contex,code);
+		toCall(contex,code,null);
 	}
 	
 	public static void insertWiredRecord(Context mcontext,String code,String filepath)
@@ -240,7 +240,7 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		record.put("creattime", UnixTime.getStrCurrentUnixTime());
 		
 		record.InsertObj2DB(mcontext, "wiredrecord");
-		toCall(mcontext,code);
+		toCall(mcontext,code,filepath);
 	}
 	
 	public static void  sendVoiceStarttoNet(String contact)
@@ -253,7 +253,7 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		new SendDataTask().execute(APICode.SEND_WiredVoice+"",OverAllData.Account,contact);
 	}
 	
-	public  static void toCall(Context contex,final String code)
+	public  static void toCall(Context contex,final String code,String filepath)
 	{
 		if(CurrentType==TOCALLVOICE)
 		{
@@ -286,7 +286,7 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		}
 		else if(CurrentType == TOCALLWIREDFILE)
 		{
-			contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOCALLWIREDFILE).putExtra("code", code));
+			contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOCALLWIREDFILE).putExtra("filepath", filepath).putExtra("code", code));
 			new Timer().schedule(new TimerTask()
 			{
 				@Override

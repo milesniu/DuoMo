@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.util.AbsBaseActivity;
+import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.BaseMapObject;
 
 public class CallWaitActivity extends AbsBaseActivity
@@ -25,13 +26,16 @@ public class CallWaitActivity extends AbsBaseActivity
 	AudioManager audioManager;
 	public static boolean iswait = false;
 	private MyBroadcastReciver broad = null;
-	
+	int type = AbsToCallActivity.TOCALLVOICE;
+	String filepath = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_call_wait);
 		code = getIntent().getStringExtra("code");
+		type = getIntent().getIntExtra("type", 0);
+		filepath = getIntent().getStringExtra("filepath");
 		iswait = true;
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(broad_recvvoicecode_Action);
@@ -100,7 +104,7 @@ public class CallWaitActivity extends AbsBaseActivity
 			{
 				if (intent.getSerializableExtra("data").equals("true"))
 				{
-					startActivity(new Intent(mContext, VoicecodeConnetActivity.class).putExtra("code", code));
+					startActivity(new Intent(mContext, VoicecodeConnetActivity.class).putExtra("code", code).putExtra("filepath", filepath).putExtra("type", type));
 					CallWaitActivity.this.finish();
 				}
 				else

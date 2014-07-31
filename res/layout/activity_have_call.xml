@@ -3,29 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@color/white"
+    android:background="@drawable/callbg"
     tools:context=".CallWaitActivity" >
 
-    <TextView
-        android:id="@+id/text_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="66dp"
-        android:gravity="center_horizontal"
-        android:text="江苏国光"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/black" />
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:layout_below="@+id/text_number"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp"
-        android:src="@drawable/callconnet" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -33,24 +13,65 @@
         android:layout_below="@+id/imageView1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="86dp"
-        android:padding="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/bt_cut"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:text="挂断" />
+            android:background="@drawable/cutdown" />
 
         <Button
             android:id="@+id/bt_connet"
             android:layout_width="0dp"
              android:layout_weight="1"
              android:layout_marginLeft="20dp"
-            android:layout_height="wrap_content"
-            android:text="接听" />
+            android:layout_height="50dp"
+            android:background="@drawable/listening" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="174dp"
+        android:layout_height="174dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/havecallbgicon" />
+
+    <RelativeLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="42dp" >
+
+        <TextView
+            android:id="@+id/text_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:gravity="center_horizontal"
+            android:text="江苏国光"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center_horizontal"
+            android:text="来电..."
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
 </RelativeLayout>
