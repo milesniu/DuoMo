@@ -344,6 +344,14 @@ public class SocketConnection
 					case APICode.BACK_ChangePwd:
 						analyUtil.analyChangePwd(heart);
 						break;
+					case APICode.BACK_WiredVoice:
+						analyUtil.analyBackWiredVoice(heart);
+						break;
+						
+					case APICode.RECV_WiredVoice:
+						analyUtil.analyRecvWiredVoice(heart);
+						break;
+						
 					}
 
 					try

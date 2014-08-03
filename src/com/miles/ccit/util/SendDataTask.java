@@ -80,7 +80,9 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 					SocketConnection.getInstance().readReqMsg(new ComposeData().sendBackmodel());
 				}
 				break;
-
+			case APICode.BACK_RECV_WiredVoice:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendRecvWiredVoice(parm[2]));
+				break;
 			}
 
 		} catch (Exception e)

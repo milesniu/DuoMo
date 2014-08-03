@@ -1,6 +1,9 @@
 package com.miles.ccit.duomo;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -23,7 +26,8 @@ public class HaveCallActivity extends AbsBaseActivity
 	String code = "";
 	private Button Btn_Cut;
 	private Button Btn_Connet;
-	
+	MediaPlayer player;
+	int type = -1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -31,6 +35,30 @@ public class HaveCallActivity extends AbsBaseActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_have_call);
 		code = getIntent().getStringExtra("code");
+		type = getIntent().getIntExtra("type", -1);
+		try
+		{
+			player = MediaPlayer.create(mContext, R.raw.callbeep);
+
+			player.stop();
+			player.prepare();
+			player.start();
+			player.setOnCompletionListener(new OnCompletionListener()
+			{
+
+				@Override
+				public void onCompletion(MediaPlayer mp)
+				{
+					// TODO Auto-generated method stub
+					player.release();
+					player = null;
+					HaveCallActivity.this.finish();
+				}
+			});
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -40,6 +68,20 @@ public class HaveCallActivity extends AbsBaseActivity
 		getMenuInflater().inflate(R.menu.have_call, menu);
 		return true;
 	}
+	
+	@Override
+	protected void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		if (player!=null && player.isPlaying())
+		{
+			player.stop();
+			player.release();
+			player = null;
+		}
+		super.onDestroy();
+	}
+	
 
 	public void insetnum(boolean connet)
 	{
@@ -51,15 +93,25 @@ public class HaveCallActivity extends AbsBaseActivity
 		record.put("priority", OverAllData.Priority);
 		record.put("acknowledgemen", OverAllData.Acknowledgemen);
 		record.InsertObj2DB(mContext, "voicecoderecord");
-		SendRecvVoicecodetoNet(connet);
-	}
-	
-	public void SendRecvVoicecodetoNet(boolean connet)
-	{
-
 		new SendDataTask().execute(APICode.BACK_RECV_VoiceCode+"",OverAllData.Account,connet?"1":"0");
 		
 	}
+	
+	public void insetwiredvoicenum(boolean connet)
+	{
+		BaseMapObject record = new BaseMapObject();
+		record.put("id",null);
+		record.put("number",code);
+		record.put("sendtype","0");//语音0.文件1
+		record.put("status",connet?AbsToCallActivity.Recv_Call:AbsToCallActivity.Recv_Error);//呼入成功/呼出成功/呼入失败/呼出失败(1,2,3,4)
+		record.put("filepath",null);
+		record.put("creattime", UnixTime.getStrCurrentUnixTime());
+		
+		record.InsertObj2DB(mContext, "wiredrecord");
+		new SendDataTask().execute(APICode.BACK_RECV_WiredVoice+"",OverAllData.Account,connet?"1":"0");
+		
+	}
+	
 	
 	@Override
 	public void onClick(View v)
@@ -68,13 +120,27 @@ public class HaveCallActivity extends AbsBaseActivity
 		switch(v.getId())
 		{
 		case R.id.bt_cut:
+			if(type == AbsToCallActivity.TOCALLVOICE)
+			{
+				insetnum(false);
+			}
+			else if(type == AbsToCallActivity.TOCALLWIREDVOICE)
+			{
+				insetwiredvoicenum(false);
+			}
 			
-			insetnum(false);
 			this.finish();
 			break;
 		case R.id.bt_connet:
-			insetnum(true);
-			startActivity(new Intent(mContext, VoicecodeConnetActivity.class).putExtra("code", code));
+			if(type == AbsToCallActivity.TOCALLVOICE)
+			{
+				insetnum(true);
+			}
+			else if(type == AbsToCallActivity.TOCALLWIREDVOICE)
+			{
+				insetwiredvoicenum(true);
+			}
+			startActivity(new Intent(mContext, VoicecodeConnetActivity.class).putExtra("code", code).putExtra("type", type));
 			this.finish();
 			break;
 		}

@@ -29,9 +29,9 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 	private ListView listview;
 	private ContactAdapter adapter;
 	public List<BaseMapObject> all;
-	public static final int TOCALLVOICE = 0;
-	public static final int TOCALLWIREDVOICE = 1;
-	public static final int TOCALLWIREDFILE = 2;
+	public static final int TOCALLVOICE = 0;		//声码话
+	public static final int TOCALLWIREDVOICE = 1;	//有线语音
+	public static final int TOCALLWIREDFILE = 2;	//有线文件
 	public static int  CurrentType = -1;
 	public static String Recv_Call = "1";//接听
 	public static String Send_Call = "2";//拨打

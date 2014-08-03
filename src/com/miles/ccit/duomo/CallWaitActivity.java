@@ -39,6 +39,7 @@ public class CallWaitActivity extends AbsBaseActivity
 		iswait = true;
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(broad_recvvoicecode_Action);
+		intentFilter.addAction(broad_wiredvoice_Action);
 		broad = new MyBroadcastReciver();
 		this.registerReceiver(broad, intentFilter);
 		// AssetFileDescriptor afd =.openFd("callbeep.mp3");
@@ -101,6 +102,18 @@ public class CallWaitActivity extends AbsBaseActivity
 			String action = intent.getAction();
 
 			if (action.equals(broad_recvvoicecode_Action))
+			{
+				if (intent.getSerializableExtra("data").equals("true"))
+				{
+					startActivity(new Intent(mContext, VoicecodeConnetActivity.class).putExtra("code", code).putExtra("filepath", filepath).putExtra("type", type));
+					CallWaitActivity.this.finish();
+				}
+				else
+				{
+					CallWaitActivity.this.finish();
+				}
+			}
+			else if(action.equals(broad_wiredvoice_Action))
 			{
 				if (intent.getSerializableExtra("data").equals("true"))
 				{

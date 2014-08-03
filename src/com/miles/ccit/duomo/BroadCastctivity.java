@@ -1,5 +1,6 @@
 package com.miles.ccit.duomo;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -66,6 +67,7 @@ public class BroadCastctivity extends AbsBaseActivity
 			return;
 		}
 		hideEmpty();
+		Collections.reverse(fileList);
 		adapter = new MsgorMailSetAdapter(mContext, fileList,"broadcast");
 		list_Content.setAdapter(adapter);
 		list_Content.setOnItemClickListener(new OnItemClickListener()

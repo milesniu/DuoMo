@@ -1,5 +1,6 @@
 package com.miles.ccit.duomo;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -123,7 +124,7 @@ public class SpecialVoiceActivity extends AbsBaseActivity
 			return;
 		}
 		hideEmpty();
-		
+		Collections.reverse(voiceList);
 		adapter = new MsgorMailSetAdapter(mContext, voiceList, "svoice");
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new OnItemClickListener()

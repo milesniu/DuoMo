@@ -23,8 +23,6 @@ public class ByteUtil
 		for (int i = 0; i < leng; i++)
 		{
 			b[i] = (byte) (intValue >> 8 * ((leng - 1) - i) & 0xFF);
-			// System.out.print(Integer.toBinaryString(b[i])+" ");
-			// System.out.print((b[i] & 0xFF) + " ");
 		}
 		return b;
 	}

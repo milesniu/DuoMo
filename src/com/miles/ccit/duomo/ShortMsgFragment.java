@@ -1,5 +1,6 @@
 package com.miles.ccit.duomo;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -56,6 +57,8 @@ public class ShortMsgFragment extends AbsBaseFragment
 	private void refreshList()
 	{
 		msgList = GetData4DB.getObjecSet(getActivity(), "shortmsg", "contact", "number", "number");
+		
+		Collections.reverse(msgList);
 		
 		if (msgList == null || msgList.size()<1)
 		{

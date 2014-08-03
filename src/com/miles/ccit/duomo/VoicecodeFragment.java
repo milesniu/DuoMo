@@ -1,5 +1,6 @@
 package com.miles.ccit.duomo;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -81,6 +82,7 @@ public class VoicecodeFragment extends AbsBaseFragment
 
 	private void refreshList()
 	{
+		
 		voiceList = GetData4DB.getObjList4LeftJoin(getActivity(), "voicecoderecord", "contact", "number");//getObjectListData(getActivity(), "voicecoderecord");
 
 		if (voiceList == null || voiceList.size() < 1)
@@ -89,6 +91,7 @@ public class VoicecodeFragment extends AbsBaseFragment
 			return;
 		}
 		hideEmpty();
+		Collections.reverse(voiceList);
 		adapter = new VoicecodeAdapter(getActivity(), voiceList);
 
 		listview.setAdapter(adapter);

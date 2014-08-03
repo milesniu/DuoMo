@@ -96,7 +96,8 @@
         <activity
             android:name="com.miles.ccit.duomo.CallWaitActivity"
             android:label="@string/title_activity_call_wait"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+              android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name="com.miles.ccit.duomo.CreatEMailActivity"
@@ -251,12 +252,14 @@
         <activity
             android:name="com.miles.ccit.duomo.VoicecodeConnetActivity"
             android:label="@string/title_activity_voicecode_connet"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+              android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name="com.miles.ccit.duomo.HaveCallActivity"
             android:label="@string/title_activity_have_call"
-             android:screenOrientation="portrait" >
+             android:screenOrientation="portrait"
+               android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>
 

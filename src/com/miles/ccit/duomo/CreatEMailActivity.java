@@ -90,16 +90,7 @@ public class CreatEMailActivity extends AbsEmailCodeActivity
 		}
 	}
 
-	public static void showFile(Context contex,String name,String path)
-	{
-		Intent intent = new Intent("android.intent.action.VIEW");
-		intent.addCategory("android.intent.category.DEFAULT");
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		Uri uri = Uri.fromFile(new File(path));
-		intent.setDataAndType(uri, isImage(getFileType(name)) ? "image/*" : "text/plain");
-		contex.startActivity(intent);
-		
-	}
+	
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)

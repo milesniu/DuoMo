@@ -17,6 +17,7 @@ import com.miles.ccit.duomo.R;
 import com.miles.ccit.duomo.ShortmsgListActivity;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
+import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.HexSwapString;
@@ -348,6 +349,25 @@ public class AnalysisRecvData
 
 	}
 	
+	public void analyBackWiredVoice(byte[] data) throws UnsupportedEncodingException
+	{
+
+		Intent intent = new Intent();
+		if (CallWaitActivity.iswait)
+		{
+			intent.setAction(AbsBaseActivity.broad_wiredvoice_Action);
+			if (data[5] == 1)// 成功响应
+			{
+				intent.putExtra("data", "true");
+			} else if (data[5] == 0)// 失败响应
+			{
+				intent.putExtra("data", "false");
+			}
+			AppContext.sendBroadcast(intent);
+		}
+
+	}
+	
 	public void analyBackSpecialVoice(byte[] data) throws UnsupportedEncodingException
 	{
 
@@ -387,6 +407,28 @@ public class AnalysisRecvData
 
 		intent.setClass(AppContext, HaveCallActivity.class);
 		intent.putExtra("code", vname);
+		intent.putExtra("type", AbsToCallActivity.TOCALLVOICE);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		AppContext.startActivity(intent);
+
+	}
+	
+	
+	public void analyRecvWiredVoice(byte[] data) throws UnsupportedEncodingException
+	{
+
+		Intent intent = new Intent();
+		// 源地址
+		int voicecursor = 5;
+		int vnlen = ByteUtil.oneByte2oneInt(data[voicecursor++]);
+		byte[] srcvname = new byte[vnlen];
+		System.arraycopy(data, voicecursor, srcvname, 0, vnlen);
+		String vname = new String(srcvname, "UTF-8");
+
+		
+		intent.setClass(AppContext, HaveCallActivity.class);
+		intent.putExtra("code", vname);
+		intent.putExtra("type", AbsToCallActivity.TOCALLWIREDVOICE);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		AppContext.startActivity(intent);
 

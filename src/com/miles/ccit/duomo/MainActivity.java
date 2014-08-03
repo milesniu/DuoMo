@@ -19,6 +19,7 @@ import com.miles.ccit.net.ComposeData;
 import com.miles.ccit.net.SocketClient;
 import com.miles.ccit.service.HeartbeatService;
 import com.miles.ccit.util.AbsBaseActivity;
+import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.FileUtils;
 import com.miles.ccit.util.OverAllData;
 
@@ -55,7 +56,6 @@ public class MainActivity extends AbsBaseActivity
 		PrePareFile();
 		startService(new Intent(mContext, HeartbeatService.class));
 //		startActivity(new Intent(this, IndexActivity.class));
-		
 		new Timer().schedule(new TimerTask()
 		{
 			@Override

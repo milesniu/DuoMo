@@ -11,9 +11,11 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.miles.ccit.duomo.R;
+import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.UnixTime;
 
@@ -61,6 +63,21 @@ public class VoicecodeAdapter extends BaseAdapter
 		view = mInflater.inflate(R.layout.listitem_contact, null);
 		((TextView)  view.findViewById(R.id.text_name)).setText(map.get("name")==null?map.get("number").toString():map.get("name").toString());
 		((TextView) view.findViewById(R.id.text_number)).setText(UnixTime.unixTime2Simplese(map.get("creattime").toString(),"yyyy-MM-dd HH:mm:ss"));
+		ImageView img = (ImageView)view.findViewById(R.id.image_head);
+		if(map.get("status").toString().equals(AbsToCallActivity.Send_Call))
+		{
+			img.setImageResource(R.drawable.outputphone);
+		}
+		else if(map.get("status").toString().equals(AbsToCallActivity.Recv_Call))
+		{
+			img.setImageResource(R.drawable.incomephone);
+		}
+		else if(map.get("status").toString().equals(AbsToCallActivity.Recv_Error))
+		{
+			img.setImageResource(R.drawable.incomephoneerror);
+		}
+		
+		
 		CheckBox checkDel = (CheckBox)view.findViewById(R.id.check_del);
 		if(map.get("exp1")!=null&&map.get("exp1").toString().equals("0"))
 		{
