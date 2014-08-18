@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.miles.ccit.net.APICode;
 
-public abstract class AbsEmailCodeActivity extends AbsBaseActivity
+public abstract class AbsCreatActivity extends AbsBaseActivity
 {
 
 	public Button Btn_Send;
@@ -87,6 +87,9 @@ public abstract class AbsEmailCodeActivity extends AbsBaseActivity
 		return false;
 	}
 
+	/**
+	 * Email发送部分
+	 * */
 
 	public void sendEmail(String contact,String cscontact,String subject,String conent,String fjpath)
 	{
@@ -146,6 +149,47 @@ public abstract class AbsEmailCodeActivity extends AbsBaseActivity
 	
 	
 	public long insertEmail(String contact,String cscontact,String subject,String conent,String fjpath)
+	{
+		BaseMapObject email = new BaseMapObject();
+		email.put("id", null);
+		email.put("number", contact);
+		email.put("csnumber", cscontact);
+		email.put("sendtype", "2");	//发送
+		email.put("subject", subject);	
+		email.put("mailcontent", conent);
+		email.put("haveattachments", fjpath==null?"0":"1");
+		email.put("attachmentsname", fjpath==null?" ":getFileName(fjpath));
+		email.put("attachmentspath", fjpath==null?" ":fjpath);
+		email.put("creattime", UnixTime.getStrCurrentUnixTime());
+		email.put("priority", OverAllData.Priority);
+		email.put("acknowledgemen", OverAllData.Acknowledgemen);
+		return email.InsertObj2DB(mContext, "emailmsg");
+	}
+
+	/*********************************************************************************************************************/
+	
+	
+	/**文件发送部分
+	 * */
+	public void sendFile(String filepath)
+	{
+		new SendDataTask().execute(APICode.SEND_WiredFile+"",OverAllData.Account,filepath);
+	}
+	
+
+	public void sendrecvFile()
+	{
+		new SendDataTask().execute(APICode.BACK_RECV_WiredFile+"",OverAllData.Account);
+	}
+
+
+	public void sendrecvresultFile()
+	{
+		new SendDataTask().execute(APICode.SEND_FileResult+"",OverAllData.Account);
+	}
+	
+	
+	public long insertWiredFile(String contact,String cscontact,String subject,String conent,String fjpath)
 	{
 		BaseMapObject email = new BaseMapObject();
 		email.put("id", null);

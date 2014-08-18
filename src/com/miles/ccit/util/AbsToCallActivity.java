@@ -183,25 +183,27 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 			CurrentType = TOCALLWIREDVOICE;
 			insertWiredRecord(mContext,strNumber, null);
 			break;
-		case R.id.buttoncallfile:
-//			insertWiredRecord(strNumber, 1);
-			if(strNumber.equals(""))
-			{
-				MyLog.showToast(mContext, "请输入有效号码");
-				return;
-			}
-			CurrentType = TOCALLWIREDFILE;
-			Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-			intent.setType("image/*");
-			intent.addCategory(Intent.CATEGORY_OPENABLE);
-			try
-			{
-				startActivityForResult(Intent.createChooser(intent, "请选择附件"), 0);
-			} catch (android.content.ActivityNotFoundException ex)
-			{
-				Toast.makeText(this, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
-			}
-			break;
+			
+			//文件呼叫方式修改，此处不需要呼叫，注释
+//		case R.id.buttoncallfile:
+////			insertWiredRecord(strNumber, 1);
+//			if(strNumber.equals(""))
+//			{
+//				MyLog.showToast(mContext, "请输入有效号码");
+//				return;
+//			}
+//			CurrentType = TOCALLWIREDFILE;
+//			Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//			intent.setType("image/*");
+//			intent.addCategory(Intent.CATEGORY_OPENABLE);
+//			try
+//			{
+//				startActivityForResult(Intent.createChooser(intent, "请选择附件"), 0);
+//			} catch (android.content.ActivityNotFoundException ex)
+//			{
+//				Toast.makeText(this, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
+//			}
+//			break;
 			
 
 		}
@@ -286,16 +288,16 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		}
 		else if(CurrentType == TOCALLWIREDFILE)
 		{
-			contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOCALLWIREDFILE).putExtra("filepath", filepath).putExtra("code", code));
-			new Timer().schedule(new TimerTask()
-			{
-				@Override
-				public void run()
-				{
-					// TODO Auto-generated method stub
-					sendWiredStarttoNet(code);
-				}
-			},1000);
+//			contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOCALLWIREDFILE).putExtra("filepath", filepath).putExtra("code", code));
+//			new Timer().schedule(new TimerTask()
+//			{
+//				@Override
+//				public void run()
+//				{
+//					// TODO Auto-generated method stub
+//					sendWiredStarttoNet(code);
+//				}
+//			},1000);
 		}
 			
 	}

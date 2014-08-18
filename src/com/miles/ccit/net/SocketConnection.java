@@ -3,7 +3,6 @@ package com.miles.ccit.net;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
@@ -15,24 +14,11 @@ import java.util.TimerTask;
 import java.util.concurrent.locks.ReentrantLock;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Message;
 
-import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.duomo.R;
-import com.miles.ccit.duomo.ShortmsgListActivity;
-import com.miles.ccit.util.AbsBaseActivity;
-import com.miles.ccit.util.AbsMsgRecorderActivity;
-import com.miles.ccit.util.BaseMapObject;
-import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.MyApplication;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
-import com.miles.ccit.util.UnixTime;
 
 public class SocketConnection
 {
@@ -137,7 +123,7 @@ public class SocketConnection
 	 */
 	public void reConnectToCTCC()
 	{
-		MyApplication.handle.sendMessage(new Message());
+		MyApplication.handle.sendMessage(new Message());	//连接断开，显示登录界面
 		if (heartTimer != null)
 			heartTimer.cancel();
 		isNetworkConnect = false;
@@ -347,11 +333,21 @@ public class SocketConnection
 					case APICode.BACK_WiredVoice:
 						analyUtil.analyBackWiredVoice(heart);
 						break;
-						
 					case APICode.RECV_WiredVoice:
 						analyUtil.analyRecvWiredVoice(heart);
 						break;
-						
+					case APICode.RECV_NormalInteraput:
+						analyUtil.analyInteraput(heart);
+						break;
+					case APICode.SEND_FileProgress:
+						analyUtil.analyProgress(heart);
+						break;
+					case APICode.BACK_FILE:
+						analyUtil.analyFileBackresult(heart);
+						break;
+					case APICode.RECV_WiredFile:
+						analyUtil.analyrecvWiredFile(heart);
+						break;
 					}
 
 					try

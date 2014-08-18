@@ -28,7 +28,7 @@ import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsBaseActivity;
-import com.miles.ccit.util.AbsEmailCodeActivity;
+import com.miles.ccit.util.AbsCreatActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;

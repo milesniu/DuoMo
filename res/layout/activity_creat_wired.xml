@@ -224,37 +224,14 @@
                 android:text="#"
                 android:textColor="@color/white"
                 android:textSize="30sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="3dp"
-            android:gravity="center"
-            android:orientation="horizontal" >
-
+            
             <Button
                 android:id="@+id/buttoncallvoice"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/greenbg"
-                android:text="语音呼叫"
-                android:textColor="@color/white"
-                android:textSize="30sp" />
-
-            <Button
-                android:id="@+id/buttoncallfile"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
                 android:layout_weight="1"
-                android:background="@color/greenbg"
-                android:text="文件呼叫"
-                android:textColor="@color/white"
-                android:textSize="30sp" />
+                android:background="@drawable/btcall" />
         </LinearLayout>
 
     </LinearLayout>

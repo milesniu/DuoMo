@@ -104,6 +104,8 @@ public class APICode
 	public static final byte SEND_SpecialNetInteraput = (byte)0x29;
 	/**其他模式中断*/
 	public static final byte SEND_NormalInteraput = (byte)0x2A;
+	
+	public static final byte RECV_NormalInteraput = (byte)0x2A;
 	/**模式返回*/
 	public static final byte SEND_BackModel = (byte)0x2B;
 	

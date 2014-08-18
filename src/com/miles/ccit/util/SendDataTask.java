@@ -68,8 +68,7 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 			case APICode.SEND_WiredVoice:
 				SocketConnection.getInstance().readReqMsg(new ComposeData().sendWiredVoice(parm[2]));
 				break;
-			case APICode.SEND_WiredFile:
-				break;
+			
 			case APICode.SEND_NormalInteraput:
 				SocketConnection.getInstance().readReqMsg(new ComposeData().sendNormalInteraput());
 				
@@ -82,6 +81,16 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 				break;
 			case APICode.BACK_RECV_WiredVoice:
 				SocketConnection.getInstance().readReqMsg(new ComposeData().sendRecvWiredVoice(parm[2]));
+				break;
+			case APICode.SEND_WiredFile:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendWiredFile(parm[2]));
+				break;
+			case APICode.BACK_RECV_WiredFile:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendRecvWiredFile());
+				break;
+			case APICode.SEND_FileResult:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendRecvresultWiredFile());
+				
 				break;
 			}
 

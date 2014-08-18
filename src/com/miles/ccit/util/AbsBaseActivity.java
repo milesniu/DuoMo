@@ -54,6 +54,9 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 	public static final String broad_specialvoice_Action = "cn.broadcast.specialvoice";
 	public static final String broad_backchangepwd_Action = "cn.broadcast.backchangepwd";
 	public static final String broad_wiredvoice_Action = "cn.broadcast.wiredvoice";
+	public static final String broad_interaput_Action = "cn.broadcast.interaput";
+	public static final String broad_fileprogress_Action = "cn.broadcast.fileprogress";
+	public static final String broad_fileresult_Action = "cn.broadcast.fileresult";
 	
 	
 	

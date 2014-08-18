@@ -24,7 +24,7 @@ import com.miles.ccit.adapter.WiredModelAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsBaseActivity;
-import com.miles.ccit.util.AbsEmailCodeActivity;
+import com.miles.ccit.util.AbsCreatActivity;
 import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
@@ -166,7 +166,7 @@ public class WiredModelActivity extends AbsBaseActivity
 				if (wiredlist.get(arg2).get("sendtype").toString().equals("1"))
 				{
 					String path = wiredlist.get(arg2).get("filepath").toString();
-					AbsEmailCodeActivity.showFile(mContext, AbsEmailCodeActivity.getFileName(path), path);
+					AbsCreatActivity.showFile(mContext, AbsCreatActivity.getFileName(path), path);
 				} else
 				{
 					AbsToCallActivity.CurrentType = AbsToCallActivity.TOCALLWIREDVOICE;

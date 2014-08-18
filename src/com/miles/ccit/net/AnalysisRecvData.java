@@ -12,6 +12,7 @@ import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.BroadCastctivity;
 import com.miles.ccit.duomo.CallWaitActivity;
 import com.miles.ccit.duomo.EmailInfoActivity;
+import com.miles.ccit.duomo.FileStatusActivity;
 import com.miles.ccit.duomo.HaveCallActivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.duomo.ShortmsgListActivity;
@@ -43,7 +44,7 @@ public class AnalysisRecvData
 		intent.putExtra("data", data);
 		AppContext.sendBroadcast(intent);
 	}
-	
+
 	public void analyChangePwd(byte[] data)
 	{
 		Intent intent = new Intent();
@@ -51,7 +52,6 @@ public class AnalysisRecvData
 		intent.putExtra("data", data);
 		AppContext.sendBroadcast(intent);
 	}
-	
 
 	public void analyTextMsg(byte[] data) throws UnsupportedEncodingException
 	{
@@ -217,6 +217,56 @@ public class AnalysisRecvData
 
 	}
 
+	public void analyrecvWiredFile(byte[] data) throws UnsupportedEncodingException
+	{
+
+		Intent intent = new Intent();
+
+		int voicecursor = 5;
+		int vnlen = ByteUtil.oneByte2oneInt(data[voicecursor++]);
+		byte[] srcvname = new byte[vnlen];
+		System.arraycopy(data, voicecursor, srcvname, 0, vnlen);
+		String vname = new String(srcvname, "UTF-8");
+		voicecursor += vnlen;
+
+
+		int vclen = ByteUtil.byte2Int(new byte[]{ data[voicecursor], data[voicecursor+1] });// .oneByte2oneInt(data[voicecursor++]);
+		voicecursor +=2;
+		byte[] vconten = new byte[vclen];
+		System.arraycopy(data, voicecursor, vconten, 0, vclen);
+		 String co = new String(vconten, "UTF-8");
+		String vpath = ByteUtil.getFile(vconten, OverAllData.SDCardRoot,vname);
+		if (vpath == null)
+		{
+			return;
+		} else
+		{
+			FileStatusActivity.recvpath = vpath;
+			BaseMapObject record = new BaseMapObject();
+			record.put("id",null);
+			record.put("number",FileStatusActivity.code);
+			record.put("sendtype","1");//语音0.文件1
+			record.put("status","1");//呼入成功/呼出成功/呼入失败/呼出失败(1,2,3,4)
+			record.put("filepath",vpath);
+			record.put("creattime", UnixTime.getStrCurrentUnixTime());
+			
+			record.InsertObj2DB(AppContext, "wiredrecord");
+//			BaseMapObject recvvoicemsg = new BaseMapObject();
+//			recvvoicemsg.put("id", null);
+//			recvvoicemsg.put("number", vname);
+//			recvvoicemsg.put("sendtype", AbsMsgRecorderActivity.RECVFROM + "");
+//			recvvoicemsg.put("status", "0");
+//			recvvoicemsg.put("msgtype", "1");
+//			recvvoicemsg.put("msgcontent", vpath);
+//			recvvoicemsg.put("creattime", UnixTime.getStrCurrentUnixTime());
+//			recvvoicemsg.put("priority", OverAllData.Priority);
+//			recvvoicemsg.put("acknowledgemen", OverAllData.Acknowledgemen);
+//			recvvoicemsg.InsertObj2DB(AppContext, "shortmsg");
+
+		}
+
+	}
+
 	public void analyEmail(byte[] data) throws UnsupportedEncodingException
 	{
 
@@ -348,7 +398,7 @@ public class AnalysisRecvData
 		}
 
 	}
-	
+
 	public void analyBackWiredVoice(byte[] data) throws UnsupportedEncodingException
 	{
 
@@ -367,23 +417,33 @@ public class AnalysisRecvData
 		}
 
 	}
-	
+
 	public void analyBackSpecialVoice(byte[] data) throws UnsupportedEncodingException
 	{
 
 		Intent intent = new Intent();
-			intent.setAction(AbsBaseActivity.broad_specialvoice_Action);
-			if (data[5] == 1)// 成功响应
-			{
-				intent.putExtra("data", "true");
-			} else if (data[5] == 0)// 失败响应
-			{
-				intent.putExtra("data", "false");
-			}
-			AppContext.sendBroadcast(intent);
+		intent.setAction(AbsBaseActivity.broad_specialvoice_Action);
+		if (data[5] == 1)// 成功响应
+		{
+			intent.putExtra("data", "true");
+		} else if (data[5] == 0)// 失败响应
+		{
+			intent.putExtra("data", "false");
+		}
+		AppContext.sendBroadcast(intent);
 
 	}
 
+	public void analyProgress(byte[] data) throws UnsupportedEncodingException
+	{
+
+		Intent intent = new Intent();
+		intent.setAction(AbsBaseActivity.broad_fileprogress_Action);
+		int p = ByteUtil.oneByte2oneInt(data[5]);
+		intent.putExtra("progress", p);
+		AppContext.sendBroadcast(intent);
+
+	}
 
 	public void analyRecvVoicecode(byte[] data) throws UnsupportedEncodingException
 	{
@@ -412,8 +472,7 @@ public class AnalysisRecvData
 		AppContext.startActivity(intent);
 
 	}
-	
-	
+
 	public void analyRecvWiredVoice(byte[] data) throws UnsupportedEncodingException
 	{
 
@@ -425,12 +484,36 @@ public class AnalysisRecvData
 		System.arraycopy(data, voicecursor, srcvname, 0, vnlen);
 		String vname = new String(srcvname, "UTF-8");
 
-		
 		intent.setClass(AppContext, HaveCallActivity.class);
 		intent.putExtra("code", vname);
 		intent.putExtra("type", AbsToCallActivity.TOCALLWIREDVOICE);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		AppContext.startActivity(intent);
+
+	}
+
+	public void analyInteraput(byte[] data) throws UnsupportedEncodingException
+	{
+
+		Intent intent = new Intent();
+		intent.setAction(AbsBaseActivity.broad_interaput_Action);
+		AppContext.sendBroadcast(intent);
+
+	}
+
+	public void analyFileBackresult(byte[] data) throws UnsupportedEncodingException
+	{
+
+		Intent intent = new Intent();
+		intent.setAction(AbsBaseActivity.broad_fileresult_Action);
+		if (data[5] == 1)// 成功响应
+		{
+			intent.putExtra("data", "true");
+		} else if (data[5] == 0)// 失败响应
+		{
+			intent.putExtra("data", "false");
+		}
+		AppContext.sendBroadcast(intent);
 
 	}
 

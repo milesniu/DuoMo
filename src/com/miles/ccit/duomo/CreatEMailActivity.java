@@ -14,11 +14,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.util.AbsEmailCodeActivity;
+import com.miles.ccit.util.AbsCreatActivity;
 import com.miles.ccit.util.FileUtils;
 import com.miles.ccit.util.MutiChoiseDlg;
 
-public class CreatEMailActivity extends AbsEmailCodeActivity
+public class CreatEMailActivity extends AbsCreatActivity
 {
 	private EditText edit_inputSubject;
 	private EditText edit_inputmailContent;
@@ -59,7 +59,7 @@ public class CreatEMailActivity extends AbsEmailCodeActivity
 			if (img_Fj.getVisibility() == View.INVISIBLE)
 			{
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-				intent.setType("image/*");
+				intent.setType("*/*");
 				intent.addCategory(Intent.CATEGORY_OPENABLE);
 				try
 				{

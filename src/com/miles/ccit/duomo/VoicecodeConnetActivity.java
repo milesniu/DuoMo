@@ -1,6 +1,11 @@
 package com.miles.ccit.duomo;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -13,10 +18,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miles.ccit.database.GetData4DB;
+import com.miles.ccit.duomo.CallWaitActivity.MyBroadcastReciver;
 import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsBaseActivity;
+import com.miles.ccit.util.AbsCreatActivity;
 import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.FileUtils;
+import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.SendDataTask;
 
@@ -31,8 +40,11 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 	private Button Btn_KeyBord;
 	private LinearLayout linear_Keybord;
 	private Button Btn_SendFile;
+	private Button Btn_RecvFile;
 	private int type;
 	private String filepath = null;
+	private MyBroadcastReciver broad = null;
+	private LinearLayout linear_File;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -41,6 +53,10 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 		code = getIntent().getStringExtra("code");
 		type = getIntent().getIntExtra("type", 0);
 		filepath = getIntent().getStringExtra("filepath");
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(broad_interaput_Action);
+		broad = new MyBroadcastReciver();
+		this.registerReceiver(broad, intentFilter);
 	}
 
 	@Override
@@ -72,11 +88,47 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 			}
 			break;
 		case R.id.bt_sendfile:
-			Toast.makeText(mContext, filepath, 0).show();
+			Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+			intent.setType("*/*");
+			intent.addCategory(Intent.CATEGORY_OPENABLE);
+			try
+			{
+				startActivityForResult(Intent.createChooser(intent, "请选择附件"), 0);
+			} catch (android.content.ActivityNotFoundException ex)
+			{
+				Toast.makeText(this, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
+			}
+			Toast.makeText(mContext, "发送", 0).show();
+			break;
+		case R.id.bt_recvfile:
+			startActivity(new Intent(mContext, FileStatusActivity.class).putExtra("code", code));
+			
+//			Toast.makeText(mContext, "接收", 0).show();
 			break;
 		}
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		switch (requestCode)
+		{
+		case 0:
+			if (resultCode == RESULT_OK)
+			{
+				// Get the Uri of the selected file
+				Uri uri = data.getData();
+				String path = FileUtils.getPath(this, uri);
+				String name = AbsCreatActivity.getFileName(path);
+				startActivity(new Intent(mContext, FileStatusActivity.class).putExtra("path", path).putExtra("code", code));
+				MyLog.showToast(mContext, path);
+			}
+			break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	
 	@Override
 	public void initView()
 	{
@@ -86,18 +138,21 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 		Btn_Talk = (Button)findViewById(R.id.bt_talk);
 		linear_Keybord = (LinearLayout)findViewById(R.id.linear_inputpanle);
 		Btn_SendFile = (Button)findViewById(R.id.bt_sendfile);
+		Btn_RecvFile = (Button)findViewById(R.id.bt_recvfile);
 		Btn_SendFile.setOnClickListener(this);
+		Btn_RecvFile.setOnClickListener(this);
+		linear_File = (LinearLayout)findViewById(R.id.linear_file);
 		Btn_DisConnet.setOnClickListener(this);
 		Btn_KeyBord.setOnClickListener(this);
 		text_Num = (TextView) findViewById(R.id.text_number);
 		
-		if(type==AbsToCallActivity.TOCALLWIREDFILE)
+		if(type!=AbsToCallActivity.TOCALLVOICE)
 		{
-			Btn_SendFile.setVisibility(View.VISIBLE);
+			linear_File.setVisibility(View.VISIBLE);
 		}
 		else
 		{
-			Btn_SendFile.setVisibility(View.GONE);
+			linear_File.setVisibility(View.GONE);
 		}
 		if (code == null || code.equals(""))
 		{
@@ -143,5 +198,21 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 		new SendDataTask().execute(APICode.SEND_TalkVoiceCode+"",OverAllData.Account,connet?"1":"0");
 	}
 	
+	
+	public class MyBroadcastReciver extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			// TODO Auto-generated method stub
+//			hideProgressDlg();
+			String action = intent.getAction();
+			if (action.equals(broad_interaput_Action))
+			{
+				VoicecodeConnetActivity.this.finish();
+			}
+		}
+
+	}
 
 }

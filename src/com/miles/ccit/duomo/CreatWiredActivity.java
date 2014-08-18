@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.View;
 
 import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.util.AbsEmailCodeActivity;
+import com.miles.ccit.util.AbsCreatActivity;
 import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.FileUtils;
 import com.miles.ccit.util.MyLog;
@@ -24,25 +24,25 @@ public class CreatWiredActivity extends AbsToCallActivity
 		CurrentType = TOCALLWIREDVOICE;
 	}
 	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		switch (requestCode)
-		{
-		case 0:
-			if (resultCode == RESULT_OK)
-			{
-				// Get the Uri of the selected file
-				Uri uri = data.getData();
-				String path = FileUtils.getPath(this, uri);
-				String name = AbsEmailCodeActivity.getFileName(path);
-				insertWiredRecord(mContext,strNumber, path);
-				MyLog.showToast(mContext, path);
-			}
-			break;
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
+//	@Override
+//	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+//	{
+//		switch (requestCode)
+//		{
+//		case 0:
+//			if (resultCode == RESULT_OK)
+//			{
+//				// Get the Uri of the selected file
+//				Uri uri = data.getData();
+//				String path = FileUtils.getPath(this, uri);
+//				String name = AbsEmailCodeActivity.getFileName(path);
+//				insertWiredRecord(mContext,strNumber, path);
+//				MyLog.showToast(mContext, path);
+//			}
+//			break;
+//		}
+//		super.onActivityResult(requestCode, resultCode, data);
+//	}
 
 
 	@Override
@@ -59,7 +59,7 @@ public class CreatWiredActivity extends AbsToCallActivity
 		// TODO Auto-generated method stub
 		super.initView();
 		findViewById(R.id.buttoncallvoice).setOnClickListener(this);
-		findViewById(R.id.buttoncallfile).setOnClickListener(this);
+//		findViewById(R.id.buttoncallfile).setOnClickListener(this);
 		
 	}
 	

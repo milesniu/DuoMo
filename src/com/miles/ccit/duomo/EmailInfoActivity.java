@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.util.AbsBaseActivity;
-import com.miles.ccit.util.AbsEmailCodeActivity;
+import com.miles.ccit.util.AbsCreatActivity;
 import com.miles.ccit.util.BaseMapObject;
 
 public class EmailInfoActivity extends AbsBaseActivity
@@ -96,7 +96,7 @@ public class EmailInfoActivity extends AbsBaseActivity
 		if (map.get("haveattachments").toString().equals("1"))
 		{
 			img_fj.setVisibility(View.VISIBLE);
-			if (AbsEmailCodeActivity.isImage(AbsEmailCodeActivity.getFileType(map.get("attachmentsname").toString())))
+			if (AbsCreatActivity.isImage(AbsCreatActivity.getFileType(map.get("attachmentsname").toString())))
 			{
 
 				img_fj.setBackgroundResource(R.drawable.image_enriched);
