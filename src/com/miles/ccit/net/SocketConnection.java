@@ -16,6 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import android.annotation.SuppressLint;
 import android.os.Message;
 
+import com.miles.ccit.duomo.LoginActivity;
 import com.miles.ccit.util.MyApplication;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
@@ -62,6 +63,7 @@ public class SocketConnection
 				socketConnection = null;	
 				socket.close();
 				socket = null;
+				LoginActivity.isLogin = false;
 			}
 			catch(Exception e)
 			{
@@ -347,6 +349,10 @@ public class SocketConnection
 						break;
 					case APICode.RECV_WiredFile:
 						analyUtil.analyrecvWiredFile(heart);
+						break;
+					case APICode.RECV_UIMOUT:
+						MyApplication.handle.sendMessage(new Message());	//连接断开，显示登录界面
+						canleSocket();
 						break;
 					}
 

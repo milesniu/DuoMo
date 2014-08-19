@@ -12,7 +12,7 @@ import com.miles.ccit.util.AbsBaseActivity;
 public class IndexActivity extends AbsBaseActivity
 {
 
-	public static boolean result = false;
+//	public static boolean result = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -83,7 +83,7 @@ public class IndexActivity extends AbsBaseActivity
 
 			break;
 		case R.id.linear_title:
-			if(!result)
+			if(!LoginActivity.isLogin)
 			{
 				startActivityForResult(new Intent(mContext, LoginActivity.class),3);
 			}
@@ -93,21 +93,39 @@ public class IndexActivity extends AbsBaseActivity
 		}
 	}
 
+	
+
+	@Override
+	protected void onResume()
+	{
+		// TODO Auto-generated method stub
+		if(LoginActivity.isLogin)
+		{
+			findViewById(R.id.linear_title).setBackgroundResource(R.drawable.loginok8);
+			
+		}
+		else
+		{
+			findViewById(R.id.linear_title).setBackgroundResource(R.drawable.indextitlenologin);
+			
+		}
+		super.onResume();
+	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		// TODO Auto-generated method stub
-		if(requestCode==3)
-		{
-			if(data!=null&&data.getStringExtra("result").toString().equals("true"))
-			{
-				result = true;
-				findViewById(R.id.linear_title).setBackgroundResource(R.drawable.loginok8);
-				return;
-			}
-		}
-		result = false;
+//		if(requestCode==3)
+//		{
+//			if(data!=null&&data.getStringExtra("result").toString().equals("true"))
+//			{
+//				result = true;
+//				findViewById(R.id.linear_title).setBackgroundResource(R.drawable.loginok8);
+//				return;
+//			}
+//		}
+//		result = false;
 		
 		super.onActivityResult(requestCode, resultCode, data);
 	}

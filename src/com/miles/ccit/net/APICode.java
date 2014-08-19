@@ -109,4 +109,8 @@ public class APICode
 	/**模式返回*/
 	public static final byte SEND_BackModel = (byte)0x2B;
 	
+	/**UIM卡拔出*/
+	public static final byte RECV_UIMOUT = (byte)0x34;
+	
+	
 }

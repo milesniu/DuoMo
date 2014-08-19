@@ -1,5 +1,7 @@
 package com.miles.ccit.util;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -7,25 +9,22 @@ import java.util.Vector;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
-import android.content.BroadcastReceiver;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
-import com.miles.ccit.duomo.LoginActivity;
 import com.miles.ccit.duomo.R;
-import com.miles.ccit.duomo.LoginActivity.MyBroadcastReciver;
 
 public abstract class AbsBaseActivity extends Activity implements OnClickListener
 {
@@ -40,6 +39,9 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 	public Button Btn_Delete;
 	public Button Btn_Canle;
 	public LinearLayout linear_Del;
+	
+	
+	
 	public static final int RECVFROM = 1;
 	public static final int SENDTO = 2;
 	public static final int SENDERROR = 3;
@@ -80,6 +82,24 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 		Btn_Right.setOnClickListener(this);
 		img_Empty = (ImageView) findViewById(R.id.image_empty);
 
+	}
+	
+	public String getJunbiaoCode()
+	{
+		try
+		{
+			InputStreamReader inputReader = new InputStreamReader(getResources().getAssets().open("junbiaocode.txt"));
+			BufferedReader bufReader = new BufferedReader(inputReader);
+			String line = "";
+			String Result = "";
+			while ((line = bufReader.readLine()) != null)
+				Result += line;
+			return Result;
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public void delList(List<BaseMapObject> list,String table,BaseAdapter adapter)
