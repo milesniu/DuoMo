@@ -47,5 +47,6 @@
     <string name="title_activity_voicecode_connet">通话中</string>
     <string name="title_activity_have_call">来电接听</string>
     <string name="title_activity_file_status">FileStatusActivity</string>
+    <string name="title_activity_creat_option">CreatOptionActivity</string>
 
 </resources>

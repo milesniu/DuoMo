@@ -20,6 +20,8 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:gravity="center_horizontal"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -78,12 +80,21 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/diver"
+            android:layout_margin="3dp"
+            android:layout_below="@+id/linear_ed"
+            />
+
         <ListView
             android:id="@+id/list_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/bt_addlocation"
-            android:layout_below="@+id/linear_ed" >
+            android:layout_above="@+id/bt_addoption"
+            android:layout_below="@+id/imageView1" >
 
         </ListView>
 
@@ -92,6 +103,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@drawable/btngreenbg"
+            android:textColor="@color/white"
+            android:textSize="20sp"
             android:text="添加选项" />
 
     </RelativeLayout>

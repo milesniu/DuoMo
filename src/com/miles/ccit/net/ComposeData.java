@@ -734,5 +734,53 @@ public class ComposeData
 		{ (byte) 0x55, (byte) 0xAA, (byte) 0x00, (byte) 0x01, (byte) 0x25, Byte.parseByte(info[0]), Byte.parseByte(info[1]), Byte.parseByte(info[2]), Byte.parseByte(info[3]) };
 
 	}
+	
+	/**
+	 * 发送代码指挥
+	 * 
+	 * @param info
+	 *            源地址、目的地址、代码内容
+	 * */
+	public byte[] sendCodeDirc(String... info)
+	{
+
+		int mLen = 0;
+		for (String i : info)
+		{
+			mLen += i.getBytes().length;
+		}
+		mLen += 2;// 加2是加上优先级与是否回执两个字段
+
+		byte[] mData = new byte[mLen + 5]; // 源地址1字节，目的地址2字节，内容两字节
+
+		int currentpos = 0;
+		for (int i = 0; i < info.length; i++)
+		{
+			byte[] len = ByteUtil.int2Byte(i == 0 ? 1 : 2, info[i].getBytes().length);
+			System.arraycopy(len, 0, mData, currentpos, len.length);
+			currentpos += len.length;
+			System.arraycopy(info[i].getBytes(), 0, mData, currentpos, info[i].getBytes().length);
+			currentpos += info[i].length();
+		}
+		// 拷贝优先级与是否回执，后期从数据库配置表中读取
+		System.arraycopy(sendcfg, 0, mData, currentpos, 2);
+
+		byte[] head = data.head;
+		byte[] DataLenth = HexSwapString.short2Byte((short) (mData.length + 1));// new
+																				// byte[]{(byte)(mData.length+1)};
+																				// //
+																				// 数据区长度
+		byte[] frame = new byte[]
+		{ APICode.SEND_CodeDirec }; // 命令码
+
+		byte[] SendData = new byte[mData.length + 5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
+		int lenth = 0; // 记录当前拷贝到目的数组的下标
+		System.arraycopy(head, 0, SendData, lenth, head.length);
+		System.arraycopy(DataLenth, 0, SendData, lenth += head.length, DataLenth.length);
+		System.arraycopy(frame, 0, SendData, lenth += DataLenth.length, frame.length);
+		System.arraycopy(mData, 0, SendData, lenth += frame.length, mData.length);
+		return SendData;
+	}
+
 
 }

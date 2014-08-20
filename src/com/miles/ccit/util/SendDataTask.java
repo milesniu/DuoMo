@@ -50,9 +50,7 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 			case APICode.SEND_Broadcast:
 				SocketConnection.getInstance().readReqMsg(new ComposeData().sendBroadcast(parm[2]));
 				break;
-			case APICode.SEND_CodeDirec:
-				
-				break;
+			
 			case APICode.SEND_SpecialVoice:
 				SocketConnection.getInstance().readReqMsg(new ComposeData().sendSpecialVoice(parm[2]));
 				
@@ -90,6 +88,9 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 				break;
 			case APICode.SEND_FileResult:
 				SocketConnection.getInstance().readReqMsg(new ComposeData().sendRecvresultWiredFile());
+				break;
+			case APICode.SEND_CodeDirec:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendCodeDirc(parm[1],parm[2],parm[3]));
 				
 				break;
 			}

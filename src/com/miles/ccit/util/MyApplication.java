@@ -1,14 +1,14 @@
 package com.miles.ccit.util;
 
-import com.miles.ccit.duomo.HaveCallActivity;
-import com.miles.ccit.duomo.LoginActivity;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Message;
+
+import com.baidu.mapapi.SDKInitializer;
+import com.miles.ccit.duomo.LoginActivity;
 
 public class MyApplication extends Application
 {
@@ -19,6 +19,7 @@ public class MyApplication extends Application
 	public void onCreate() {
 		super.onCreate();
 		mcontext=this;
+		SDKInitializer.initialize(getApplicationContext()); 
 		handle = new Handler()
 		{
 
