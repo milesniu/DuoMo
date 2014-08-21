@@ -751,7 +751,7 @@ public class ComposeData
 		}
 		mLen += 2;// 加2是加上优先级与是否回执两个字段
 
-		byte[] mData = new byte[mLen + 5]; // 源地址1字节，目的地址2字节，内容两字节
+		byte[] mData = new byte[mLen + 5]; // 源地址1字节，目的地址2字节，内容2字节
 
 		int currentpos = 0;
 		for (int i = 0; i < info.length; i++)

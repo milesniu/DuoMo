@@ -46,14 +46,30 @@ public class CreatOptionActivity extends MapBaseActivity
 	public static final int EARTHCODE = 2;
 	public static final int WATERCODE = 3;
 	public static final int OTHERCODE = 4;
+	public static final int ACTION1 = 51;
+	public static final int ACTION2 = 52;
 	private int typeCode = 0;
 	
+	
+	private EditText edit_skyjiaci;
+	private EditText edit_skybum;
 	private EditText edit_skyhight;
 	private EditText edit_skylane;
 	private EditText edit_skyspeed;
-	private EditText edit_skyjiaci;
-	private EditText edit_skybum;
 	private EditText edit_skystep;
+	
+	private EditText edit_earthlane;
+	private EditText edit_earthspeed;
+	private EditText edit_earthstep;
+	
+	private EditText edit_waterlane;
+	private EditText edit_waterdeep;
+	private EditText edit_waterspeed;
+	private EditText edit_waterstep;
+	
+	private LinearLayout linear_Sky;
+	private LinearLayout linear_Earth;
+	private LinearLayout linear_Water;
 	
 	
 	
@@ -75,17 +91,27 @@ public class CreatOptionActivity extends MapBaseActivity
 			this.finish();
 			break;
 		case R.id.bt_right:
-			if(edit_skystep.getText().toString().equals(""))
-			{
-				MyLog.showToast(mContext, "间隔时间为必填项！");
-				return;
-			}
+//			if(edit_skystep.getText().toString().equals(""))
+//			{
+//				MyLog.showToast(mContext, "间隔时间为必填项！");
+//				return;
+//			}
             setResult(RESULT_OK, new Intent().putExtra("option",composeData())); 
 			this.finish();
 			break;
 		}
 	}
 
+//	private void checkStepTime()
+//	{
+//		switch(typeCode)
+//		{
+//		case SKYCODE:
+//			
+//		}
+//		
+//	}
+	
 	private HashMap<String, Object> composeData()
 	{
 		HashMap<String, Object> d = new HashMap<String, Object>();
@@ -100,6 +126,30 @@ public class CreatOptionActivity extends MapBaseActivity
 			d.put("jiaci", edit_skyjiaci.getText().toString());
 			d.put("bum", edit_skybum.getText().toString());
 			d.put("step", edit_skystep.getText().toString());
+			break;
+		case EARTHCODE:
+			d.put("lat", latlng.latitude+"");
+			d.put("lng", latlng.longitude+"");
+			d.put("lane", edit_earthlane.getText().toString());
+			d.put("speed", edit_earthspeed.getText().toString());
+			d.put("step", edit_earthstep.getText().toString());
+			break;
+		case WATERCODE:
+			d.put("lat", latlng.latitude+"");
+			d.put("lng", latlng.longitude+"");
+			d.put("deep", edit_waterdeep.getText().toString());
+			d.put("lane", edit_waterlane.getText().toString());
+			d.put("speed", edit_waterspeed.getText().toString());
+			d.put("step", edit_waterstep.getText().toString());
+			break;
+		case OTHERCODE:
+			d.put("lat", latlng.latitude+"");
+			d.put("lng", latlng.longitude+"");
+			break;
+		case ACTION1:
+		case ACTION2:
+			d.put("lat", latlng.latitude+"");
+			d.put("lng", latlng.longitude+"");
 			break;
 		}
 		
@@ -143,15 +193,32 @@ public class CreatOptionActivity extends MapBaseActivity
 			}
 		});
 
+		linear_Sky = (LinearLayout)findViewById(R.id.linear_sky);
+		linear_Earth = (LinearLayout)findViewById(R.id.linear_earth);
+		linear_Water = (LinearLayout)findViewById(R.id.linear_water);
 		switch(typeCode)
 		{
 		case SKYCODE:
+			linear_Sky.setVisibility(View.VISIBLE);
 			edit_skyhight = (EditText)findViewById(R.id.edit_jbheight);
 			edit_skylane = (EditText)findViewById(R.id.edit_flylane);
 			edit_skyspeed = (EditText)findViewById(R.id.edit_speed);
 			edit_skyjiaci = (EditText)findViewById(R.id.edit_jiaci);
 			edit_skybum = (EditText)findViewById(R.id.edit_bomnum);
 			edit_skystep = (EditText)findViewById(R.id.edit_steptime);
+			break;
+		case EARTHCODE:
+			linear_Earth.setVisibility(View.VISIBLE);
+			edit_earthspeed = (EditText)findViewById(R.id.edit_earthspeed);
+			edit_earthlane = (EditText)findViewById(R.id.edit_earth_lane);
+			edit_earthstep = (EditText)findViewById(R.id.edit_earthstep);
+			break;
+		case WATERCODE:
+			linear_Water.setVisibility(View.VISIBLE);
+			edit_waterdeep = (EditText)findViewById(R.id.edit_waterdeep);
+			edit_waterlane = (EditText)findViewById(R.id.edit_waterlane);
+			edit_waterspeed = (EditText)findViewById(R.id.edit_waterspeed);
+			edit_waterstep = (EditText)findViewById(R.id.edit_waterstep);
 			break;
 		}
 		

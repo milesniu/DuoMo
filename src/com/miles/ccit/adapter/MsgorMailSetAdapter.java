@@ -1,6 +1,7 @@
 package com.miles.ccit.adapter;
 
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,7 +14,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.miles.ccit.duomo.R;
+import com.miles.ccit.util.AbsCreatCodeActivity;
 import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.JSONUtil;
 import com.miles.ccit.util.UnixTime;
 
 public class MsgorMailSetAdapter extends BaseAdapter
@@ -50,6 +53,7 @@ public class MsgorMailSetAdapter extends BaseAdapter
 		return 0;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
@@ -93,6 +97,21 @@ public class MsgorMailSetAdapter extends BaseAdapter
 		else if(Type.equals("mail"))
 		{
 			((TextView) view.findViewById(R.id.text_contact)).setText(map.get("subject").toString());
+		}
+		else if(Type.equals("codedir"))
+		{
+			String content = map.get("codecontent").toString();
+			String P1 = content.substring(content.indexOf("P1=")+3, content.indexOf("&P2="));
+			String P2 = content.substring(content.indexOf("&P2=")+4, content.indexOf("&P3="));
+			
+			Map<String,Object> data = JSONUtil.getMapFromJson(AbsCreatCodeActivity.getassetsCode(mContext,"actioncode.txt"));
+			String p1name = ((Map<String,Object>)data.get(P1)).get("name")+"";
+			String p2name = ((Map<String,Object>)data.get(P1)).get(P2)+"";
+			if(p2name.equals("null"))
+			{
+				p2name = P2;
+			}
+			((TextView) view.findViewById(R.id.text_contact)).setText(p1name +" "+p2name);
 		}
 		else if(Type.equals("svoice"))
 		{

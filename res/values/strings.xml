@@ -48,5 +48,6 @@
     <string name="title_activity_have_call">来电接听</string>
     <string name="title_activity_file_status">FileStatusActivity</string>
     <string name="title_activity_creat_option">CreatOptionActivity</string>
+    <string name="title_activity_code_direct_info">CodeDirectInfoActivity</string>
 
 </resources>

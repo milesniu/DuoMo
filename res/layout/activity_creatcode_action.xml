@@ -25,55 +25,102 @@
         <LinearLayout
             android:id="@+id/linear_sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:gravity="center" >
 
             <Spinner
-                android:id="@+id/sp_jbnum"
-                android:layout_width="wrap_content"
+                android:id="@+id/sp_actiontype"
+                style="@style/spinner_style"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:animationCache="true"
+                android:drawSelectorOnTop="true" />
 
-            <Spinner
-                android:id="@+id/sp_jbcolor"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/edit_actionnum"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_weight="1" />
-          
+                android:layout_weight="1"
+                android:hint="请输入队伍编号" />
         </LinearLayout>
 
         <LinearLayout
-             android:id="@+id/linear_ed"
-             android:layout_below="@+id/linear_sp"
+            android:id="@+id/linear_ed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear_sp" >
 
             <EditText
-                android:id="@+id/editText1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-            	android:hint="命令名称"
-                android:layout_weight="1"
-                android:ems="10" >
-            </EditText>
-
-            <EditText
-                android:id="@+id/EditText01"
+                android:id="@+id/edit_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                        android:layout_marginLeft="5dp"
-                android:hint="目的地介绍" >
-
+                android:hint="命令名称" >
             </EditText>
+
+            <EditText
+                android:id="@+id/edit_targename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="目的地名称" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear_ed"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/edit_intro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="目的地介绍" >
+            </EditText>
+
+            <LinearLayout
+                android:id="@+id/LinearLayout01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <EditText
+                    android:id="@+id/edit_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                     android:focusable="false" 
+                    android:hint="开始时间" >
+
+                </EditText>
+
+                <EditText
+                    android:id="@+id/edit_step"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="时间间隔" />
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linear_ed"
+            android:layout_below="@+id/linear_in"
             android:orientation="vertical" >
 
             <TextView
@@ -81,42 +128,48 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="重复选项1"
+                 android:textColor="@color/black"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <ListView
                 android:id="@+id/listView1"
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="0dp" >
-              
+                android:layout_height="0dp"
+                android:layout_weight="1" >
             </ListView>
 
             <Button
-                android:id="@+id/bt_addlocation"
+                android:id="@+id/bt_addoption1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                 android:background="@drawable/btngreenbg"
+            android:textColor="@color/white"
+            android:textSize="20sp"
                 android:text="添加选项1" />
-              <TextView
-                android:id="@+id/textView1"
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="重复选项2"
+                android:textColor="@color/black"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
-            
-              <ListView
+
+            <ListView
                 android:id="@+id/listView2"
                 android:layout_width="match_parent"
-                  android:layout_weight="1"
-                android:layout_height="0dp"  >
+                android:layout_height="0dp"
+                android:layout_weight="1" >
             </ListView>
 
             <Button
-                android:id="@+id/bt_addlocation"
+                android:id="@+id/bt_addoption2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                 android:background="@drawable/btngreenbg"
+            android:textColor="@color/white"
+            android:textSize="20sp"
                 android:text="添加选项2" />
         </LinearLayout>
-
     </RelativeLayout>
 
 </RelativeLayout>

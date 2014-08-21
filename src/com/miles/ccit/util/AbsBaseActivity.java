@@ -84,11 +84,11 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 
 	}
 	
-	public String getJunbiaoCode()
+	public static String getassetsCode(Context conte,String filename)
 	{
 		try
 		{
-			InputStreamReader inputReader = new InputStreamReader(getResources().getAssets().open("junbiaocode.txt"));
+			InputStreamReader inputReader = new InputStreamReader(conte.getResources().getAssets().open(filename));
 			BufferedReader bufReader = new BufferedReader(inputReader);
 			String line = "";
 			String Result = "";

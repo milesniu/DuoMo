@@ -85,7 +85,7 @@ public abstract class AbsCreatCodeActivity extends AbsBaseActivity
 		email.put("priority", OverAllData.Priority);
 		email.put("acknowledgemen", OverAllData.Acknowledgemen);
 		email.put("creattime", UnixTime.getStrCurrentUnixTime());
-		return email.InsertObj2DB(mContext, "codederict");
+		return email.InsertObj2DB(mContext, "codedirect");
 	}
 	
 	

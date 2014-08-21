@@ -25,19 +25,24 @@
         <LinearLayout
             android:id="@+id/linear_sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:gravity="center" >
 
-            <Spinner
-                android:id="@+id/sp_jbnum"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/edit_jbnum"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:hint="请输入军标编号"
                 android:layout_weight="1" />
 
             <Spinner
                 android:id="@+id/sp_jbcolor"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                 style="@style/spinner_style"
+                     android:animationCache="true"
+    				android:drawSelectorOnTop="true"
                 android:layout_weight="1" />
           
         </LinearLayout>
@@ -49,30 +54,44 @@
             android:layout_height="wrap_content" >
 
             <EditText
-                android:id="@+id/editText1"
+                android:id="@+id/edit_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
             	android:hint="军标名称"
+            	android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:ems="10" >
             </EditText>
 
         </LinearLayout>
 
+       
+           <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/diver"
+            android:layout_margin="3dp"
+            android:layout_below="@+id/linear_ed"
+            />
+
         <ListView
-            android:id="@+id/listView1"
+            android:id="@+id/list_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/bt_addlocation"
-            android:layout_below="@+id/linear_ed" >
+            android:layout_above="@+id/bt_addoption"
+            android:layout_below="@+id/imageView1" >
 
         </ListView>
 
         <Button
-            android:id="@+id/bt_addlocation"
+            android:id="@+id/bt_addoption"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@drawable/btngreenbg"
+            android:textColor="@color/white"
+            android:textSize="20sp"
             android:text="添加选项" />
 
     </RelativeLayout>

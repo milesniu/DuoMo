@@ -42,7 +42,7 @@ public class EmailFragment extends AbsBaseFragment
 	List<BaseMapObject> emailList = new Vector<BaseMapObject>();
 	List<BaseMapObject> sendemail = new Vector<BaseMapObject>();
 	List<BaseMapObject> recvemail = new Vector<BaseMapObject>();
-	List<BaseMapObject> currentlist = null;;
+	List<BaseMapObject> currentlist = null;
 	public Button Btn_Delete;
 	public Button Btn_Canle;
 	private boolean issend = false;
@@ -155,6 +155,7 @@ public class EmailFragment extends AbsBaseFragment
 	public void onResume()
 	{
 		// TODO Auto-generated method stub
+		issend = false;
 		emailList.clear();
 		recvemail.clear();
 		sendemail.clear();
@@ -187,7 +188,7 @@ public class EmailFragment extends AbsBaseFragment
 		}
 		
 		refreshList(currentlist);
-		issend = false;
+		
 		super.onResume();
 	}
 
@@ -239,27 +240,7 @@ public class EmailFragment extends AbsBaseFragment
 			break;
 		case R.id.bt_sure:
 			confirmDlg("删除邮件", "emailmsg", "id", null, currentlist, adapter);
-			// Iterator<BaseMapObject> iter = currentlist.iterator();
-			// List<String> Idlist = new Vector<String>();
-			// while(iter.hasNext())
-			// {
-			// BaseMapObject s = iter.next();
-			// if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
-			// {
-			// Idlist.add(s.get("id").toString());
-			// iter.remove();
-			// }
-			// }
-			//
-			// UserDatabase.DelListObj(getActivity(),"emailmsg", "id", Idlist);
-			//
-			// for(BaseMapObject tmp:currentlist)
-			// {
-			// tmp.put("exp1", null);
-			// tmp.put("exp2", null);
-			// }
-			// adapter.notifyDataSetChanged();
-			// linear_Del.setVisibility(View.GONE);
+
 			break;
 		case R.id.bt_canle:
 			for (BaseMapObject tmp : currentlist)
