@@ -29,7 +29,7 @@
             android:gravity="center" >
 
             <EditText
-                android:id="@+id/editText1"
+                android:id="@+id/edit_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -39,10 +39,14 @@
             </EditText>
 
             <Spinner
-                android:id="@+id/sp_jbnum"
-                android:layout_width="0dp"
+                android:id="@+id/sp_type"
+                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_marginLeft="5dp"
+                 style="@style/spinner_style"
+                 android:layout_weight="1"
+                     android:animationCache="true"
+    				android:drawSelectorOnTop="true" />
           
         </LinearLayout>
 
@@ -53,11 +57,12 @@
             android:layout_height="wrap_content" >
 
             <EditText
-                android:id="@+id/EditText01"
+                android:id="@+id/edit_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:focusable="false"
                 android:hint="反馈日期" >
 
             </EditText>
@@ -65,13 +70,14 @@
         </LinearLayout>
 
        <EditText
-           android:id="@+id/editText2"
+           android:id="@+id/edit_descrption"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_alignParentBottom="true"
            android:layout_below="@+id/linear_ed"
            android:layout_centerHorizontal="true"
-           android:layout_margin="10dp"
+           android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
            android:ems="10"
            android:gravity="top"
            android:hint="反馈信息描述"

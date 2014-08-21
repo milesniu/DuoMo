@@ -29,27 +29,34 @@
             android:gravity="center" >
 
             <Spinner
-                android:id="@+id/Spinner01"
+                android:id="@+id/sp_type"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                  style="@style/spinner_style"
+                     android:animationCache="true"
+    				android:drawSelectorOnTop="true"
+                android:layout_weight="1"  />
 
             <Spinner
-                android:id="@+id/sp_jbnum"
+                android:id="@+id/sp_tool"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                  style="@style/spinner_style"
+                     android:animationCache="true"
+    				android:drawSelectorOnTop="true"
+    				android:layout_marginLeft="5dp"
+                android:layout_weight="1"  />
           
         </LinearLayout>
 
        <EditText
-           android:id="@+id/editText2"
+           android:id="@+id/edit_descrption"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_alignParentBottom="true"
            android:layout_below="@+id/linear_sp"
            android:layout_centerHorizontal="true"
-           android:layout_margin="10dp"
+           android:layout_marginTop="10dp"
            android:ems="10"
            android:gravity="top"
            android:hint="报警控制说明"

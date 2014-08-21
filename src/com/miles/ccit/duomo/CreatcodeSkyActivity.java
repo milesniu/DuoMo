@@ -112,7 +112,7 @@ public class CreatcodeSkyActivity extends AbsCreatCodeActivity
 
 	private String composeSendData()
 	{
-		String data = "P1=0000&P2=000&P3="+skycode.get(sp_Code.getSelectedItemPosition()).get("code").toString()+(edit_name.getText().toString().equals("")?"":("&P4="+edit_name.getText().toString()))+"&P5="+skycolor.get(sp_Color.getSelectedItemPosition()).get("code").toString()+"&P6="+edit_time.getText().toString()+(options.size()>0?"":("&P7="+options.size()));
+		String data = "P1=0000&P2=000&P3="+skycode.get(sp_Code.getSelectedItemPosition()).get("code").toString()+(edit_name.getText().toString().equals("")?"":("&P4="+edit_name.getText().toString()))+"&P5="+skycolor.get(sp_Color.getSelectedItemPosition()).get("code").toString()+"&P6="+edit_time.getText().toString()+(options.size()>0?("&P7="+options.size()):"");
 		String option = "";
 		for(int i=0;i<options.size();i++)
 		{

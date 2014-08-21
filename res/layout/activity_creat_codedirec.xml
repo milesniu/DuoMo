@@ -279,7 +279,7 @@
                         android:id="@+id/TextView07"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="报警通告"
+                        android:text="威胁报警"
                         android:textColor="@color/black" />
                 </LinearLayout>
 

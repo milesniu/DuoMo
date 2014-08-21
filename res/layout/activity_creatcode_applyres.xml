@@ -28,22 +28,21 @@
             android:layout_height="wrap_content"
             android:gravity="center" >
 
-            <Spinner
-                android:id="@+id/sp_jbnum"
+            <EditText
+                android:id="@+id/edit_code"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:hint="应急队伍编号"/>
 
             <EditText
-                android:id="@+id/editText1"
+                android:id="@+id/edit_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="物资名称" >
-
             </EditText>
-          
         </LinearLayout>
 
         <LinearLayout
@@ -53,7 +52,7 @@
             android:layout_below="@+id/linear_sp" >
 
             <EditText
-                android:id="@+id/EditText01"
+                android:id="@+id/edit_count"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -62,7 +61,7 @@
             </EditText>
 
             <EditText
-                android:id="@+id/EditText02"
+                android:id="@+id/edit_unit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -74,29 +73,43 @@
         <LinearLayout
             android:id="@+id/LinearLayout01"
             android:layout_width="match_parent"
-             android:layout_below="@+id/linear_ed"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear_ed"
+            android:orientation="vertical" >
 
             <EditText
-                android:id="@+id/EditText03"
-                android:layout_width="0dp"
+                android:id="@+id/edit_address"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="地名" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/edit_latlng"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="40dp"
+                android:hint="未选择受领地坐标"
+                android:enabled="false"
+                android:ems="10" >
 
             </EditText>
+
         </LinearLayout>
 
         <Button
-            android:id="@+id/button1"
-            android:layout_width="fill_parent"
+            android:id="@+id/bt_addoption"
+          android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/LinearLayout01"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="57dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/btngreenbg"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:layout_marginBottom="57dp"
             android:text="选择受领地坐标" />
-
     </RelativeLayout>
 
 </RelativeLayout>

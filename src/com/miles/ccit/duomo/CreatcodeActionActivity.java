@@ -151,12 +151,12 @@ public class CreatcodeActionActivity extends AbsCreatCodeActivity
 
 	private String composeSendData()
 	{
-		String data = "P1=0000&P2="+typecode.get(sp_Type.getSelectedItemPosition()).get("code").toString()+
+		String data = "P1=0001&P2="+typecode.get(sp_Type.getSelectedItemPosition()).get("code").toString()+
 				(edit_actionname.getText().toString().equals("")?"":("&P3="+edit_actionname.getText().toString()))+
 				"&P4="+edit_actionnum.getText().toString()+
 				(edit_targename.getText().toString().equals("")?"":("&P5="+edit_targename.getText().toString()))+
 				(edit_targeintro.getText().toString().equals("")?"":("&P6="+edit_targeintro.getText().toString()))+
-				(options.size()>0?"":("&P7="+options.size()));
+				(options.size()>0?("&P7="+options.size()):"");
 		String option = "";
 		for(int i=0;i<options.size();i++)
 		{
@@ -176,10 +176,10 @@ public class CreatcodeActionActivity extends AbsCreatCodeActivity
 			
 		}
 		
-		option += ("&P8"+edit_starttime.getText().toString());
-		option += ("&P9"+edit_steptime.getText().toString());
+		option += ("&P8="+edit_starttime.getText().toString());
+		option += ("&P9="+edit_steptime.getText().toString());
 		
-		option+=(options2.size()>0?"":("&P10="+options2.size()));
+		option+=(options2.size()>0?("&P10="+options2.size()):"");
 		for(int i=0;i<options2.size();i++)
 		{
 			HashMap<String, Object> item = options2.get(i);

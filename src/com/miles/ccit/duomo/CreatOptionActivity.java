@@ -48,6 +48,9 @@ public class CreatOptionActivity extends MapBaseActivity
 	public static final int OTHERCODE = 4;
 	public static final int ACTION1 = 51;
 	public static final int ACTION2 = 52;
+	public static final int APPLY = 6;
+	public static final int BDDATA = 7;
+	public static final int WARINNING = 8;
 	private int typeCode = 0;
 	
 	
@@ -148,6 +151,9 @@ public class CreatOptionActivity extends MapBaseActivity
 			break;
 		case ACTION1:
 		case ACTION2:
+		case APPLY:
+		case BDDATA:
+		case WARINNING:
 			d.put("lat", latlng.latitude+"");
 			d.put("lng", latlng.longitude+"");
 			break;

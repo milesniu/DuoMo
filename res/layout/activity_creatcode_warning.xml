@@ -28,16 +28,22 @@
             android:layout_height="wrap_content" >
 
             <Spinner
-                android:id="@+id/sp_jbnum"
+                android:id="@+id/sp_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                  style="@style/spinner_style"
+                     android:animationCache="true"
+    				android:drawSelectorOnTop="true"
                 android:layout_weight="1" />
 
             <Spinner
-                android:id="@+id/sp_jbcolor"
+                android:id="@+id/sp_rect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                 style="@style/spinner_style"
+                     android:animationCache="true"
+    				android:drawSelectorOnTop="true"
                 android:layout_weight="1" />
           
         </LinearLayout>
@@ -49,30 +55,34 @@
             android:layout_height="wrap_content" >
 
             <EditText
-                android:id="@+id/editText1"
+                android:id="@+id/edit_descption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
             	android:hint="军威胁区域说明"
                 android:layout_weight="1"
+                android:layout_marginTop="5dp"
                 android:ems="10" >
             </EditText>
 
         </LinearLayout>
 
         <ListView
-            android:id="@+id/listView1"
+            android:id="@+id/list_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/bt_addlocation"
+            android:layout_above="@+id/bt_addoption"
             android:layout_below="@+id/linear_ed" >
 
         </ListView>
 
-        <Button
-            android:id="@+id/bt_addlocation"
+          <Button
+            android:id="@+id/bt_addoption"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@drawable/btngreenbg"
+            android:textColor="@color/white"
+            android:textSize="20sp"
             android:text="添加选项" />
 
     </RelativeLayout>

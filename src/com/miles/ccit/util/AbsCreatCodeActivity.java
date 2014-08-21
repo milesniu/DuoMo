@@ -69,6 +69,7 @@ public abstract class AbsCreatCodeActivity extends AbsBaseActivity
 			desCon+=(contact[i]+","+id[i]+",");
 		}
 		desCon = desCon.substring(0, desCon.length()-1);
+		MyLog.LogV("codedirc", conent);
 		new SendDataTask().execute(APICode.SEND_CodeDirec+"",OverAllData.Account,desCon,conent);
 		
 	}
