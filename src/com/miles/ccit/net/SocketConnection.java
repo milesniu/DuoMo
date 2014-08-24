@@ -354,6 +354,11 @@ public class SocketConnection
 						MyApplication.handle.sendMessage(new Message());	//连接断开，显示登录界面
 						canleSocket();
 						break;
+					case APICode.BACK_CodeDirec:
+						analyUtil.analyBackCodedirc(heart);
+						break;
+					case APICode.RECV_CodeDirec:
+						break;
 					}
 
 					try

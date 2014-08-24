@@ -45,6 +45,7 @@ public class CodeDirectFragment extends AbsBaseFragment
 	public Button Btn_Delete;
 	public Button Btn_Canle;
 	private boolean issend = false;
+	private boolean isrefresh = true;
 
 	private Handler handler = new Handler()
 	{
@@ -81,7 +82,11 @@ public class CodeDirectFragment extends AbsBaseFragment
 	public void onResume()
 	{
 		// TODO Auto-generated method stub
+		super.onResume();
+		if(!isrefresh)
+			return;
 		issend = false;
+		isrefresh = true;
 		emailList.clear();
 		recvemail.clear();
 		sendemail.clear();
@@ -114,7 +119,7 @@ public class CodeDirectFragment extends AbsBaseFragment
 
 		refreshList(currentlist);
 		
-		super.onResume();
+		
 	}
 
 	private void refreshList(final List<BaseMapObject> list)
@@ -131,8 +136,9 @@ public class CodeDirectFragment extends AbsBaseFragment
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
 				// TODO Auto-generated method stub
-				issend = true;
-				getActivity().startActivity(new Intent(getActivity(), EmailInfoActivity.class).putExtra("item", list.get(arg2)));
+//				issend = true;
+				isrefresh = false;
+				getActivity().startActivity(new Intent(getActivity(), CodeDirectInfoActivity.class).putExtra("item", list.get(arg2)));
 			}
 		});
 		if (list == null || list.size() < 1)

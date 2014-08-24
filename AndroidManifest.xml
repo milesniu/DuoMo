@@ -322,7 +322,9 @@
         </activity>
         <activity
             android:name=".CodeDirectInfoActivity"
-            android:label="@string/title_activity_code_direct_info" >
+            android:label="@string/title_activity_code_direct_info"
+             android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>
 

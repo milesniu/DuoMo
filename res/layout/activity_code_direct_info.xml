@@ -21,25 +21,13 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/text_contact"
+            android:id="@+id/text_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
              android:layout_marginTop="3dp"
              android:text="aaa"
               android:textColor="@color/black"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <EditText
-            android:id="@+id/edit_mailcontent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:ems="10"
-            android:gravity="top"
-            android:enabled="false"
-            android:textColor="@color/black"
-            android:inputType="textMultiLine"
-            />
 
     </LinearLayout>
 

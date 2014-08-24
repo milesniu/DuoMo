@@ -42,7 +42,7 @@ public class CreatcodeWaterActivity extends AbsCreatCodeActivity
 		skycode = (List<Map<String,Object>>)data.get("watercode");
 		skycolor = (List<Map<String,Object>>)data.get("jbcolor");
 		contact = getIntent().getStringExtra("contact");
-		initBaseView("地面目标");
+		initBaseView("水面目标");
 		Btn_Left.setOnClickListener(this);
 		Btn_Right.setBackgroundResource(R.drawable.sendmail);
 		Btn_Right.setOnClickListener(this);
