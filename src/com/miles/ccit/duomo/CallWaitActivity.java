@@ -44,9 +44,19 @@ public class CallWaitActivity extends AbsBaseActivity
 		this.registerReceiver(broad, intentFilter);
 		// AssetFileDescriptor afd =.openFd("callbeep.mp3");
 		// player = new MediaPlayer();
+		palyMusic(R.raw.callbeep);
+	}
+
+	private void palyMusic(int resid)
+	{
 		try
 		{
-			player = MediaPlayer.create(mContext, R.raw.callbeep);
+			if(player!=null&&player.isPlaying())
+			{
+				player.stop();
+				player.release();
+			}
+			player = MediaPlayer.create(mContext, resid);
 			audioManager = (AudioManager) this.getSystemService(mContext.AUDIO_SERVICE);
 			audioManager.setMode(AudioManager.MODE_IN_CALL);// 把模式调成听筒放音模式
 
@@ -71,7 +81,7 @@ public class CallWaitActivity extends AbsBaseActivity
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -110,7 +120,8 @@ public class CallWaitActivity extends AbsBaseActivity
 				}
 				else
 				{
-					CallWaitActivity.this.finish();
+					palyMusic(R.raw.cutdowm);
+//					CallWaitActivity.this.finish();
 				}
 			}
 			else if(action.equals(broad_wiredvoice_Action))
@@ -122,6 +133,7 @@ public class CallWaitActivity extends AbsBaseActivity
 				}
 				else
 				{
+					palyMusic(R.raw.cutdowm);
 					CallWaitActivity.this.finish();
 				}
 			}

@@ -28,7 +28,7 @@ public class HaveCallActivity extends AbsBaseActivity
 	private Button Btn_Connet;
 	MediaPlayer player;
 	int type = -1;
-	
+	AudioManager audioManager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -39,7 +39,9 @@ public class HaveCallActivity extends AbsBaseActivity
 		try
 		{
 			player = MediaPlayer.create(mContext, R.raw.callbeep);
-
+			audioManager = (AudioManager) this.getSystemService(mContext.AUDIO_SERVICE);
+			audioManager.setSpeakerphoneOn(true);
+//			audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);// 把模式调成听筒放音模式
 			player.stop();
 			player.prepare();
 			player.start();

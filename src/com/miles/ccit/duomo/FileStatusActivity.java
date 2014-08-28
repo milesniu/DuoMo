@@ -111,7 +111,7 @@ public class FileStatusActivity extends AbsCreatActivity
 						MyLog.showToast(mContext, "文件发送完毕！");
 						
 					}
-					FileStatusActivity.this.finish();
+//					FileStatusActivity.this.finish();
 				}
 			} else if (action.equals(broad_fileresult_Action))
 			{

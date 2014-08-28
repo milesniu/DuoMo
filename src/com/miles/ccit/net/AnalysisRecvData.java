@@ -23,6 +23,7 @@ import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.HexSwapString;
 import com.miles.ccit.util.MyApplication;
+import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.UnixTime;
 
@@ -88,7 +89,7 @@ public class AnalysisRecvData
 		recvmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
 		recvmsg.InsertObj2DB(AppContext, "shortmsg");
 
-		if (ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(strsrcname))
+		if (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(strsrcname))
 		{
 			intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
 			intent.putExtra("data", recvmsg);
@@ -185,7 +186,11 @@ public class AnalysisRecvData
 			recvvoicemsg.put("acknowledgemen", OverAllData.Acknowledgemen);
 			recvvoicemsg.InsertObj2DB(AppContext, "shortmsg");
 
-			if (ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(vname))
+//			MyLog.showToast(AppContext, ""+(ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(vname)));
+			
+//			MyLog.LogV("istop", (""+ShortmsgListActivity.isTop) + (ShortmsgListActivity.number != null) + (ShortmsgListActivity.number.equals(vname)));
+			
+			if (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(vname))
 			{
 				intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
 				intent.putExtra("data", recvvoicemsg);

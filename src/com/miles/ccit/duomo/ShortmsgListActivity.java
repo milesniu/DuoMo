@@ -58,7 +58,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 	
 	private MyBroadcastReciver broad = null;
 	public static String number = null;
-
+	public static boolean isTop = false;
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -81,6 +81,39 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 	
 	
 	
+	@Override
+	protected void onPause()
+	{
+		// TODO Auto-generated method stub
+		isTop = false;
+		super.onPause();
+	}
+
+
+
+
+	@Override
+	protected void onStop()
+	{
+		// TODO Auto-generated method stub
+		isTop = false;
+		super.onStop();
+	}
+
+
+
+
+	@Override
+	protected void onResume()
+	{
+		// TODO Auto-generated method stub
+		isTop = true;
+		super.onResume();
+	}
+
+
+
+
 	@Override
 	public boolean isDestroyed()
 	{
@@ -272,7 +305,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		// TODO Auto-generated method stub
 		
 		initBaseView(map.get("name") == null ? map.get("number").toString() : map.get("name").toString());
-
+		isTop = true;
 		// Btn_Left.setText("返回");
 		Btn_Right.setVisibility(View.INVISIBLE);
 		edit_inputMsg = (EditText) findViewById(R.id.edit_inputmsg);

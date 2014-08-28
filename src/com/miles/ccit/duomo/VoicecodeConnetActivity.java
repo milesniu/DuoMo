@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -45,6 +48,9 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 	private String filepath = null;
 	private MyBroadcastReciver broad = null;
 	private LinearLayout linear_File;
+	MediaPlayer player;
+//	AudioManager audioManager;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -67,6 +73,39 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 		return true;
 	}
 
+	private void palyMusic(int resid)
+	{
+		try
+		{
+			if(player!=null&&player.isPlaying())
+			{
+				player.stop();
+				player.release();
+			}
+			player = MediaPlayer.create(mContext, resid);
+
+			player.stop();
+			player.prepare();
+			player.start();
+			player.setOnCompletionListener(new OnCompletionListener()
+			{
+
+				@Override
+				public void onCompletion(MediaPlayer mp)
+				{
+					// TODO Auto-generated method stub
+					player.release();
+					player = null;
+					VoicecodeConnetActivity.this.finish();
+				}
+			});
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	
 	@Override
 	public void onClick(View v)
 	{
@@ -209,7 +248,8 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 			String action = intent.getAction();
 			if (action.equals(broad_interaput_Action))
 			{
-				VoicecodeConnetActivity.this.finish();
+				palyMusic(R.raw.cutdowm);
+//				VoicecodeConnetActivity.this.finish();
 			}
 		}
 

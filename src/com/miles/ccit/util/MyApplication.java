@@ -14,12 +14,14 @@ public class MyApplication extends Application
 {
 
 	public static Handler handle = null;
-	 public static MyApplication mcontext;
+	public static MyApplication mcontext;
+
 	@Override
-	public void onCreate() {
+	public void onCreate()
+	{
 		super.onCreate();
-		mcontext=this;
-		SDKInitializer.initialize(getApplicationContext()); 
+		mcontext = this;
+		SDKInitializer.initialize(getApplicationContext());
 		handle = new Handler()
 		{
 
@@ -27,25 +29,32 @@ public class MyApplication extends Application
 			public void handleMessage(Message msg)
 			{
 				// TODO Auto-generated method stub
-				Intent intent = new Intent();
-				intent.setClass(mcontext, LoginActivity.class);
-				 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
-				 mcontext.startActivity(intent);
-//				mcontext.startActivity(new Intent(mcontext, LoginActivity.class));
+				if (msg.arg1 == 1)
+				{
+//					Intent intent = new Intent();
+//					intent.setClass(mcontext, LoginActivity.class);
+//					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//					mcontext.startActivity(intent);
+				}
+				LoginActivity.isLogin = false;
+				// mcontext.startActivity(new Intent(mcontext,
+				// LoginActivity.class));
 				MyLog.showToast(getApplicationContext(), "连接断开，请重新登陆");
 				super.handleMessage(msg);
 			}
-			
+
 		};
 		// 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
 	}
 
-	
-	 public static Context getAppContext(){
-	        return mcontext;
-	    }
-	    public static Resources getAppResources(){
-	        return getAppResources();
-	    }
-		
+	public static Context getAppContext()
+	{
+		return mcontext;
+	}
+
+	public static Resources getAppResources()
+	{
+		return getAppResources();
+	}
+
 }

@@ -125,7 +125,9 @@ public class SocketConnection
 	 */
 	public void reConnectToCTCC()
 	{
-		MyApplication.handle.sendMessage(new Message());	//连接断开，显示登录界面
+		Message msg = new Message();
+		msg.arg1 = 1;
+		MyApplication.handle.sendMessage(msg);	//连接断开，显示登录界面
 		if (heartTimer != null)
 			heartTimer.cancel();
 		isNetworkConnect = false;
@@ -345,13 +347,16 @@ public class SocketConnection
 						analyUtil.analyProgress(heart);
 						break;
 					case APICode.BACK_FILE:
+					case APICode.SEND_FileResult:
 						analyUtil.analyFileBackresult(heart);
 						break;
 					case APICode.RECV_WiredFile:
 						analyUtil.analyrecvWiredFile(heart);
 						break;
 					case APICode.RECV_UIMOUT:
-						MyApplication.handle.sendMessage(new Message());	//连接断开，显示登录界面
+						Message msg = new Message();
+						msg.arg1 = 0;
+						MyApplication.handle.sendMessage(msg);	//连接断开，显示登录界面
 						canleSocket();
 						break;
 					case APICode.BACK_CodeDirec:
