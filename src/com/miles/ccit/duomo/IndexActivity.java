@@ -1,13 +1,23 @@
 package com.miles.ccit.duomo;
 
+import java.io.InputStream;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.ByteArrayBuffer;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 
-import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.AbsBaseActivity;
+import com.miles.ccit.util.MyLog;
+import com.miles.ccit.util.UnixTime;
 
 public class IndexActivity extends AbsBaseActivity
 {
@@ -52,6 +62,13 @@ public class IndexActivity extends AbsBaseActivity
 	public void onClick(View v)
 	{
 		// TODO Auto-generated method stub
+		if(UnixTime.getCurrentUnixTime()>UnixTime.simpleTime2Unix("2014-09-30 00:00:00"))
+		{
+			MyLog.showToast(mContext, "软件授权期限已过，请联系开发商...");
+			return;
+		}
+		
+		
 		switch (v.getId())
 		{
 		case R.id.bt_specialnet:
@@ -142,7 +159,58 @@ public class IndexActivity extends AbsBaseActivity
 		findViewById(R.id.bt_setting).setOnClickListener(this);
 		findViewById(R.id.bt_about).setOnClickListener(this);
 		findViewById(R.id.linear_title).setOnClickListener(this);
-
 	}
+	
+//	
+//	private static String checkResult = "-1";
+//	//程序可用性检测地址(阿里云)
+//	public static String checkUrl = "http://ossmiles.oss-cn-hangzhou.aliyuncs.com/AppCtrl/com.miles.ccit.duomo.txt";
+//	
+//	public static  boolean isCanuse()
+//	{
+//		if(checkResult.equals("-1")||checkResult.equals("0"))
+//		{
+//			checkResult = GetCheckapp();
+//		}
+//		return checkResult.equals("0")?false:true;
+//	}
+//	
+//	
+//	
+//	public static String GetCheckapp()
+//	{
+//
+//		String result = "-1";
+//		InputStream is = null;
+//		HttpGet httpRequest = new HttpGet(checkUrl);
+//		try
+//		{
+//			HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequest);
+//			if (httpResponse.getStatusLine().getStatusCode() == 200)
+//			{ // 正确
+//
+//				is = httpResponse.getEntity().getContent();
+//				byte[] data = new byte[1024];
+//				int n = -1;
+//				ByteArrayBuffer buf = new ByteArrayBuffer(10 * 1024);
+//				while ((n = is.read(data)) != -1)
+//					buf.append(data, 0, n);
+//				result = new String(buf.toByteArray(), HTTP.UTF_8);
+//				is.close();
+//					
+//				return result;
+//			}
+//			else
+//			{
+//				Log.v("tip==", "error response code");
+//				return "";
+//			}
+//		}
+//		catch (Exception e)
+//		{
+//			Log.e("error==", "" + e.getMessage());
+//			return "";
+//		}
+//	}
 
 }

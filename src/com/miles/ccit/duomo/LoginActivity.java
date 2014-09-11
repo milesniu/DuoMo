@@ -1,11 +1,21 @@
 package com.miles.ccit.duomo;
 
+import java.io.InputStream;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.ByteArrayBuffer;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -24,6 +34,11 @@ public class LoginActivity extends AbsBaseActivity
 	private EditText edit_ip;
 	private MyBroadcastReciver broad = null;
 	public static boolean isLogin = false;
+	public static SharedPreferences sp;
+	public final String spuname = "uname";
+	public final String sppwd = "pwd";
+	public final String spip = "ipaddr";
+		
 //	private Timer timer = null;
 //	private TimerTask ttask = null;
 //	private int deltime = 5;
@@ -60,6 +75,7 @@ public class LoginActivity extends AbsBaseActivity
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+
 //		ttask = new TimerTask()
 //		{
 //			
@@ -97,9 +113,16 @@ public class LoginActivity extends AbsBaseActivity
 		Btn_Left.setOnClickListener(this);
 		Btn_Right.setVisibility(View.INVISIBLE);
 
+		sp = this.getSharedPreferences("userInfo", Context.MODE_WORLD_READABLE);
+		sp = getPreferences(MODE_PRIVATE);
+		
 		edit_Account = (EditText) findViewById(R.id.edit_account);
 		edit_Password = (EditText) findViewById(R.id.edit_pwd);
 		edit_ip = (EditText)findViewById(R.id.edit_ip);
+		edit_Account.setText(sp.getString(spuname, ""));
+		edit_Password.setText(sp.getString(sppwd, ""));
+		edit_ip.setText(sp.getString(spip, ""));
+		
 		findViewById(R.id.bt_login).setOnClickListener(this);
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(broad_login_Action);
@@ -184,12 +207,18 @@ public class LoginActivity extends AbsBaseActivity
 			showprogressdialog();
 			OverAllData.Account = name;
 			OverAllData.Pwd = pwd;
+			
+			SharedPreferences.Editor editor = sp.edit();
+			// 修改数据
+			editor.putString(spuname, String.valueOf(name));
+			editor.putString(sppwd, String.valueOf(pwd));
+			editor.putString(spip, String.valueOf(ip));
+			editor.commit();
+			
 			new SendDataTask().execute(APICode.SEND_Login + "", name, pwd);
 //			timer = new Timer();
 //			timer.schedule(ttask, 100, 5000);
 			break;
 		}
-	}
-
-	
+	}	
 }

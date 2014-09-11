@@ -37,4 +37,10 @@ public class UnixTime
 		return  System.currentTimeMillis()/1000+"";
 
 	}
+	
+	public static long getCurrentUnixTime()
+	{
+		return  System.currentTimeMillis()/1000;
+
+	}
 }

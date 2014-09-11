@@ -13,7 +13,28 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:background="@drawable/indextitlenologin" />
+        android:layout_gravity="right"
+        android:background="@drawable/indextitlenologin" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" >
+
+             <TextView
+                 android:id="@+id/textView1"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentBottom="true"
+                 android:layout_alignParentRight="true"
+                 android:layout_marginBottom="5dp"
+                 android:layout_marginRight="10dp"
+                 android:text="内部测试版"
+                 android:textAppearance="?android:attr/textAppearanceMedium"
+                 android:textColor="@color/red" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
