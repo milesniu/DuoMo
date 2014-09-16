@@ -55,11 +55,22 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/imageerror"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:src="@drawable/redfail" />
+    
     <CheckBox
         android:id="@+id/check_del"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"/>
+
+    
 
 </RelativeLayout>

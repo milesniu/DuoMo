@@ -3,6 +3,8 @@ package com.miles.ccit.duomo;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
 
 import android.content.BroadcastReceiver;
@@ -10,6 +12,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.text.format.Time;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
@@ -43,6 +50,25 @@ public class BroadCastctivity extends AbsBaseActivity
 	private List<BaseMapObject>fileList = new Vector<BaseMapObject>();
 	private ListView list_Content;
 	private MsgorMailSetAdapter adapter;
+	//处理定时器消息
+	Handler handle = new Handler()
+	{
+
+		@Override
+		public void handleMessage(Message msg)
+		{
+			// TODO Auto-generated method stub
+			Looper.prepare();
+			if (pdialog != null && pdialog.isShowing())
+			{
+				MyLog.showToast(mContext, "服务器无响应...");
+				hideProgressDlg();
+			}
+			Looper.loop();
+			super.handleMessage(msg);
+		}
+
+	};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -51,6 +77,7 @@ public class BroadCastctivity extends AbsBaseActivity
 		setContentView(R.layout.activity_broad_castctivity);
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(broad_broadcast_Action);
+		intentFilter.addAction(broad_broadcastresult_Action);
 		broad = new MyBroadcastReciver();
 		this.registerReceiver(broad, intentFilter);
 		
@@ -148,6 +175,8 @@ public class BroadCastctivity extends AbsBaseActivity
 		return true;
 	}
 
+	
+
 	@Override
 	public void onClick(View v)
 	{
@@ -167,7 +196,7 @@ public class BroadCastctivity extends AbsBaseActivity
 			number= edit_Boundry.getText().toString();
 			if(number.equals(""))
 			{
-				MyLog.showToast(mContext, "请输入有效频率");
+				MyLog.showToast(mContext, "请输入有效频率(3~30 MHz)");
 				return;
 			}
 			else
@@ -175,12 +204,24 @@ public class BroadCastctivity extends AbsBaseActivity
 				double num = Double.parseDouble(number);
 				if(num<3||num>30)
 				{
-					MyLog.showToast(mContext, "请输入有效频率");
+					MyLog.showToast(mContext, "请输入有效频率(3~30 MHz)");
 					return;
 				}
 				else
 				{
+					showprogressdialog();
 					new SendDataTask().execute(APICode.SEND_Broadcast+"",OverAllData.Account,number);
+					new Timer().schedule(new TimerTask()
+					{
+						
+						@Override
+						public void run()
+						{
+							// TODO Auto-generated method stub
+							handle.handleMessage(new Message());
+						}
+					}, 3000);
+					
 				}
 			}
 			break;
@@ -238,6 +279,18 @@ public class BroadCastctivity extends AbsBaseActivity
 //						MyLog.showToast(mContext, "收到文件"+broadmap.get("filepath"));
 						refreshList();
 					}
+				}
+			}
+			else if(action.equals(broad_broadcastresult_Action))
+			{
+				hideProgressDlg();
+				if (intent.getSerializableExtra("data").equals("true"))
+				{
+					MyLog.showToast(mContext, "广播频率设置成功...");
+				}
+				else
+				{
+					MyLog.showToast(mContext, "广播频率设置失败，请重新设置！");
 				}
 			}
 		}

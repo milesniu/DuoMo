@@ -81,7 +81,7 @@ public class EmailFragment extends AbsBaseFragment
 	private void refreshList(final List<BaseMapObject> list)
 	{
 
-		Collections.reverse(list);
+		
 
 		adapter = new MsgorMailSetAdapter(getActivity(), list, "mail");
 
@@ -186,7 +186,8 @@ public class EmailFragment extends AbsBaseFragment
 		{
 			currentlist = recvemail;
 		}
-		
+		Collections.reverse(recvemail);
+		Collections.reverse(sendemail);
 		refreshList(currentlist);
 		
 		super.onResume();

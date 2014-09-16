@@ -45,6 +45,7 @@ public class SocketConnection
 		try
 		{
 			init(OverAllData.Ipaddress, OverAllData.Port);
+			
 		} catch (IOException e)
 		{
 			// log.fatal("socket初始化异常!",e);
@@ -118,6 +119,8 @@ public class SocketConnection
 			receiveThread.start();
 			isSocketRun = true;
 		}
+		//开启心跳，注释此句，则关闭心跳
+//		launchHeartcheck();
 	}
 
 	/**
@@ -219,8 +222,8 @@ public class SocketConnection
 	 */
 	public void launchHeartcheck()
 	{
-		if (SocketConnection.getInstance().getsocket() == null)
-			throw new IllegalStateException("socket is not 	established!");
+//		if (SocketConnection.getInstance().getsocket() == null)
+//			throw new IllegalStateException("socket is not 	established!");
 		heartTimer = new Timer();
 		heartTimer.schedule(new TimerTask()
 		{
@@ -235,7 +238,7 @@ public class SocketConnection
 				{
 					try
 					{
-						result = SocketConnection.getInstance().readReqMsg(new ComposeData().sendHeartbeat());
+						result = readReqMsg(new ComposeData().sendHeartbeat());
 					} catch (IOException e)
 					{
 						MyLog.SystemOut("IO流异常" + e.toString());
@@ -310,6 +313,9 @@ public class SocketConnection
 					case APICode.BACK_ShortVoiceMsg:
 						analyUtil.analyBackTextMsg(heart);
 						break;
+					case APICode.BACK_Email:
+						analyUtil.analyBackEmail(heart);
+						break;
 					case APICode.RECV_ShortTextMsg:
 						analyUtil.analyTextMsg(heart);
 						break;
@@ -327,6 +333,9 @@ public class SocketConnection
 						break;
 					case APICode.RECV_BroadcastFile:
 						analyUtil.analyBroadcast(heart);
+						break;
+					case APICode.BACK_Broadcast:
+						analyUtil.analyBackBroadcast(heart);
 						break;
 					case APICode.BACK_SpecialVoice:
 						analyUtil.analyBackSpecialVoice(heart);
@@ -363,6 +372,7 @@ public class SocketConnection
 						analyUtil.analyBackCodedirc(heart);
 						break;
 					case APICode.RECV_CodeDirec:
+						analyUtil.analyRecvCodedirc(heart);
 						break;
 					}
 

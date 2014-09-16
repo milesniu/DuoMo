@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -47,9 +48,9 @@ public class CodeDirectInfoActivity extends AbsBaseActivity
 		showDetail();
 	}
 	
-	private String getcodenumName(String codetype,String code)
+	public static  String getcodenumName(Context contex,String codetype,String code)
 	{
-		Map<String,Object> datasky = JSONUtil.getMapFromJson(getassetsCode(mContext,"junbiaocode.txt"));
+		Map<String,Object> datasky = JSONUtil.getMapFromJson(getassetsCode(contex,"junbiaocode.txt"));
 		List<Map<String,Object>> skycode = (List<Map<String,Object>>)datasky.get(codetype);
 		for(Map<String,Object> t:skycode)
 		{
@@ -72,33 +73,33 @@ public class CodeDirectInfoActivity extends AbsBaseActivity
 			{
 			case 0:
 				analydata +="军标类型:"+ "空中目标"+"\r\n\r\n";
-				analydata+="军标编号："+getcodenumName("skycode", detail.get("P3").toString())+"\r\n\r\n";
+				analydata+="军标编号："+getcodenumName(mContext,"skycode", detail.get("P3").toString())+"\r\n\r\n";
 				analydata+=(detail.get("P4")==null?"":"军标名称："+detail.get("P4").toString()+"\r\n\r\n");
-				analydata+="军标颜色："+getcodenumName("jbcolor", detail.get("P5").toString())+"\r\n\r\n";
+				analydata+="军标颜色："+getcodenumName(mContext,"jbcolor", detail.get("P5").toString())+"\r\n\r\n";
 				analydata+="时间戳："+detail.get("P6").toString()+"\r\n\r\n";
 				
 				break;
 			case 1:
 				analydata +="军标类型:"+ "地面目标"+"\r\n\r\n";
-				analydata+="军标编号："+getcodenumName("earthcode", detail.get("P3").toString())+"\r\n\r\n";
+				analydata+="军标编号："+getcodenumName(mContext,"earthcode", detail.get("P3").toString())+"\r\n\r\n";
 				analydata+=(detail.get("P4")==null?"":"军标名称："+detail.get("P4").toString()+"\r\n\r\n");
-				analydata+="军标颜色："+getcodenumName("jbcolor", detail.get("P5").toString())+"\r\n\r\n";
+				analydata+="军标颜色："+getcodenumName(mContext,"jbcolor", detail.get("P5").toString())+"\r\n\r\n";
 				analydata+="时间戳："+detail.get("P6").toString()+"\r\n\r\n";
 				
 				break;
 			case 10:
 				analydata +="军标类型:"+ "水面目标"+"\r\n\r\n";
-				analydata+="军标编号："+getcodenumName("watercode", detail.get("P3").toString())+"\r\n\r\n";
+				analydata+="军标编号："+getcodenumName(mContext,"watercode", detail.get("P3").toString())+"\r\n\r\n";
 				analydata+=(detail.get("P4")==null?"":"军标名称："+detail.get("P4").toString()+"\r\n\r\n");
-				analydata+="军标颜色："+getcodenumName("jbcolor", detail.get("P5").toString())+"\r\n\r\n";
+				analydata+="军标颜色："+getcodenumName(mContext,"jbcolor", detail.get("P5").toString())+"\r\n\r\n";
 				analydata+="时间戳："+detail.get("P6").toString()+"\r\n\r\n";
 				
 				break;
 			case 11:
 				analydata +="军标类型:"+ "其他目标"+"\r\n\r\n";
-				analydata+="军标编号："+getcodenumName("skycode", detail.get("P3").toString())+"\r\n\r\n";
+				analydata+="军标编号："+getcodenumName(mContext,"skycode", detail.get("P3").toString())+"\r\n\r\n";
 				analydata+=(detail.get("P4")==null?"":"军标名称："+detail.get("P4").toString()+"\r\n\r\n");
-				analydata+="军标颜色："+getcodenumName("jbcolor", detail.get("P5").toString())+"\r\n\r\n";
+				analydata+="军标颜色："+getcodenumName(mContext,"jbcolor", detail.get("P5").toString())+"\r\n\r\n";
 				analydata+="时间戳："+detail.get("P6").toString()+"\r\n\r\n";
 				
 				break;

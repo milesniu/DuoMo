@@ -323,7 +323,7 @@ public class ComposeData
 		byte fjbyte[] = info[5] == null ? new byte[0] : ByteUtil.getBytes(info[5]);
 		mLen += fjbyte.length; // 添加附件长度
 
-		byte[] mData = new byte[mLen + (info[5] == null ? 8 : 11)];// 源地址长度1字节，目的地址长度1字节，抄送地址2字节，标题长度1，内容长度2，附件标示1，附件名长度1，附件长度2,
+		byte[] mData = new byte[mLen + (info[5] == null ? 9 : 12)];// 源地址长度1字节，目的地址长度1字节，抄送地址2字节，标题长度1，内容长度2，附件标示1，附件名长度1，附件长度2,
 
 		int currentpos = 0;
 		for (int i = 0; i < 5; i++)

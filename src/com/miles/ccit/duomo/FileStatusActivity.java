@@ -103,12 +103,12 @@ public class FileStatusActivity extends AbsCreatActivity
 					if (filepath == null)
 					{
 						sendrecvresultFile();
-						MyLog.showToast(mContext, "文件接收完毕！");
+//						MyLog.showToast(mContext, "文件接收完毕！");
 						AbsCreatActivity.showFile(mContext, AbsCreatActivity.getFileName(recvpath), recvpath);
 					}
 					else
 					{
-						MyLog.showToast(mContext, "文件发送完毕！");
+//						MyLog.showToast(mContext, "文件发送完毕！");
 						
 					}
 //					FileStatusActivity.this.finish();

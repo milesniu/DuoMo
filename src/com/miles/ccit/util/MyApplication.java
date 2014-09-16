@@ -40,6 +40,11 @@ public class MyApplication extends Application
 				// mcontext.startActivity(new Intent(mcontext,
 				// LoginActivity.class));
 				MyLog.showToast(getApplicationContext(), "连接断开，请重新登陆");
+				
+				Intent intent = new Intent();
+				intent.setAction(AbsBaseActivity.broad_usimout_Action);
+				mcontext.sendBroadcast(intent);
+				
 				super.handleMessage(msg);
 			}
 

@@ -99,6 +99,12 @@ public class CreatOptionActivity extends MapBaseActivity
 //				MyLog.showToast(mContext, "间隔时间为必填项！");
 //				return;
 //			}
+			if(latlng==null)
+			{
+				MyLog.showToast(mContext, "请长按地图选取目标点！");
+				return;
+			}
+			
             setResult(RESULT_OK, new Intent().putExtra("option",composeData())); 
 			this.finish();
 			break;

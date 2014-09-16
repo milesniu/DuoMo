@@ -1,16 +1,10 @@
 package com.miles.ccit.duomo;
 
-import java.io.InputStream;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.ByteArrayBuffer;
-
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -23,12 +17,16 @@ public class IndexActivity extends AbsBaseActivity
 {
 
 //	public static boolean result = false;
-	
+	private MyBroadcastReciver broad = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_index);
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(broad_usimout_Action);
+		broad = new MyBroadcastReciver();
+		this.registerReceiver(broad, intentFilter);
 //		new SendDataTask().execute(APICode.SEND_Login+"","123456","abdc123");
 	}
 
@@ -38,6 +36,41 @@ public class IndexActivity extends AbsBaseActivity
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.index, menu);
 		return true;
+	}
+
+	
+	
+	
+	@Override
+	protected void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		if(broad!=null)
+		{
+			this.unregisterReceiver(broad);
+		}
+	}
+
+
+
+
+	public class MyBroadcastReciver extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			// TODO Auto-generated method stub
+			hideProgressDlg();
+			String action = intent.getAction();
+
+			if (action.equals(broad_usimout_Action))
+			{
+				findViewById(R.id.linear_title).setBackgroundResource(R.drawable.indextitlenologin);
+				return;
+			} 
+		}
+
 	}
 
 	

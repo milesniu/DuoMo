@@ -260,31 +260,33 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		if(CurrentType==TOCALLVOICE)
 		{
 			contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOCALLVOICE).putExtra("code", code));
-			new Timer().schedule(new TimerTask()
-			{
-				
-				@Override
-				public void run()
-				{
-					// TODO Auto-generated method stub
-					sendVoiceStarttoNet(code);
-				}
-			},1000);
+			sendVoiceStarttoNet(code);
+			//			new Timer().schedule(new TimerTask()
+//			{
+//				
+//				@Override
+//				public void run()
+//				{
+//					// TODO Auto-generated method stub
+//					sendVoiceStarttoNet(code);
+//				}
+//			},1000);
 			
 		}
 		else if(CurrentType == TOCALLWIREDVOICE)
 		{
 			contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOCALLWIREDVOICE).putExtra("code", code));
-			new Timer().schedule(new TimerTask()
-			{
-				
-				@Override
-				public void run()
-				{
-					// TODO Auto-generated method stub
-					sendWiredStarttoNet(code);
-				}
-			},1000);
+			sendWiredStarttoNet(code);
+			//			new Timer().schedule(new TimerTask()
+//			{
+//				
+//				@Override
+//				public void run()
+//				{
+//					// TODO Auto-generated method stub
+//					
+//				}
+//			},1000);
 		}
 		else if(CurrentType == TOCALLWIREDFILE)
 		{

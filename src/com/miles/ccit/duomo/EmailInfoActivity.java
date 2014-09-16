@@ -89,7 +89,7 @@ public class EmailInfoActivity extends AbsBaseActivity
 			}
 		}
 		
-		text_Chaosong.setText("抄送人："+csStr);
+		text_Chaosong.setText("抄送人："+map.get("csnumber").toString());
 		
 		text_content.setText(map.get("mailcontent").toString());
 		text_Contact.setText("联系人："+(map.get("name")==null?map.get("number").toString():map.get("name").toString()));
@@ -98,11 +98,12 @@ public class EmailInfoActivity extends AbsBaseActivity
 			img_fj.setVisibility(View.VISIBLE);
 			if (AbsCreatActivity.isImage(AbsCreatActivity.getFileType(map.get("attachmentsname").toString())))
 			{
-
-				img_fj.setBackgroundResource(R.drawable.image_enriched);
+				img_fj.setImageResource(R.drawable.image_enrichedimg);
+//				img_fj.setBackgroundResource(R.drawable.image_enrichedbg);
 			} else
 			{
-				img_fj.setBackgroundResource(R.drawable.text_enriched);
+				img_fj.setImageResource(R.drawable.text_enriched);
+//				img_fj.setBackgroundResource(R.drawable.image_enrichedbg);
 			}
 			img_fj.setOnClickListener(this);
 		} else

@@ -13,9 +13,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.miles.ccit.database.GetData4DB;
+import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.SendDataTask;
 
 public class CallWaitActivity extends AbsBaseActivity
 {
@@ -97,6 +100,7 @@ public class CallWaitActivity extends AbsBaseActivity
 		switch (v.getId())
 		{
 		case R.id.bt_cut:
+			new SendDataTask().execute(APICode.SEND_NormalInteraput+"",OverAllData.Account);
 			this.finish();
 			break;
 		}

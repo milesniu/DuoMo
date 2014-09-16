@@ -60,6 +60,9 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 	public static final String broad_fileprogress_Action = "cn.broadcast.fileprogress";
 	public static final String broad_filefinish_Action = "cn.broadcast.filefinish";
 	public static final String broad_fileresult_Action = "cn.broadcast.fileresult";
+	public static final String broad_usimout_Action = "cn.broadcast.usimout";
+	public static final String broad_broadcastresult_Action = "cn.broadcast.broadcastresult";
+	public static final String broad_recvcodedirc_Action = "cn.broadcast.recvcodedirc";
 	
 	
 	
@@ -68,7 +71,7 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 	public ImageView img_Empty;
 	public ProgressDialog pdialog;
 	public static String title = "多模系统";
-	public static String message = "正在努力加载···";
+	public static String message = "正在努力传输数据···";
 
 	public void initBaseView(String titlename)
 	{

@@ -11,6 +11,9 @@ import android.content.Intent;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.BroadCastctivity;
 import com.miles.ccit.duomo.CallWaitActivity;
+import com.miles.ccit.duomo.CodeDirectFragment;
+import com.miles.ccit.duomo.CodeDirectInfoActivity;
+import com.miles.ccit.duomo.EmailFragment;
 import com.miles.ccit.duomo.EmailInfoActivity;
 import com.miles.ccit.duomo.FileStatusActivity;
 import com.miles.ccit.duomo.HaveCallActivity;
@@ -21,9 +24,7 @@ import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.ByteUtil;
-import com.miles.ccit.util.HexSwapString;
 import com.miles.ccit.util.MyApplication;
-import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.UnixTime;
 
@@ -119,6 +120,31 @@ public class AnalysisRecvData
 		}
 	}
 
+	public void analyBackEmail(byte[] data) throws UnsupportedEncodingException
+	{
+		Intent intent = new Intent();
+		int alllen = ByteUtil.byte2Int(new byte[]
+		{ data[2], data[3] });
+		int idlen = alllen - 2;// 长度本身1字节，命令码1字节，成败1字节
+
+		byte[] srcname = new byte[idlen];
+		System.arraycopy(data, 6, srcname, 0, idlen);
+		String id = new String(srcname);
+		BaseMapObject senditem = GetData4DB.getObjectByid(AppContext, "emailmsg", id);
+
+		senditem.put("sendtype", data[5] == 0 ? AbsBaseActivity.SENDERROR + "" : AbsBaseActivity.SENDSUCCESS + "");
+		senditem.UpdateMyself(AppContext, "emailmsg");
+
+//		if (EmailFragment.isTop)
+//		{
+//			intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
+//			intent.putExtra("data", senditem);
+//			AppContext.sendBroadcast(intent);
+//		}
+
+		// Intent intent = new Intent();
+	}
+	
 	public void analyBackTextMsg(byte[] data) throws UnsupportedEncodingException
 	{
 		Intent intent = new Intent();
@@ -131,11 +157,11 @@ public class AnalysisRecvData
 		String id = new String(srcname);
 		BaseMapObject senditem = GetData4DB.getObjectByid(AppContext, "shortmsg", id);
 
+		senditem.put("sendtype", data[5] == 0 ? AbsBaseActivity.SENDERROR + "" : AbsBaseActivity.SENDSUCCESS + "");
+		senditem.UpdateMyself(AppContext, "shortmsg");
+		
 		if (senditem != null && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(senditem.get("number").toString()))
 		{
-			senditem.put("sendtype", data[5] == 0 ? AbsBaseActivity.SENDERROR + "" : AbsBaseActivity.SENDSUCCESS + "");
-			senditem.UpdateMyself(AppContext, "shortmsg");
-
 			intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
 			intent.putExtra("data", senditem);
 			AppContext.sendBroadcast(intent);
@@ -162,9 +188,8 @@ public class AnalysisRecvData
 		String mstryvname = new String(myvname, "UTF-8");
 		voicecursor += myvlen;
 
-		int vclen = ByteUtil.byte2Int(new byte[]
-		{ data[25], data[26] });// .oneByte2oneInt(data[voicecursor++]);
-		voicecursor = 27;
+		int vclen = ByteUtil.byte2Int(new byte[]{ data[voicecursor], data[voicecursor+1] });
+		voicecursor +=2;
 		byte[] vconten = new byte[vclen];
 		System.arraycopy(data, voicecursor, vconten, 0, vclen);
 		// String co = new String(conten, "UTF-8");
@@ -256,18 +281,6 @@ public class AnalysisRecvData
 			record.put("creattime", UnixTime.getStrCurrentUnixTime());
 			
 			record.InsertObj2DB(AppContext, "wiredrecord");
-//			BaseMapObject recvvoicemsg = new BaseMapObject();
-//			recvvoicemsg.put("id", null);
-//			recvvoicemsg.put("number", vname);
-//			recvvoicemsg.put("sendtype", AbsMsgRecorderActivity.RECVFROM + "");
-//			recvvoicemsg.put("status", "0");
-//			recvvoicemsg.put("msgtype", "1");
-//			recvvoicemsg.put("msgcontent", vpath);
-//			recvvoicemsg.put("creattime", UnixTime.getStrCurrentUnixTime());
-//			recvvoicemsg.put("priority", OverAllData.Priority);
-//			recvvoicemsg.put("acknowledgemen", OverAllData.Acknowledgemen);
-//			recvvoicemsg.InsertObj2DB(AppContext, "shortmsg");
-
 		}
 
 	}
@@ -401,6 +414,23 @@ public class AnalysisRecvData
 			}
 			AppContext.sendBroadcast(intent);
 		}
+
+	}
+	
+	
+	public void analyBackBroadcast(byte[] data) throws UnsupportedEncodingException
+	{
+
+		Intent intent = new Intent();
+		intent.setAction(AbsBaseActivity.broad_broadcastresult_Action);
+		if (data[5] == 1)// 成功响应
+		{
+			intent.putExtra("data", "true");
+		} else if (data[5] == 0)// 失败响应
+		{
+			intent.putExtra("data", "false");
+		}
+		AppContext.sendBroadcast(intent);
 
 	}
 
@@ -576,5 +606,260 @@ public class AnalysisRecvData
 
 		// Intent intent = new Intent();
 	}
+	
+	
+	public void analyRecvCodedirc(byte[] data) throws UnsupportedEncodingException
+	{
+		Intent intent = new Intent();
+		int cursor = 5;
+		int namelen = ByteUtil.oneByte2oneInt(data[cursor++]);
+		byte[] srcname = new byte[namelen];
+		System.arraycopy(data, cursor, srcname, 0, namelen);
+		String strsrcname = new String(srcname, "UTF-8");
+
+		cursor += namelen;
+
+		int deslen = ByteUtil.oneByte2oneInt(data[cursor++]);
+		byte[] desname = new byte[deslen];
+		System.arraycopy(data, cursor, desname, 0, deslen);
+		String strdesname = new String(desname, "UTF-8");
+
+		cursor += deslen;
+
+		int clen = ByteUtil.byte2Int(new byte[]{data[cursor],data[cursor+1]});
+		cursor+=2;
+		byte[] conten = new byte[clen];
+		System.arraycopy(data, cursor, conten, 0, clen);
+		String co = new String(conten, "UTF-8");
+
+		BaseMapObject email = new BaseMapObject();
+		email.put("id", null);
+		email.put("number", strsrcname);
+		email.put("sendtype", "1");	//1,收，2,发，3,草稿
+		email.put("codetype", "0");	//不记录军标类型
+		email.put("codecontent", co);
+		email.put("priority", OverAllData.Priority);
+		email.put("acknowledgemen", OverAllData.Acknowledgemen);
+		email.put("creattime", UnixTime.getStrCurrentUnixTime());
+		email.InsertObj2DB(AppContext, "codedirect");
+
+		if (CodeDirectFragment.isTop)
+		{
+			intent.setAction(AbsBaseActivity.broad_recvcodedirc_Action);
+			intent.putExtra("data", email);
+			AppContext.sendBroadcast(intent);
+		} else
+		{
+			BaseMapObject contact = GetData4DB.getObjectByRowName(AppContext, "contact", "number", strsrcname);
+			if (contact != null)
+			{
+				email.put("name", contact.get("name").toString());
+			}
+			messageNotification = new Notification();
+			messageNotification.icon = R.drawable.ic_launcher;
+			messageNotification.tickerText = "你有一条新的代码指挥";
+			messageNotification.flags = messageNotification.FLAG_AUTO_CANCEL;
+			messageNotification.defaults = Notification.DEFAULT_SOUND;
+			messageNotificatioManager = (NotificationManager) AppContext.getSystemService(AppContext.NOTIFICATION_SERVICE);
+			messageIntent = new Intent(AppContext, CodeDirectInfoActivity.class);
+			messageIntent.putExtra("item", email);
+			messageIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			messagePendingIntent = PendingIntent.getActivity(AppContext, 0, messageIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+			messageNotificationID = Integer.parseInt(strsrcname);
+			// 更新通知栏
+			messageNotification.setLatestEventInfo(AppContext, contact == null ? strsrcname : (contact.get("name").toString() + "的新消息"), showDetail(email), messagePendingIntent);
+			messageNotificatioManager.notify(messageNotificationID, messageNotification);
+
+		}
+	}
+
+	
+	private String showDetail(BaseMapObject detail)
+	{
+		
+		String[] param = detail.get("codecontent").toString().split("&");
+		for(String s : param)
+		{
+			String[] sp = s.split("=");
+			if(sp.length==2)
+				detail.put(sp[0], sp[1]);
+		}
+		
+		String analydata = "";
+//		Map<String,Object> data = JSONUtil.getMapFromJson(AbsCreatCodeActivity.getassetsCode(mContext,"actioncode.txt"));
+		switch(Integer.parseInt(detail.get("P1").toString()))
+		{
+		case 0:
+			analydata+= "军标"+"-";
+			switch(Integer.parseInt(detail.get("P2").toString()))
+			{
+			case 0:
+				analydata += "空中目标"+"-";
+				analydata+=CodeDirectInfoActivity.getcodenumName(AppContext,"skycode", detail.get("P3").toString())+"-";
+				analydata+=(detail.get("P4")==null?"":"军标名称："+detail.get("P4").toString()+"-");
+				analydata+=CodeDirectInfoActivity.getcodenumName(AppContext,"jbcolor", detail.get("P5").toString())+"-";
+				analydata+=detail.get("P6").toString()+"-";
+				
+				break;
+			case 1:
+				analydata += "地面目标"+"-";
+				analydata+=CodeDirectInfoActivity.getcodenumName(AppContext,"earthcode", detail.get("P3").toString())+"-";
+				analydata+=(detail.get("P4")==null?"":"军标名称："+detail.get("P4").toString()+"-");
+				analydata+=CodeDirectInfoActivity.getcodenumName(AppContext,"jbcolor", detail.get("P5").toString())+"-";
+				analydata+=detail.get("P6").toString()+"-";
+				
+				break;
+			case 10:
+				analydata += "水面目标"+"-";
+				analydata+=CodeDirectInfoActivity.getcodenumName(AppContext,"watercode", detail.get("P3").toString())+"-";
+				analydata+=(detail.get("P4")==null?"":"军标名称："+detail.get("P4").toString()+"-");
+				analydata+=CodeDirectInfoActivity.getcodenumName(AppContext,"jbcolor", detail.get("P5").toString())+"-";
+				analydata+=detail.get("P6").toString()+"-";
+				
+				break;
+			case 11:
+				analydata += "其他目标"+"-";
+				analydata+=CodeDirectInfoActivity.getcodenumName(AppContext,"skycode", detail.get("P3").toString())+"-";
+				analydata+=(detail.get("P4")==null?"":"军标名称："+detail.get("P4").toString()+"-");
+				analydata+=CodeDirectInfoActivity.getcodenumName(AppContext,"jbcolor", detail.get("P5").toString())+"-";
+				analydata+=detail.get("P6").toString()+"-";
+				
+				break;
+			}
+			break;
+		case 1:
+			analydata+= "-";
+			switch(Integer.parseInt(detail.get("P2").toString()))
+			{
+			case 0:
+				analydata += "集结"+"-";
+				break;
+			case 1:
+				analydata += "疏散"+"-";
+				break;
+			case 10:
+				analydata += "进攻"+"-";
+				break;
+			case 11:
+				analydata += "撤退"+"-";
+				break;
+			}
+			analydata+=(detail.get("P3")==null?"":"命令名称："+detail.get("P4").toString()+"-");
+			analydata+=(detail.get("P4").toString())+"-";
+			analydata+=(detail.get("P5")==null?"":"目的地名称："+detail.get("P5").toString()+"-");
+			analydata+=(detail.get("P6")==null?"":"目的地介绍："+detail.get("P6").toString()+"-");
+			analydata+=(detail.get("P8")==null?"":"开始执行时间："+detail.get("P8").toString()+"-");
+			analydata+=(detail.get("P9")==null?"":"间隔时间："+detail.get("P9").toString()+"-");
+			
+			break;
+		case 10:
+			analydata+= "行动命令反馈"+"-";
+			switch(Integer.parseInt(detail.get("P3").toString()))
+			{
+			case 0:
+				analydata +="反馈类型:"+ "待执行"+"-";
+				break;
+			case 1:
+				analydata +="反馈类型:"+ "已执行"+"-";
+				break;
+			case 10:
+				analydata +="反馈类型:"+ "不能执行"+"-";
+				break;
+			case 11:
+				analydata +="反馈类型:"+ "执行完毕"+"-";
+				break;
+			}
+			analydata+=(detail.get("P2")==null?"":"命令名称："+detail.get("P2").toString()+"-");
+			analydata+=(detail.get("P4")==null?"":"反馈描述信息："+detail.get("P4").toString()+"-");
+			analydata+=(detail.get("P5")==null?"":"反馈时间："+detail.get("P5").toString()+"-");
+			
+			break;
+		case 11:
+			analydata+= "资源申请"+"-";
+			
+			analydata+=(detail.get("P2")==null?"":detail.get("P2").toString()+"-");
+			analydata+=(detail.get("P3")==null?"":"物资名称："+detail.get("P3").toString()+"-");
+			analydata+=(detail.get("P4")==null?"":"物资数量："+detail.get("P4").toString()+"-");
+			analydata+=(detail.get("P5")==null?"":"物资单位："+detail.get("P5").toString()+"-");
+			analydata+=(detail.get("P6")==null?"":"受领物资地："+detail.get("P6").toString()+"-");
+			
+			break;
+		case 100:
+			analydata+= "威胁报警通报"+"-";
+			switch(Integer.parseInt(detail.get("P2").toString()))
+			{
+			case 0:
+				analydata +="威胁报警类型:"+ "规避区"+"-";
+				break;
+			case 1:
+				analydata +="威胁报警类型:"+ "化学污染区"+"-";
+				break;
+			case 10:
+				analydata +="威胁报警类型:"+ "核污染区"+"-";
+				break;
+			}
+			
+			switch(Integer.parseInt(detail.get("P3").toString()))
+			{
+			case 0:
+				analydata +="威胁区形状:"+ "图形"+"-";
+				break;
+			case 1:
+				analydata +="威胁区形状:"+ "椭圆"+"-";
+				break;
+			case 10:
+				analydata +="威胁区形状:"+ "正方形"+"-";
+				break;
+			case 11:
+				analydata +="威胁区形状:"+ "长方形"+"-";
+				break;
+			case 100:
+				analydata +="威胁区形状:"+ "多边形"+"-";
+				break;
+			}
+			analydata+=(detail.get("P4")==null?"":"威胁区说明："+detail.get("P4").toString()+"-");
+			
+			break;
+		case 101:
+			analydata+= "警报控制"+"-";
+			switch(Integer.parseInt(detail.get("P2").toString()))
+			{
+			case 0:
+				analydata +="威胁报警类型:"+ "预警"+"-";
+				break;
+			case 1:
+				analydata +="威胁报警类型:"+ "空袭"+"-";
+				break;
+			case 10:
+				analydata +="威胁报警类型:"+ "解警"+"-";
+				break;
+			case 11:
+				analydata +="威胁报警类型:"+ "消防"+"-";
+				break;
+			}
+			
+			switch(Integer.parseInt(detail.get("P3").toString()))
+			{
+			case 0:
+				analydata +="警报方式:"+ "文字报警"+"-";
+				break;
+			case 1:
+				analydata +="警报方式:"+ "声音报警"+"-";
+				break;
+			}
+			analydata+=(detail.get("P4")==null?"":"警报控制说明："+detail.get("P4").toString()+"-");
+			
+			break;
+		case 110:
+			analydata+= "北斗报文"+"-";
+			
+			analydata+=(detail.get("P2")==null?"":"北斗入网卡号："+detail.get("P2").toString()+"-");
+			analydata+=(detail.get("P3")==null?"":detail.get("P3").toString()+"-");
+			
+			break;
+		}
+		return analydata;
+	}
+	
 
 }

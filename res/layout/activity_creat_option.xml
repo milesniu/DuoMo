@@ -76,7 +76,7 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:hint="军标高度"
-                    android:text="12"
+                    
                     android:inputType="number" >
                 </EditText>
 
@@ -95,7 +95,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:text="12"
+                    
                     android:hint="航向"
                     android:inputType="number" />
 
@@ -120,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:text="12"
+                   
                     android:hint="速度"
                     android:inputType="number" >
 
@@ -141,7 +141,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:text="12"
+                    
                     android:hint="架次"
                     android:inputType="number" />
 
@@ -167,7 +167,7 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:hint="携弹量"
-                    android:text="12"
+                    
                     android:inputType="number" >
 
                 </EditText>
@@ -187,7 +187,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:text="12"
+                    
                     android:hint="间隔时间"
                     android:inputType="number" />
 
@@ -231,7 +231,7 @@
                     android:ems="10"
                     android:hint="速度"
                     android:inputType="number"
-                    android:text="12" />
+                     />
 
                 <TextView
                     android:layout_width="0dp"
@@ -250,7 +250,7 @@
                     android:ems="10"
                     android:hint="航向"
                     android:inputType="number"
-                    android:text="12" >
+                     >
 
                     <requestFocus />
                 </EditText>
@@ -278,7 +278,7 @@
                     android:ems="10"
                     android:hint="间隔时间"
                     android:inputType="number"
-                    android:text="12" />
+                     />
 
                 <TextView
                     android:layout_width="0dp"
@@ -317,7 +317,7 @@
                     android:ems="10"
                     android:hint="军标深度"
                     android:inputType="number"
-                    android:text="12" />
+                     />
 
                 <TextView
                     android:layout_width="0dp"
@@ -336,7 +336,7 @@
                     android:ems="10"
                     android:hint="航向"
                     android:inputType="number"
-                    android:text="12" >
+                     >
 
                     <requestFocus />
                 </EditText>
@@ -363,7 +363,7 @@
                     android:ems="10"
                     android:hint="速度"
                     android:inputType="number"
-                    android:text="12" />
+                     />
 
                 <TextView
                     android:layout_width="0dp"
@@ -381,7 +381,7 @@
                     android:ems="10"
                     android:hint="间隔时间"
                     android:inputType="number"
-                    android:text="12" />
+                     />
 
                 <TextView
                     android:layout_width="0dp"

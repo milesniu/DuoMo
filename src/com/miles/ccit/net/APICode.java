@@ -90,6 +90,8 @@ public class APICode
 	
 	/**设置发起广播*/
 	public static final byte SEND_Broadcast = (byte)0x23;
+	/**广播设置响应结果*/
+	public static final byte BACK_Broadcast = (byte)0x33;
 	/**接收到广播*/
 	public static final byte RECV_BroadcastFile = (byte)0x31;
 	/**发送配置信息*/

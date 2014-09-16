@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,6 +32,7 @@ import android.widget.Toast;
 import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.R;
+import com.miles.ccit.duomo.ShortmsgListActivity.MyBroadcastReciver;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsBaseFragment;
 import com.miles.ccit.util.BaseMapObject;
@@ -42,11 +46,12 @@ public class CodeDirectFragment extends AbsBaseFragment
 	List<BaseMapObject> sendemail = new Vector<BaseMapObject>();
 	List<BaseMapObject> recvemail = new Vector<BaseMapObject>();
 	List<BaseMapObject> currentlist = null;
+	private MyBroadcastReciver broad = null;
 	public Button Btn_Delete;
 	public Button Btn_Canle;
 	private boolean issend = false;
 	private boolean isrefresh = true;
-
+	public static boolean isTop = false;
 	private Handler handler = new Handler()
 	{
 		@Override
@@ -75,7 +80,58 @@ public class CodeDirectFragment extends AbsBaseFragment
 
 		listview = (ListView) view.findViewById(R.id.listView_content);
 		initView(view);
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(AbsBaseActivity.broad_recvcodedirc_Action);
+		broad = new MyBroadcastReciver();
+		getActivity().registerReceiver(broad, intentFilter);
 		return view;
+	}
+
+	
+	
+	@Override
+	public void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		isTop = false;
+	}
+
+
+
+	@Override
+	public void onPause()
+	{
+		// TODO Auto-generated method stub
+		super.onPause();
+		isTop = false;
+	}
+
+
+
+	@Override
+	public void onStop()
+	{
+		// TODO Auto-generated method stub
+		super.onStop();
+		isTop = false;
+	}
+
+	public class MyBroadcastReciver extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			// TODO Auto-generated method stub
+//			hideProgressDlg();
+			String action = intent.getAction();
+
+			if (action.equals(AbsBaseActivity.broad_recvcodedirc_Action))
+			{
+				initListContent();
+			}
+		}
+
 	}
 
 	@Override
@@ -87,6 +143,12 @@ public class CodeDirectFragment extends AbsBaseFragment
 			return;
 		issend = false;
 		isrefresh = true;
+		isTop = true;
+		initListContent();
+	}
+	
+	private void initListContent()
+	{
 		emailList.clear();
 		recvemail.clear();
 		sendemail.clear();
@@ -116,15 +178,16 @@ public class CodeDirectFragment extends AbsBaseFragment
 		{
 			currentlist = recvemail;
 		}
+		Collections.reverse(recvemail);
+		Collections.reverse(sendemail);
 
-		refreshList(currentlist);
-		
-		
+		refreshList(currentlist);	
 	}
+	
 
 	private void refreshList(final List<BaseMapObject> list)
 	{
-		Collections.reverse(list);
+//		Collections.reverse(list);
 
 		adapter = new MsgorMailSetAdapter(getActivity(), list, "codedir");
 
@@ -201,6 +264,7 @@ public class CodeDirectFragment extends AbsBaseFragment
 		Btn_Canle = (Button) view.findViewById(R.id.bt_canle);
 		Btn_Delete.setOnClickListener(this);
 		Btn_Canle.setOnClickListener(this);
+		
 
 	}
 
