@@ -91,21 +91,21 @@ public abstract class AbsBaseFragment extends Fragment implements OnClickListene
 	}
 	
 	
-	public void delList(List<BaseMapObject> list,String table,BaseAdapter adapter)
+	public void delList(List<BaseMapObject> list,String rowid,String table,BaseAdapter adapter)
 	{
 		Iterator<BaseMapObject> iter = list.iterator();  
 		List<String> Idlist = new Vector<String>();
 		while(iter.hasNext())
 		{  
-		    BaseMapObject s = iter.next();  
+		    BaseMapObject s = iter.next(); 
 		    if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
 		    {  
-		    	Idlist.add(s.get("id").toString());
+		    	Idlist.add(s.get(rowid).toString());
 		        iter.remove();
 		    }  
 		}  
 	
-		UserDatabase.DelListObj(getActivity(),table, "id", Idlist);
+		UserDatabase.DelListObj(getActivity(),table, rowid, Idlist);
 		
 		for(BaseMapObject tmp:list)
 		{
@@ -139,7 +139,7 @@ public abstract class AbsBaseFragment extends Fragment implements OnClickListene
 		}
 	}
 	
-	public void confirmDlg(String title,final String table,final String rowname,final BaseMapObject oneitem,final List<BaseMapObject> list,final BaseAdapter adapter)
+	public void confirmDlg(final boolean isid,String title,final String table,final String rowname,final BaseMapObject oneitem,final List<BaseMapObject> list,final BaseAdapter adapter)
 	{
 		AlertDialog.Builder builder = new Builder(getActivity());
 		builder.setMessage("确定删除所选信息吗？");
@@ -157,7 +157,7 @@ public abstract class AbsBaseFragment extends Fragment implements OnClickListene
 				}
 				else
 				{
-					delList(list, table, adapter);
+					delList(list, isid?"id":"number",table, adapter);
 				}
 			}
 		}).setNegativeButton("取消", new DialogInterface.OnClickListener()

@@ -36,16 +36,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="50dp"
+        
         android:layout_toLeftOf="@+id/relamark"
         android:background="@drawable/outgoing"
         android:gravity="center_vertical"
         android:paddingBottom="8dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
+        android:maxWidth="250dp"
         android:paddingTop="8dp"
-        android:text="hexxxxxxxxxddddddddddddddddddddddddddddddddddddxxxxxllo"
+        android:text="he顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶55555555555555555555顶顶顶顶xxxo"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_sendmsg"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        android:layout_toLeftOf="@+id/textcontent" />
 
 </RelativeLayout>

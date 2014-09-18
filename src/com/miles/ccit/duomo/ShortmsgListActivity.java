@@ -411,7 +411,6 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 			{
 			case AbsMsgRecorderActivity.RECVFROM:
 				talkView = LayoutInflater.from(mContext).inflate(R.layout.incometalk, null);
-
 				break;
 			case AbsMsgRecorderActivity.SENDTO:
 				talkView = LayoutInflater.from(mContext).inflate(R.layout.outcometalk, null);
@@ -419,6 +418,10 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 				break;
 			case AbsMsgRecorderActivity.SENDERROR:
 				talkView = LayoutInflater.from(mContext).inflate(R.layout.outcometalk, null);
+				break;
+			case AbsMsgRecorderActivity.SENDNOW:
+				talkView = LayoutInflater.from(mContext).inflate(R.layout.outcometalk, null);
+				talkView.findViewById(R.id.progressBar_sendmsg).setVisibility(View.VISIBLE);
 				break;
 			}
 

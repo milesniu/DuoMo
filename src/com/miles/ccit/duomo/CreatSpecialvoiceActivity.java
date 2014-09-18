@@ -71,7 +71,7 @@ public class CreatSpecialvoiceActivity extends AbsBaseActivity
 			number= edit_frequency.getText().toString();
 			if(number.equals(""))
 			{
-				MyLog.showToast(mContext, "请输入有效频率");
+				MyLog.showToast(mContext, "请输入有效频率(3~30MHz)");
 				return;
 			}
 			else
@@ -79,7 +79,7 @@ public class CreatSpecialvoiceActivity extends AbsBaseActivity
 				double num = Double.parseDouble(number);
 				if(num<3||num>30)
 				{
-					MyLog.showToast(mContext, "请输入有效频率");
+					MyLog.showToast(mContext, "请输入有效频率(3~30MHz)");
 					return;
 				}
 				else

@@ -100,17 +100,16 @@ public class FileStatusActivity extends AbsCreatActivity
 				text_progress.setText(p + "%");
 				if (p >= 100)
 				{
-					if (filepath == null)
-					{
-						sendrecvresultFile();
-//						MyLog.showToast(mContext, "文件接收完毕！");
-						AbsCreatActivity.showFile(mContext, AbsCreatActivity.getFileName(recvpath), recvpath);
-					}
-					else
-					{
-//						MyLog.showToast(mContext, "文件发送完毕！");
-						
-					}
+//					if (filepath == null)
+//					{
+//						sendrecvresultFile();
+////						MyLog.showToast(mContext, "文件接收完毕！");
+//					}
+//					else
+//					{
+////						MyLog.showToast(mContext, "文件发送完毕！");
+//						
+//					}
 //					FileStatusActivity.this.finish();
 				}
 			} else if (action.equals(broad_fileresult_Action))
@@ -118,7 +117,19 @@ public class FileStatusActivity extends AbsCreatActivity
 				// 文件发送或者接受结果
 				if (intent.getStringExtra("data").equals("true"))
 				{
-					MyLog.showToast(mContext, "文件发送成功！");
+					
+					if (filepath == null)
+					{
+						sendrecvresultFile();
+						AbsCreatActivity.showFile(mContext, AbsCreatActivity.getFileName(recvpath), recvpath);
+						MyLog.showToast(mContext, "文件接收成功！");
+					}
+					else
+					{
+						MyLog.showToast(mContext, "文件发送成功！");
+						
+					}
+					
 				} else
 				{
 					MyLog.showToast(mContext, "文件发送失败！");

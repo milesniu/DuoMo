@@ -4,7 +4,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -23,6 +26,8 @@ import android.widget.Toast;
 import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.R;
+import com.miles.ccit.duomo.EmailFragment.MyBroadcastReciver;
+import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsBaseFragment;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
@@ -31,14 +36,20 @@ public class ShortMsgFragment extends AbsBaseFragment
 {
 
 	private MsgorMailSetAdapter adapter;
+	private MyBroadcastReciver broad = null;
 	private List<BaseMapObject> msgList = new Vector<BaseMapObject>();
 	public Button Btn_Delete;
 	public Button Btn_Canle;
+	public static boolean isTop = false;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_shortmsg, null);
 		initView(view);	
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(AbsBaseActivity.broad_recvtextmsg_Action);
+		broad = new MyBroadcastReciver();
+		getActivity().registerReceiver(broad, intentFilter);
 		return view;
 	}
 
@@ -48,10 +59,57 @@ public class ShortMsgFragment extends AbsBaseFragment
 	public void onResume()
 	{
 		// TODO Auto-generated method stub
+		isTop = true;
 		refreshList();
 		super.onResume();
 	}
 
+	
+	@Override
+	public void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		isTop = false;
+	}
+
+
+
+	@Override
+	public void onPause()
+	{
+		// TODO Auto-generated method stub
+		super.onPause();
+		isTop = false;
+	}
+
+
+
+	@Override
+	public void onStop()
+	{
+		// TODO Auto-generated method stub
+		super.onStop();
+		isTop = false;
+	}
+
+	
+	public class MyBroadcastReciver extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			// TODO Auto-generated method stub
+//			hideProgressDlg();
+			String action = intent.getAction();
+
+			if (action.equals(AbsBaseActivity.broad_recvtextmsg_Action))
+			{
+				refreshList();
+			}
+		}
+
+	}
 
 
 	private void refreshList()
@@ -108,7 +166,7 @@ public class ShortMsgFragment extends AbsBaseFragment
 		switch(item.getItemId())
 		{
 		case 0:
-			confirmDlg("删除记录", "shortmsg", "number",msgList.get(ListItem), msgList, adapter);
+			confirmDlg(false,"删除记录", "shortmsg", "number",msgList.get(ListItem), msgList, adapter);
 //			
 //			BaseMapObject selectItem = msgList.get(ListItem);
 //			long ret = BaseMapObject.DelObj4DB(getActivity(), "shortmsg", "number",selectItem.get("number").toString());
@@ -172,7 +230,7 @@ public class ShortMsgFragment extends AbsBaseFragment
 			}
 			break;
 		case R.id.bt_sure:
-			confirmDlg("删除记录", "shortmsg", "number",null, msgList, adapter);
+			confirmDlg(false,"删除记录", "shortmsg", "number",null, msgList, adapter);
 //			
 //			Iterator<BaseMapObject> iter = msgList.iterator();  
 //			List<String> Idlist = new Vector<String>();

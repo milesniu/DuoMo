@@ -36,6 +36,7 @@ import com.miles.ccit.duomo.ShortmsgListActivity.MyBroadcastReciver;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsBaseFragment;
 import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.MyLog;
 
 public class CodeDirectFragment extends AbsBaseFragment
 {
@@ -50,8 +51,9 @@ public class CodeDirectFragment extends AbsBaseFragment
 	public Button Btn_Delete;
 	public Button Btn_Canle;
 	private boolean issend = false;
-	private boolean isrefresh = true;
+//	private boolean isrefresh = true;
 	public static boolean isTop = false;
+	public static boolean isneedrefresh = false;
 	private Handler handler = new Handler()
 	{
 		@Override
@@ -84,6 +86,8 @@ public class CodeDirectFragment extends AbsBaseFragment
 		intentFilter.addAction(AbsBaseActivity.broad_recvcodedirc_Action);
 		broad = new MyBroadcastReciver();
 		getActivity().registerReceiver(broad, intentFilter);
+		isneedrefresh = true;
+		issend = false;
 		return view;
 	}
 
@@ -139,12 +143,13 @@ public class CodeDirectFragment extends AbsBaseFragment
 	{
 		// TODO Auto-generated method stub
 		super.onResume();
-		if(!isrefresh)
-			return;
-		issend = false;
-		isrefresh = true;
+		if(isneedrefresh)
+		{
+			initListContent();
+		}
+		isneedrefresh = true;
 		isTop = true;
-		initListContent();
+		
 	}
 	
 	private void initListContent()
@@ -200,7 +205,7 @@ public class CodeDirectFragment extends AbsBaseFragment
 			{
 				// TODO Auto-generated method stub
 //				issend = true;
-				isrefresh = false;
+				isneedrefresh = false;
 				getActivity().startActivity(new Intent(getActivity(), CodeDirectInfoActivity.class).putExtra("item", list.get(arg2)));
 			}
 		});
@@ -234,7 +239,7 @@ public class CodeDirectFragment extends AbsBaseFragment
 		switch (item.getItemId())
 		{
 		case 0:
-			confirmDlg("删除代码指挥", "codedirect", "id", currentlist.get(ListItem), currentlist, adapter);
+			confirmDlg(true,"删除代码指挥", "codedirect", "id", currentlist.get(ListItem), currentlist, adapter);
 			break;
 		case 1:
 			for (BaseMapObject tmp : currentlist)
@@ -290,10 +295,18 @@ public class CodeDirectFragment extends AbsBaseFragment
 			refreshList(currentlist);
 			break;
 		case R.id.bt_right:
-			startActivity(new Intent(getActivity(), CreatCodedirecActivity.class));
+			if (LoginActivity.isLogin)
+			{
+				isneedrefresh = true;
+				startActivity(new Intent(getActivity(), CreatCodedirecActivity.class));
+			} else
+			{
+				MyLog.showToast(getActivity(), "请登录后再执行该操作...");
+			}
+			
 			break;
 		case R.id.bt_sure:
-			confirmDlg("删除代码", "codedirect", "id", null, currentlist, adapter);
+			confirmDlg(true,"删除代码", "codedirect", "id", null, currentlist, adapter);
 
 			break;
 		case R.id.bt_canle:

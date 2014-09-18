@@ -132,7 +132,7 @@ public class VoicecodeFragment extends AbsBaseFragment
 		switch (item.getItemId())
 		{
 		case 0:
-			confirmDlg("删除记录", "voicecoderecord","id",voiceList.get(ListItem), voiceList, adapter);
+			confirmDlg(true,"删除记录", "voicecoderecord","id",voiceList.get(ListItem), voiceList, adapter);
 //			
 //			BaseMapObject selectItem = voiceList.get(ListItem);
 //			long ret = BaseMapObject.DelObj4DB(getActivity(), "voicecoderecord", "id", selectItem.get("id").toString());
@@ -194,7 +194,7 @@ public class VoicecodeFragment extends AbsBaseFragment
 			}
 			break;
 		case R.id.bt_sure:
-			confirmDlg("删除记录", "voicecoderecord", "id",null, voiceList, adapter);
+			confirmDlg(true,"删除记录", "voicecoderecord", "id",null, voiceList, adapter);
 //			
 //			Iterator<BaseMapObject> iter = voiceList.iterator();
 //			List<String> Idlist = new Vector<String>();

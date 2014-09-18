@@ -64,7 +64,7 @@ public class MsgRecorderutil
 		BaseMapObject shortmsg = new BaseMapObject();
 		shortmsg.put("id", null);
 		shortmsg.put("number", contact);
-		shortmsg.put("sendtype", AbsMsgRecorderActivity.SENDTO+"");	//发送
+		shortmsg.put("sendtype", AbsMsgRecorderActivity.SENDNOW+"");	//正在发送
 		shortmsg.put("status", "1");	//已读
 		shortmsg.put("msgtype", "0");	//语音
 		shortmsg.put("msgcontent", msgcontent);
@@ -99,7 +99,7 @@ public class MsgRecorderutil
 		BaseMapObject shortmsg = new BaseMapObject();
 		shortmsg.put("id", null);
 		shortmsg.put("number",contact);
-		shortmsg.put("sendtype", AbsMsgRecorderActivity.SENDTO+"");
+		shortmsg.put("sendtype", AbsMsgRecorderActivity.SENDNOW+"");
 		shortmsg.put("status", "1");
 		shortmsg.put("msgtype", "1");
 		shortmsg.put("msgcontent", msgcontent);

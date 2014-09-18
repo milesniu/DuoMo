@@ -4,17 +4,34 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 
+import com.miles.ccit.net.APICode;
+import com.miles.ccit.net.SocketConnection;
 import com.miles.ccit.util.AbsBaseActivity;
+import com.miles.ccit.util.MyLog;
+import com.miles.ccit.util.SendDataTask;
 
 public class SettingActivity extends AbsBaseActivity
 {
 
+	Button Btn_Singout;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
+		Btn_Singout = (Button)findViewById(R.id.bt_singout);
+		if(LoginActivity.isLogin)
+		{
+			Btn_Singout.setVisibility(View.VISIBLE);
+			Btn_Singout.setOnClickListener(this);
+		}
+		else
+		{
+			Btn_Singout.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -51,6 +68,12 @@ public class SettingActivity extends AbsBaseActivity
 			break;
 		case R.id.rela_sendsetting:
 			startActivity(new Intent(mContext, SendCfgActivity.class));
+			break;
+		case R.id.bt_singout:
+			MyLog.showToast(mContext, "您已成功注销！");
+			new SendDataTask().execute(APICode.SEND_Logout+"");
+			SocketConnection.getInstance().canleSocket();
+			Btn_Singout.setVisibility(View.GONE);
 			break;
 			
 		}

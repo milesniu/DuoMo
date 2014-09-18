@@ -154,7 +154,7 @@ public abstract class AbsCreatActivity extends AbsBaseActivity
 		email.put("id", null);
 		email.put("number", contact);
 		email.put("csnumber", cscontact);
-		email.put("sendtype", "2");	//发送
+		email.put("sendtype", AbsCreatCodeActivity.SENDNOW+"");	//发送
 		email.put("subject", subject);	
 		email.put("mailcontent", conent);
 		email.put("haveattachments", fjpath==null?"0":"1");

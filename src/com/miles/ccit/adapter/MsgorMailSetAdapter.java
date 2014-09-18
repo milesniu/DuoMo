@@ -96,9 +96,12 @@ public class MsgorMailSetAdapter extends BaseAdapter
 		}
 		else if(Type.equals("mail"))
 		{
-			if(map.get("sendtype").toString().equals("3"))
+			if(map.get("sendtype").toString().equals(AbsCreatCodeActivity.SENDERROR+""))
 			{
 				view.findViewById(R.id.imageerror).setVisibility(View.VISIBLE);
+			}else if(map.get("sendtype").toString().equals(AbsCreatCodeActivity.SENDNOW+""))
+			{
+				view.findViewById(R.id.progressBar1).setVisibility(View.VISIBLE);
 			}
 			
 			((TextView) view.findViewById(R.id.text_contact)).setText(map.get("subject").toString());

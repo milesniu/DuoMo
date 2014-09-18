@@ -48,6 +48,7 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 	private String filepath = null;
 	private MyBroadcastReciver broad = null;
 	private LinearLayout linear_File;
+	private LinearLayout linear_talk;
 	MediaPlayer player;
 //	AudioManager audioManager;
 	
@@ -104,7 +105,6 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 			e.printStackTrace();
 		}
 	}
-	
 	
 	@Override
 	public void onClick(View v)
@@ -174,7 +174,8 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 		// TODO Auto-generated method stub
 		Btn_DisConnet = (Button)findViewById(R.id.bt_disconnet);
 		Btn_KeyBord = (Button)findViewById(R.id.bt_keybrod);
-		Btn_Talk = (Button)findViewById(R.id.bt_talk);
+		linear_talk = (LinearLayout)findViewById(R.id.linear_talk);
+		Btn_Talk = (Button)findViewById(R.id.bt_talkpress);
 		linear_Keybord = (LinearLayout)findViewById(R.id.linear_inputpanle);
 		Btn_SendFile = (Button)findViewById(R.id.bt_sendfile);
 		Btn_RecvFile = (Button)findViewById(R.id.bt_recvfile);
@@ -188,10 +189,12 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 		if(type!=AbsToCallActivity.TOCALLVOICE)
 		{
 			linear_File.setVisibility(View.VISIBLE);
+			linear_talk.setVisibility(View.GONE);
 		}
 		else
 		{
 			linear_File.setVisibility(View.GONE);
+			linear_talk.setVisibility(View.VISIBLE);
 		}
 		if (code == null || code.equals(""))
 		{
@@ -232,6 +235,7 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 			}
 		});
 	}
+	
 	public void SendTalktoNet(boolean connet)
 	{
 		new SendDataTask().execute(APICode.SEND_TalkVoiceCode+"",OverAllData.Account,connet?"1":"0");

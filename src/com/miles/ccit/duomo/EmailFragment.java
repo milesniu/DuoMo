@@ -5,7 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,6 +31,7 @@ import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.duomo.R;
+import com.miles.ccit.duomo.CodeDirectFragment.MyBroadcastReciver;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsBaseFragment;
 import com.miles.ccit.util.BaseMapObject;
@@ -39,13 +43,16 @@ public class EmailFragment extends AbsBaseFragment
 
 	private ListView listview;
 	private MsgorMailSetAdapter adapter;
+	private MyBroadcastReciver broad = null;
 	List<BaseMapObject> emailList = new Vector<BaseMapObject>();
 	List<BaseMapObject> sendemail = new Vector<BaseMapObject>();
 	List<BaseMapObject> recvemail = new Vector<BaseMapObject>();
 	List<BaseMapObject> currentlist = null;
 	public Button Btn_Delete;
 	public Button Btn_Canle;
+	public static boolean isTop = false;
 	private boolean issend = false;
+	public static boolean isneedrefresh = false;
 
 	private Handler handler = new Handler()
 	{
@@ -67,6 +74,24 @@ public class EmailFragment extends AbsBaseFragment
 			super.handleMessage(msg);
 		}
 	};
+	
+	
+	public class MyBroadcastReciver extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			// TODO Auto-generated method stub
+//			hideProgressDlg();
+			String action = intent.getAction();
+
+			if (action.equals(AbsBaseActivity.broad_Email_Action)||action.equals(AbsBaseActivity.broad_backemailresult_Action))
+			{
+				initListContent();
+			}
+		}
+
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -75,14 +100,18 @@ public class EmailFragment extends AbsBaseFragment
 
 		listview = (ListView) view.findViewById(R.id.listView_content);
 		initView(view);
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(AbsBaseActivity.broad_Email_Action);
+		intentFilter.addAction(AbsBaseActivity.broad_backemailresult_Action);
+		broad = new MyBroadcastReciver();
+		getActivity().registerReceiver(broad, intentFilter);
+		isneedrefresh = true;
+		issend = false;
 		return view;
 	}
 
 	private void refreshList(final List<BaseMapObject> list)
 	{
-
-		
-
 		adapter = new MsgorMailSetAdapter(getActivity(), list, "mail");
 
 		listview.setAdapter(adapter);
@@ -94,6 +123,7 @@ public class EmailFragment extends AbsBaseFragment
 			{
 				// TODO Auto-generated method stub
 				issend = true;
+				isneedrefresh = false;
 				getActivity().startActivity(new Intent(getActivity(), EmailInfoActivity.class).putExtra("item", list.get(arg2)));
 			}
 		});
@@ -127,7 +157,7 @@ public class EmailFragment extends AbsBaseFragment
 		switch (item.getItemId())
 		{
 		case 0:
-			confirmDlg("删除邮件", "emailmsg", "id", currentlist.get(ListItem), currentlist, adapter);
+			confirmDlg(true,"删除邮件", "emailmsg", "id", currentlist.get(ListItem), currentlist, adapter);
 			// BaseMapObject selectItem = currentlist.get(ListItem);
 			// long ret = BaseMapObject.DelObj4DB(getActivity(), "emailmsg",
 			// "id", selectItem.get("id").toString());
@@ -155,7 +185,50 @@ public class EmailFragment extends AbsBaseFragment
 	public void onResume()
 	{
 		// TODO Auto-generated method stub
-		issend = false;
+		
+		isTop = true;
+		if(isneedrefresh)
+		{
+			initListContent();
+		}
+		isneedrefresh = false;
+		
+		super.onResume();
+	}
+	
+	
+
+	@Override
+	public void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		isTop = false;
+	}
+
+
+
+	@Override
+	public void onPause()
+	{
+		// TODO Auto-generated method stub
+		super.onPause();
+		isTop = false;
+	}
+
+
+
+	@Override
+	public void onStop()
+	{
+		// TODO Auto-generated method stub
+		super.onStop();
+		isTop = false;
+	}
+
+	
+	private void initListContent()
+	{
 		emailList.clear();
 		recvemail.clear();
 		sendemail.clear();
@@ -190,8 +263,8 @@ public class EmailFragment extends AbsBaseFragment
 		Collections.reverse(sendemail);
 		refreshList(currentlist);
 		
-		super.onResume();
 	}
+	
 
 	@Override
 	public void initView(View view)
@@ -226,6 +299,7 @@ public class EmailFragment extends AbsBaseFragment
 			break;
 		case R.id.text_right:
 			issend = true;
+			
 			changeSiwtchRight();
 			currentlist = sendemail;
 			refreshList(currentlist);
@@ -233,6 +307,7 @@ public class EmailFragment extends AbsBaseFragment
 		case R.id.bt_right:
 			if (LoginActivity.isLogin)
 			{
+				isneedrefresh = true;
 				startActivity(new Intent(getActivity(), CreatEMailActivity.class));
 			} else
 			{
@@ -240,7 +315,7 @@ public class EmailFragment extends AbsBaseFragment
 			}
 			break;
 		case R.id.bt_sure:
-			confirmDlg("删除邮件", "emailmsg", "id", null, currentlist, adapter);
+			confirmDlg(true,"删除邮件", "emailmsg", "id", null, currentlist, adapter);
 
 			break;
 		case R.id.bt_canle:

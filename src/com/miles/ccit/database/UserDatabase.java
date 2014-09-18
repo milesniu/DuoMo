@@ -83,7 +83,7 @@ public class UserDatabase
 			SQLiteDatabase db = UserDatabase.OpenOrCreatDataBase(contex);
 			for(String id:idlist)
 			{
-				db.delete(tables, wherename + "=" + '"' + id + '"', null); // 删除设备节点
+				int ret = db.delete(tables, wherename + "=" + '"' + id + '"', null); // 删除设备节点
 			}
 			db.close();
 		}

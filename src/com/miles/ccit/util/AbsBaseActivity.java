@@ -46,6 +46,7 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 	public static final int SENDTO = 2;
 	public static final int SENDERROR = 3;
 	public static final int SENDSUCCESS = 2;
+	public static final int SENDNOW = 4;
 
 	public static final String broad_login_Action = "cn.broadcast.login";
 	public static final String broad_recvtextmsg_Action = "cn.broadcast.recvtextmsg";
@@ -63,6 +64,7 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 	public static final String broad_usimout_Action = "cn.broadcast.usimout";
 	public static final String broad_broadcastresult_Action = "cn.broadcast.broadcastresult";
 	public static final String broad_recvcodedirc_Action = "cn.broadcast.recvcodedirc";
+	public static final String broad_backemailresult_Action = "cn.broadcast.backemailresult";
 	
 	
 	

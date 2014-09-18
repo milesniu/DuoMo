@@ -23,6 +23,7 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 				SocketConnection.getInstance().readReqMsg(new ComposeData().sendLogin(parm[1], parm[2]));
 				break;
 			case APICode.SEND_Logout:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendLogout());
 				break;
 			case APICode.SEND_ChangePwd:
 				SocketConnection.getInstance().readReqMsg(new ComposeData().sendChangePwd(parm[1], parm[2]));

@@ -270,7 +270,7 @@ public class ComposeData
 			mLen += i.getBytes().length;
 		}
 
-		byte[] mData = new byte[mLen + 3];// 源地址1字节，目的地址长度2字节
+		byte[] mData = new byte[mLen + 2];// 源地址1字节，目的地址长度2字节
 
 		int currentpos = 0;
 		for (int i = 0; i < 2; i++)
@@ -577,6 +577,19 @@ public class ComposeData
 
 		return new byte[]
 		{ (byte) 0x55, (byte) 0xAA, (byte) 0x00, (byte) 0x01, (byte) 0x2A };
+	}
+	
+	/**
+	 * 注销
+	 * 
+	 * @param info
+	 *            null
+	 * */
+	public byte[] sendLogout(String... info)
+	{
+
+		return new byte[]
+		{ (byte) 0x55, (byte) 0xAA, (byte) 0x00, (byte) 0x01, (byte) 0x05 };
 	}
 
 	/**

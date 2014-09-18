@@ -1,6 +1,8 @@
 package com.miles.ccit.net;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -18,6 +20,7 @@ import com.miles.ccit.duomo.EmailInfoActivity;
 import com.miles.ccit.duomo.FileStatusActivity;
 import com.miles.ccit.duomo.HaveCallActivity;
 import com.miles.ccit.duomo.R;
+import com.miles.ccit.duomo.ShortMsgFragment;
 import com.miles.ccit.duomo.ShortmsgListActivity;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
@@ -90,7 +93,7 @@ public class AnalysisRecvData
 		recvmsg.put("acknowledgemen", OverAllData.Acknowledgemen);
 		recvmsg.InsertObj2DB(AppContext, "shortmsg");
 
-		if (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(strsrcname))
+		if (ShortMsgFragment.isTop||(ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(strsrcname)))
 		{
 			intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
 			intent.putExtra("data", recvmsg);
@@ -135,12 +138,12 @@ public class AnalysisRecvData
 		senditem.put("sendtype", data[5] == 0 ? AbsBaseActivity.SENDERROR + "" : AbsBaseActivity.SENDSUCCESS + "");
 		senditem.UpdateMyself(AppContext, "emailmsg");
 
-//		if (EmailFragment.isTop)
-//		{
-//			intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
+		if (EmailFragment.isTop)
+		{
+			intent.setAction(AbsBaseActivity.broad_backemailresult_Action);
 //			intent.putExtra("data", senditem);
-//			AppContext.sendBroadcast(intent);
-//		}
+			AppContext.sendBroadcast(intent);
+		}
 
 		// Intent intent = new Intent();
 	}
@@ -151,7 +154,10 @@ public class AnalysisRecvData
 		int alllen = ByteUtil.byte2Int(new byte[]
 		{ data[2], data[3] });
 		int idlen = alllen - 2;// 长度本身1字节，命令码1字节，成败1字节
-
+		if(idlen==0)
+		{
+			return;
+		}
 		byte[] srcname = new byte[idlen];
 		System.arraycopy(data, 6, srcname, 0, idlen);
 		String id = new String(srcname);
@@ -169,6 +175,7 @@ public class AnalysisRecvData
 
 		// Intent intent = new Intent();
 	}
+	
 
 	public void analyVoiceMsg(byte[] data) throws UnsupportedEncodingException
 	{
@@ -214,8 +221,7 @@ public class AnalysisRecvData
 //			MyLog.showToast(AppContext, ""+(ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(vname)));
 			
 //			MyLog.LogV("istop", (""+ShortmsgListActivity.isTop) + (ShortmsgListActivity.number != null) + (ShortmsgListActivity.number.equals(vname)));
-			
-			if (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(vname))
+			if (ShortMsgFragment.isTop||(ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(vname)))
 			{
 				intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
 				intent.putExtra("data", recvvoicemsg);
@@ -367,7 +373,7 @@ public class AnalysisRecvData
 		}
 		recvvoicemsg.InsertObj2DB(AppContext, "emailmsg");
 
-		if (ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(vname))
+		if (EmailFragment.isTop)
 		{
 			intent.setAction(AbsBaseActivity.broad_Email_Action);
 			intent.putExtra("data", recvvoicemsg);

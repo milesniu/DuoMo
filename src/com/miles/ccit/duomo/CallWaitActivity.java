@@ -43,6 +43,7 @@ public class CallWaitActivity extends AbsBaseActivity
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(broad_recvvoicecode_Action);
 		intentFilter.addAction(broad_wiredvoice_Action);
+		intentFilter.addAction(broad_interaput_Action);
 		broad = new MyBroadcastReciver();
 		this.registerReceiver(broad, intentFilter);
 		// AssetFileDescriptor afd =.openFd("callbeep.mp3");
@@ -140,6 +141,9 @@ public class CallWaitActivity extends AbsBaseActivity
 					palyMusic(R.raw.cutdowm);
 					CallWaitActivity.this.finish();
 				}
+			}else if(action.equals(broad_interaput_Action))
+			{
+				palyMusic(R.raw.cutdowm);
 			}
 		}
 
