@@ -127,7 +127,6 @@ public class HaveCallActivity extends AbsBaseActivity
 				public void onCompletion(MediaPlayer mp)
 				{
 					// TODO Auto-generated method stub
-					audioManager.setMode(AudioManager.MODE_NORMAL);
 					player.release();
 					player = null;
 					HaveCallActivity.this.finish();
@@ -168,6 +167,7 @@ public class HaveCallActivity extends AbsBaseActivity
 	protected void onDestroy()
 	{
 		// TODO Auto-generated method stub
+		audioManager.setMode(AudioManager.MODE_NORMAL);
 		if (player != null && player.isPlaying())
 		{
 			player.stop();

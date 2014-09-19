@@ -121,7 +121,8 @@ public class LoginActivity extends AbsBaseActivity
 		edit_ip = (EditText)findViewById(R.id.edit_ip);
 		edit_Account.setText(sp.getString(spuname, ""));
 		edit_Password.setText(sp.getString(sppwd, ""));
-		edit_ip.setText(sp.getString(spip, ""));
+//		edit_ip.setText(sp.getString(spip, ""));
+		edit_ip.setText(OverAllData.Ipaddress);
 		
 		findViewById(R.id.bt_login).setOnClickListener(this);
 		IntentFilter intentFilter = new IntentFilter();

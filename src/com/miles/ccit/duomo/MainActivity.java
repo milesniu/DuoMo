@@ -14,28 +14,30 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
-import com.miles.ccit.duomo.R;
 import com.miles.ccit.net.ComposeData;
+import com.miles.ccit.net.IAcceptServerData;
 import com.miles.ccit.net.SocketClient;
+import com.miles.ccit.net.UDPTools;
 import com.miles.ccit.service.HeartbeatService;
 import com.miles.ccit.util.AbsBaseActivity;
-import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.FileUtils;
+import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 
-public class MainActivity extends AbsBaseActivity
+public class MainActivity extends AbsBaseActivity implements IAcceptServerData
 {
 
 	
-	Handler rhandler = new Handler()
-	{
-		public void handleMessage(Message message)
-		{
-			super.handleMessage(message);
-			MainActivity.this.startActivity(new Intent(MainActivity.this, IndexActivity.class));
-			MainActivity.this.finish();
-		};
-	};
+//	Handler rhandler = new Handler()
+//	{
+//		public void handleMessage(Message message)
+//		{
+//			super.handleMessage(message);
+////			MainActivity.this.startActivity(new Intent(MainActivity.this, IndexActivity.class));
+////			MainActivity.this.finish();
+////			new Thread(new AcceptThread("ql", IAcceptServerData.FindIP)).start();
+//		};
+//	};
 	
 	/** 文件目录的准备 */
 	private void PrePareFile()
@@ -47,6 +49,57 @@ public class MainActivity extends AbsBaseActivity
 			fileutil.creatSDDir(OverAllData.SDCardRoot);
 		}
 	}
+	
+	
+	 private Handler MyHandler = new Handler() {
+	        @Override
+	        public void handleMessage(Message msg) 
+	        {
+	        	OverAllData.Ipaddress = msg.obj.toString();
+	        	MainActivity.this.startActivity(new Intent(MainActivity.this, IndexActivity.class));
+	        	MainActivity.this.finish();
+//	            MyLog.showToast(mContext,msg.toString());
+	        }
+	    };
+	
+	 public class AcceptThread implements Runnable {
+	        private String str;
+	        private int id;
+
+	        public AcceptThread(String str, int id) {
+	            this.str = str;
+	            this.id = id;
+	        }
+
+	        @Override
+	        public void run() {
+	            while (true) {
+	                try {
+	                    Thread.sleep(500);
+	                } catch (InterruptedException e) {
+	                    e.printStackTrace();
+	                }
+	                String temp = UDPTools.getServerData(new ComposeData().sendFindIp());
+	                acceptUdpData(temp, id);
+	            }
+	        }
+	    }
+
+	    @Override
+	    public void acceptUdpData(String data, int id) {
+	        Message msg = new Message();
+	        switch (id) {
+	        case IAcceptServerData.FindIP:
+	            msg.what = IAcceptServerData.FindIP;
+	            break;
+	        default:
+	            break;
+	        }
+	        msg.obj = data;
+	        MyHandler.sendMessage(msg);
+
+	    }
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -61,7 +114,8 @@ public class MainActivity extends AbsBaseActivity
 			@Override
 			public void run()
 			{
-				rhandler.sendEmptyMessageDelayed(1, 100);
+				new Thread(new AcceptThread("findip", IAcceptServerData.FindIP)).start();
+//				rhandler.sendEmptyMessageDelayed(1, 100);
 			}
 		}, 2000);
 

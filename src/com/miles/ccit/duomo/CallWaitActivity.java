@@ -74,7 +74,7 @@ public class CallWaitActivity extends AbsBaseActivity
 				public void onCompletion(MediaPlayer mp)
 				{
 					// TODO Auto-generated method stub
-					audioManager.setMode(AudioManager.MODE_NORMAL);
+					
 					player.release();
 					player = null;
 					CallWaitActivity.this.finish();
@@ -155,6 +155,7 @@ public class CallWaitActivity extends AbsBaseActivity
 	{
 		// TODO Auto-generated method stub
 		iswait = false;
+		audioManager.setMode(AudioManager.MODE_NORMAL);
 		if (player!=null && player.isPlaying())
 		{
 			player.stop();

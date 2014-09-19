@@ -24,6 +24,7 @@ import com.miles.ccit.util.OverAllData;
 public class SocketConnection
 {
 	private volatile Socket socket;
+	public static boolean isHealthCheck = true;
 
 	private boolean isNetworkConnect = false; // 网络是否已连接
 	// private static String host;
@@ -45,7 +46,7 @@ public class SocketConnection
 		try
 		{
 			init(OverAllData.Ipaddress, OverAllData.Port);
-			
+
 		} catch (IOException e)
 		{
 			// log.fatal("socket初始化异常!",e);
@@ -54,25 +55,24 @@ public class SocketConnection
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void canleSocket()
 	{
-		if(socket!=null)
+		if (socket != null)
 		{
 			try
 			{
-				socketConnection = null;	
+				socketConnection = null;
 				socket.close();
 				socket = null;
 				LoginActivity.isLogin = false;
-			}
-			catch(Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
-			
+
 		}
-		
+
 	}
 
 	public Socket getsocket()
@@ -110,17 +110,17 @@ public class SocketConnection
 			MyLog.SystemOut("【与" + addr + "连接已建立】");
 			inStream = socket.getInputStream();
 			outStream = socket.getOutputStream();
-			socket.setTcpNoDelay(true); 			// 数据不作缓冲，立即发送
-			socket.setSoLinger(true, 0); 			// socket关闭时，立即释放资源
+			socket.setTcpNoDelay(true); // 数据不作缓冲，立即发送
+			socket.setSoLinger(true, 0); // socket关闭时，立即释放资源
 			socket.setKeepAlive(true);
-			socket.setTrafficClass(0x04 | 0x10); 	// 高可靠性和最小延迟传输
+			socket.setTrafficClass(0x04 | 0x10); // 高可靠性和最小延迟传输
 			isNetworkConnect = true;
 			receiveThread = new Thread(new ReceiveWorker());
 			receiveThread.start();
 			isSocketRun = true;
 		}
-		//开启心跳，注释此句，则关闭心跳
-//		launchHeartcheck();
+		// 开启心跳，注释此句，则关闭心跳
+		launchHeartcheck();
 	}
 
 	/**
@@ -130,52 +130,52 @@ public class SocketConnection
 	{
 		Message msg = new Message();
 		msg.arg1 = 1;
-		MyApplication.handle.sendMessage(msg);	//连接断开，显示登录界面
+		MyApplication.handle.sendMessage(msg); // 连接断开，显示登录界面
 		if (heartTimer != null)
 			heartTimer.cancel();
 		isNetworkConnect = false;
 		if (receiveThread != null && receiveThread.isAlive())
 			receiveThread.interrupt();
 		canleSocket();
-//		new Thread(new Runnable()
-//		{
-//			public void run()
-//			{
-//				// MyLog.SystemOut("重新建立与" + host + ":" + port + "的连接");
-//				MyApplication.handle.sendMessage(new Message());
-//				// 清理工作，中断计时器，中断接收线程，恢复初始变量
-//				if (heartTimer != null)
-//					heartTimer.cancel();
-//				isNetworkConnect = false;
-//				if (receiveThread != null && receiveThread.isAlive())
-//					receiveThread.interrupt();
-//				try
-//				{
-//					socket.close();
-//				} catch (IOException e1)
-//				{
-//				}
-//				synchronized (this)
-//				{
-//					for (int i = 0; i < 3; i++)// 重连三次
-//					{
-//						try
-//						{
-//							Thread.currentThread();
-//							Thread.sleep(1000 * 1);
-//							init(OverAllData.Ipaddress, OverAllData.Port);
-//							// launchHeartcheck();
-//							this.notifyAll();
-//							break;
-//						} catch (Exception e)
-//						{
-//
-//						}
-//						i++;
-//					}
-//				}
-//			}
-//		}).start();
+		// new Thread(new Runnable()
+		// {
+		// public void run()
+		// {
+		// // MyLog.SystemOut("重新建立与" + host + ":" + port + "的连接");
+		// MyApplication.handle.sendMessage(new Message());
+		// // 清理工作，中断计时器，中断接收线程，恢复初始变量
+		// if (heartTimer != null)
+		// heartTimer.cancel();
+		// isNetworkConnect = false;
+		// if (receiveThread != null && receiveThread.isAlive())
+		// receiveThread.interrupt();
+		// try
+		// {
+		// socket.close();
+		// } catch (IOException e1)
+		// {
+		// }
+		// synchronized (this)
+		// {
+		// for (int i = 0; i < 3; i++)// 重连三次
+		// {
+		// try
+		// {
+		// Thread.currentThread();
+		// Thread.sleep(1000 * 1);
+		// init(OverAllData.Ipaddress, OverAllData.Port);
+		// // launchHeartcheck();
+		// this.notifyAll();
+		// break;
+		// } catch (Exception e)
+		// {
+		//
+		// }
+		// i++;
+		// }
+		// }
+		// }
+		// }).start();
 	}
 
 	/**
@@ -222,8 +222,8 @@ public class SocketConnection
 	 */
 	public void launchHeartcheck()
 	{
-//		if (SocketConnection.getInstance().getsocket() == null)
-//			throw new IllegalStateException("socket is not 	established!");
+		// if (SocketConnection.getInstance().getsocket() == null)
+		// throw new IllegalStateException("socket is not 	established!");
 		heartTimer = new Timer();
 		heartTimer.schedule(new TimerTask()
 		{
@@ -236,9 +236,13 @@ public class SocketConnection
 				int reconnCounter = 1;
 				while (true)
 				{
+
 					try
 					{
-						result = readReqMsg(new ComposeData().sendHeartbeat());
+						if (isHealthCheck)
+						{
+							result = readReqMsg(new ComposeData().sendHeartbeat());
+						}
 					} catch (IOException e)
 					{
 						MyLog.SystemOut("IO流异常" + e.toString());
@@ -365,7 +369,7 @@ public class SocketConnection
 					case APICode.RECV_UIMOUT:
 						Message msg = new Message();
 						msg.arg1 = 0;
-						MyApplication.handle.sendMessage(msg);	//连接断开，显示登录界面
+						MyApplication.handle.sendMessage(msg); // 连接断开，显示登录界面
 						canleSocket();
 						break;
 					case APICode.BACK_CodeDirec:

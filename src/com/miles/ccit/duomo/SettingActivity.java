@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ToggleButton;
 
 import com.miles.ccit.net.APICode;
 import com.miles.ccit.net.SocketConnection;
@@ -16,6 +19,7 @@ public class SettingActivity extends AbsBaseActivity
 {
 
 	Button Btn_Singout;
+	ToggleButton TBtn_HealthCheck;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -23,6 +27,25 @@ public class SettingActivity extends AbsBaseActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
 		Btn_Singout = (Button)findViewById(R.id.bt_singout);
+		TBtn_HealthCheck = (ToggleButton)findViewById(R.id.toggleButton1);
+		if(SocketConnection.isHealthCheck)
+		{
+			TBtn_HealthCheck.setChecked(true);
+		}
+		else
+		{
+			TBtn_HealthCheck.setChecked(false);
+		}
+		TBtn_HealthCheck.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				// TODO Auto-generated method stub
+				SocketConnection.isHealthCheck = isChecked;
+			}
+		});
 		if(LoginActivity.isLogin)
 		{
 			Btn_Singout.setVisibility(View.VISIBLE);
