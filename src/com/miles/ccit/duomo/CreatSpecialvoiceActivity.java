@@ -1,7 +1,5 @@
 package com.miles.ccit.duomo;
 
-import java.util.HashMap;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,20 +14,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.miles.ccit.adapter.MsgorMailSetAdapter;
-import com.miles.ccit.duomo.BroadCastctivity.MyBroadcastReciver;
 import com.miles.ccit.net.APICode;
-import com.miles.ccit.util.AbsBaseActivity;
-import com.miles.ccit.util.AbsMsgRecorderActivity;
+import com.miles.ccit.util.AbsVoiceActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.SendDataTask;
 import com.miles.ccit.util.UnixTime;
 
-public class CreatSpecialvoiceActivity extends AbsBaseActivity
+public class CreatSpecialvoiceActivity extends AbsVoiceActivity
 {
 
 //	private Button Btn_Talk;
@@ -166,6 +160,7 @@ public class CreatSpecialvoiceActivity extends AbsBaseActivity
 				if (intent.getSerializableExtra("data").equals("true"))
 				{
 					Btn_Talk.setVisibility(View.VISIBLE);
+					startRTPSpeak();
 				}
 				else
 				{

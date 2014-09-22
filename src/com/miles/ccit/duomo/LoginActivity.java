@@ -1,13 +1,5 @@
 package com.miles.ccit.duomo;
 
-import java.io.InputStream;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.ByteArrayBuffer;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,19 +7,22 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 
-import com.miles.ccit.duomo.R;
 import com.miles.ccit.net.APICode;
+import com.miles.ccit.net.ComposeData;
+import com.miles.ccit.net.IAcceptServerData;
+import com.miles.ccit.net.UDPTools;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.SendDataTask;
 
-public class LoginActivity extends AbsBaseActivity
+public class LoginActivity extends AbsBaseActivity implements IAcceptServerData
 {
 	private EditText edit_Account;
 	private EditText edit_Password;
@@ -112,7 +107,8 @@ public class LoginActivity extends AbsBaseActivity
 		initBaseView("登录");
 		Btn_Left.setOnClickListener(this);
 		Btn_Right.setVisibility(View.INVISIBLE);
-
+//		showprogressdialog();
+		new Thread(new AcceptThread("findip", IAcceptServerData.FindIP)).start();
 		sp = this.getSharedPreferences("userInfo", Context.MODE_WORLD_READABLE);
 		sp = getPreferences(MODE_PRIVATE);
 		
@@ -129,6 +125,67 @@ public class LoginActivity extends AbsBaseActivity
 		intentFilter.addAction(broad_login_Action);
 		broad = new MyBroadcastReciver();
 		this.registerReceiver(broad, intentFilter);
+	}
+	
+	
+	private Handler MyHandler = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+//			hideProgressDlg();
+			OverAllData.Ipaddress = msg.obj.toString();
+//			MainActivity.this.startActivity(new Intent(MainActivity.this, IndexActivity.class));
+//			MainActivity.this.finish();
+			edit_ip.setText(OverAllData.Ipaddress);
+			// MyLog.showToast(mContext,msg.toString());
+		}
+	};
+
+	public class AcceptThread implements Runnable
+	{
+		private String str;
+		private int id;
+
+		public AcceptThread(String str, int id)
+		{
+			this.str = str;
+			this.id = id;
+		}
+
+		@Override
+		public void run()
+		{
+//			while (true)
+//			{
+//				try
+//				{
+//					Thread.sleep(500);
+//				} catch (InterruptedException e)
+//				{
+//					e.printStackTrace();
+//				}
+				String temp = UDPTools.getServerData(new ComposeData().sendFindIp());
+				acceptUdpData(temp, id);
+//			}
+		}
+	}
+
+	@Override
+	public void acceptUdpData(String data, int id)
+	{
+		Message msg = new Message();
+		switch (id)
+		{
+		case IAcceptServerData.FindIP:
+			msg.what = IAcceptServerData.FindIP;
+			break;
+		default:
+			break;
+		}
+		msg.obj = data;
+		MyHandler.sendMessage(msg);
+
 	}
 	
 	public class MyBroadcastReciver extends BroadcastReceiver

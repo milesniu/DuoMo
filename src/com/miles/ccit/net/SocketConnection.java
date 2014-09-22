@@ -9,6 +9,7 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.locks.ReentrantLock;
@@ -39,7 +40,7 @@ public class SocketConnection
 	private final ReentrantLock lock = new ReentrantLock();
 	private String result;
 	public static boolean isSocketRun = false;
-
+	public static HashMap<String, HashMap<String, Object>> sendDataCallback = new HashMap<String, HashMap<String,Object>>();
 	private SocketConnection()
 	{
 		// Properties conf = new Properties();
@@ -283,6 +284,30 @@ public class SocketConnection
 		}
 	}
 
+	private class CheckCallBack implements Runnable
+	{
+
+		@Override
+		public void run()
+		{
+			// TODO Auto-generated method stub
+			while(true)
+			{
+				//遍历没有回复的map
+				
+				try
+				{
+					Thread.sleep(5000);
+				} catch (InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
 	// 消息接收线程
 	private class ReceiveWorker implements Runnable
 	{

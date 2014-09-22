@@ -26,13 +26,14 @@ import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsCreatActivity;
 import com.miles.ccit.util.AbsToCallActivity;
+import com.miles.ccit.util.AbsVoiceActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.FileUtils;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.SendDataTask;
 
-public class VoicecodeConnetActivity extends AbsBaseActivity
+public class VoicecodeConnetActivity extends AbsVoiceActivity
 {
 
 	
@@ -64,6 +65,7 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 		intentFilter.addAction(broad_interaput_Action);
 		broad = new MyBroadcastReciver();
 		this.registerReceiver(broad, intentFilter);
+		startRTPSpeak();
 	}
 
 	@Override
@@ -252,6 +254,7 @@ public class VoicecodeConnetActivity extends AbsBaseActivity
 			String action = intent.getAction();
 			if (action.equals(broad_interaput_Action))
 			{
+				stopRTPSpeak();
 				palyMusic(R.raw.cutdowm);
 //				VoicecodeConnetActivity.this.finish();
 			}
