@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.miles.ccit.net.APICode;
+import com.miles.ccit.net.SocketConnection;
 
 public abstract class AbsCreatActivity extends AbsBaseActivity
 {
@@ -163,7 +164,9 @@ public abstract class AbsCreatActivity extends AbsBaseActivity
 		email.put("creattime", UnixTime.getStrCurrentUnixTime());
 		email.put("priority", OverAllData.Priority);
 		email.put("acknowledgemen", OverAllData.Acknowledgemen);
-		return email.InsertObj2DB(mContext, "emailmsg");
+		long id = email.InsertObj2DB(mContext, "emailmsg");
+		SocketConnection.sendDataCallback.put("APICode.SEND_Email#"+id, email);
+		return id;
 	}
 
 	/*********************************************************************************************************************/

@@ -244,6 +244,17 @@ public class VoicecodeConnetActivity extends AbsVoiceActivity
 	}
 	
 	
+	
+	@Override
+	protected void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		this.unregisterReceiver(broad);
+		super.onDestroy();
+	}
+
+
+
 	public class MyBroadcastReciver extends BroadcastReceiver
 	{
 		@Override

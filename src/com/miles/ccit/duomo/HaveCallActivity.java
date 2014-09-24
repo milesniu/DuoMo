@@ -167,6 +167,7 @@ public class HaveCallActivity extends AbsBaseActivity
 	protected void onDestroy()
 	{
 		// TODO Auto-generated method stub
+		mContext.unregisterReceiver(broad);
 		audioManager.setMode(AudioManager.MODE_NORMAL);
 		if (player != null && player.isPlaying())
 		{

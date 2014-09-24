@@ -129,6 +129,7 @@ public class BroadCastctivity extends AbsBaseActivity
 	protected void onDestroy()
 	{
 		// TODO Auto-generated method stub
+		mContext.unregisterReceiver(broad);
 		new SendDataTask().execute(APICode.SEND_BackModel+"");
 		super.onDestroy();
 	}

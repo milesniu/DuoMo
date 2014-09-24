@@ -37,15 +37,7 @@ public class FileStatusActivity extends AbsCreatActivity
 		{
 			// 发送文件
 			sendFile(filepath);
-			BaseMapObject record = new BaseMapObject();
-			record.put("id",null);
-			record.put("number",FileStatusActivity.code);
-			record.put("sendtype","1");//语音0.文件1
-			record.put("status","2");//呼入成功/呼出成功/呼入失败/呼出失败(1,2,3,4)
-			record.put("filepath",filepath);
-			record.put("creattime", UnixTime.getStrCurrentUnixTime());
 			
-			record.InsertObj2DB(mContext, "wiredrecord");
 		} else
 		{
 			// 接收文件
@@ -83,6 +75,15 @@ public class FileStatusActivity extends AbsCreatActivity
 		text_progress = (TextView) findViewById(R.id.text_progress);
 	}
 
+	@Override
+	protected void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		mContext.unregisterReceiver(broad);
+		super.onDestroy();
+	}
+	
+	
 	public class MyBroadcastReciver extends BroadcastReceiver
 	{
 		@Override
@@ -92,6 +93,16 @@ public class FileStatusActivity extends AbsCreatActivity
 			// hideProgressDlg();
 			String action = intent.getAction();
 
+			BaseMapObject record = new BaseMapObject();
+			record.put("id",null);
+			record.put("number",FileStatusActivity.code);
+			record.put("sendtype","1");//语音0.文件1
+			
+			record.put("filepath",filepath);
+			record.put("creattime", UnixTime.getStrCurrentUnixTime());
+			
+			
+			
 			if (action.equals(broad_fileprogress_Action))
 			{
 				// 更新进度
@@ -100,17 +111,6 @@ public class FileStatusActivity extends AbsCreatActivity
 				text_progress.setText(p + "%");
 				if (p >= 100)
 				{
-//					if (filepath == null)
-//					{
-//						sendrecvresultFile();
-////						MyLog.showToast(mContext, "文件接收完毕！");
-//					}
-//					else
-//					{
-////						MyLog.showToast(mContext, "文件发送完毕！");
-//						
-//					}
-//					FileStatusActivity.this.finish();
 				}
 			} else if (action.equals(broad_fileresult_Action))
 			{
@@ -121,20 +121,24 @@ public class FileStatusActivity extends AbsCreatActivity
 					if (filepath == null)
 					{
 						sendrecvresultFile();
+						record.put("status",AbsCreatActivity.RECVFROM+"");
 						AbsCreatActivity.showFile(mContext, AbsCreatActivity.getFileName(recvpath), recvpath);
 						MyLog.showToast(mContext, "文件接收成功！");
 					}
 					else
 					{
+						record.put("status",AbsCreatActivity.SENDSUCCESS+"");
 						MyLog.showToast(mContext, "文件发送成功！");
 						
 					}
 					
 				} else
 				{
+					record.put("status",AbsCreatActivity.SENDERROR+"");
 					MyLog.showToast(mContext, "文件发送失败！");
 
 				}
+				record.InsertObj2DB(mContext, "wiredrecord");
 				FileStatusActivity.this.finish();
 			}
 		}

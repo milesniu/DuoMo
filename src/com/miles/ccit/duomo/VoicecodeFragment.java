@@ -80,6 +80,8 @@ public class VoicecodeFragment extends AbsBaseFragment
 		super.onResume();
 	}
 
+	
+	
 	private void refreshList()
 	{
 		

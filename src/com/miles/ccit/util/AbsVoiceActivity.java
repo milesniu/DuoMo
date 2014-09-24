@@ -31,7 +31,7 @@ public abstract class AbsVoiceActivity extends AbsBaseActivity
 
 				Codecs.Map c = new Codecs.Map(8, Codecs.codecs.get(1), numbs, Codecs.codecs);
 
-				audio_app = new JAudioLauncher(getApplicationContext(), OverAllData.RecvPort, OverAllData.Ipaddress, OverAllData.SendPort, 0, null, null, 8000, 1,
+				audio_app = new JAudioLauncher(getApplicationContext(), OverAllData.RecvPort, OverAllData.RTPIpaddress, OverAllData.SendPort, 0, null, null, 8000, 1,
 						160, c, 0);
 
 //				Log.i(TAG, "IP:" + ip.getText() + "* receive port: " + rport.getText() + "* send port:" + sport.getText());

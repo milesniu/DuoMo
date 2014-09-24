@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.net.APICode;
+import com.miles.ccit.net.SocketConnection;
 
 public abstract class AbsCreatCodeActivity extends AbsBaseActivity
 {
@@ -80,13 +81,15 @@ public abstract class AbsCreatCodeActivity extends AbsBaseActivity
 		BaseMapObject email = new BaseMapObject();
 		email.put("id", null);
 		email.put("number", contact);
-		email.put("sendtype", "2");	//1,收，2,发，3,草稿
+		email.put("sendtype", AbsCreatActivity.SENDNOW+"");	//1,收，2,发，3,草稿
 		email.put("codetype", "0");	//不记录军标类型
 		email.put("codecontent", conent);
 		email.put("priority", OverAllData.Priority);
 		email.put("acknowledgemen", OverAllData.Acknowledgemen);
 		email.put("creattime", UnixTime.getStrCurrentUnixTime());
-		return email.InsertObj2DB(mContext, "codedirect");
+		long id =  email.InsertObj2DB(mContext, "codedirect");
+		SocketConnection.sendDataCallback.put("APICode.SEND_CodeDirec#"+id, email);
+		return id;
 	}
 	
 	

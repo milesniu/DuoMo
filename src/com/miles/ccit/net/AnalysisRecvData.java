@@ -133,8 +133,8 @@ public class AnalysisRecvData
 		byte[] srcname = new byte[idlen];
 		System.arraycopy(data, 6, srcname, 0, idlen);
 		String id = new String(srcname);
+		SocketConnection.sendDataCallback.remove("APICode.SEND_Email#"+id);
 		BaseMapObject senditem = GetData4DB.getObjectByid(AppContext, "emailmsg", id);
-
 		senditem.put("sendtype", data[5] == 0 ? AbsBaseActivity.SENDERROR + "" : AbsBaseActivity.SENDSUCCESS + "");
 		senditem.UpdateMyself(AppContext, "emailmsg");
 
@@ -162,7 +162,7 @@ public class AnalysisRecvData
 		System.arraycopy(data, 6, srcname, 0, idlen);
 		String id = new String(srcname);
 		BaseMapObject senditem = GetData4DB.getObjectByid(AppContext, "shortmsg", id);
-
+		SocketConnection.sendDataCallback.remove("APICode.SEND_ShortTextMsg#"+id);	//收到短消息返回，则删除缓存
 		senditem.put("sendtype", data[5] == 0 ? AbsBaseActivity.SENDERROR + "" : AbsBaseActivity.SENDSUCCESS + "");
 		senditem.UpdateMyself(AppContext, "shortmsg");
 		
@@ -598,19 +598,18 @@ public class AnalysisRecvData
 		byte[] srcname = new byte[idlen];
 		System.arraycopy(data, 6, srcname, 0, idlen);
 		String id = new String(srcname);
+		SocketConnection.sendDataCallback.remove("APICode.SEND_CodeDirec#"+id);
+		
 		BaseMapObject senditem = GetData4DB.getObjectByid(AppContext, "codedirect", id);
-
-		if (senditem != null && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(senditem.get("number").toString()))
+		senditem.put("sendtype", data[5] == 0 ? AbsBaseActivity.SENDERROR + "" : AbsBaseActivity.SENDSUCCESS + "");
+		senditem.UpdateMyself(AppContext, "codedirect");
+			
+		if (CodeDirectFragment.isTop)
 		{
-			senditem.put("sendtype", data[5] == 0 ? AbsBaseActivity.SENDERROR + "" : AbsBaseActivity.SENDSUCCESS + "");
-			senditem.UpdateMyself(AppContext, "codedirect");
-
-//			intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
-//			intent.putExtra("data", senditem);
-//			AppContext.sendBroadcast(intent);
+			intent.setAction(AbsBaseActivity.broad_recvcodedirc_Action);
+			AppContext.sendBroadcast(intent);
 		}
 
-		// Intent intent = new Intent();
 	}
 	
 	

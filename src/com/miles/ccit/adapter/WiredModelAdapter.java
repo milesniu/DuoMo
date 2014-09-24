@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.miles.ccit.duomo.R;
+import com.miles.ccit.util.AbsCreatActivity;
 import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.UnixTime;
@@ -83,13 +84,17 @@ public class WiredModelAdapter extends BaseAdapter
 		}
 		else if(map.get("sendtype").toString().equals("1"))	//文件
 		{
-			if(map.get("status").toString().equals(AbsToCallActivity.Send_Call))
+			if(map.get("status").toString().equals(AbsCreatActivity.SENDSUCCESS+""))
 			{
 				img.setImageResource(R.drawable.outfile);
 			}
-			else if(map.get("status").toString().equals(AbsToCallActivity.Recv_Call))
+			else if(map.get("status").toString().equals(AbsCreatActivity.RECVFROM+""))
 			{
 				img.setImageResource(R.drawable.infile);
+			}
+			else if(map.get("status").toString().equals(AbsCreatActivity.SENDERROR+""))
+			{
+				img.setImageResource(R.drawable.outfilefaild);
 			}
 		}
 		CheckBox checkDel = (CheckBox)view.findViewById(R.id.check_del);

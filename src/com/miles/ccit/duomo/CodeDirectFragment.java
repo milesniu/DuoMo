@@ -51,7 +51,7 @@ public class CodeDirectFragment extends AbsBaseFragment
 	public Button Btn_Delete;
 	public Button Btn_Canle;
 	private boolean issend = false;
-//	private boolean isrefresh = true;
+	// private boolean isrefresh = true;
 	public static boolean isTop = false;
 	public static boolean isneedrefresh = false;
 	private Handler handler = new Handler()
@@ -91,17 +91,15 @@ public class CodeDirectFragment extends AbsBaseFragment
 		return view;
 	}
 
-	
-	
 	@Override
 	public void onDestroy()
 	{
 		// TODO Auto-generated method stub
-		super.onDestroy();
 		isTop = false;
+		getActivity().unregisterReceiver(broad);
+		super.onDestroy();
+		
 	}
-
-
 
 	@Override
 	public void onPause()
@@ -110,8 +108,6 @@ public class CodeDirectFragment extends AbsBaseFragment
 		super.onPause();
 		isTop = false;
 	}
-
-
 
 	@Override
 	public void onStop()
@@ -127,7 +123,7 @@ public class CodeDirectFragment extends AbsBaseFragment
 		public void onReceive(Context context, Intent intent)
 		{
 			// TODO Auto-generated method stub
-//			hideProgressDlg();
+			// hideProgressDlg();
 			String action = intent.getAction();
 
 			if (action.equals(AbsBaseActivity.broad_recvcodedirc_Action))
@@ -143,15 +139,15 @@ public class CodeDirectFragment extends AbsBaseFragment
 	{
 		// TODO Auto-generated method stub
 		super.onResume();
-		if(isneedrefresh)
+		if (isneedrefresh)
 		{
 			initListContent();
 		}
 		isneedrefresh = true;
 		isTop = true;
-		
+
 	}
-	
+
 	private void initListContent()
 	{
 		emailList.clear();
@@ -186,13 +182,12 @@ public class CodeDirectFragment extends AbsBaseFragment
 		Collections.reverse(recvemail);
 		Collections.reverse(sendemail);
 
-		refreshList(currentlist);	
+		refreshList(currentlist);
 	}
-	
 
 	private void refreshList(final List<BaseMapObject> list)
 	{
-//		Collections.reverse(list);
+		// Collections.reverse(list);
 
 		adapter = new MsgorMailSetAdapter(getActivity(), list, "codedir");
 
@@ -204,7 +199,7 @@ public class CodeDirectFragment extends AbsBaseFragment
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
 				// TODO Auto-generated method stub
-//				issend = true;
+				// issend = true;
 				isneedrefresh = false;
 				getActivity().startActivity(new Intent(getActivity(), CodeDirectInfoActivity.class).putExtra("item", list.get(arg2)));
 			}
@@ -229,7 +224,7 @@ public class CodeDirectFragment extends AbsBaseFragment
 			}
 		});
 	}
-	
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
 	{
@@ -239,7 +234,7 @@ public class CodeDirectFragment extends AbsBaseFragment
 		switch (item.getItemId())
 		{
 		case 0:
-			confirmDlg(true,"删除代码指挥", "codedirect", "id", currentlist.get(ListItem), currentlist, adapter);
+			confirmDlg(true, "删除代码指挥", "codedirect", "id", currentlist.get(ListItem), currentlist, adapter);
 			break;
 		case 1:
 			for (BaseMapObject tmp : currentlist)
@@ -255,7 +250,6 @@ public class CodeDirectFragment extends AbsBaseFragment
 		return super.onContextItemSelected(item);
 	}
 
-
 	@Override
 	public void initView(View view)
 	{
@@ -269,7 +263,6 @@ public class CodeDirectFragment extends AbsBaseFragment
 		Btn_Canle = (Button) view.findViewById(R.id.bt_canle);
 		Btn_Delete.setOnClickListener(this);
 		Btn_Canle.setOnClickListener(this);
-		
 
 	}
 
@@ -303,10 +296,10 @@ public class CodeDirectFragment extends AbsBaseFragment
 			{
 				MyLog.showToast(getActivity(), "请登录后再执行该操作...");
 			}
-			
+
 			break;
 		case R.id.bt_sure:
-			confirmDlg(true,"删除代码", "codedirect", "id", null, currentlist, adapter);
+			confirmDlg(true, "删除代码", "codedirect", "id", null, currentlist, adapter);
 
 			break;
 		case R.id.bt_canle:

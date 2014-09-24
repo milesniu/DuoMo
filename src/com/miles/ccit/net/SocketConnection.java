@@ -10,17 +10,27 @@ import java.net.SocketTimeoutException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.locks.ReentrantLock;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Message;
 
+import com.miles.ccit.database.GetData4DB;
+import com.miles.ccit.duomo.CodeDirectFragment;
+import com.miles.ccit.duomo.EmailFragment;
 import com.miles.ccit.duomo.LoginActivity;
+import com.miles.ccit.duomo.ShortmsgListActivity;
+import com.miles.ccit.util.AbsBaseActivity;
+import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyApplication;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.UnixTime;
 
 public class SocketConnection
 {
@@ -37,6 +47,7 @@ public class SocketConnection
 	private static Timer heartTimer = null;
 
 	private static Thread receiveThread = null;
+	private static Thread cacheCheckThread = null;
 	private final ReentrantLock lock = new ReentrantLock();
 	private String result;
 	public static boolean isSocketRun = false;
@@ -118,6 +129,10 @@ public class SocketConnection
 			isNetworkConnect = true;
 			receiveThread = new Thread(new ReceiveWorker());
 			receiveThread.start();
+			
+			cacheCheckThread = new Thread(new CheckCallBack());
+			cacheCheckThread.start();
+			
 			isSocketRun = true;
 		}
 		// 开启心跳，注释此句，则关闭心跳
@@ -242,7 +257,17 @@ public class SocketConnection
 					{
 						if (isHealthCheck)
 						{
+							if(sendDataCallback.get("heartbeat#1")==null)
+							{
+								HashMap<String, Object> data = new HashMap<String, Object>();
+								data.put("creattime", UnixTime.getCurrentUnixTime());
+								sendDataCallback.put("heartbeat#1", data);
+							}
 							result = readReqMsg(new ComposeData().sendHeartbeat());
+						}
+						else
+						{
+							sendDataCallback.remove("heartbeat#1");
 						}
 					} catch (IOException e)
 					{
@@ -287,6 +312,7 @@ public class SocketConnection
 	private class CheckCallBack implements Runnable
 	{
 
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
 		public void run()
 		{
@@ -294,7 +320,6 @@ public class SocketConnection
 			while(true)
 			{
 				//遍历没有回复的map
-				
 				try
 				{
 					Thread.sleep(5000);
@@ -303,6 +328,76 @@ public class SocketConnection
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+
+			    Iterator it = sendDataCallback.entrySet().iterator();
+			    while (it.hasNext()) 
+			    {
+			        HashMap.Entry entry = (HashMap.Entry) it.next();
+			        String key = entry.getKey()+"";
+			        HashMap<String,Object> value = (HashMap<String, Object>) entry.getValue();
+			        if(UnixTime.getCurrentUnixTime()-(Long.parseLong(value.get("creattime")+""))<5)//当前对象时间间隔小于5s
+			        {
+			        	continue;
+			        }
+			        if(key.equals("heartbeat#1"))	//心跳
+			        {
+			        		Message msg = new Message();
+							msg.arg1 = 0;
+							MyApplication.handle.sendMessage(msg); // 连接断开，显示登录界面
+							sendDataCallback.clear();
+							canleSocket();
+			        }
+			        else
+			        {
+			        	String[] arraykey = key.split("#");
+			        	if(arraykey[0].equals("APICode.SEND_ShortTextMsg"))
+			        	{
+			        		BaseMapObject senditem = GetData4DB.getObjectByid(MyApplication.getAppContext(), "shortmsg", arraykey[1]);
+			        		sendDataCallback.remove("APICode.SEND_ShortTextMsg#"+arraykey[1]);	//收到短消息返回，则删除缓存
+			        		senditem.put("sendtype", AbsBaseActivity.SENDERROR + "" );
+			        		senditem.UpdateMyself(MyApplication.getAppContext(), "shortmsg");
+			        		
+			        		if (senditem != null && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(senditem.get("number").toString()))
+			        		{
+			        			Intent intent = new Intent();
+			        			intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
+			        			intent.putExtra("data", senditem);
+			        			MyApplication.getAppContext().sendBroadcast(intent);
+			        		}
+			        	}
+			        	else if(arraykey[0].equals("APICode.SEND_Email"))
+			        	{
+			        		BaseMapObject senditem = GetData4DB.getObjectByid(MyApplication.getAppContext(), "emailmsg", arraykey[1]);
+			        		sendDataCallback.remove("APICode.SEND_Email#"+arraykey[1]);
+			        		senditem.put("sendtype",AbsBaseActivity.SENDERROR+"" );
+			        		senditem.UpdateMyself(MyApplication.getAppContext(), "emailmsg");
+
+			        		if (EmailFragment.isTop)
+			        		{
+			        			Intent intent = new Intent();
+			        			intent.setAction(AbsBaseActivity.broad_backemailresult_Action);
+			        			MyApplication.getAppContext().sendBroadcast(intent);
+			        		}
+			        	}//"APICode.SEND_CodeDirec#"+id
+			        	else if(arraykey[0].equals("APICode.SEND_CodeDirec"))
+			        	{
+			        		BaseMapObject senditem = GetData4DB.getObjectByid(MyApplication.getAppContext(), "codedirect", arraykey[1]);
+			        		sendDataCallback.remove("APICode.SEND_CodeDirec#"+arraykey[1]);
+			        		senditem.put("sendtype",AbsBaseActivity.SENDERROR+"" );
+			        		senditem.UpdateMyself(MyApplication.getAppContext(), "codedirect");
+
+			        		if (CodeDirectFragment.isTop)
+			        		{
+			        			Intent intent = new Intent();
+			        			intent.setAction(AbsBaseActivity.broad_recvcodedirc_Action);
+			        			MyApplication.getAppContext().sendBroadcast(intent);
+			        		}
+			        	}
+			        }
+
+			}
+				
+				
 			}
 		}
 		
@@ -337,6 +432,9 @@ public class SocketConnection
 						// intent.setAction(AbsBaseActivity.broad_login_Action);
 						// intent.putExtra("data", heart);
 						// MyApplication.getAppContext().sendBroadcast(intent);
+						break;
+					case APICode.BACK_Hear_Beat:
+						sendDataCallback.remove("heartbeat#1");//收到心跳返回，清除心跳缓存
 						break;
 					case APICode.BACK_ShortTextMsg:
 					case APICode.BACK_ShortVoiceMsg:

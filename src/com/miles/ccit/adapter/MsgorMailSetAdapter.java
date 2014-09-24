@@ -108,6 +108,15 @@ public class MsgorMailSetAdapter extends BaseAdapter
 		}
 		else if(Type.equals("codedir"))
 		{
+			
+			if(map.get("sendtype").toString().equals(AbsCreatCodeActivity.SENDERROR+""))
+			{
+				view.findViewById(R.id.imageerror).setVisibility(View.VISIBLE);
+			}else if(map.get("sendtype").toString().equals(AbsCreatCodeActivity.SENDNOW+""))
+			{
+				view.findViewById(R.id.progressBar1).setVisibility(View.VISIBLE);
+			}
+			
 			String content = map.get("codecontent").toString();
 			String P1 = content.substring(content.indexOf("P1=")+3, content.indexOf("&P2="));
 			String P2 = content.substring(content.indexOf("&P2=")+4, content.indexOf("&P3="));

@@ -202,8 +202,10 @@ public class EmailFragment extends AbsBaseFragment
 	public void onDestroy()
 	{
 		// TODO Auto-generated method stub
-		super.onDestroy();
 		isTop = false;
+		getActivity().unregisterReceiver(broad);
+		super.onDestroy();
+		
 	}
 
 

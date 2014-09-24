@@ -69,6 +69,7 @@ public class ShortMsgFragment extends AbsBaseFragment
 	public void onDestroy()
 	{
 		// TODO Auto-generated method stub
+		getActivity().unregisterReceiver(broad);
 		super.onDestroy();
 		isTop = false;
 	}

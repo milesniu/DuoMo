@@ -45,11 +45,9 @@ public class IndexActivity extends AbsBaseActivity
 	protected void onDestroy()
 	{
 		// TODO Auto-generated method stub
+		unregisterReceiver(broad);
 		super.onDestroy();
-		if(broad!=null)
-		{
-			this.unregisterReceiver(broad);
-		}
+		
 	}
 
 

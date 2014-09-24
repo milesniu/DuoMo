@@ -151,7 +151,7 @@ public class WiredModelActivity extends AbsBaseActivity
 			{
 				// TODO Auto-generated method stub
 				menu.setHeaderTitle("有线模式");
-				menu.add(0, 0, 0, "删除该联系人");
+				menu.add(0, 0, 0, "删除该条记录");
 				menu.add(0, 1, 1, "批量删除");
 				menu.add(0, 2, 2, "取消");
 			}

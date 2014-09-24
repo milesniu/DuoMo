@@ -7,6 +7,7 @@ import android.os.Environment;
 public class OverAllData
 {
 	public static String Ipaddress = "192.168.1.26";
+	public static String RTPIpaddress = "192.168.1.26";
 	public static int Port = 6000;
 	public static int SendPort = 6001;
 	public static int RecvPort = 6002;

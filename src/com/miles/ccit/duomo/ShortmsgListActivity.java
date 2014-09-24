@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
@@ -37,9 +38,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
 import com.miles.ccit.duomo.R;
+import com.miles.ccit.util.AbsCreatCodeActivity;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
@@ -55,10 +58,11 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 	private ListView list_Content;
 	private MediaPlayer mp;
 	private MessageListAdapter adapter;
-	
+
 	private MyBroadcastReciver broad = null;
 	public static String number = null;
 	public static boolean isTop = false;
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -70,17 +74,14 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 			map = BaseMapObject.HashtoMyself((HashMap<String, Object>) getIntent().getSerializableExtra("item"));
 			number = map.get("number").toString();
 		}
-		
+
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(broad_recvtextmsg_Action);
 		broad = new MyBroadcastReciver();
 		this.registerReceiver(broad, intentFilter);
-		
+
 	}
-	
-	
-	
-	
+
 	@Override
 	protected void onPause()
 	{
@@ -88,9 +89,6 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		isTop = false;
 		super.onPause();
 	}
-
-
-
 
 	@Override
 	protected void onStop()
@@ -100,9 +98,6 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		super.onStop();
 	}
 
-
-
-
 	@Override
 	protected void onResume()
 	{
@@ -111,23 +106,17 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		super.onResume();
 	}
 
-
-
-
 	@Override
 	public boolean isDestroyed()
 	{
 		// TODO Auto-generated method stub
 		number = null;
-		if(broad!=null)
+		if (broad != null)
 		{
 			this.unregisterReceiver(broad);
 		}
 		return super.isDestroyed();
 	}
-
-
-
 
 	public class MyBroadcastReciver extends BroadcastReceiver
 	{
@@ -135,7 +124,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		public void onReceive(Context context, Intent intent)
 		{
 			// TODO Auto-generated method stub
-//			hideProgressDlg();
+			// hideProgressDlg();
 			String action = intent.getAction();
 
 			if (action.equals(broad_recvtextmsg_Action) || action.equals(broad_recvtextmsg_Action))
@@ -143,11 +132,10 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 				if (intent.getSerializableExtra("data") == null)
 				{
 					return;
-				}
-				else
+				} else
 				{
 					BaseMapObject broadmap = BaseMapObject.HashtoMyself((HashMap<String, Object>) getIntent().getSerializableExtra("item"));
-					if(broadmap.get("number").toString().equals(map.get("number").toString()))
+					if (broadmap.get("number").toString().equals(map.get("number").toString()))
 					{
 						refreshList();
 					}
@@ -156,7 +144,6 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		}
 
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -179,51 +166,28 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		case R.id.bt_addcontact:
 			break;
 		case R.id.bt_swicthvoice:
-			if(LoginActivity.isLogin)
+			if (LoginActivity.isLogin)
 			{
 				switchVoice();
-			}
-			else
+			} else
 			{
 				MyLog.showToast(mContext, "请登录后再执行该操作...");
 			}
 			break;
 		case R.id.bt_send:
-			if(LoginActivity.isLogin)
+			if (LoginActivity.isLogin)
 			{
 				sendTextmsg(map.get("number").toString());
+				
 				edit_inputMsg.setText("");
 				refreshList();
-			}
-			else
+			} else
 			{
 				MyLog.showToast(mContext, "请登录后再执行该操作...");
 			}
 			break;
 		case R.id.bt_sure:
 			confirmDlg("删除记录", "shortmsg", null, shortList, adapter);
-//			
-//			Iterator<BaseMapObject> iter = shortList.iterator();
-//			List<String> Idlist = new Vector<String>();
-//			while (iter.hasNext())
-//			{
-//				BaseMapObject s = iter.next();
-//				if (s.get("exp2") != null && s.get("exp2").toString().equals("1"))
-//				{
-//					Idlist.add(s.get("id").toString());
-//					iter.remove();
-//				}
-//			}
-//
-//			UserDatabase.DelListObj(mContext, "shortmsg", "id", Idlist);
-//
-//			for (BaseMapObject tmp : shortList)
-//			{
-//				tmp.put("exp1", null);
-//				tmp.put("exp2", null);
-//			}
-//			adapter.notifyDataSetChanged();
-//			linear_Del.setVisibility(View.GONE);
 			break;
 		case R.id.bt_canle:
 			for (BaseMapObject tmp : shortList)
@@ -257,9 +221,18 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 			{
 				// TODO Auto-generated method stub
+
+				AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+				int ListItem = (int) info.position;
+				HashMap<String, Object> item = shortList.get(ListItem);
+
 				menu.setHeaderTitle("短消息");
 				menu.add(0, 0, 0, "删除该信息");
 				menu.add(0, 1, 1, "批量删除");
+				if (LoginActivity.isLogin&&item.get("sendtype").toString().equals(AbsCreatCodeActivity.SENDERROR + ""))
+				{
+					menu.add(0, 2, 2, "重新发送");
+				}
 				menu.add(0, 3, 3, "取消");
 			}
 		});
@@ -272,18 +245,20 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 		// TODO Auto-generated method stub
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		int ListItem = (int) info.position;
+		BaseMapObject msgitem = shortList.get(ListItem);
 		switch (item.getItemId())
 		{
 		case 0:
-			confirmDlg("删除记录", "shortmsg", shortList.get(ListItem), shortList, adapter);
-//			
-//			BaseMapObject selectItem = shortList.get(ListItem);
-//			long ret = BaseMapObject.DelObj4DB(mContext, "shortmsg", "id", selectItem.get("id").toString());
-//			if (ret != -1)
-//			{
-//				shortList.remove(ListItem);
-//				adapter.notifyDataSetChanged();
-//			}
+			confirmDlg("删除记录", "shortmsg", msgitem, shortList, adapter);
+			//
+			// BaseMapObject selectItem = shortList.get(ListItem);
+			// long ret = BaseMapObject.DelObj4DB(mContext, "shortmsg", "id",
+			// selectItem.get("id").toString());
+			// if (ret != -1)
+			// {
+			// shortList.remove(ListItem);
+			// adapter.notifyDataSetChanged();
+			// }
 			break;
 		case 1:
 			for (BaseMapObject tmp : shortList)
@@ -292,6 +267,12 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 			}
 			adapter.notifyDataSetChanged();
 			linear_Del.setVisibility(View.VISIBLE);
+			break;
+		case 2:
+			msgitem.put("sendtype", AbsCreatCodeActivity.SENDNOW+"");
+			msgitem.UpdateMyself(mContext, "shortmsg");
+			adapter.notifyDataSetChanged();
+			sendTextMsgtoNet(new long[]{Long.parseLong(msgitem.get("id")+"")}, new String[]{msgitem.get("number")+""}, msgitem.get("msgcontent")+"");
 			break;
 		case 3:
 			break;
@@ -303,7 +284,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 	public void initView()
 	{
 		// TODO Auto-generated method stub
-		
+
 		initBaseView(map.get("name") == null ? map.get("number").toString() : map.get("name").toString());
 		isTop = true;
 		// Btn_Left.setText("返回");
@@ -414,7 +395,6 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 				break;
 			case AbsMsgRecorderActivity.SENDTO:
 				talkView = LayoutInflater.from(mContext).inflate(R.layout.outcometalk, null);
-
 				break;
 			case AbsMsgRecorderActivity.SENDERROR:
 				talkView = LayoutInflater.from(mContext).inflate(R.layout.outcometalk, null);
@@ -426,7 +406,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 			}
 
 			TextView text = (TextView) talkView.findViewById(R.id.textcontent);
-			ImageView img = (ImageView)talkView.findViewById(R.id.imageView_fail);
+			ImageView img = (ImageView) talkView.findViewById(R.id.imageView_fail);
 			CheckBox checkDel = (CheckBox) talkView.findViewById(R.id.check_del);
 			if (message.get("exp1") != null && message.get("exp1").toString().equals("0"))
 			{
@@ -452,15 +432,14 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 				}
 			});
 
-			if(img!=null&&message.get("sendtype").toString().equals(AbsMsgRecorderActivity.SENDERROR+""))
+			if (img != null && message.get("sendtype").toString().equals(AbsMsgRecorderActivity.SENDERROR + ""))
 			{
 				img.setVisibility(View.VISIBLE);
-			}
-			else if(img!=null)
+			} else if (img != null)
 			{
 				img.setVisibility(View.GONE);
 			}
-			
+
 			if (message.get("msgcontent") == null || message.get("msgcontent").equals("null"))
 			{
 				text.setText("无效信息");
@@ -468,11 +447,11 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 			{
 				if (message.get("msgtype").toString().equals("0"))
 				{
-					text.setText(message.get("msgcontent").toString()+"\r\n"+UnixTime.unixTime2Simplese(message.get("creattime").toString(), "MM-dd HH:mm"));
+					text.setText(message.get("msgcontent").toString() + "\r\n" + UnixTime.unixTime2Simplese(message.get("creattime").toString(), "MM-dd HH:mm"));
 				} else if (message.get("msgtype").toString().equals("1"))
 				{
-					text.setText("((("+"\r\n"+UnixTime.unixTime2Simplese(message.get("creattime").toString(), "MM-dd HH:mm"));
-					
+					text.setText("(((" + "\r\n" + UnixTime.unixTime2Simplese(message.get("creattime").toString(), "MM-dd HH:mm"));
+
 					text.setOnClickListener(new OnClickListener()
 					{
 

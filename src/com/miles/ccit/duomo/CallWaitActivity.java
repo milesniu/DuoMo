@@ -162,6 +162,7 @@ public class CallWaitActivity extends AbsBaseActivity
 			player.release();
 			player = null;
 		}
+		mContext.unregisterReceiver(broad);
 		super.onDestroy();
 	}
 

@@ -27,13 +27,14 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData
 	private EditText edit_Account;
 	private EditText edit_Password;
 	private EditText edit_ip;
+	private EditText edit_rtpip;
 	private MyBroadcastReciver broad = null;
 	public static boolean isLogin = false;
 	public static SharedPreferences sp;
 	public final String spuname = "uname";
 	public final String sppwd = "pwd";
 	public final String spip = "ipaddr";
-		
+	public final String sprtpip = "rtpipaddr";	
 //	private Timer timer = null;
 //	private TimerTask ttask = null;
 //	private int deltime = 5;
@@ -115,10 +116,11 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData
 		edit_Account = (EditText) findViewById(R.id.edit_account);
 		edit_Password = (EditText) findViewById(R.id.edit_pwd);
 		edit_ip = (EditText)findViewById(R.id.edit_ip);
+		edit_rtpip = (EditText)findViewById(R.id.edit_rtpip);
 		edit_Account.setText(sp.getString(spuname, ""));
 		edit_Password.setText(sp.getString(sppwd, ""));
-//		edit_ip.setText(sp.getString(spip, ""));
-		edit_ip.setText(OverAllData.Ipaddress);
+		edit_ip.setText(sp.getString(spip, ""));
+		edit_rtpip.setText(sp.getString(sprtpip, ""));
 		
 		findViewById(R.id.bt_login).setOnClickListener(this);
 		IntentFilter intentFilter = new IntentFilter();
@@ -239,6 +241,16 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData
 	
 
 	@Override
+	protected void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		mContext.unregisterReceiver(broad);
+		super.onDestroy();
+	}
+
+
+
+	@Override
 	public void onClick(View v)
 	{
 		// TODO Auto-generated method stub
@@ -252,6 +264,7 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData
 			String pwd = edit_Password.getText().toString();
 			String ip = edit_ip.getText().toString();
 			OverAllData.Ipaddress = ip;
+			OverAllData.RTPIpaddress = edit_rtpip.getText().toString();
 			if (name.equals(""))
 			{
 				MyLog.showToast(mContext, "用户账号不能为空...");
@@ -271,6 +284,7 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData
 			editor.putString(spuname, String.valueOf(name));
 			editor.putString(sppwd, String.valueOf(pwd));
 			editor.putString(spip, String.valueOf(ip));
+			editor.putString(sprtpip, String.valueOf(OverAllData.RTPIpaddress));
 			editor.commit();
 			
 			new SendDataTask().execute(APICode.SEND_Login + "", name, pwd);

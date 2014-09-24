@@ -97,7 +97,18 @@
             android:text="10.10.22.13"
             android:ems="10" >
 
-        </EditText> 
+        </EditText>
+
+       <EditText
+           android:id="@+id/edit_rtpip"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="15dp"
+           android:ems="10"
+           android:hint="请输入RTP服务器ip"
+           android:text="10.10.22.13" >
+
+       </EditText>
 
     </LinearLayout>
 
