@@ -86,7 +86,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".IndexActivity"
+            android:name="com.miles.ccit.main.IndexActivity"
             android:label="@string/title_activity_index"
             android:screenOrientation="portrait"
              android:launchMode="singleTask"

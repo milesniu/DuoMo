@@ -1,4 +1,4 @@
-package com.miles.ccit.duomo;
+package com.miles.ccit.main;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +9,19 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 
+import com.miles.ccit.duomo.AboutActivity;
+import com.miles.ccit.duomo.BroadCastctivity;
+import com.miles.ccit.duomo.ContactActivity;
+import com.miles.ccit.duomo.LoginActivity;
+import com.miles.ccit.duomo.R;
+import com.miles.ccit.duomo.SettingActivity;
+import com.miles.ccit.duomo.SpecialNetFragmentActivity;
+import com.miles.ccit.duomo.SpecialVoiceActivity;
+import com.miles.ccit.duomo.WiredModelActivity;
+import com.miles.ccit.duomo.R.drawable;
+import com.miles.ccit.duomo.R.id;
+import com.miles.ccit.duomo.R.layout;
+import com.miles.ccit.duomo.R.menu;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.UnixTime;
@@ -50,9 +63,6 @@ public class IndexActivity extends AbsBaseActivity
 		
 	}
 
-
-
-
 	public class MyBroadcastReciver extends BroadcastReceiver
 	{
 		@Override
@@ -71,8 +81,6 @@ public class IndexActivity extends AbsBaseActivity
 
 	}
 
-	
-	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
@@ -93,12 +101,11 @@ public class IndexActivity extends AbsBaseActivity
 	public void onClick(View v)
 	{
 		// TODO Auto-generated method stub
-		if(UnixTime.getCurrentUnixTime()>UnixTime.simpleTime2Unix("2014-09-30 00:00:00"))
+		if(UnixTime.getCurrentUnixTime()>UnixTime.simpleTime2Unix("2014-11-30 00:00:00"))
 		{
 			MyLog.showToast(mContext, "软件授权期限已过，请联系开发商...");
 			return;
 		}
-		
 		
 		switch (v.getId())
 		{

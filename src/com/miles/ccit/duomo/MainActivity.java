@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
+import com.miles.ccit.main.IndexActivity;
 import com.miles.ccit.net.ComposeData;
 import com.miles.ccit.net.IAcceptServerData;
 import com.miles.ccit.net.SocketClient;
