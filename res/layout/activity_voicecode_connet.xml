@@ -36,17 +36,25 @@
         <Button
             android:id="@+id/bt_disconnet"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@drawable/cutdown" />
 
         <Button
             android:id="@+id/bt_keybrod"
             android:layout_width="0dp"
-              android:layout_marginLeft="20dp"
-            android:layout_height="50dp"
+              android:layout_marginLeft="10dp"
+            android:layout_height="40dp"
              android:layout_weight="1"
             android:background="@drawable/keybord" />
+        
+        <Button
+            android:id="@+id/bt_speaker"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+             android:layout_marginLeft="10dp"
+            android:background="@drawable/mianti" />
 
         <Button
             android:id="@+id/bt_talk2"

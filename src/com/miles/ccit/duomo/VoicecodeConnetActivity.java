@@ -39,6 +39,7 @@ public class VoicecodeConnetActivity extends AbsVoiceActivity
 	
 	private Button Btn_DisConnet;
 	private Button Btn_Talk;
+	private Button Btn_Speaker;
 	private TextView text_Num;
 	String code = "";
 	private Button Btn_KeyBord;
@@ -51,6 +52,7 @@ public class VoicecodeConnetActivity extends AbsVoiceActivity
 	private LinearLayout linear_File;
 	private LinearLayout linear_talk;
 	MediaPlayer player;
+	private boolean isspeaker = false;
 //	AudioManager audioManager;
 	
 	@Override
@@ -66,6 +68,7 @@ public class VoicecodeConnetActivity extends AbsVoiceActivity
 		broad = new MyBroadcastReciver();
 		this.registerReceiver(broad, intentFilter);
 		startRTPSpeak();
+		speakinCall();
 	}
 
 	@Override
@@ -146,6 +149,20 @@ public class VoicecodeConnetActivity extends AbsVoiceActivity
 			
 //			Toast.makeText(mContext, "接收", 0).show();
 			break;
+		case R.id.bt_speaker:
+			if(isspeaker)
+			{
+				Btn_Speaker.setBackgroundResource(R.drawable.mianti);
+				speakinCall();
+			}
+			else
+			{
+				Btn_Speaker.setBackgroundResource(R.drawable.tingtong);
+				speakinSpeaker();
+				
+			}
+			isspeaker = !isspeaker;
+			break;
 		}
 	}
 
@@ -181,8 +198,10 @@ public class VoicecodeConnetActivity extends AbsVoiceActivity
 		linear_Keybord = (LinearLayout)findViewById(R.id.linear_inputpanle);
 		Btn_SendFile = (Button)findViewById(R.id.bt_sendfile);
 		Btn_RecvFile = (Button)findViewById(R.id.bt_recvfile);
+		Btn_Speaker = (Button)findViewById(R.id.bt_speaker);
 		Btn_SendFile.setOnClickListener(this);
 		Btn_RecvFile.setOnClickListener(this);
+		Btn_Speaker.setOnClickListener(this);
 		linear_File = (LinearLayout)findViewById(R.id.linear_file);
 		Btn_DisConnet.setOnClickListener(this);
 		Btn_KeyBord.setOnClickListener(this);

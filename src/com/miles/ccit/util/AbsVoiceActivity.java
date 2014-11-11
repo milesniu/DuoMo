@@ -59,6 +59,16 @@ public abstract class AbsVoiceActivity extends AbsBaseActivity
 		}
 	}
 
+	public void speakinSpeaker()
+	{
+		audio_app.speakerMedia(AudioManager.MODE_NORMAL);
+	}
+	
+	public void speakinCall()
+	{
+		audio_app.speakerMedia(AudioManager.MODE_IN_CALL);
+	}
+	
 	@Override
 	public boolean onKeyDown(int keyCode, android.view.KeyEvent event)
 	{
@@ -81,7 +91,9 @@ public abstract class AbsVoiceActivity extends AbsBaseActivity
 	protected void onDestroy()
 	{
 		// TODO Auto-generated method stub
+		audio_app.speakerMedia(AudioManager.MODE_NORMAL);
 		stopRTPSpeak();
+		
 		super.onDestroy();
 	}
 	
