@@ -19,6 +19,8 @@ import com.miles.ccit.net.ComposeData;
 import com.miles.ccit.net.IAcceptServerData;
 import com.miles.ccit.net.UDPTools;
 import com.miles.ccit.util.AbsBaseActivity;
+import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.FileUtils;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.SendDataTask;
@@ -71,7 +73,6 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-
 		// ttask = new TimerTask()
 		// {
 		//

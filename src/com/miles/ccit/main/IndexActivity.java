@@ -23,6 +23,8 @@ import com.miles.ccit.duomo.R.id;
 import com.miles.ccit.duomo.R.layout;
 import com.miles.ccit.duomo.R.menu;
 import com.miles.ccit.util.AbsBaseActivity;
+import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.FileUtils;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.UnixTime;
 
@@ -31,11 +33,13 @@ public class IndexActivity extends AbsBaseActivity
 
 //	public static boolean result = false;
 	private MyBroadcastReciver broad = null;
+	private BaseMapObject checkCount = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_index);
+		checkCount = FileUtils.getMapData4SD();
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(broad_usimout_Action);
 		broad = new MyBroadcastReciver();
@@ -101,9 +105,21 @@ public class IndexActivity extends AbsBaseActivity
 	public void onClick(View v)
 	{
 		// TODO Auto-generated method stub
-		if(UnixTime.getCurrentUnixTime()>UnixTime.simpleTime2Unix("2014-11-30 00:00:00"))
+		int count = Integer.parseInt(checkCount.get("count").toString());
+		if(count>=600)
 		{
-			MyLog.showToast(mContext, "软件授权期限已过，请联系开发商...");
+			MyLog.showToast(mContext, "测试版使用已到期，请联系开发商...");
+			return;
+		}
+		else
+		{
+			checkCount.put("count", (count+1));
+			FileUtils.setMapData2SD(checkCount);
+		}
+		
+		if(UnixTime.getCurrentUnixTime()>UnixTime.simpleTime2Unix("2015-01-30 00:00:00"))
+		{
+			MyLog.showToast(mContext, "测试版使用已到期，请联系开发商...");
 			return;
 		}
 		

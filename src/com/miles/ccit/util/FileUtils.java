@@ -1,10 +1,13 @@
 package com.miles.ccit.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 import android.content.Context;
@@ -83,6 +86,70 @@ public class FileUtils
 //			}
 //		}
 //	}
+	
+	
+	public static void setMapData2SD(BaseMapObject obj)
+	{
+		ObjectOutputStream objOutput = null;
+		try
+		{
+			if (obj != null)
+			{
+				objOutput = new ObjectOutputStream(new FileOutputStream(OverAllData.loginPath));
+				objOutput.writeObject(obj);
+			}
+
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			try
+			{
+				if (objOutput != null)
+				{
+					objOutput.close();
+				}
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	public static BaseMapObject getMapData4SD()
+	{
+		ObjectInputStream objInput = null;
+		BaseMapObject tmp = null;
+		// List<PushMessage> outmsglist = null;
+		try
+		{
+			objInput = new ObjectInputStream(new FileInputStream(OverAllData.loginPath));
+			tmp =  (BaseMapObject) objInput.readObject();
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+
+			try
+			{
+				if (objInput != null)
+					objInput.close();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		if(tmp==null)
+		{
+			tmp = new BaseMapObject();
+			tmp.put("count", 1);
+		}
+		return tmp;
+
+	}
 
 	 public static String getPath(Context context, Uri uri) {
 		 
