@@ -179,11 +179,13 @@ public class ComposeData
 			System.arraycopy(len, 0, mData, currentpos, len.length);
 			currentpos += len.length;
 			System.arraycopy(info[i].getBytes(), 0, mData, currentpos, info[i].getBytes().length);
-			currentpos += info[i].length();
+			currentpos += info[i].getBytes().length;
 		}
 		// 拷贝优先级与是否回执，后期从数据库配置表中读取
-		System.arraycopy(sendcfg, 0, mData, currentpos, 2);
-
+//		System.arraycopy(sendcfg, 0, mData, currentpos, 2);
+		mData[mData.length-2] = sendcfg[0];
+		mData[mData.length-1] = sendcfg[1];
+		
 		byte[] head = data.head;
 		byte[] DataLenth = HexSwapString.short2Byte((short) (mData.length + 1));// new
 																				// byte[]{(byte)(mData.length+1)};
@@ -345,7 +347,7 @@ public class ComposeData
 			System.arraycopy(len, 0, mData, currentpos, len.length);
 			currentpos += len.length;
 			System.arraycopy(info[i].getBytes(), 0, mData, currentpos, info[i].getBytes().length);
-			currentpos += info[i].length();
+			currentpos += info[i].getBytes().length;
 		}
 
 		// 单独处理附件组装
@@ -372,9 +374,10 @@ public class ComposeData
 			currentpos += fjbyte.length;
 		}
 
-		// 拷贝优先级与是否回执，后期从数据库配置表中读取
+		// 拷贝优先级与是否回执，后期从数据库配置表中读取,
 		System.arraycopy(sendcfg, 0, mData, currentpos, 2);
-
+//		mData[mData.length-2] = sendcfg[0];
+//		mData[mData.length-1] = sendcfg[1];
 		byte[] head = data.head;
 		byte[] DataLenth = HexSwapString.short2Byte((short) (mData.length + 1));// new
 																				// byte[]{(byte)(mData.length+1)};
@@ -773,11 +776,13 @@ public class ComposeData
 			System.arraycopy(len, 0, mData, currentpos, len.length);
 			currentpos += len.length;
 			System.arraycopy(info[i].getBytes(), 0, mData, currentpos, info[i].getBytes().length);
-			currentpos += info[i].length();
+			currentpos += info[i].getBytes().length;
 		}
 		// 拷贝优先级与是否回执，后期从数据库配置表中读取
 		System.arraycopy(sendcfg, 0, mData, currentpos, 2);
-
+//		mData[mData.length-2] = sendcfg[0];
+//		mData[mData.length-1] = sendcfg[1];
+		
 		byte[] head = data.head;
 		byte[] DataLenth = HexSwapString.short2Byte((short) (mData.length + 1));// new
 																				// byte[]{(byte)(mData.length+1)};
