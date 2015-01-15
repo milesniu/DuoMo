@@ -92,7 +92,9 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 				break;
 			case APICode.SEND_CodeDirec:
 				SocketConnection.getInstance().readReqMsg(new ComposeData().sendCodeDirc(parm[1],parm[2],parm[3]));
-				
+				break;
+			case APICode.SEND_Location:
+				SocketConnection.getInstance().readReqMsg(new ComposeData().sendLocation());
 				break;
 			}
 

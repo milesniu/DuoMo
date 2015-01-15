@@ -725,6 +725,20 @@ public class ComposeData
 		}
 		
 		/**
+		 * 请求位置信息
+		 * 
+		 * @param info
+		 *            null
+		 * */
+		public byte[] sendLocation(String... info)
+		{
+	
+			return new byte[]
+			{ (byte) 0x55, (byte) 0xAA, (byte) 0x00, (byte) 0x01, (byte) 0x27 };
+	
+		}
+		
+		/**
 		 * 返回文件接受结果
 		 * 
 		 * @param info

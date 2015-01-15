@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 
 public class HostStatusActivity extends AbsBaseActivity
 {
@@ -15,6 +16,7 @@ public class HostStatusActivity extends AbsBaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_host_status);
+		((TextView)findViewById(R.id.text_status)).setText(SettingActivity.LoactionInfo.get("status")+"");
 	}
 
 	@Override

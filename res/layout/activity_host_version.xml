@@ -43,22 +43,21 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp" android:textColor="@color/black"
-            android:text="主控软件：V1.0.0
-            (2014-0321-2312)"
+            android:text="主控软件："
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content" android:textColor="@color/black"
+            android:id="@+id/text_version"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="接入板软件：V1.0.0
-            (2014-0321-2312)"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black" />
+
     </LinearLayout>
 
 </RelativeLayout>

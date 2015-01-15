@@ -3,6 +3,7 @@ package com.miles.ccit.duomo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 
 import com.miles.ccit.util.AbsBaseActivity;
 
@@ -14,6 +15,7 @@ public class HostVersionActivity extends AbsBaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_host_version);
+		((TextView)findViewById(R.id.text_version)).setText(SettingActivity.LoactionInfo.get("version")+"");
 	}
 
 	@Override

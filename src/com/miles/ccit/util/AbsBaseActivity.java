@@ -65,6 +65,7 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 	public static final String broad_broadcastresult_Action = "cn.broadcast.broadcastresult";
 	public static final String broad_recvcodedirc_Action = "cn.broadcast.recvcodedirc";
 	public static final String broad_backemailresult_Action = "cn.broadcast.backemailresult";
+	public static final String broad_backlocation_Action = "cn.broadcast.backlocation";
 	
 	
 	

@@ -47,43 +47,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="电台：正常"
+            android:text="主机状态："
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/text_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="UIM卡：正常"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="MODEM：正常"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="接入专网板：正常"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="通信状态：正常"
+            android:text=""
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black" />
     </LinearLayout>

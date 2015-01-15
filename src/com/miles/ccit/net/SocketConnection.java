@@ -501,6 +501,9 @@ public class SocketConnection
 					case APICode.RECV_CodeDirec:
 						analyUtil.analyRecvCodedirc(heart);
 						break;
+					case APICode.BACK_Location:
+						analyUtil.analyRecvLocation(heart);
+						break;
 					}
 
 					try

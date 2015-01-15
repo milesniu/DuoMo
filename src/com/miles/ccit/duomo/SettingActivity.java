@@ -1,6 +1,9 @@
 package com.miles.ccit.duomo;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.ToggleButton;
 import com.miles.ccit.net.APICode;
 import com.miles.ccit.net.SocketConnection;
 import com.miles.ccit.util.AbsBaseActivity;
+import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.SendDataTask;
 
@@ -20,6 +24,8 @@ public class SettingActivity extends AbsBaseActivity
 
 	Button Btn_Singout;
 	ToggleButton TBtn_HealthCheck;
+	public static BaseMapObject LoactionInfo = new BaseMapObject();
+	private MyBroadcastReciver broad = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -55,6 +61,15 @@ public class SettingActivity extends AbsBaseActivity
 		{
 			Btn_Singout.setVisibility(View.GONE);
 		}
+		
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(broad_backlocation_Action);
+		broad = new MyBroadcastReciver();
+		this.registerReceiver(broad, intentFilter);
+		
+		showprogressdialog();
+		new SendDataTask().execute(APICode.SEND_Location+"");
+		
 	}
 
 	@Override
@@ -118,4 +133,16 @@ public class SettingActivity extends AbsBaseActivity
 		
 	}
 
+	
+	public class MyBroadcastReciver extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			// TODO Auto-generated method stub
+			hideProgressDlg();
+		}
+
+	}
+	
 }
