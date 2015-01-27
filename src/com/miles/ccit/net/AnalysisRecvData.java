@@ -696,7 +696,7 @@ public class AnalysisRecvData
 			System.arraycopy(data, locationcursor, lngdata, 0, lnglen);
 			String lng = new String(lngdata, "UTF-8");
 			SettingActivity.LoactionInfo.put("lng", lng);
-			locationcursor += lnglen;
+			locationcursor += (lnglen);
 
 			// 纬度
 			int latlen = ByteUtil.oneByte2oneInt(data[locationcursor++]);
@@ -724,6 +724,15 @@ public class AnalysisRecvData
 			SettingActivity.LoactionInfo.put("status", status);
 			
 			locationcursor += statuslen;
+			
+			// 软件版本
+            int versionlen = ByteUtil.oneByte2oneInt(data[locationcursor++]);
+            byte[] versiondata = new byte[versionlen];
+            System.arraycopy(data, locationcursor, versiondata, 0, versionlen);
+            String version = new String(versiondata, "UTF-8");
+            SettingActivity.LoactionInfo.put("version", version);
+            
+            locationcursor += statuslen;
 			
 			intent.setAction(AbsBaseActivity.broad_backlocation_Action);
 			AppContext.sendBroadcast(intent);

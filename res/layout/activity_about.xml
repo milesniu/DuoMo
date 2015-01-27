@@ -2,46 +2,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
-    android:background="@color/white" >
+    android:background="@color/white"
+    tools:context=".LoginActivity" >
 
- <include
+    <include
         android:id="@+id/include_layout"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         layout="@layout/layout_title" />
 
- <ImageView
-     android:id="@+id/imageView1"
-     android:layout_width="76dp"
-     android:layout_height="76dp"
-     android:layout_below="@+id/include_layout"
-     android:layout_centerHorizontal="true"
-     android:layout_marginTop="40dp"
-     android:src="@drawable/ic_launcher" />
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="76dp"
+        android:layout_height="76dp"
+        android:layout_below="@+id/include_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/ic_launcher" />
 
- <TextView
-     android:id="@+id/textView1"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_below="@+id/imageView1"
-     android:layout_centerHorizontal="true"
-     android:text="版本号：V1.1.6"
-     android:layout_marginTop="10dp"
-     android:textColor="@color/black"
-     android:textAppearance="?android:attr/textAppearanceMedium" />
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="版本号：V1.1.7"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black" />
 
- <TextView
-     android:id="@+id/textView2"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_below="@+id/textView1"
-     android:layout_centerHorizontal="true"
-      android:layout_marginTop="10dp"
-       android:layout_marginLeft="20dp"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-         android:textColor="@color/black"
-     android:text="这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们这是关于我们" />
+        android:layout_marginTop="10dp"
+        android:text=""
+        android:textColor="@color/black" />
 
 </RelativeLayout>

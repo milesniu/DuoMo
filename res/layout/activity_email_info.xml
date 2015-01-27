@@ -25,10 +25,10 @@
             android:id="@+id/text_contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             android:layout_marginTop="3dp"
-             android:text="aaa"
-              android:textColor="@color/black"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_marginTop="3dp"
+            android:text="aaa"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/text_chaosong"
@@ -38,15 +38,15 @@
             android:text="aaa"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black" />
-        
+
         <TextView
             android:id="@+id/text_subject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="主题：xxxx"
             android:layout_marginTop="3dp"
-             android:textColor="@color/black"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text="主题：xxxx"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/edit_mailcontent"
@@ -55,11 +55,8 @@
             android:layout_marginTop="5dp"
             android:ems="10"
             android:gravity="top"
-            android:enabled="false"
-            android:textColor="@color/black"
             android:inputType="textMultiLine"
-            />
-
+            android:textColor="@color/black" />
     </LinearLayout>
 
     <RelativeLayout
@@ -76,11 +73,10 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
+            android:background="@drawable/image_enrichedbg"
             android:padding="3dp"
             android:src="@null"
-            android:background="@drawable/image_enrichedbg"
             android:visibility="invisible" />
-
     </RelativeLayout>
 
 </RelativeLayout>
