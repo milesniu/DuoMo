@@ -68,6 +68,11 @@ public class CreatBDdataActivity extends AbsCreatCodeActivity
 				MyLog.showToast(mContext, "选择开始时间");
 				return;
 			}
+            if (edit_card.getText().toString().getBytes().length > 15)
+            {
+                MyLog.showToast(mContext, "北斗入网卡号不能超过15个字节");
+                return;
+            }
 			
 			sendCodedirc(contact, composeSendData());
 			this.finish();

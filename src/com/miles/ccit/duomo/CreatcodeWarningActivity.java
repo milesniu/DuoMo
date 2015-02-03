@@ -133,6 +133,11 @@ public class CreatcodeWarningActivity extends AbsCreatCodeActivity
 				MyLog.showToast(mContext, "请选择威胁区形状");
 				return;
 			}
+            if (edit_descption.getText().toString().getBytes().length > 15)
+            {
+                MyLog.showToast(mContext, "威胁区说明不能超过15个字节");
+                return;
+            }
 			sendCodedirc(contact, composeSendData());
 			this.finish();
 			break;

@@ -1,4 +1,0 @@
-F:\github\DuoMoStudio\build\intermediates\classes\debug
-F:\github\DuoMoStudio\build\intermediates\pre-dexed\debug\locSDK_3.1-10487f39f3425ef7b21e596d20f4a08a1ed64f96.jar
-F:\github\DuoMoStudio\build\intermediates\pre-dexed\debug\android-support-v4-399f5853e3d0deea74c5168b1de123fc7d5ca0cc.jar
-F:\github\DuoMoStudio\build\intermediates\pre-dexed\debug\baidumapapi_v3_0_0-2e3d8b26696ff5ca67e1f30e156ce71694c93610.jar

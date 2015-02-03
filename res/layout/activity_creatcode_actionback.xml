@@ -34,9 +34,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="命令名称" >
+                android:hint="命令名称" />
 
-            </EditText>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/red"
+                android:text="*"/>
 
             <Spinner
                 android:id="@+id/sp_type"
@@ -63,9 +68,14 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:focusable="false"
-                android:hint="反馈日期" >
+                android:hint="反馈日期" />
 
-            </EditText>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/red"
+                android:text="*"/>
 
         </LinearLayout>
 

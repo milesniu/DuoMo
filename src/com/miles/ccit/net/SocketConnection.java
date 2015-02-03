@@ -129,9 +129,10 @@ public class SocketConnection
 			isNetworkConnect = true;
 			receiveThread = new Thread(new ReceiveWorker());
 			receiveThread.start();
-			
-			cacheCheckThread = new Thread(new CheckCallBack());
-			cacheCheckThread.start();
+
+                        //不进行超时检查
+//			cacheCheckThread = new Thread(new CheckCallBack());
+//			cacheCheckThread.start();
 			
 			isSocketRun = true;
 		}

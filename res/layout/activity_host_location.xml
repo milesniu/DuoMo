@@ -29,6 +29,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:text="版本号：V1.0.0"
+        android:visibility="gone"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/black" />
 

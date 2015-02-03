@@ -43,7 +43,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:hint="请输入队伍编号" />
+                android:hint="请输入队伍编号"
+                android:inputType="number"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/red"
+                android:text="*"/>
         </LinearLayout>
 
         <LinearLayout
@@ -58,8 +65,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="命令名称" >
-            </EditText>
+                android:hint="命令名称" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/red"
+                android:text="*"/>
 
             <EditText
                 android:id="@+id/edit_targename"

@@ -91,8 +91,10 @@ public abstract class AbsVoiceActivity extends AbsBaseActivity
 	protected void onDestroy()
 	{
 		// TODO Auto-generated method stub
-		audio_app.speakerMedia(AudioManager.MODE_NORMAL);
-		stopRTPSpeak();
+          if(audio_app!=null) {
+            audio_app.speakerMedia(AudioManager.MODE_NORMAL);
+            stopRTPSpeak();
+          }
 		
 		super.onDestroy();
 	}

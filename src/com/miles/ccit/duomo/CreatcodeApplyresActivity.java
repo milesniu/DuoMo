@@ -84,6 +84,21 @@ public class CreatcodeApplyresActivity extends AbsCreatCodeActivity
 				MyLog.showToast(mContext, "请输入物资单位");
 				return;
 			}
+            if (edit_address.getText().toString().getBytes().length > 9)
+            {
+                MyLog.showToast(mContext, "受领地地名不能超过9个字节");
+                return;
+            }
+            try
+            {
+                double lat = Double.parseDouble(options.get("lat").toString());
+                double lng = Double.parseDouble(options.get("lng").toString());
+            }
+            catch (Exception e)
+            {
+                MyLog.showToast(mContext, "请选择经纬度坐标");
+                return;
+            }
 			sendCodedirc(contact, composeSendData());
 			this.finish();
 			break;

@@ -105,23 +105,23 @@ public class IndexActivity extends AbsBaseActivity
 	public void onClick(View v)
 	{
 		// TODO Auto-generated method stub
-		int count = Integer.parseInt(checkCount.get("count").toString());
-		if(count>=600)
-		{
-			MyLog.showToast(mContext, "测试版使用已到期，请联系开发商...");
-			return;
-		}
-		else
-		{
-			checkCount.put("count", (count+1));
-			FileUtils.setMapData2SD(checkCount);
-		}
-		
-		if(UnixTime.getCurrentUnixTime()>UnixTime.simpleTime2Unix("2015-01-30 00:00:00"))
-		{
-			MyLog.showToast(mContext, "测试版使用已到期，请联系开发商...");
-			return;
-		}
+//		int count = Integer.parseInt(checkCount.get("count").toString());
+//		if(count>=600)
+//		{
+//			MyLog.showToast(mContext, "测试版使用已到期，请联系开发商...");
+//			return;
+//		}
+//		else
+//		{
+//			checkCount.put("count", (count+1));
+//			FileUtils.setMapData2SD(checkCount);
+//		}
+//
+//		if(UnixTime.getCurrentUnixTime()>UnixTime.simpleTime2Unix("2015-01-30 00:00:00"))
+//		{
+//			MyLog.showToast(mContext, "测试版使用已到期，请联系开发商...");
+//			return;
+//		}
 		
 		switch (v.getId())
 		{

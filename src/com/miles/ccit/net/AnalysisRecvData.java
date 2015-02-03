@@ -99,8 +99,10 @@ public class AnalysisRecvData
 			intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
 			intent.putExtra("data", recvmsg);
 			AppContext.sendBroadcast(intent);
-		} else
-		{
+		}
+
+//                else
+//		{
 			BaseMapObject contact = GetData4DB.getObjectByRowName(AppContext, "contact", "number", strsrcname);
 			if (contact != null)
 			{
@@ -121,7 +123,7 @@ public class AnalysisRecvData
 			messageNotification.setLatestEventInfo(AppContext, contact == null ? strsrcname : (contact.get("name").toString() + "的新消息"), co, messagePendingIntent);
 			messageNotificatioManager.notify(messageNotificationID, messageNotification);
 
-		}
+//		}
 	}
 
 	public void analyBackEmail(byte[] data) throws UnsupportedEncodingException
@@ -231,8 +233,9 @@ public class AnalysisRecvData
 				intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
 				intent.putExtra("data", recvvoicemsg);
 				AppContext.sendBroadcast(intent);
-			} else
-			{
+			}
+//                        else
+//			{
 				BaseMapObject contact = GetData4DB.getObjectByRowName(AppContext, "contact", "number", vname);
 				if (contact != null)
 				{
@@ -253,7 +256,7 @@ public class AnalysisRecvData
 				messageNotification.setLatestEventInfo(AppContext, contact == null ? vname : (contact.get("name").toString() + "的新消息"), "[语音]", messagePendingIntent);
 				messageNotificatioManager.notify(messageNotificationID, messageNotification);
 
-			}
+//			}
 		}
 
 	}
@@ -383,8 +386,9 @@ public class AnalysisRecvData
 			intent.setAction(AbsBaseActivity.broad_Email_Action);
 			intent.putExtra("data", recvvoicemsg);
 			AppContext.sendBroadcast(intent);
-		} else
-		{
+		}
+//                else
+//		{
 			BaseMapObject contact = GetData4DB.getObjectByRowName(AppContext, "contact", "number", vname);
 			if (contact != null)
 			{
@@ -405,7 +409,7 @@ public class AnalysisRecvData
 			messageNotification.setLatestEventInfo(AppContext, contact == null ? vname : (contact.get("name").toString() + "的新邮件"), btname, messagePendingIntent);
 			messageNotificatioManager.notify(messageNotificationID, messageNotification);
 
-		}
+//		}
 
 	}
 
@@ -657,8 +661,9 @@ public class AnalysisRecvData
 			intent.setAction(AbsBaseActivity.broad_recvcodedirc_Action);
 			intent.putExtra("data", email);
 			AppContext.sendBroadcast(intent);
-		} else
-		{
+		}
+//                else
+//		{
 			BaseMapObject contact = GetData4DB.getObjectByRowName(AppContext, "contact", "number", strsrcname);
 			if (contact != null)
 			{
@@ -679,7 +684,7 @@ public class AnalysisRecvData
 			messageNotification.setLatestEventInfo(AppContext, contact == null ? strsrcname : (contact.get("name").toString() + "的新消息"), showDetail(email), messagePendingIntent);
 			messageNotificatioManager.notify(messageNotificationID, messageNotification);
 
-		}
+//		}
 	}
 
 	public void analyRecvLocation(byte[] data)

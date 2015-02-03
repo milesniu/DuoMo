@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".LoginActivity" >
+    tools:context=".LoginActivity">
 
     <include
         android:id="@+id/include_layout"
@@ -20,20 +20,28 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/linear_sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center" >
+            android:gravity="center">
 
             <EditText
                 android:id="@+id/edit_code"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="应急队伍编号"/>
+                android:hint="应急队伍编号"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/red"
+                android:text="*" />
 
             <EditText
                 android:id="@+id/edit_name"
@@ -41,15 +49,21 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="物资名称" >
-            </EditText>
+                android:hint="物资名称" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/red"
+                android:text="*" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linear_ed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linear_sp" >
+            android:layout_below="@+id/linear_sp">
 
             <EditText
                 android:id="@+id/edit_count"
@@ -57,8 +71,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="物资数量" >
-            </EditText>
+                android:hint="物资数量"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/red"
+                android:text="*" />
 
             <EditText
                 android:id="@+id/edit_unit"
@@ -66,8 +87,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="物资单位" >
-            </EditText>
+                android:hint="物资单位" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/red"
+                android:text="*" />
         </LinearLayout>
 
         <LinearLayout
@@ -75,7 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linear_ed"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/edit_address"
@@ -83,8 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="地名" >
-            </EditText>
+                android:hint="地名"></EditText>
 
             <EditText
                 android:id="@+id/edit_latlng"
@@ -94,7 +120,7 @@
                 android:layout_marginTop="40dp"
                 android:hint="未选择受领地坐标"
                 android:enabled="false"
-                android:ems="10" >
+                android:ems="10">
 
             </EditText>
 
@@ -102,7 +128,7 @@
 
         <Button
             android:id="@+id/bt_addoption"
-          android:layout_width="fill_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@drawable/btngreenbg"

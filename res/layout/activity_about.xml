@@ -28,7 +28,7 @@
         android:layout_below="@+id/imageView1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="版本号：V1.1.7"
+        android:text="版本号：V1.0.0"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/black" />
 

@@ -142,7 +142,26 @@ public class CreatcodeActionActivity extends AbsCreatCodeActivity
 				MyLog.showToast(mContext, "请输入时间间隔");
 				return;
 			}
-			
+                        if(edit_targeintro.getText().toString().getBytes().length>49)
+                        {
+                          MyLog.showToast(mContext, "目的地介绍不能超过49个字节");
+                          return;
+                        }
+                        if(edit_targename.getText().toString().getBytes().length>15)
+                        {
+                          MyLog.showToast(mContext, "目的地名称不能超过15个字节");
+                          return;
+                        }
+                        if(edit_actionnum.getText().toString().getBytes().length>1000)
+                        {
+                          MyLog.showToast(mContext, "应急队伍编号需在0~1000之间");
+                          return;
+                        }
+                        if(edit_actionname.getText().toString().getBytes().length>15)
+                        {
+                          MyLog.showToast(mContext, "行动命令名称不能超过15个字节");
+                          return;
+                        }
 			sendCodedirc(contact, composeSendData());
 			this.finish();
 			break;

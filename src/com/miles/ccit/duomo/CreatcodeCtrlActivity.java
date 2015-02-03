@@ -126,6 +126,11 @@ public class CreatcodeCtrlActivity extends AbsCreatCodeActivity
 				MyLog.showToast(mContext, "请选择报警方式");
 				return;
 			}
+            if (edit_descption.getText().toString().getBytes().length > 15)
+            {
+                MyLog.showToast(mContext, "警报控制说明不能超过15个字节");
+                return;
+            }
 						
 			sendCodedirc(contact, composeSendData());
 			this.finish();

@@ -37,7 +37,14 @@
                 android:hint="北斗入网卡号" >
 
             </EditText>
-          
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -54,7 +61,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:focusable="false"
-                android:hint="选择开始时间" >
+                android:hint="选择时间戳" >
                 
 
             </EditText>
@@ -64,11 +71,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginTop="40dp"
-                android:hint="未选择受领地坐标"
+                android:hint="未选择坐标"
                 android:enabled="false"
                 android:ems="10" >
 
             </EditText>
+
         </LinearLayout>
 
         <Button

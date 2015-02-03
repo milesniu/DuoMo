@@ -98,6 +98,12 @@ public class CreatcodeSkyActivity extends AbsCreatCodeActivity
 				MyLog.showToast(mContext, "请选择时间戳");
 				return;
 			}
+                        String jbname = edit_name.getText().toString();
+                        if(jbname.getBytes().length>15)
+                        {
+                          MyLog.showToast(mContext, "军标名称不能超过15个字节");
+                          return;
+                        }
 			sendCodedirc(contact, composeSendData());
 			this.finish();
 			break;

@@ -58,7 +58,7 @@
                 android:id="@+id/edit_descption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-            	android:hint="军威胁区域说明"
+            	android:hint="威胁区域说明"
                 android:layout_weight="1"
                 android:layout_marginTop="5dp"
                 android:ems="10" >
