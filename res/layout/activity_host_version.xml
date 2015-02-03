@@ -36,18 +36,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/textView1" android:textColor="@color/black"
+        android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:textColor="@color/black" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" android:textColor="@color/black"
-            android:text="主控软件："
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_marginTop="10dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/text_version"
@@ -57,7 +59,6 @@
             android:text=""
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black" />
-
     </LinearLayout>
 
 </RelativeLayout>
