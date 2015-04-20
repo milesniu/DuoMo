@@ -54,7 +54,6 @@ public class BroadCastctivity extends AbsBaseActivity
 		@Override
 		public void handleMessage(Message msg)
 		{
-			// TODO Auto-generated method stub
 			Looper.prepare();
 			if (pdialog != null && pdialog.isShowing())
 			{

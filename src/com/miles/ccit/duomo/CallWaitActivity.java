@@ -78,7 +78,6 @@ public class CallWaitActivity extends AbsBaseActivity
                 @Override
                 public void onCompletion(MediaPlayer mp)
                 {
-                    // TODO Auto-generated method stub
                     player.release();
                     player = null;
                     if(type!=AbsToCallActivity.TOCALLVOICE)
