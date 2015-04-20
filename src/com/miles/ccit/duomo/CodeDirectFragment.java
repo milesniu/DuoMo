@@ -1,10 +1,5 @@
 package com.miles.ccit.duomo;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Vector;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,17 +8,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -31,12 +24,14 @@ import android.widget.Toast;
 
 import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.duomo.R;
-import com.miles.ccit.duomo.ShortmsgListActivity.MyBroadcastReciver;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsBaseFragment;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Vector;
 
 public class CodeDirectFragment extends AbsBaseFragment
 {
@@ -157,7 +152,7 @@ public class CodeDirectFragment extends AbsBaseFragment
 
 		if (emailList == null)
 		{
-			Toast.makeText(getActivity(), "网络连接异常，请检查后重试...", 0).show();
+			Toast.makeText(getActivity(), "网络连接异常，请检查后重试。", 0).show();
 			return;
 		} else
 		{
@@ -294,7 +289,7 @@ public class CodeDirectFragment extends AbsBaseFragment
 				startActivity(new Intent(getActivity(), CreatCodedirecActivity.class));
 			} else
 			{
-				MyLog.showToast(getActivity(), "请登录后再执行该操作...");
+				MyLog.showToast(getActivity(), "请登录后再执行该操作。");
 			}
 
 			break;

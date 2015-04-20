@@ -761,7 +761,7 @@ public class ComposeData
 	{
 
 		return new byte[]
-		{ (byte) 0x55, (byte) 0xAA, (byte) 0x00, (byte) 0x01, (byte) 0x25, Byte.parseByte(info[0]), Byte.parseByte(info[1]), Byte.parseByte(info[2]), Byte.parseByte(info[3]) };
+		{ (byte) 0x55, (byte) 0xAA, (byte) 0x00, (byte) 0x05, (byte) 0x25, Byte.parseByte(info[0]), Byte.parseByte(info[1]), Byte.parseByte(info[2]), Byte.parseByte(info[3]) };
 
 	}
 	

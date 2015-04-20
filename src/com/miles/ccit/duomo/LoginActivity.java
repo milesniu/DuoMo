@@ -12,15 +12,12 @@ import android.os.Message;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.miles.ccit.net.APICode;
 import com.miles.ccit.net.ComposeData;
 import com.miles.ccit.net.IAcceptServerData;
 import com.miles.ccit.net.UDPTools;
 import com.miles.ccit.util.AbsBaseActivity;
-import com.miles.ccit.util.BaseMapObject;
-import com.miles.ccit.util.FileUtils;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.SendDataTask;
@@ -52,7 +49,7 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData
 	// it.putExtra("result", "false");
 	// it.putExtra("data", "");
 	// LoginActivity.this.setResult(Activity.RESULT_OK, it);
-	// MyLog.showToast(mContext, "登陆超时...");
+	// MyLog.showToast(mContext, "登陆超时。");
 	// LoginActivity.this.finish();
 	// super.handleMessage(msg);
 	// }
@@ -115,6 +112,7 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData
 		edit_Password = (EditText) findViewById(R.id.edit_pwd);
 		edit_ip = (EditText) findViewById(R.id.edit_ip);
 		edit_rtpip = (EditText) findViewById(R.id.edit_rtpip);
+        edit_rtpip.setVisibility(View.GONE);
 		edit_Account.setText(sp.getString(spuname, ""));
 		edit_Password.setText(sp.getString(sppwd, ""));
 		edit_ip.setText(sp.getString(spip, ""));
@@ -143,7 +141,7 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData
 				// MyLog.showToast(mContext,msg.toString());
 			} else
 			{
-				Toast.makeText(mContext, "未获取到网络地址，请检查连接", 0).show();
+				MyLog.showToast(mContext,"未获取到网络地址，请检查连接");
 			}
 		}
 	};
@@ -264,15 +262,15 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData
 			String pwd = edit_Password.getText().toString();
 			String ip = edit_ip.getText().toString();
 			OverAllData.Ipaddress = ip;
-			OverAllData.RTPIpaddress = edit_rtpip.getText().toString();
+			OverAllData.RTPIpaddress = ip;//edit_rtpip.getText().toString();
 			if (name.equals(""))
 			{
-				MyLog.showToast(mContext, "用户账号不能为空...");
+				MyLog.showToast(mContext, "用户账号不能为空。");
 				return;
 			}
 			if (pwd.equals(""))
 			{
-				MyLog.showToast(mContext, "密码不能为空...");
+				MyLog.showToast(mContext, "密码不能为空。");
 				return;
 			}
 			showprogressdialog();

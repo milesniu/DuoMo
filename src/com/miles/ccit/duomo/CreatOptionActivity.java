@@ -1,8 +1,5 @@
 package com.miles.ccit.duomo;
 
-import java.util.HashMap;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
@@ -27,9 +24,10 @@ import com.baidu.mapapi.map.MyLocationConfigeration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MapBaseActivity;
 import com.miles.ccit.util.MyLog;
+
+import java.util.HashMap;
 
 public class CreatOptionActivity extends MapBaseActivity
 {
@@ -130,7 +128,7 @@ public class CreatOptionActivity extends MapBaseActivity
     String errorjiaci = "架次需在0~131072之间";
     String errorbum = "携弹量需在0~32768之间";
     String errorstep = "时间间隔需在0~3600秒之间";
-    String errordeep = "军标深度需在0~2000米之间";
+    String errordeep = "军标深度需在0~10000米之间";
 
     private HashMap<String, Object> composeData()
     {
@@ -140,36 +138,37 @@ public class CreatOptionActivity extends MapBaseActivity
             case SKYCODE:
                 d.put("lat", latlng.latitude + "");
                 d.put("lng", latlng.longitude + "");
-                if (Integer.parseInt(edit_skyhight.getText().toString()) > 100000)
+
+                if (!(edit_skyhight.getText() + "").equals("") && Integer.parseInt(edit_skyhight.getText().toString()) > 100000)
                 {
                     d.put("error", errorhight);
                 }
                 d.put("height", edit_skyhight.getText().toString());
-                if (Integer.parseInt(edit_skylane.getText().toString()) > 360)
+                if (!(edit_skylane.getText() + "").equals("") && Integer.parseInt(edit_skylane.getText().toString()) > 360)
                 {
                     d.put("error", errorlane);
                 }
                 d.put("lane", edit_skylane.getText().toString());
-                if (Integer.parseInt(edit_skyspeed.getText().toString()) > 2000)
+                if (!(edit_skyspeed.getText() + "").equals("") && Integer.parseInt(edit_skyspeed.getText().toString()) > 2000)
                 {
                     d.put("error", errorspeed);
                 }
                 d.put("speed", edit_skyspeed.getText().toString());
-                if (Integer.parseInt(edit_skyjiaci.getText().toString()) > 131072)
+                if (!(edit_skyjiaci.getText() + "").equals("") && Integer.parseInt(edit_skyjiaci.getText().toString()) > 131072)
                 {
                     d.put("error", errorjiaci);
                 }
                 d.put("jiaci", edit_skyjiaci.getText().toString());
-                if (Integer.parseInt(edit_skybum.getText().toString()) > 32768)
+                if (!(edit_skybum.getText() + "").equals("") && Integer.parseInt(edit_skybum.getText().toString()) > 32768)
                 {
                     d.put("error", errorbum);
                 }
                 d.put("bum", edit_skybum.getText().toString());
-                if (edit_skystep.getText().toString().equals(""))
+                if ((edit_skystep.getText() + "").equals(""))
                 {
                     d.put("error", "请输入时间间隔");
                 }
-                if (Integer.parseInt(edit_skystep.getText().toString()) > 3600)
+                if (!(edit_skystep.getText() + "").equals("") && Integer.parseInt(edit_skystep.getText().toString()) > 3600)
                 {
                     d.put("error", errorstep);
                 }
@@ -178,46 +177,56 @@ public class CreatOptionActivity extends MapBaseActivity
             case EARTHCODE:
                 d.put("lat", latlng.latitude + "");
                 d.put("lng", latlng.longitude + "");
-                if (Integer.parseInt(edit_earthlane.getText().toString()) > 360)
+
+                if (!(edit_earthlane.getText() + "").equals("") && Integer.parseInt(edit_earthlane.getText().toString()) > 360)
                 {
                     d.put("error", errorlane);
                 }
                 d.put("lane", edit_earthlane.getText().toString());
-                if (Integer.parseInt(edit_earthspeed.getText().toString()) > 2000)
+
+                if (!(edit_earthspeed.getText() + "").equals("") && Integer.parseInt(edit_earthspeed.getText().toString()) > 2000)
                 {
-                    d.put("error", errorlane);
+                    d.put("error", errorspeed);
                 }
                 d.put("speed", edit_earthspeed.getText().toString());
-                if (edit_skystep.getText().toString().equals(""))
+
+                if ((edit_earthstep.getText() + "").equals(""))
                 {
                     d.put("error", "请输入时间间隔");
+                }
+                if (!(edit_earthstep.getText() + "").equals("") && Integer.parseInt(edit_earthstep.getText().toString()) > 3600)
+                {
+                    d.put("error", errorstep);
                 }
                 d.put("step", edit_earthstep.getText().toString());
                 break;
             case WATERCODE:
                 d.put("lat", latlng.latitude + "");
                 d.put("lng", latlng.longitude + "");
-                if (Integer.parseInt(edit_waterdeep.getText().toString()) > 2000)
+
+                if (!(edit_waterdeep.getText() + "").equals("") && Integer.parseInt(edit_waterdeep.getText().toString()) > 10000)
                 {
                     d.put("error", errordeep);
                 }
                 d.put("deep", edit_waterdeep.getText().toString());
-                if (Integer.parseInt(edit_waterlane.getText().toString()) > 360)
+
+                if (!(edit_waterlane.getText() + "").equals("") && Integer.parseInt(edit_waterlane.getText().toString()) > 360)
                 {
                     d.put("error", errorlane);
                 }
                 d.put("lane", edit_waterlane.getText().toString());
-                if (Integer.parseInt(edit_waterspeed.getText().toString()) > 2000)
-                {
-                    d.put("error", errorlane);
-                }
 
+                if (!(edit_waterspeed.getText() + "").equals("") && Integer.parseInt(edit_waterspeed.getText().toString()) > 2000)
+                {
+                    d.put("error", errorspeed);
+                }
                 d.put("speed", edit_waterspeed.getText().toString());
-                if (Integer.parseInt(edit_waterstep.getText().toString()) > 3600)
+
+                if (!(edit_waterstep.getText() + "").equals("") && Integer.parseInt(edit_waterstep.getText().toString()) > 3600)
                 {
                     d.put("error", errorstep);
                 }
-                if (edit_waterstep.getText().toString().equals(""))
+                if ((edit_waterstep.getText() + "").equals(""))
                 {
                     d.put("error", "请输入时间间隔");
                 }

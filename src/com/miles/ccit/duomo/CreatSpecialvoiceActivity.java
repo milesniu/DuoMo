@@ -164,7 +164,7 @@ public class CreatSpecialvoiceActivity extends AbsVoiceActivity
 				}
 				else
 				{
-					MyLog.showToast(mContext, "专项语音请求失败...");
+					MyLog.showToast(mContext, "专项语音请求失败。");
 					Btn_Talk.setVisibility(View.GONE);
 				}
 			}

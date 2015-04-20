@@ -113,7 +113,7 @@ public class CreatContactActivity extends AbsBaseActivity
 			long ret = 0;
 			if(name.equals("")||number.equals(""))
 			{
-				Toast.makeText(mContext, "必要信息不能为空...", 0).show();
+				Toast.makeText(mContext, "必要信息不能为空。", 0).show();
 				return;
 			}
 			if(tmp == null)
@@ -128,7 +128,7 @@ public class CreatContactActivity extends AbsBaseActivity
 				ret = contact.InsertObj2DB(mContext, "contact");
 				if(ret==-1)
 				{
-					Toast.makeText(mContext, "号码已经存在，请勿重复添加...", 0).show();
+					Toast.makeText(mContext, "号码已经存在，请勿重复添加。", 0).show();
 					return;
 				}
 			}
@@ -145,7 +145,7 @@ public class CreatContactActivity extends AbsBaseActivity
 				}
 				if(tmp.UpdateMyself(mContext, "contact")==-1)
 				{
-					Toast.makeText(mContext, "号码已经存在，请检查...", 0).show();
+					Toast.makeText(mContext, "号码已经存在，请检查。", 0).show();
 					return;
 				}
 			}

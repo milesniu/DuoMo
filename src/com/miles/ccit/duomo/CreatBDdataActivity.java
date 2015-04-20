@@ -1,7 +1,5 @@
 package com.miles.ccit.duomo;
 
-import java.util.HashMap;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -13,6 +11,8 @@ import android.widget.TextView;
 import com.miles.ccit.util.AbsCreatCodeActivity;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.PickTimeDlg;
+
+import java.util.HashMap;
 
 public class CreatBDdataActivity extends AbsCreatCodeActivity
 {
@@ -63,17 +63,26 @@ public class CreatBDdataActivity extends AbsCreatCodeActivity
 				MyLog.showToast(mContext, "请输入北斗入网卡号");
 				return;
 			}
-			else if(edit_time.getText().toString().equals(""))
-			{
-				MyLog.showToast(mContext, "选择开始时间");
-				return;
-			}
+//			else if(edit_time.getText().toString().equals(""))
+//			{
+//				MyLog.showToast(mContext, "选择开始时间");
+//				return;
+//			}
             if (edit_card.getText().toString().getBytes().length > 15)
             {
                 MyLog.showToast(mContext, "北斗入网卡号不能超过15个字节");
                 return;
             }
-			
+			try
+            {
+                Double.parseDouble(options.get("lat").toString());
+                Double.parseDouble(options.get("lng").toString());
+            }
+            catch (Exception e)
+            {
+                MyLog.showToast(mContext, "请选择位置坐标");
+                return;
+            }
 			sendCodedirc(contact, composeSendData());
 			this.finish();
 			break;

@@ -1,10 +1,5 @@
 package com.miles.ccit.duomo;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Menu;
@@ -16,6 +11,11 @@ import com.miles.ccit.adapter.MySpinnerAdapter;
 import com.miles.ccit.util.AbsCreatCodeActivity;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.PickTimeDlg;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 public class CreatcodeActionbackActivity extends AbsCreatCodeActivity
 {
@@ -109,13 +109,17 @@ public class CreatcodeActionbackActivity extends AbsCreatCodeActivity
                 new PickTimeDlg(mContext, edit_time);
                 break;
             case R.id.bt_right:
-                if (sp_type.getSelectedItemPosition() == 0)
+                if (edit_name.getText().toString().equals(""))
+                {
+                    MyLog.showToast(mContext, "请输入反馈命令名称");
+                    return;
+                } else  if (edit_name.getText().toString().getBytes().length > 15)
+                {
+                    MyLog.showToast(mContext, "反馈命令名称不能超过15个字节");
+                    return;
+                }else if (sp_type.getSelectedItemPosition() == 0)
                 {
                     MyLog.showToast(mContext, "请选择反馈类型");
-                    return;
-                } else if (edit_name.getText().toString().equals(""))
-                {
-                    MyLog.showToast(mContext, "请选择反馈名称");
                     return;
                 } else if (edit_time.getText().toString().equals(""))
                 {
@@ -127,7 +131,6 @@ public class CreatcodeActionbackActivity extends AbsCreatCodeActivity
                     MyLog.showToast(mContext, "反馈描述信息不能超过49个字节");
                     return;
                 }
-
                 sendCodedirc(contact, composeSendData());
                 this.finish();
                 break;

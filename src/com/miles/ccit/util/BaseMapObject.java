@@ -9,8 +9,8 @@ import java.util.Set;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import com.miles.ccit.database.*;
 
-import com.miles.ccit.database.UserDatabase;
 
 public class BaseMapObject extends HashMap<String, Object> implements Serializable
 {

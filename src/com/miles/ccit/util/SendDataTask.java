@@ -114,7 +114,6 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]>
 	protected void onPostExecute(byte[] result)
 	{
 		// TODO Auto-generated method stub
-		System.out.print("aa");
 		super.onPostExecute(result);
 	}
 

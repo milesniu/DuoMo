@@ -1,9 +1,5 @@
 package com.miles.ccit.duomo;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Vector;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -18,7 +14,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.miles.ccit.adapter.WiredModelAdapter;
 import com.miles.ccit.database.GetData4DB;
@@ -28,8 +23,11 @@ import com.miles.ccit.util.AbsCreatActivity;
 import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
-import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.SendDataTask;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Vector;
 
 public class WiredModelActivity extends AbsBaseActivity
 {
@@ -90,7 +88,7 @@ public class WiredModelActivity extends AbsBaseActivity
 				startActivity(new Intent(this, CreatWiredActivity.class));
 			} else
 			{
-				MyLog.showToast(mContext, "请登录后再执行该操作...");
+				MyLog.showToast(mContext, "请登录后再执行该操作。");
 			}
 			break;
 

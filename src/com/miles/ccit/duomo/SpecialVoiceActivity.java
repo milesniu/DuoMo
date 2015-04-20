@@ -1,9 +1,5 @@
 package com.miles.ccit.duomo;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Vector;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -26,6 +22,10 @@ import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.SendDataTask;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Vector;
 
 public class SpecialVoiceActivity extends AbsBaseActivity
 {
@@ -71,7 +71,7 @@ public class SpecialVoiceActivity extends AbsBaseActivity
 		case R.id.bt_right:
 			if(!LoginActivity.isLogin)
 			{
-				MyLog.showToast(mContext, "请登录后再执行该操作...");
+				MyLog.showToast(mContext, "请登录后再执行该操作。");
 				return;
 			}
 			startActivity(new Intent(mContext, CreatSpecialvoiceActivity.class));

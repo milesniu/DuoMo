@@ -238,7 +238,7 @@ public class EmailFragment extends AbsBaseFragment
 
 		if (emailList == null)
 		{
-			Toast.makeText(getActivity(), "网络连接异常，请检查后重试...", 0).show();
+			Toast.makeText(getActivity(), "网络连接异常，请检查后重试。", 0).show();
 			return;
 		} else
 		{
@@ -313,7 +313,7 @@ public class EmailFragment extends AbsBaseFragment
 				startActivity(new Intent(getActivity(), CreatEMailActivity.class));
 			} else
 			{
-				MyLog.showToast(getActivity(), "请登录后再执行该操作...");
+				MyLog.showToast(getActivity(), "请登录后再执行该操作。");
 			}
 			break;
 		case R.id.bt_sure:

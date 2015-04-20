@@ -1,8 +1,5 @@
 package com.miles.ccit.duomo;
 
-import java.io.File;
-
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -55,15 +52,15 @@ public class CreatEMailActivity extends AbsCreatActivity {
         String fj = img_Fj.getTag(R.id.img_path) == null ? null : img_Fj.getTag(R.id.img_path).toString();
         if(contact.equals(""))
         {
-          Toast.makeText(this,"联系人不能为空...",Toast.LENGTH_SHORT).show();
+          Toast.makeText(this,"联系人不能为空。",Toast.LENGTH_SHORT).show();
           return;
         }else if(subject.equals(""))
         {
-          Toast.makeText(this,"主题不能为空...",Toast.LENGTH_SHORT).show();
+          Toast.makeText(this,"主题不能为空。",Toast.LENGTH_SHORT).show();
           return;
         }else if(content.equals(""))
         {
-          Toast.makeText(this,"邮件内容不能为空...",Toast.LENGTH_SHORT).show();
+          Toast.makeText(this,"邮件内容不能为空。",Toast.LENGTH_SHORT).show();
           return;
         }
 

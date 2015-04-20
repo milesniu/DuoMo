@@ -1,9 +1,5 @@
 package com.miles.ccit.duomo;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Vector;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,16 +17,17 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.duomo.R;
-import com.miles.ccit.duomo.EmailFragment.MyBroadcastReciver;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsBaseFragment;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Vector;
 
 public class ShortMsgFragment extends AbsBaseFragment
 {
@@ -227,7 +224,7 @@ public class ShortMsgFragment extends AbsBaseFragment
 			}
 			else
 			{
-				MyLog.showToast(getActivity(), "请登录后再执行该操作...");
+				MyLog.showToast(getActivity(), "请登录后再执行该操作。");
 			}
 			break;
 		case R.id.bt_sure:

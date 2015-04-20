@@ -1,26 +1,21 @@
 package com.miles.ccit.util;
 
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.Vector;
-
 import android.content.Context;
 import android.content.Intent;
-import android.text.format.Time;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.miles.ccit.adapter.ContactAdapter;
-import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.CallWaitActivity;
 import com.miles.ccit.duomo.CreatContactActivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.net.APICode;
+
+import java.util.List;
+import java.util.Vector;
 
 public abstract class AbsToCallActivity extends AbsBaseActivity
 {
@@ -312,7 +307,7 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		}
 		else if(isHaveNum(strNumber))
 		{
-			MyLog.showToast(mContext, "此号码已存在，不能添加...");
+			MyLog.showToast(mContext, "此号码已存在，不能添加。");
 		}
 		else
 		{

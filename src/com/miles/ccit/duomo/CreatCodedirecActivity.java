@@ -1,17 +1,16 @@
 package com.miles.ccit.duomo;
 
-import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.util.AbsBaseActivity;
-import com.miles.ccit.util.MutiChoiseDlg;
-
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.miles.ccit.database.GetData4DB;
+import com.miles.ccit.util.AbsBaseActivity;
+import com.miles.ccit.util.MutiChoiseDlg;
 
 public class CreatCodedirecActivity extends AbsBaseActivity
 {
@@ -83,7 +82,7 @@ public class CreatCodedirecActivity extends AbsBaseActivity
 	{
 		if(edit_inputContact.getText().toString().equals(""))
 		{
-			Toast.makeText(mContext, "联系人为空，无法新建...", 0).show();
+			Toast.makeText(mContext, "联系人为空，无法新建。", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		startActivity(new Intent(mContext, cls).putExtra("contact", edit_inputContact.getText().toString()));

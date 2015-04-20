@@ -96,17 +96,17 @@ public abstract class AbsCreatActivity extends AbsBaseActivity
 	{
 		if (contact.equals(""))
 		{
-			Toast.makeText(mContext, "联系人不能为空...", 0).show();
+			Toast.makeText(mContext, "联系人不能为空。", 0).show();
 			return;
 		}
 		else if(subject.equals(""))
 		{
-			Toast.makeText(mContext, "主题不能为空...", 0).show();
+			Toast.makeText(mContext, "主题不能为空。", 0).show();
 			return;
 		}
 		else if(conent.equals(""))
 		{
-			Toast.makeText(mContext, "邮件内容不能为空...", 0).show();
+			Toast.makeText(mContext, "邮件内容不能为空。", 0).show();
 			return;
 		}
 		else

@@ -1,10 +1,5 @@
 package com.miles.ccit.duomo;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -20,6 +15,11 @@ import com.miles.ccit.util.AbsCreatCodeActivity;
 import com.miles.ccit.util.JSONUtil;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.PickTimeDlg;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 public class CreatcodeEarthActivity extends AbsCreatCodeActivity {
 
@@ -41,7 +41,7 @@ public class CreatcodeEarthActivity extends AbsCreatCodeActivity {
     skycode = (List<Map<String, Object>>) data.get("earthcode");
     skycolor = (List<Map<String, Object>>) data.get("jbcolor");
     contact = getIntent().getStringExtra("contact");
-    initBaseView("地面目标");
+    initBaseView("陆地目标");
     Btn_Left.setOnClickListener(this);
     Btn_Right.setBackgroundResource(R.drawable.sendmail);
     Btn_Right.setOnClickListener(this);
@@ -83,11 +83,10 @@ public class CreatcodeEarthActivity extends AbsCreatCodeActivity {
           MyLog.showToast(mContext, "请选择时间戳");
           return;
         }
-        String jbname = edit_name.getText().toString();
-        if (jbname.getBytes().length > 15) {
-          MyLog.showToast(mContext, "军标名称不能超过15个字节");
-          return;
-        }
+          if (edit_name.getText().toString().getBytes().length > 15) {
+              MyLog.showToast(mContext, "军标名称不能超过15个字节");
+              return;
+          }
         sendCodedirc(contact, composeSendData());
         this.finish();
         break;

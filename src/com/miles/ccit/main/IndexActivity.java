@@ -18,15 +18,9 @@ import com.miles.ccit.duomo.SettingActivity;
 import com.miles.ccit.duomo.SpecialNetFragmentActivity;
 import com.miles.ccit.duomo.SpecialVoiceActivity;
 import com.miles.ccit.duomo.WiredModelActivity;
-import com.miles.ccit.duomo.R.drawable;
-import com.miles.ccit.duomo.R.id;
-import com.miles.ccit.duomo.R.layout;
-import com.miles.ccit.duomo.R.menu;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.FileUtils;
-import com.miles.ccit.util.MyLog;
-import com.miles.ccit.util.UnixTime;
 
 public class IndexActivity extends AbsBaseActivity
 {
@@ -105,24 +99,6 @@ public class IndexActivity extends AbsBaseActivity
 	public void onClick(View v)
 	{
 		// TODO Auto-generated method stub
-//		int count = Integer.parseInt(checkCount.get("count").toString());
-//		if(count>=600)
-//		{
-//			MyLog.showToast(mContext, "测试版使用已到期，请联系开发商...");
-//			return;
-//		}
-//		else
-//		{
-//			checkCount.put("count", (count+1));
-//			FileUtils.setMapData2SD(checkCount);
-//		}
-//
-//		if(UnixTime.getCurrentUnixTime()>UnixTime.simpleTime2Unix("2015-01-30 00:00:00"))
-//		{
-//			MyLog.showToast(mContext, "测试版使用已到期，请联系开发商...");
-//			return;
-//		}
-		
 		switch (v.getId())
 		{
 		case R.id.bt_specialnet:
@@ -135,9 +111,6 @@ public class IndexActivity extends AbsBaseActivity
 			startActivity(new Intent(mContext, WiredModelActivity.class));
 			break;
 		case R.id.bt_broadcast:
-			// new MutiChoiseDlg(mContext,
-			// GetData4DB.getObjectListData(mContext, "contact", "type",
-			// "0")).getDlg();
 			startActivity(new Intent(mContext, BroadCastctivity.class));
 
 			break;
@@ -158,8 +131,7 @@ public class IndexActivity extends AbsBaseActivity
 			{
 				startActivityForResult(new Intent(mContext, LoginActivity.class),3);
 			}
-//			startActivityForResult(new Intent(mContext, LoginActivity.class),3);
-//			findViewById(R.id.linear_title).setBackgroundResource(R.drawable.loginok8);
+
 			break;
 		}
 	}
@@ -187,17 +159,6 @@ public class IndexActivity extends AbsBaseActivity
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		// TODO Auto-generated method stub
-//		if(requestCode==3)
-//		{
-//			if(data!=null&&data.getStringExtra("result").toString().equals("true"))
-//			{
-//				result = true;
-//				findViewById(R.id.linear_title).setBackgroundResource(R.drawable.loginok8);
-//				return;
-//			}
-//		}
-//		result = false;
-		
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
@@ -214,57 +175,5 @@ public class IndexActivity extends AbsBaseActivity
 		findViewById(R.id.bt_about).setOnClickListener(this);
 		findViewById(R.id.linear_title).setOnClickListener(this);
 	}
-	
-//	
-//	private static String checkResult = "-1";
-//	//程序可用性检测地址(阿里云)
-//	public static String checkUrl = "http://ossmiles.oss-cn-hangzhou.aliyuncs.com/AppCtrl/com.miles.ccit.duomo.txt";
-//	
-//	public static  boolean isCanuse()
-//	{
-//		if(checkResult.equals("-1")||checkResult.equals("0"))
-//		{
-//			checkResult = GetCheckapp();
-//		}
-//		return checkResult.equals("0")?false:true;
-//	}
-//	
-//	
-//	
-//	public static String GetCheckapp()
-//	{
-//
-//		String result = "-1";
-//		InputStream is = null;
-//		HttpGet httpRequest = new HttpGet(checkUrl);
-//		try
-//		{
-//			HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequest);
-//			if (httpResponse.getStatusLine().getStatusCode() == 200)
-//			{ // 正确
-//
-//				is = httpResponse.getEntity().getContent();
-//				byte[] data = new byte[1024];
-//				int n = -1;
-//				ByteArrayBuffer buf = new ByteArrayBuffer(10 * 1024);
-//				while ((n = is.read(data)) != -1)
-//					buf.append(data, 0, n);
-//				result = new String(buf.toByteArray(), HTTP.UTF_8);
-//				is.close();
-//					
-//				return result;
-//			}
-//			else
-//			{
-//				Log.v("tip==", "error response code");
-//				return "";
-//			}
-//		}
-//		catch (Exception e)
-//		{
-//			Log.e("error==", "" + e.getMessage());
-//			return "";
-//		}
-//	}
 
 }

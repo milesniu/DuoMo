@@ -57,7 +57,7 @@ public class ChangePwdActivity extends AbsBaseActivity
 			
 			if(!ednew1.equals(ednew2))
 			{
-				MyLog.showToast(mContext, "两次密码输入不一致...");
+				MyLog.showToast(mContext, "两次密码输入不一致。");
 				return;
 			}
 			else
@@ -86,11 +86,11 @@ public class ChangePwdActivity extends AbsBaseActivity
 
 				if (con.length > 4 && con[5] == (byte) 0x01)
 				{
-					MyLog.showToast(mContext, "修改成功...");
+					MyLog.showToast(mContext, "修改成功。");
 					ChangePwdActivity.this.finish();
 				} else
 				{
-					MyLog.showToast(mContext, "修改失败...");
+					MyLog.showToast(mContext, "修改失败。");
 					return;
 				}
 			} 

@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.MutiChoiseDlg;
 import com.miles.ccit.util.MyLog;
@@ -52,7 +51,7 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity
 		case R.id.bt_send:
 			if (!checkContactNum(edit_inputContact.getText().toString()))
 			{
-				MyLog.showToast(mContext, "输入号码有误,请检查...");
+				MyLog.showToast(mContext, "输入号码有误,请检查。");
 				return;
 			}
 			if (edit_inputContact.getText().toString().equals(""))

@@ -47,7 +47,7 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 				mediaRecorder.stopRecorder();
 				talkTouchUp(null);
 				isUp = true;
-				MyLog.showToast(mContext, "超过最大时间,立即发送...");
+				MyLog.showToast(mContext, "超过最大时间,立即发送。");
 				currentlong = 0;
 				timer.cancel();
 			} else
@@ -112,11 +112,11 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 	{
 		if (contact.equals(""))
 		{
-			Toast.makeText(mContext, "联系人不能为空...", 0).show();
+			Toast.makeText(mContext, "联系人不能为空。", 0).show();
 			return;
 		} else if (edit_inputMsg.getText().toString().equals(""))
 		{
-			Toast.makeText(mContext, "发送内容不能为空...", 0).show();
+			Toast.makeText(mContext, "发送内容不能为空。", 0).show();
 			return;
 		} else
 		{
@@ -169,7 +169,7 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity
 	{
 		if (contact.equals(""))
 		{
-			MyLog.showToast(mContext, "请输入联系人号码...");
+			MyLog.showToast(mContext, "请输入联系人号码。");
 			return false;
 		}
 		setStrContatc(contact);

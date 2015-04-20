@@ -1,12 +1,5 @@
 package com.miles.ccit.duomo;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.Vector;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,31 +8,35 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.text.format.Time;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
 import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsBaseActivity;
-import com.miles.ccit.util.AbsCreatActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.SendDataTask;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.Vector;
 
 public class BroadCastctivity extends AbsBaseActivity
 {
@@ -61,7 +58,7 @@ public class BroadCastctivity extends AbsBaseActivity
 			Looper.prepare();
 			if (pdialog != null && pdialog.isShowing())
 			{
-				MyLog.showToast(mContext, "服务器无响应...");
+				MyLog.showToast(mContext, "服务器无响应。");
 				hideProgressDlg();
 			}
 			Looper.loop();
@@ -190,7 +187,7 @@ public class BroadCastctivity extends AbsBaseActivity
 		case R.id.bt_commit:
 			if(!LoginActivity.isLogin)
 			{
-				MyLog.showToast(mContext, "请登录后再执行该操作...");
+				MyLog.showToast(mContext, "请登录后再执行该操作。");
 				return;
 			}
 			
@@ -287,7 +284,7 @@ public class BroadCastctivity extends AbsBaseActivity
 				hideProgressDlg();
 				if (intent.getSerializableExtra("data").equals("true"))
 				{
-					MyLog.showToast(mContext, "广播频率设置成功...");
+					MyLog.showToast(mContext, "广播频率设置成功。");
 				}
 				else
 				{

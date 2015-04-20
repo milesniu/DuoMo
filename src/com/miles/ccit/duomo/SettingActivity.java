@@ -34,6 +34,7 @@ public class SettingActivity extends AbsBaseActivity
 		setContentView(R.layout.activity_setting);
 		Btn_Singout = (Button)findViewById(R.id.bt_singout);
 		TBtn_HealthCheck = (ToggleButton)findViewById(R.id.toggleButton1);
+        TBtn_HealthCheck.setVisibility(View.GONE);
 		if(SocketConnection.isHealthCheck)
 		{
 			TBtn_HealthCheck.setChecked(true);

@@ -1,15 +1,6 @@
 package com.miles.ccit.duomo;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -40,14 +31,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.database.UserDatabase;
-import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.AbsCreatCodeActivity;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
-import com.miles.ccit.util.OverAllData;
 import com.miles.ccit.util.UnixTime;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Vector;
 
 @SuppressLint("ViewHolder")
 public class ShortmsgListActivity extends AbsMsgRecorderActivity
@@ -171,7 +163,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 				switchVoice();
 			} else
 			{
-				MyLog.showToast(mContext, "请登录后再执行该操作...");
+				MyLog.showToast(mContext, "请登录后再执行该操作。");
 			}
 			break;
 		case R.id.bt_send:
@@ -183,7 +175,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity
 				refreshList();
 			} else
 			{
-				MyLog.showToast(mContext, "请登录后再执行该操作...");
+				MyLog.showToast(mContext, "请登录后再执行该操作。");
 			}
 			break;
 		case R.id.bt_sure:
