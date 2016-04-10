@@ -2,35 +2,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".IndexActivity"
     android:padding="5dp"
-    android:background="@color/white" >
+    tools:context=".IndexActivity">
 
     <LinearLayout
         android:id="@+id/linear_title"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
         android:layout_gravity="right"
-        android:background="@drawable/indextitlenologin" >
+        android:layout_weight="1"
+        android:background="@drawable/indextitlenologin"
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
-             <TextView
-                 android:id="@+id/textView1"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_alignParentBottom="true"
-                 android:layout_alignParentRight="true"
-                 android:layout_marginBottom="5dp"
-                 android:layout_marginRight="10dp"
-                 android:text="内部测试版"
-                 android:textAppearance="?android:attr/textAppearanceMedium"
-                 android:textColor="@color/red" />
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="10dp"
+                android:text="内部测试版"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/red" />
 
         </RelativeLayout>
 
@@ -40,14 +40,14 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
-          android:layout_weight="3.5"
-        android:gravity="center" >
+        android:layout_weight="3.5"
+        android:gravity="center">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/bt_broadcast"
@@ -61,63 +61,138 @@
                 android:id="@+id/bt_specialway"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="match_parent"
-                android:layout_weight="4"
                 android:layout_height="0dp"
                 android:layout_marginTop="3dp"
-                 android:background="@drawable/indexspecisevoice" />
+                android:layout_weight="4"
+                android:background="@drawable/indexspecisevoice" />
 
             <Button
                 android:id="@+id/bt_setting"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="3dp"
                 android:layout_weight="2"
-                 android:layout_marginTop="3dp"
-                 android:background="@drawable/indexsetting" />
+                android:background="@drawable/indexsetting" />
 
             <Button
                 android:id="@+id/bt_about"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="3dp"
                 android:layout_weight="2"
-                 android:layout_marginTop="3dp"
-                 android:background="@drawable/indexabout" />
+                android:background="@drawable/indexabout" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-             android:layout_weight="1"
-             android:layout_marginLeft="3dp"
-            android:orientation="vertical" >
+            android:layout_marginLeft="3dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/bt_specialnet"
-                style="?android:attr/buttonStyleSmall"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="4"
-                android:background="@drawable/indexspecisenet"/>
+                android:layout_weight="4">
 
-            <Button
-                android:id="@+id/bt_haveline"
-                style="?android:attr/buttonStyleSmall"
+                <Button
+                    android:id="@+id/bt_specialnet"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/indexspecisenet" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="15dp"
+                    android:text="专网模式"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="3dp"
                 android:layout_weight="4"
-                android:background="@drawable/indexwired" />
+                android:background="#1d61ab">
 
-            <Button
-                android:id="@+id/bt_contact"
-                style="?android:attr/buttonStyleSmall"
-               android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/bt_netmodle"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/ic_wangluomoshi" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    android:text="网络模式"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                 android:layout_marginTop="3dp"
-                android:layout_weight="2"
-                 android:background="@drawable/indexcontact"/>
+                android:layout_weight="4">
+
+                <Button
+                    android:id="@+id/bt_haveline"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/indexwired" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="15dp"
+                    android:text="有线模式"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="3dp"
+                android:layout_weight="2">
+
+                <Button
+                    android:id="@+id/bt_contact"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/indexcontact" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="通讯录"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
 
         </LinearLayout>
 

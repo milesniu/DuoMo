@@ -165,14 +165,6 @@ public class ShortMsgFragment extends AbsBaseFragment
 		{
 		case 0:
 			confirmDlg(false,"删除记录", "shortmsg", "number",msgList.get(ListItem), msgList, adapter);
-//			
-//			BaseMapObject selectItem = msgList.get(ListItem);
-//			long ret = BaseMapObject.DelObj4DB(getActivity(), "shortmsg", "number",selectItem.get("number").toString());
-//			if(ret != -1)
-//			{
-//				msgList.remove(ListItem);
-//				adapter.notifyDataSetChanged();
-//			}
 			break;
 		case 1:
 			for(BaseMapObject tmp:msgList)
@@ -195,8 +187,6 @@ public class ShortMsgFragment extends AbsBaseFragment
 	{
 		// TODO Auto-generated method stub
 		initBaseView(view, "短消息");
-//		Btn_Left.setText("返回");
-//		Btn_Right.setText("新建");
 		Btn_Right.setBackgroundResource(R.drawable.creatmsg);
 		linear_Del = (LinearLayout)view.findViewById(R.id.linear_del);
 		Btn_Delete = (Button)view.findViewById(R.id.bt_sure);
@@ -218,7 +208,7 @@ public class ShortMsgFragment extends AbsBaseFragment
 			getActivity().finish();			
 			break;
 		case R.id.bt_right:
-			if(LoginActivity.isLogin)
+			if(!LoginActivity.isLogin)
 			{
 				startActivity(new Intent(getActivity(), CreatShortmsgActivity.class));
 			}
@@ -229,28 +219,7 @@ public class ShortMsgFragment extends AbsBaseFragment
 			break;
 		case R.id.bt_sure:
 			confirmDlg(false,"删除记录", "shortmsg", "number",null, msgList, adapter);
-//			
-//			Iterator<BaseMapObject> iter = msgList.iterator();  
-//			List<String> Idlist = new Vector<String>();
-//			while(iter.hasNext())
-//			{  
-//			    BaseMapObject s = iter.next();  
-//			    if(s.get("exp2")!=null &&s.get("exp2").toString().equals("1"))
-//			    {  
-//			    	Idlist.add(s.get("number").toString());
-//			        iter.remove();
-//			    }  
-//			}  
-//		
-//			UserDatabase.DelListObj(getActivity(),"shortmsg", "number", Idlist);
-//			
-//			for(BaseMapObject tmp:msgList)
-//			{
-//				tmp.put("exp1", null);
-//				tmp.put("exp2", null);
-//			}
-//			adapter.notifyDataSetChanged();
-//			linear_Del.setVisibility(View.GONE);
+
 			break;
 		case R.id.bt_canle:
 			for(BaseMapObject tmp:msgList)
