@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 
 import com.miles.ccit.duomo.AboutActivity;
 import com.miles.ccit.duomo.BroadCastctivity;
@@ -28,6 +29,13 @@ public class IndexActivity extends AbsBaseActivity {
     //	public static boolean result = false;
     private MyBroadcastReciver broad = null;
     private BaseMapObject checkCount = null;
+
+    private TextView tvUnreadSpecise;
+    private TextView tvUnreadNetmodel;
+
+    public static int underspecise = 0;
+    public static int undernet = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +80,7 @@ public class IndexActivity extends AbsBaseActivity {
 
     }
 
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
@@ -93,6 +102,7 @@ public class IndexActivity extends AbsBaseActivity {
         switch (v.getId()) {
             case R.id.bt_specialnet:
                 startActivity(new Intent(mContext, SpecialNetFragmentActivity.class));
+                underspecise = 0;
                 break;
             case R.id.bt_contact:
                 startActivity(new Intent(mContext, ContactActivity.class));
@@ -118,7 +128,7 @@ public class IndexActivity extends AbsBaseActivity {
                 break;
             case R.id.bt_netmodle:
                 startActivity(new Intent(mContext, NetModelFragmentActivity.class));
-
+                undernet = 0;
                 break;
             case R.id.linear_title:
                 if (!LoginActivity.isLogin) {
@@ -135,10 +145,22 @@ public class IndexActivity extends AbsBaseActivity {
         // TODO Auto-generated method stub
         if (LoginActivity.isLogin) {
             findViewById(R.id.linear_title).setBackgroundResource(R.drawable.loginok8);
-
+            tvUnreadSpecise.setText("" + underspecise);
+            tvUnreadNetmodel.setText("" + undernet);
+            if (underspecise == 0) {
+                tvUnreadSpecise.setVisibility(View.GONE);
+            } else {
+                tvUnreadSpecise.setVisibility(View.VISIBLE);
+            }
+            if (undernet == 0) {
+                tvUnreadNetmodel.setVisibility(View.GONE);
+            } else {
+                tvUnreadNetmodel.setVisibility(View.VISIBLE);
+            }
         } else {
             findViewById(R.id.linear_title).setBackgroundResource(R.drawable.indextitlenologin);
-
+            tvUnreadNetmodel.setVisibility(View.GONE);
+            tvUnreadSpecise.setVisibility(View.GONE);
         }
         super.onResume();
     }
@@ -152,6 +174,11 @@ public class IndexActivity extends AbsBaseActivity {
     @Override
     public void initView() {
         // TODO Auto-generated method stub
+
+        tvUnreadSpecise = (TextView) findViewById(R.id.text_unread_specise);
+        tvUnreadNetmodel = (TextView) findViewById(R.id.text_unread_netmodel);
+
+
         findViewById(R.id.bt_specialnet).setOnClickListener(this);
         findViewById(R.id.bt_contact).setOnClickListener(this);
         findViewById(R.id.bt_haveline).setOnClickListener(this);

@@ -26,7 +26,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <!-- <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"></uses-permission> -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
@@ -89,7 +88,7 @@
             android:label="@string/title_activity_index"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
 
         <service android:name="com.miles.ccit.service.HeartbeatService"></service>
 
@@ -97,203 +96,208 @@
             android:name=".SpecialNetFragmentActivity"
             android:label="@string/title_activity_special_net"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".ContactActivity"
             android:label="@string/title_activity_contact"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatContactActivity"
             android:label="@string/title_activity_newcontact"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".WiredModelActivity"
             android:label="@string/title_activity_wired_model"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatShortmsgActivity"
             android:label="@string/title_activity_creat_shortmsg"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".ShortmsgListActivity"
             android:label="@string/title_activity_shortmsg_list"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatVoicecodeActivity"
             android:label="@string/title_activity_input_num"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CallWaitActivity"
             android:label="@string/title_activity_call_wait"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatEMailActivity"
             android:label="@string/title_activity_creat_email"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".EmailInfoActivity"
             android:label="@string/title_activity_email_info"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".BroadCastctivity"
             android:label="@string/title_activity_broad_castctivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".SpecialVoiceActivity"
             android:label="@string/title_activity_special_voice"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatSpecialvoiceActivity"
             android:label="@string/title_activity_creat_specialvoice"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".SettingActivity"
             android:label="@string/title_activity_setting"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".SystemCfgActivity"
             android:label="@string/title_activity_system_cfg"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".SendCfgActivity"
             android:label="@string/title_activity_send_cfg"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".HostStatusActivity"
             android:label="@string/title_activity_host_status"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".HostVersionActivity"
             android:label="@string/title_activity_host_version"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".HostLocationActivity"
             android:label="@string/title_activity_host_location"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".ChangePwdActivity"
             android:label="@string/title_activity_change_pwd"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatCodedirecActivity"
             android:label="@string/title_activity_creat_codedirec"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatWiredActivity"
             android:label="@string/title_activity_creat_wired"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatcodeSkyActivity"
             android:label="@string/title_activity_creatcode_sky"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatcodeEarthActivity"
             android:label="@string/title_activity_creatcode_earth"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatcodeWaterActivity"
             android:label="@string/title_activity_creatcode_water"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatcodeOtherActivity"
             android:label="@string/title_activity_creatcode_other"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatcodeActionActivity"
             android:label="@string/title_activity_creatcode_action"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatcodeActionbackActivity"
             android:label="@string/title_activity_creatcode_actionback"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatcodeApplyresActivity"
             android:label="@string/title_activity_creatcode_applyres"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatcodeWarningActivity"
             android:label="@string/title_activity_creatcode_warning"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatcodeCtrlActivity"
             android:label="@string/title_activity_creatcode_ctrl"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatBDdataActivity"
             android:label="@string/title_activity_creat_bddata"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".VoicecodeConnetActivity"
             android:label="@string/title_activity_voicecode_connet"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".HaveCallActivity"
             android:label="@string/title_activity_have_call"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".FileStatusActivity"
             android:label="@string/title_activity_file_status"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CreatOptionActivity"
             android:label="@string/title_activity_creat_option"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CodeDirectInfoActivity"
             android:label="@string/title_activity_code_direct_info"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".DebugActivity"
+            android:label="@string/title_activity_code_direct_info"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".NetModelFragmentActivity"
             android:label="@string/title_activity_code_direct_info"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
     </application>
 
 </manifest>

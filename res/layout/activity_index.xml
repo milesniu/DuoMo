@@ -115,6 +115,17 @@
                     android:textColor="@android:color/white"
                     android:textSize="14sp" />
 
+                <TextView
+                    android:id="@+id/text_unread_specise"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/shape_red_oval"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@android:color/white" />
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -144,6 +155,16 @@
                     android:textColor="@android:color/white"
                     android:textSize="14sp" />
 
+                <TextView
+                    android:id="@+id/text_unread_netmodel"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/shape_red_oval"
+                    android:gravity="center"
+                    android:text="6"
+                    android:textColor="@android:color/white" />
             </RelativeLayout>
 
             <RelativeLayout

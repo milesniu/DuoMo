@@ -25,6 +25,7 @@ import com.miles.ccit.duomo.CodeDirectFragment;
 import com.miles.ccit.duomo.EmailFragment;
 import com.miles.ccit.duomo.LoginActivity;
 import com.miles.ccit.duomo.ShortmsgListActivity;
+import com.miles.ccit.main.IndexActivity;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyApplication;
@@ -430,9 +431,6 @@ public class SocketConnection
 					{
 					case APICode.BACK_Login:
 						analyUtil.analyLogin(heart);
-						// intent.setAction(AbsBaseActivity.broad_login_Action);
-						// intent.putExtra("data", heart);
-						// MyApplication.getAppContext().sendBroadcast(intent);
 						break;
 					case APICode.BACK_Hear_Beat:
 						sendDataCallback.remove("heartbeat#1");//收到心跳返回，清除心跳缓存
@@ -446,18 +444,22 @@ public class SocketConnection
 						break;
 					case APICode.RECV_ShortTextMsg:
 						analyUtil.analyTextMsg(heart);
+						IndexActivity.underspecise++;
 						break;
 					case APICode.RECV_ShortVoiceMsg:
 						analyUtil.analyVoiceMsg(heart);
+						IndexActivity.underspecise++;
 						break;
 					case APICode.RECV_Email:
 						analyUtil.analyEmail(heart);
+						IndexActivity.underspecise++;
 						break;
 					case APICode.BACK_VoiceCode:
 						analyUtil.analyBackVoiceCode(heart);
 						break;
 					case APICode.RECV_VoiceCode:
 						analyUtil.analyRecvVoicecode(heart);
+						IndexActivity.underspecise++;
 						break;
 					case APICode.RECV_BroadcastFile:
 						analyUtil.analyBroadcast(heart);
@@ -501,6 +503,7 @@ public class SocketConnection
 						break;
 					case APICode.RECV_CodeDirec:
 						analyUtil.analyRecvCodedirc(heart);
+						IndexActivity.underspecise++;
 						break;
 					case APICode.BACK_Location:
 						analyUtil.analyRecvLocation(heart);

@@ -29,7 +29,7 @@ public class NetModelFragmentActivity extends FragmentActivity
 
 		// 定义数组来存放Fragment界面
 		private Class fragmentArray[] =
-		{ ShortMsgFragment.class, VoicecodeFragment.class, EmailFragment.class};
+		{ NetShortMsgFragment.class, VoicecodeFragment.class, EmailFragment.class};
 
 		// 定义数组来存放按钮图片
 		private int mImageViewArray[] =

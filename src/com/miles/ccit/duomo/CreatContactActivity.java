@@ -19,139 +19,116 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-public class CreatContactActivity extends AbsBaseActivity
-{
+public class CreatContactActivity extends AbsBaseActivity {
 
-	private EditText edit_Num;
-	private EditText edit_Company;
-	private EditText edit_Remarks;
-	private RadioButton radio_wireness,radio_wired;
-	private BaseMapObject tmp;
-	private String havecode="";
-	private String currentcode = "";
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_newcontact);
-		if(getIntent().getSerializableExtra("contact")!=null)
-		{
-			tmp = BaseMapObject.HashtoMyself((HashMap<String,Object>)getIntent().getSerializableExtra("contact"));
-		}
-		else if(getIntent().getStringExtra("number")!=null)
-		{
-			havecode = getIntent().getStringExtra("number");
-		}
-	}
-	
-	
-	
+    private EditText edit_Num;
+    private EditText edit_Company;
+    private EditText edit_Remarks;
+    private RadioButton radio_wireness, radio_wired, radio_net;
+    private BaseMapObject tmp;
+    private String havecode = "";
+    private String currentcode = "";
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.newcontact, menu);
-		return true;
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_newcontact);
+        if (getIntent().getSerializableExtra("contact") != null) {
+            tmp = BaseMapObject.HashtoMyself((HashMap<String, Object>) getIntent().getSerializableExtra("contact"));
+        } else if (getIntent().getStringExtra("number") != null) {
+            havecode = getIntent().getStringExtra("number");
+        }
+    }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.newcontact, menu);
+        return true;
+    }
 
-	@Override
-	public void initView()
-	{
-		// TODO Auto-generated method stub
-		initBaseView("联系人");
+
+    @Override
+    public void initView() {
+        // TODO Auto-generated method stub
+        initBaseView("联系人");
 //		Btn_Left.setText("返回");
 //		Btn_Right.setText("添加");
-		Btn_Right.setBackgroundResource(R.drawable.btsure);
-		edit_Num = (EditText)findViewById(R.id.edit_num);
-		edit_Company = (EditText)findViewById(R.id.edit_company);
-		edit_Remarks = (EditText)findViewById(R.id.edit_remarks);
-		radio_wireness = (RadioButton)findViewById(R.id.radio_wireness);
-		radio_wired = (RadioButton)findViewById(R.id.radio_wired);
-		if(tmp != null)
-		{
+        Btn_Right.setBackgroundResource(R.drawable.btsure);
+        edit_Num = (EditText) findViewById(R.id.edit_num);
+        edit_Company = (EditText) findViewById(R.id.edit_company);
+        edit_Remarks = (EditText) findViewById(R.id.edit_remarks);
+        radio_wireness = (RadioButton) findViewById(R.id.radio_wireness);
+        radio_wired = (RadioButton) findViewById(R.id.radio_wired);
+        radio_net = (RadioButton) findViewById(R.id.radio_net);
+        if (tmp != null) {
 //			Btn_Right.setText("修改");
-			edit_Num.setText(tmp.get("number").toString());
-			edit_Company.setText(tmp.get("name").toString());
-			edit_Remarks.setText(tmp.get("remarks").toString());
-			currentcode = tmp.get("number").toString();
-			if(tmp.get("type").toString().equals("0"))
-			{
-				radio_wireness.setChecked(true);
-			}
-			else
-			{
-				radio_wired.setChecked(true);
-			}
-		}
-		else
-		{
-			edit_Num.setText(havecode);
-		}
-		
-	}
+            edit_Num.setText(tmp.get("number").toString());
+            edit_Company.setText(tmp.get("name").toString());
+            edit_Remarks.setText(tmp.get("remarks").toString());
+            currentcode = tmp.get("number").toString();
+            if (tmp.get("type").toString().equals("0")) {
+                radio_wireness.setChecked(true);
+            } else if (tmp.get("type").toString().equals("1")) {
+                radio_wired.setChecked(true);
+            } else if (tmp.get("type").toString().equals("2")) {
+                radio_net.setChecked(true);
+            }
+        } else {
+            edit_Num.setText(havecode);
+        }
+
+    }
 
 
-
-	@Override
-	public void onClick(View v)
-	{
-		// TODO Auto-generated method stub
-		switch(v.getId())
-		{
-		case R.id.bt_left:
-			this.finish();
-			break;
-		case R.id.bt_right:
-			String name = edit_Company.getText().toString();
-			String number = edit_Num.getText().toString();
-			String type = radio_wireness.isChecked()?"0":"1";
-			long ret = 0;
-			if(name.equals("")||number.equals(""))
-			{
-				Toast.makeText(mContext, "必要信息不能为空。", 0).show();
-				return;
-			}
-			if(tmp == null)
-			{
-				BaseMapObject contact = new BaseMapObject();
-				contact.put("id",null);
-				contact.put("name",name);
-				contact.put("number",number);
-				contact.put("type",type);
-				contact.put("remarks",edit_Remarks.getText().toString());
-				contact.put("creattime",UnixTime.getStrCurrentUnixTime());
-				ret = contact.InsertObj2DB(mContext, "contact");
-				if(ret==-1)
-				{
-					Toast.makeText(mContext, "号码已经存在，请勿重复添加。", 0).show();
-					return;
-				}
-			}
-			else
-			{
-				tmp.put("name",edit_Company.getText().toString());
-				tmp.put("number",edit_Num.getText().toString());
-				tmp.put("type",radio_wireness.isChecked()?"0":"1");
-				tmp.put("remarks",edit_Remarks.getText().toString());
-				if(edit_Num.getText().toString().equals(currentcode))
-				{
-					this.finish();
-					return;
-				}
-				if(tmp.UpdateMyself(mContext, "contact")==-1)
-				{
-					Toast.makeText(mContext, "号码已经存在，请检查。", 0).show();
-					return;
-				}
-			}
-			this.finish();
-			break;
-		}
-	}
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+        switch (v.getId()) {
+            case R.id.bt_left:
+                this.finish();
+                break;
+            case R.id.bt_right:
+                String name = edit_Company.getText().toString();
+                String number = edit_Num.getText().toString();
+                String type = radio_wireness.isChecked() ? "0" : (radio_wired.isChecked() ? "1" : "2");
+                long ret = 0;
+                if (name.equals("") || number.equals("")) {
+                    Toast.makeText(mContext, "必要信息不能为空。", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (tmp == null) {
+                    BaseMapObject contact = new BaseMapObject();
+                    contact.put("id", null);
+                    contact.put("name", name);
+                    contact.put("number", number);
+                    contact.put("type", type);
+                    contact.put("remarks", edit_Remarks.getText().toString());
+                    contact.put("creattime", UnixTime.getStrCurrentUnixTime());
+                    ret = contact.InsertObj2DB(mContext, "contact");
+                    if (ret == -1) {
+                        Toast.makeText(mContext, "号码已经存在，请勿重复添加。", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                } else {
+                    tmp.put("name", edit_Company.getText().toString());
+                    tmp.put("number", edit_Num.getText().toString());
+                    tmp.put("type", radio_wireness.isChecked() ? "0" : "1");
+                    tmp.put("remarks", edit_Remarks.getText().toString());
+                    if (edit_Num.getText().toString().equals(currentcode)) {
+                        this.finish();
+                        return;
+                    }
+                    if (tmp.UpdateMyself(mContext, "contact") == -1) {
+                        Toast.makeText(mContext, "号码已经存在，请检查。", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                this.finish();
+                break;
+        }
+    }
 
 }

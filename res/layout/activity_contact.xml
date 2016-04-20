@@ -3,61 +3,136 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ContactActivity" >
+    tools:context=".ContactActivity">
 
- <include
+    <include
         android:id="@+id/include_layout"
+        layout="@layout/layout_title"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        layout="@layout/layout_switchtitle" />
+        android:layout_alignParentRight="true" />
 
- <ListView
-     android:id="@+id/listView_content"
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:layout_above="@+id/linear_del"
-     android:layout_alignParentLeft="true"
-     android:layout_below="@+id/include_layout"
-     android:divider="@drawable/diver"
-     android:dividerHeight="1px"
-     android:listSelector="@drawable/listview_seselector"
-     android:choiceMode="multipleChoice" >
+    <ListView
+        android:id="@+id/listView_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linear_buttom"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/include_layout"
+        android:choiceMode="multipleChoice"
+        android:divider="@drawable/diver"
+        android:dividerHeight="1px"
+        android:listSelector="@drawable/listview_seselector">
 
- </ListView>
+    </ListView>
 
- <LinearLayout
-     android:id="@+id/linear_del"
-     android:layout_width="fill_parent"
-     android:layout_height="wrap_content" 
-     android:gravity="center"
-     android:visibility="gone"
-     android:layout_marginLeft="10dp"
-     android:layout_marginRight="10dp"
-     
-     android:layout_alignParentBottom="true">
+    <LinearLayout
+        android:id="@+id/linear_buttom"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#EEE"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
-     <Button
-         android:id="@+id/bt_canle"
-         android:layout_width="0dp"
-         android:layout_height="50dp"
-         android:layout_weight="1"
-         android:background="@drawable/muticanle" />
-      <Button
-         android:id="@+id/bt_sure"
-         android:layout_width="0dp"
-         android:layout_height="50dp"
-         android:layout_weight="1"
-         android:layout_marginLeft="15dp"
-        android:background="@drawable/mutidel" />
+        <LinearLayout
+            android:id="@+id/linear_wuxian"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
- </LinearLayout>
+            <ImageView
+                android:id="@+id/img_wuxian"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:src="@drawable/bt_wuxian_h" />
 
- <ImageView
-     android:id="@+id/image_empty"
-     android:layout_width="148dp"
-     android:layout_height="148dp"
-     android:src="@drawable/emptylist"
-     android:layout_centerInParent="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="无线侧" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_youxian"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_youxian"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:src="@drawable/bt_youxian_n" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="有线侧" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_wangluo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_wangluo"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:src="@drawable/bt_wangluo_n" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="网络侧" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_del"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/bt_canle"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/muticanle" />
+
+        <Button
+            android:id="@+id/bt_sure"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/mutidel" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/image_empty"
+        android:layout_width="148dp"
+        android:layout_height="148dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/emptylist" />
 </RelativeLayout>
