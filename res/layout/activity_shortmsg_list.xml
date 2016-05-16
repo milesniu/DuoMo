@@ -12,6 +12,19 @@
         android:layout_alignParentRight="true"
         layout="@layout/layout_title" />
 
+    <ToggleButton
+        android:id="@+id/toggle_trans"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/bule"
+        android:textOn="转发"
+        android:textOff="不转发"
+        android:visibility="gone"
+        android:textSize="12sp" />
+
+
     <ListView
         android:id="@+id/listView_contect"
         android:layout_width="match_parent"

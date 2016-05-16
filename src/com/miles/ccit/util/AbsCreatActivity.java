@@ -144,7 +144,7 @@ public abstract class AbsCreatActivity extends AbsBaseActivity
 			desCon+=(contact[i]+","+id[i]+",");
 		}
 		desCon = desCon.substring(0, desCon.length()-1);
-		new SendDataTask().execute(APICode.SEND_Email+"",OverAllData.Account,cscontact,desCon,subject,conent,fjpath);
+		new SendDataTask().execute(APICode.SEND_Email+"", O.Account,cscontact,desCon,subject,conent,fjpath);
 		
 	}
 	
@@ -162,8 +162,8 @@ public abstract class AbsCreatActivity extends AbsBaseActivity
 		email.put("attachmentsname", fjpath==null?" ":getFileName(fjpath));
 		email.put("attachmentspath", fjpath==null?" ":fjpath);
 		email.put("creattime", UnixTime.getStrCurrentUnixTime());
-		email.put("priority", OverAllData.Priority);
-		email.put("acknowledgemen", OverAllData.Acknowledgemen);
+		email.put("priority", O.Priority);
+		email.put("acknowledgemen", O.Acknowledgemen);
 		long id = email.InsertObj2DB(mContext, "emailmsg");
 		SocketConnection.sendDataCallback.put("APICode.SEND_Email#"+id, email);
 		return id;
@@ -176,19 +176,19 @@ public abstract class AbsCreatActivity extends AbsBaseActivity
 	 * */
 	public void sendFile(String filepath)
 	{
-		new SendDataTask().execute(APICode.SEND_WiredFile+"",OverAllData.Account,filepath);
+		new SendDataTask().execute(APICode.SEND_WiredFile+"", O.Account,filepath);
 	}
 	
 
 	public void sendrecvFile()
 	{
-		new SendDataTask().execute(APICode.BACK_RECV_WiredFile+"",OverAllData.Account);
+		new SendDataTask().execute(APICode.BACK_RECV_WiredFile+"", O.Account);
 	}
 
 
 	public void sendrecvresultFile()
 	{
-		new SendDataTask().execute(APICode.SEND_FileResult+"",OverAllData.Account);
+		new SendDataTask().execute(APICode.SEND_FileResult+"", O.Account);
 	}
 	
 	
@@ -205,8 +205,8 @@ public abstract class AbsCreatActivity extends AbsBaseActivity
 		email.put("attachmentsname", fjpath==null?" ":getFileName(fjpath));
 		email.put("attachmentspath", fjpath==null?" ":fjpath);
 		email.put("creattime", UnixTime.getStrCurrentUnixTime());
-		email.put("priority", OverAllData.Priority);
-		email.put("acknowledgemen", OverAllData.Acknowledgemen);
+		email.put("priority", O.Priority);
+		email.put("acknowledgemen", O.Acknowledgemen);
 		return email.InsertObj2DB(mContext, "emailmsg");
 	}
 

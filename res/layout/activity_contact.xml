@@ -30,8 +30,8 @@
         android:id="@+id/linear_buttom"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="#EEE"
         android:layout_alignParentBottom="true"
+        android:background="#EEE"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -51,8 +51,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:text="无线侧" />
+                android:text="无线侧"
+                android:textColor="@android:color/black" />
 
         </LinearLayout>
 
@@ -73,8 +73,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:text="有线侧" />
+                android:text="有线侧"
+                android:textColor="@android:color/black" />
 
         </LinearLayout>
 
@@ -84,7 +84,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/img_wangluo"
@@ -95,8 +96,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:text="网络侧" />
+                android:text="网络侧"
+                android:textColor="@android:color/black" />
 
         </LinearLayout>
 

@@ -3,9 +3,7 @@ package com.miles.ccit.util;
 import java.util.Vector;
 
 import android.media.AudioManager;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 
 import com.wz.codecs.Codecs;
 import com.wz.media.JAudioLauncher;
@@ -31,7 +29,7 @@ public abstract class AbsVoiceActivity extends AbsBaseActivity
 
 				Codecs.Map c = new Codecs.Map(8, Codecs.codecs.get(1), numbs, Codecs.codecs);
 
-				audio_app = new JAudioLauncher(getApplicationContext(), OverAllData.LocalRTPPortPort, OverAllData.RTPIpaddress, OverAllData.RomoteRTPPort, 0, null, null, 8000, 1,
+				audio_app = new JAudioLauncher(getApplicationContext(), O.LocalRTPPortPort, O.RTPIpaddress, O.RomoteRTPPort, 0, null, null, 8000, 1,
 						160, c, 0);
 
 //				Log.i(TAG, "IP:" + ip.getText() + "* receive port: " + rport.getText() + "* send port:" + sport.getText());

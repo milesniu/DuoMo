@@ -33,21 +33,18 @@ public class VoicecodeAdapter extends BaseAdapter
 	@Override
 	public int getCount()
 	{
-		// TODO Auto-generated method stub
 		return contactlist.size();
 	}
 
 	@Override
 	public Object getItem(int position)
 	{
-		// TODO Auto-generated method stub
 		return contactlist.get(position);
 	}
 
 	@Override
 	public long getItemId(int position)
 	{
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -55,7 +52,6 @@ public class VoicecodeAdapter extends BaseAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		// TODO Auto-generated method stub
 		final BaseMapObject map = contactlist.get(position);
 		View view = null;
 
@@ -93,7 +89,6 @@ public class VoicecodeAdapter extends BaseAdapter
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 			{
-				// TODO Auto-generated method stub
 				if(isChecked)
 				{
 					map.put("exp2", "1");

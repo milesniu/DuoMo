@@ -14,6 +14,7 @@ import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.MutiChoiseDlg;
 import com.miles.ccit.util.MyLog;
+import com.miles.ccit.util.O;
 
 public class CreatShortmsgActivity extends AbsMsgRecorderActivity {
     private EditText edit_inputContact;
@@ -21,12 +22,14 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity {
     private LinearLayout linearLayout_Groupname;
 
     private int nettype = -1;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creat_shortmsg);
         nettype = getIntent().getIntExtra("nettype", -1);
+        type = getIntent().getIntExtra("type", -1);
 
     }
 
@@ -59,7 +62,7 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity {
                     return;
                 }
                 setStrContatc(edit_inputContact.getText().toString());
-                sendTextmsg(edit_inputContact.getText().toString());
+                sendTextmsg(edit_inputContact.getText().toString(),type);
                 this.finish();
                 break;
         }

@@ -29,64 +29,6 @@ public class FileUtils
 //		SDPATH = Environment.getExternalStorageDirectory() + "/";
 	}
 
-//	public static void setlistDat2SD()
-//	{
-//		ObjectOutputStream objOutput = null;
-//		try
-//		{
-//			if (OverAllData.LargeCompany_list != null && OverAllData.LargeCompany_list.size() > 0)
-//			{
-//				objOutput = new ObjectOutputStream(new FileOutputStream(OverAllData.largePath));
-//				for (HashMap<String, Object> tmp : OverAllData.LargeCompany_list)
-//				{
-//					tmp.remove("bitmap");
-//				}
-//				objOutput.writeObject(OverAllData.LargeCompany_list);
-//			}
-//
-//			if (OverAllData.GoodCompany_list != null && OverAllData.GoodCompany_list.size() > 0)
-//			{
-//				objOutput = new ObjectOutputStream(new FileOutputStream(OverAllData.goodPath));
-//				for (HashMap<String, Object> tmp : OverAllData.GoodCompany_list)
-//				{
-//					tmp.remove("bitmap");
-//				}
-//				objOutput.writeObject(OverAllData.GoodCompany_list);
-//			}
-//
-//			if (OverAllData.NoticeCompany_list != null && OverAllData.NoticeCompany_list.size() > 0)
-//			{
-//				objOutput = new ObjectOutputStream(new FileOutputStream(OverAllData.noticePath));
-//				for (HashMap<String, Object> tmp : OverAllData.NoticeCompany_list)
-//				{
-//					tmp.remove("bitmap");
-//				}
-//				objOutput.writeObject(OverAllData.NoticeCompany_list);
-//			}
-//
-//			if (OverAllData.bannerList != null && OverAllData.bannerList.size() > 0)
-//			{
-//				objOutput = new ObjectOutputStream(new FileOutputStream(OverAllData.bannerPath));
-//				objOutput.writeObject(OverAllData.bannerList);
-//			}
-//		} catch (Exception e)
-//		{
-//			e.printStackTrace();
-//		} finally
-//		{
-//			try
-//			{
-//				if (objOutput != null)
-//				{
-//					objOutput.close();
-//				}
-//			} catch (IOException e)
-//			{
-//				e.printStackTrace();
-//			}
-//		}
-//	}
-	
 	
 	public static void setMapData2SD(BaseMapObject obj)
 	{
@@ -95,7 +37,7 @@ public class FileUtils
 		{
 			if (obj != null)
 			{
-				objOutput = new ObjectOutputStream(new FileOutputStream(OverAllData.loginPath));
+				objOutput = new ObjectOutputStream(new FileOutputStream(O.loginPath));
 				objOutput.writeObject(obj);
 			}
 
@@ -125,7 +67,7 @@ public class FileUtils
 		// List<PushMessage> outmsglist = null;
 		try
 		{
-			objInput = new ObjectInputStream(new FileInputStream(OverAllData.loginPath));
+			objInput = new ObjectInputStream(new FileInputStream(O.loginPath));
 			tmp =  (BaseMapObject) objInput.readObject();
 		} catch (Exception e)
 		{
@@ -199,43 +141,6 @@ public class FileUtils
 		}
 	}
 
-//	@SuppressWarnings(
-//	{ "unchecked", "resource" })
-//	public static void getlistDat4SD()
-//	{
-//		ObjectInputStream objInput = null;
-//		// List<PushMessage> outmsglist = null;
-//		try
-//		{
-//			objInput = new ObjectInputStream(new FileInputStream(OverAllData.largePath));
-//			OverAllData.LargeCompany_list = (List<HashMap<String, Object>>) objInput.readObject();
-//
-//			objInput = new ObjectInputStream(new FileInputStream(OverAllData.goodPath));
-//			OverAllData.GoodCompany_list = (List<HashMap<String, Object>>) objInput.readObject();
-//
-//			objInput = new ObjectInputStream(new FileInputStream(OverAllData.noticePath));
-//			OverAllData.NoticeCompany_list = (List<HashMap<String, Object>>) objInput.readObject();
-//
-//			objInput = new ObjectInputStream(new FileInputStream(OverAllData.bannerPath));
-//			OverAllData.bannerList = (List<HashMap<String, Object>>) objInput.readObject();
-//
-//		} catch (Exception e)
-//		{
-//			e.printStackTrace();
-//		} finally
-//		{
-//
-//			try
-//			{
-//				if (objInput != null)
-//					objInput.close();
-//			} catch (IOException e)
-//			{
-//				e.printStackTrace();
-//			}
-//		}
-//
-//	}
 
 	/**
 	 * 在SD卡上创建文件
@@ -263,7 +168,7 @@ public class FileUtils
 
 	public static void saveMyBitmap(String bitName, Bitmap mBitmap)
 	{
-		File f = new File(OverAllData.SDCardRoot + bitName);
+		File f = new File(O.SDCardRoot + bitName);
 		try
 		{
 			f.createNewFile();

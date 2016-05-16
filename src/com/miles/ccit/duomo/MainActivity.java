@@ -16,14 +16,11 @@ import android.widget.Toast;
 
 import com.miles.ccit.main.IndexActivity;
 import com.miles.ccit.net.ComposeData;
-import com.miles.ccit.net.IAcceptServerData;
 import com.miles.ccit.net.SocketClient;
-import com.miles.ccit.net.UDPTools;
 import com.miles.ccit.service.HeartbeatService;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.FileUtils;
-import com.miles.ccit.util.MyLog;
-import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.O;
 
 public class MainActivity extends AbsBaseActivity 
 {
@@ -44,9 +41,9 @@ public class MainActivity extends AbsBaseActivity
 	{
 		FileUtils fileutil = new FileUtils();
 		// 主目录
-		if (!fileutil.isFileExist(OverAllData.SDCardRoot))
+		if (!fileutil.isFileExist(O.SDCardRoot))
 		{
-			fileutil.creatSDDir(OverAllData.SDCardRoot);
+			fileutil.creatSDDir(O.SDCardRoot);
 		}
 	}
 

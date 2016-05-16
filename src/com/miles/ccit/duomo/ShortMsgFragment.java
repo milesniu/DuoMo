@@ -24,215 +24,190 @@ import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsBaseFragment;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
+import com.miles.ccit.util.O;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
-public class ShortMsgFragment extends AbsBaseFragment
-{
+public class ShortMsgFragment extends AbsBaseFragment {
 
-	private MsgorMailSetAdapter adapter;
-	private MyBroadcastReciver broad = null;
-	private List<BaseMapObject> msgList = new Vector<BaseMapObject>();
-	public Button Btn_Delete;
-	public Button Btn_Canle;
-	public static boolean isTop = false;
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-	{
-		View view = inflater.inflate(R.layout.fragment_shortmsg, null);
-		initView(view);	
-		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(AbsBaseActivity.broad_recvtextmsg_Action);
-		broad = new MyBroadcastReciver();
-		getActivity().registerReceiver(broad, intentFilter);
-		return view;
-	}
+    private MsgorMailSetAdapter adapter;
+    private MyBroadcastReciver broad = null;
+    private List<BaseMapObject> msgList = new Vector<BaseMapObject>();
+    public Button Btn_Delete;
+    public Button Btn_Canle;
+    public static boolean isTop = false;
 
-	
-	
-	@Override
-	public void onResume()
-	{
-		// TODO Auto-generated method stub
-		isTop = true;
-		refreshList();
-		super.onResume();
-	}
-
-	
-	@Override
-	public void onDestroy()
-	{
-		// TODO Auto-generated method stub
-		getActivity().unregisterReceiver(broad);
-		super.onDestroy();
-		isTop = false;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_shortmsg, null);
+        initView(view);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(AbsBaseActivity.broad_recvtextmsg_Action);
+        broad = new MyBroadcastReciver();
+        getActivity().registerReceiver(broad, intentFilter);
+        return view;
+    }
 
 
-
-	@Override
-	public void onPause()
-	{
-		// TODO Auto-generated method stub
-		super.onPause();
-		isTop = false;
-	}
-
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        isTop = true;
+        refreshList();
+        super.onResume();
+    }
 
 
-	@Override
-	public void onStop()
-	{
-		// TODO Auto-generated method stub
-		super.onStop();
-		isTop = false;
-	}
+    @Override
+    public void onDestroy() {
+        // TODO Auto-generated method stub
+        getActivity().unregisterReceiver(broad);
+        super.onDestroy();
+        isTop = false;
+    }
 
-	
-	public class MyBroadcastReciver extends BroadcastReceiver
-	{
-		@Override
-		public void onReceive(Context context, Intent intent)
-		{
-			// TODO Auto-generated method stub
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        isTop = false;
+    }
+
+
+    @Override
+    public void onStop() {
+        // TODO Auto-generated method stub
+        super.onStop();
+        isTop = false;
+    }
+
+
+    public class MyBroadcastReciver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
 //			hideProgressDlg();
-			String action = intent.getAction();
+            String action = intent.getAction();
 
-			if (action.equals(AbsBaseActivity.broad_recvtextmsg_Action))
-			{
-				refreshList();
-			}
-		}
+            if (action.equals(AbsBaseActivity.broad_recvtextmsg_Action)) {
+                refreshList();
+            }
+        }
 
-	}
+    }
 
 
-	private void refreshList()
-	{
-		msgList = GetData4DB.getObjecSet(getActivity(), "shortmsg", "contact", "number", "number");
-		
-		Collections.reverse(msgList);
-		
-		if (msgList == null || msgList.size()<1)
-		{
-			showEmpty();
+
+
+    private void refreshList() {
+        msgList = GetData4DB.getObjecSet(getActivity(), "shortmsg", "contact", "number", "number", new String[]{"exp2"}, new String[]{"2"}, "<>");
+
+        Collections.reverse(msgList);
+
+        if (msgList == null || msgList.size() < 1) {
+            showEmpty();
 //			Toast.makeText(getActivity(), "暂无消息记录...", 0).show();
-			return;
-		}
-		hideEmpty();
-		adapter = new MsgorMailSetAdapter(getActivity(), msgList,"shortmsg");
-		listview.setAdapter(adapter);
-		listview.setOnItemClickListener(new OnItemClickListener()
-		{
+            return;
+        }
+        hideEmpty();
+        adapter = new MsgorMailSetAdapter(getActivity(), msgList, "shortmsg");
+        listview.setAdapter(adapter);
+        listview.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-			{
-				// TODO Auto-generated method stub
-				getActivity().startActivity(new Intent(getActivity(), ShortmsgListActivity.class).putExtra("item", msgList.get(arg2)));
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                if (arg2 > msgList.size()) {
+                    return;
+                }
+                getActivity().startActivity(new Intent(getActivity(), ShortmsgListActivity.class).putExtra("item", msgList.get(arg2)).putExtra("type", O.WIRENESS));
 
-			}
-		});
-		
-		
-		listview.setOnCreateContextMenuListener(new OnCreateContextMenuListener()
-		{
-			
-			@Override
-			public void onCreateContextMenu(ContextMenu menu, View v,
-					ContextMenuInfo menuInfo)
-			{
-				// TODO Auto-generated method stub
-				menu.setHeaderTitle("短消息");
-				menu.add(0, 0, 0, "删除该短信组");
-				menu.add(0, 1, 1, "批量删除短信组");
-				menu.add(0, 3, 3, "取消");
-			}
-		});
-	}
-
-	
-	@Override
-	public boolean onContextItemSelected(MenuItem item)
-	{
-		// TODO Auto-generated method stub
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
-		int ListItem = (int)info.position;
-		switch(item.getItemId())
-		{
-		case 0:
-			confirmDlg(false,"删除记录", "shortmsg", "number",msgList.get(ListItem), msgList, adapter);
-			break;
-		case 1:
-			for(BaseMapObject tmp:msgList)
-			{
-				tmp.put("exp1", "0");
-			}
-			adapter.notifyDataSetChanged();
-			linear_Del.setVisibility(View.VISIBLE);
-			break;
-		case 3:
-			break;
-		}
-		return super.onContextItemSelected(item);
-	}
+            }
+        });
 
 
+        listview.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
 
-	@Override
-	public void initView(View view)
-	{
-		// TODO Auto-generated method stub
-		initBaseView(view, "短消息");
-		Btn_Right.setBackgroundResource(R.drawable.creatmsg);
-		linear_Del = (LinearLayout)view.findViewById(R.id.linear_del);
-		Btn_Delete = (Button)view.findViewById(R.id.bt_sure);
-		Btn_Canle = (Button)view.findViewById(R.id.bt_canle);
-		Btn_Delete.setOnClickListener(this);
-		Btn_Canle.setOnClickListener(this);
-		refreshList();
-	}
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v,
+                                            ContextMenuInfo menuInfo) {
+                menu.setHeaderTitle("短消息");
+                menu.add(0, 0, 0, "删除该短信组");
+                menu.add(0, 1, 1, "批量删除短信组");
+                menu.add(0, 3, 3, "取消");
+            }
+        });
+    }
 
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // TODO Auto-generated method stub
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        int ListItem = (int) info.position;
+        switch (item.getItemId()) {
+            case 0:
+                confirmDlg(false, "删除记录", "shortmsg", "number", msgList.get(ListItem), msgList, adapter);
+                break;
+            case 1:
+                for (BaseMapObject tmp : msgList) {
+                    tmp.put("exp1", "0");
+                }
+                adapter.notifyDataSetChanged();
+                linear_Del.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
 
-	@Override
-	public void onClick(View v)
-	{
-		// TODO Auto-generated method stub
-		switch (v.getId())
-		{
-		case R.id.bt_left:
-			getActivity().finish();			
-			break;
-		case R.id.bt_right:
-			if(!LoginActivity.isLogin)
-			{
-				startActivity(new Intent(getActivity(), CreatShortmsgActivity.class));
-			}
-			else
-			{
-				MyLog.showToast(getActivity(), "请登录后再执行该操作。");
-			}
-			break;
-		case R.id.bt_sure:
-			confirmDlg(false,"删除记录", "shortmsg", "number",null, msgList, adapter);
 
-			break;
-		case R.id.bt_canle:
-			for(BaseMapObject tmp:msgList)
-			{
-				tmp.put("exp1", null);
-				tmp.put("exp2", null);
-			}
-			linear_Del.setVisibility(View.GONE);
-			break;
-		default:
-			break;
-		}
-	}
+    @Override
+    public void initView(View view) {
+        // TODO Auto-generated method stub
+        initBaseView(view, "短消息");
+        Btn_Right.setBackgroundResource(R.drawable.creatmsg);
+        linear_Del = (LinearLayout) view.findViewById(R.id.linear_del);
+        Btn_Delete = (Button) view.findViewById(R.id.bt_sure);
+        Btn_Canle = (Button) view.findViewById(R.id.bt_canle);
+        Btn_Delete.setOnClickListener(this);
+        Btn_Canle.setOnClickListener(this);
+        refreshList();
+    }
 
-	
+
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+        switch (v.getId()) {
+            case R.id.bt_left:
+                getActivity().finish();
+                break;
+            case R.id.bt_right:
+                if (LoginActivity.isLogin) {
+                    startActivity(new Intent(getActivity(), CreatShortmsgActivity.class));
+                } else {
+                    MyLog.showToast(getActivity(), "请登录后再执行该操作。");
+                }
+                break;
+            case R.id.bt_sure:
+                confirmDlg(false, "删除记录", "shortmsg", "number", null, msgList, adapter);
+
+                break;
+            case R.id.bt_canle:
+                for (BaseMapObject tmp : msgList) {
+                    tmp.put("exp1", null);
+                    tmp.put("exp2", null);
+                }
+                linear_Del.setVisibility(View.GONE);
+                break;
+            default:
+                break;
+        }
+    }
+
+
 }

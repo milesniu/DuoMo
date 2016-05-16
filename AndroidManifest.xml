@@ -285,17 +285,22 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".CodeDirectInfoActivity"
-            android:label="@string/title_activity_code_direct_info"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".DebugActivity"
-            android:label="@string/title_activity_code_direct_info"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".NetModelFragmentActivity"
-            android:label="@string/title_activity_code_direct_info"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".HostcfgActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".ChannelSetActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
     </application>

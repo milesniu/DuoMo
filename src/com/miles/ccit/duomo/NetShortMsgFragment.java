@@ -27,6 +27,7 @@ import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsBaseFragment;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
+import com.miles.ccit.util.O;
 
 import java.util.Collections;
 import java.util.List;
@@ -103,7 +104,12 @@ public class NetShortMsgFragment extends AbsBaseFragment {
 
 
     private void refreshList() {
-        msgList = GetData4DB.getObjecSet(getActivity(), "shortmsg", "contact", "number", "number");
+        /**
+         * exp1 用作删除状态变更
+         * exp2 用作区分网络模式和专网模式
+         * */
+
+        msgList = GetData4DB.getObjecSet(getActivity(), "shortmsg", "contact", "number", "number", new String[]{"exp2"}, new String[]{"2"}, "=");
 
         Collections.reverse(msgList);
 
@@ -119,8 +125,7 @@ public class NetShortMsgFragment extends AbsBaseFragment {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                // TODO Auto-generated method stub
-                getActivity().startActivity(new Intent(getActivity(), ShortmsgListActivity.class).putExtra("item", msgList.get(arg2)));
+                getActivity().startActivity(new Intent(getActivity(), ShortmsgListActivity.class).putExtra("item", msgList.get(arg2)).putExtra("type", O.NET));
 
             }
         });
@@ -131,7 +136,6 @@ public class NetShortMsgFragment extends AbsBaseFragment {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v,
                                             ContextMenuInfo menuInfo) {
-                // TODO Auto-generated method stub
                 menu.setHeaderTitle("短消息");
                 menu.add(0, 0, 0, "删除该短信组");
                 menu.add(0, 1, 1, "批量删除短信组");
@@ -190,10 +194,10 @@ public class NetShortMsgFragment extends AbsBaseFragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-                        startActivity(new Intent(getActivity(), CreatShortmsgActivity.class).putExtra("nettype", 0));
+                        startActivity(new Intent(getActivity(), CreatShortmsgActivity.class).putExtra("nettype", 0).putExtra("type", O.NET));
                         break;
                     case 1:
-                        startActivity(new Intent(getActivity(), CreatShortmsgActivity.class).putExtra("nettype", 1));
+                        startActivity(new Intent(getActivity(), CreatShortmsgActivity.class).putExtra("nettype", 1).putExtra("type", O.NET));
                         break;
                 }
             }
@@ -210,8 +214,10 @@ public class NetShortMsgFragment extends AbsBaseFragment {
                 getActivity().finish();
                 break;
             case R.id.bt_right:
-                if (!LoginActivity.isLogin) {
-                    selectArray();
+                if (LoginActivity.isLogin) {
+//                    selectArray();
+                    startActivity(new Intent(getActivity(), CreatShortmsgActivity.class).putExtra("nettype", 0).putExtra("type", O.NET));
+
                 } else {
                     MyLog.showToast(getActivity(), "请登录后再执行该操作。");
                 }

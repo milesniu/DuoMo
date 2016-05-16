@@ -215,8 +215,8 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 		record.put("number",code);
 		record.put("status","2");
 		record.put("creattime", UnixTime.getStrCurrentUnixTime());
-		record.put("priority", OverAllData.Priority);
-		record.put("acknowledgemen", OverAllData.Acknowledgemen);
+		record.put("priority", O.Priority);
+		record.put("acknowledgemen", O.Acknowledgemen);
 		
 		record.InsertObj2DB(contex, "voicecoderecord");
 		toCall(contex,code,null);
@@ -242,12 +242,12 @@ public abstract class AbsToCallActivity extends AbsBaseActivity
 	
 	public static void  sendVoiceStarttoNet(String contact)
 	{
-		new SendDataTask().execute(APICode.SEND_VoiceCode+"",OverAllData.Account,contact);
+		new SendDataTask().execute(APICode.SEND_VoiceCode+"", O.Account,contact);
 	}
 	
 	public static void  sendWiredStarttoNet(String contact)
 	{
-		new SendDataTask().execute(APICode.SEND_WiredVoice+"",OverAllData.Account,contact);
+		new SendDataTask().execute(APICode.SEND_WiredVoice+"", O.Account,contact);
 	}
 	
 	public  static void toCall(Context contex,final String code,String filepath)

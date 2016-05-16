@@ -17,7 +17,7 @@ import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.BaseMapObject;
-import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.O;
 import com.miles.ccit.util.SendDataTask;
 
 public class CallWaitActivity extends AbsBaseActivity
@@ -107,7 +107,7 @@ public class CallWaitActivity extends AbsBaseActivity
         switch (v.getId())
         {
             case R.id.bt_cut:
-                new SendDataTask().execute(APICode.SEND_NormalInteraput + "", OverAllData.Account);
+                new SendDataTask().execute(APICode.SEND_NormalInteraput + "", O.Account);
                 this.finish();
                 break;
         }

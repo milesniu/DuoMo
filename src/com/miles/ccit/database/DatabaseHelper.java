@@ -21,7 +21,6 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	{
 		// 必须通过super调用父类当中的构造函数
 		super(context, name, factory, version);
-		// TODO Auto-generated constructor stub
 	}
 
 	public DatabaseHelper(Context context)
@@ -38,7 +37,6 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	@Override
 	public void onCreate(SQLiteDatabase db)
 	{
-		// TODO Auto-generated method stub
 		CtreteTables(db);
 		initData(db);
 		Log.v("Jason", "Create Database");
@@ -75,7 +73,6 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
-		// TODO Auto-generated method stub
 		if(newVersion > oldVersion)
 		{
 			//版本升级后的操作

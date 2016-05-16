@@ -71,7 +71,7 @@ public abstract class AbsCreatCodeActivity extends AbsBaseActivity
 		}
 		desCon = desCon.substring(0, desCon.length()-1);
 		MyLog.LogV("codedirc", conent);
-		new SendDataTask().execute(APICode.SEND_CodeDirec+"",OverAllData.Account,desCon,conent);
+		new SendDataTask().execute(APICode.SEND_CodeDirec+"", O.Account,desCon,conent);
 		
 	}
 	
@@ -84,8 +84,8 @@ public abstract class AbsCreatCodeActivity extends AbsBaseActivity
 		email.put("sendtype", AbsCreatActivity.SENDNOW+"");	//1,收，2,发，3,草稿
 		email.put("codetype", "0");	//不记录军标类型
 		email.put("codecontent", conent);
-		email.put("priority", OverAllData.Priority);
-		email.put("acknowledgemen", OverAllData.Acknowledgemen);
+		email.put("priority", O.Priority);
+		email.put("acknowledgemen", O.Acknowledgemen);
 		email.put("creattime", UnixTime.getStrCurrentUnixTime());
 		long id =  email.InsertObj2DB(mContext, "codedirect");
 		SocketConnection.sendDataCallback.put("APICode.SEND_CodeDirec#"+id, email);

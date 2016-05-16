@@ -1,7 +1,6 @@
 package com.miles.ccit.duomo;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -29,14 +28,10 @@ import android.widget.Toast;
 
 import com.miles.ccit.adapter.MsgorMailSetAdapter;
 import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.database.UserDatabase;
-import com.miles.ccit.duomo.R;
-import com.miles.ccit.duomo.CodeDirectFragment.MyBroadcastReciver;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsBaseFragment;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
-import com.miles.ccit.util.OverAllData;
 
 public class EmailFragment extends AbsBaseFragment
 {

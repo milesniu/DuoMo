@@ -1,7 +1,5 @@
 package com.miles.ccit.duomo;
 
-import android.app.KeyguardManager;
-import android.app.KeyguardManager.KeyguardLock;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +19,7 @@ import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.BaseMapObject;
-import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.O;
 import com.miles.ccit.util.SendDataTask;
 import com.miles.ccit.util.UnixTime;
 
@@ -185,10 +183,10 @@ public class HaveCallActivity extends AbsBaseActivity
 		record.put("number", code);
 		record.put("status", connet ? AbsToCallActivity.Recv_Call : AbsToCallActivity.Recv_Error);
 		record.put("creattime", UnixTime.getStrCurrentUnixTime());
-		record.put("priority", OverAllData.Priority);
-		record.put("acknowledgemen", OverAllData.Acknowledgemen);
+		record.put("priority", O.Priority);
+		record.put("acknowledgemen", O.Acknowledgemen);
 		record.InsertObj2DB(mContext, "voicecoderecord");
-		new SendDataTask().execute(APICode.BACK_RECV_VoiceCode + "", OverAllData.Account, connet ? "1" : "0");
+		new SendDataTask().execute(APICode.BACK_RECV_VoiceCode + "", O.Account, connet ? "1" : "0");
 
 	}
 
@@ -203,7 +201,7 @@ public class HaveCallActivity extends AbsBaseActivity
 		record.put("creattime", UnixTime.getStrCurrentUnixTime());
 
 		record.InsertObj2DB(mContext, "wiredrecord");
-		new SendDataTask().execute(APICode.BACK_RECV_WiredVoice + "", OverAllData.Account, connet ? "1" : "0");
+		new SendDataTask().execute(APICode.BACK_RECV_WiredVoice + "", O.Account, connet ? "1" : "0");
 
 	}
 

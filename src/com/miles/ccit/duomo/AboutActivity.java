@@ -27,7 +27,6 @@ public class AboutActivity extends AbsBaseActivity
 	@Override
 	public void onClick(View v)
 	{
-		// TODO Auto-generated method stub
 		switch(v.getId())
 		{
 		case R.id.bt_left:
@@ -39,7 +38,6 @@ public class AboutActivity extends AbsBaseActivity
 	@Override
 	public void initView()
 	{
-		// TODO Auto-generated method stub
 		initBaseView("关于我们");
 		Btn_Left.setOnClickListener(this);
 		Btn_Right.setVisibility(View.INVISIBLE);

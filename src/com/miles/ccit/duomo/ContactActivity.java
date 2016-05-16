@@ -1,6 +1,5 @@
 package com.miles.ccit.duomo;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -22,11 +21,9 @@ import android.widget.ListView;
 
 import com.miles.ccit.adapter.ContactAdapter;
 import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.database.UserDatabase;
-import com.miles.ccit.duomo.R;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
-import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.O;
 
 public class ContactActivity extends AbsBaseActivity {
 
@@ -35,14 +32,10 @@ public class ContactActivity extends AbsBaseActivity {
     List<BaseMapObject> net = new Vector<BaseMapObject>();
 
 
-    private static final int WIRENESS = 0;
-    private static final int WIRED = 1;
-    private static final int NET = 2;
-
     private ContactAdapter adapter;
 
     private ListView list_Content;
-    private int isWireness = WIRENESS;
+    private int isWireness = O.WIRENESS;
 
 
     private ImageView img_wuxian;
@@ -67,10 +60,7 @@ public class ContactActivity extends AbsBaseActivity {
 
     @Override
     public void initView() {
-        // TODO Auto-generated method stub
         initBaseView("通讯录");
-//		Btn_Left.setText("返回");
-//		Btn_Right.setText("新建");
         Btn_Right.setBackgroundResource(R.drawable.btaddcontact);
         Btn_Left.setOnClickListener(this);
         Btn_Right.setOnClickListener(this);
@@ -104,12 +94,11 @@ public class ContactActivity extends AbsBaseActivity {
             }
 
         }
-        refreshList(WIRENESS);
+        refreshList(O.WIRENESS);
         list_Content.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                // TODO Auto-generated method stub
                 startActivity(new Intent(mContext, CreatContactActivity.class).putExtra("contact", getCurrentList().get(arg2)));
 
             }
@@ -119,7 +108,6 @@ public class ContactActivity extends AbsBaseActivity {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v,
                                             ContextMenuInfo menuInfo) {
-                // TODO Auto-generated method stub
                 menu.setHeaderTitle("联系人");
                 menu.add(0, 0, 0, "删除该联系人");
                 menu.add(0, 1, 1, "批量删除");
@@ -132,11 +120,11 @@ public class ContactActivity extends AbsBaseActivity {
 
     private List<BaseMapObject> getCurrentList() {
         switch (isWireness) {
-            case WIRENESS:
+            case O.WIRENESS:
                 return wireness;
-            case WIRED:
+            case O.WIRED:
                 return wired;
-            case NET:
+            case O.NET:
                 return net;
         }
         return null;
@@ -144,17 +132,17 @@ public class ContactActivity extends AbsBaseActivity {
 
     private void refreshTabStatus(int index) {
         switch (index) {
-            case WIRENESS:
+            case O.WIRENESS:
                 img_wuxian.setImageResource(R.drawable.bt_wuxian_h);
                 img_youxian.setImageResource(R.drawable.bt_youxian_n);
                 img_wangluo.setImageResource(R.drawable.bt_wangluo_n);
                 break;
-            case WIRED:
+            case O.WIRED:
                 img_wuxian.setImageResource(R.drawable.bt_wuxian_n);
                 img_youxian.setImageResource(R.drawable.bt_youxian_h);
                 img_wangluo.setImageResource(R.drawable.bt_wangluo_n);
                 break;
-            case NET:
+            case O.NET:
                 img_wuxian.setImageResource(R.drawable.bt_wuxian_n);
                 img_youxian.setImageResource(R.drawable.bt_youxian_n);
                 img_wangluo.setImageResource(R.drawable.bt_wangluo_h);
@@ -166,7 +154,6 @@ public class ContactActivity extends AbsBaseActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         int ListItem = (int) info.position;
         switch (item.getItemId()) {
@@ -192,8 +179,9 @@ public class ContactActivity extends AbsBaseActivity {
 
 
     private void refreshList(int type) {
+        refreshTabStatus(type);
         switch (type) {
-            case WIRENESS:
+            case O.WIRENESS:
                 if (wireness == null || wireness.size() < 1) {
                     showEmpty();
 
@@ -204,7 +192,7 @@ public class ContactActivity extends AbsBaseActivity {
                 adapter = new ContactAdapter(mContext, wireness, "name", "name", "number");
                 list_Content.setAdapter(adapter);
                 break;
-            case WIRED:
+            case O.WIRED:
                 if (wired == null || wired.size() < 1) {
                     showEmpty();
                 } else {
@@ -214,7 +202,7 @@ public class ContactActivity extends AbsBaseActivity {
                 adapter = new ContactAdapter(mContext, wired, "name", "name", "number");
                 list_Content.setAdapter(adapter);
                 break;
-            case NET:
+            case O.NET:
                 if (net == null || net.size() < 1) {
                     showEmpty();
                 } else {
@@ -230,7 +218,6 @@ public class ContactActivity extends AbsBaseActivity {
 
     @Override
     public void onClick(View v) {
-        // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.bt_left:
                 this.finish();
@@ -239,18 +226,18 @@ public class ContactActivity extends AbsBaseActivity {
                 startActivity(new Intent(this, CreatContactActivity.class));
                 break;
             case R.id.linear_wuxian:
-                refreshList(WIRENESS);
-                refreshTabStatus(WIRENESS);
+                refreshList(O.WIRENESS);
+                refreshTabStatus(O.WIRENESS);
                 break;
             case R.id.linear_youxian:
-                refreshList(WIRED);
+                refreshList(O.WIRED);
 
-                refreshTabStatus(WIRED);
+                refreshTabStatus(O.WIRED);
                 break;
             case R.id.linear_wangluo:
-                refreshList(NET);
+                refreshList(O.NET);
 
-                refreshTabStatus(NET);
+                refreshTabStatus(O.NET);
                 break;
             case R.id.bt_sure:
                 confirmDlg("删除联系人", "contact", null, getCurrentList(), adapter);

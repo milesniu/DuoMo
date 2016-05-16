@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
@@ -21,16 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miles.ccit.database.GetData4DB;
-import com.miles.ccit.duomo.CallWaitActivity.MyBroadcastReciver;
 import com.miles.ccit.net.APICode;
-import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.AbsCreatActivity;
 import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.AbsVoiceActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.FileUtils;
 import com.miles.ccit.util.MyLog;
-import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.O;
 import com.miles.ccit.util.SendDataTask;
 
 public class VoicecodeConnetActivity extends AbsVoiceActivity
@@ -118,7 +115,7 @@ public class VoicecodeConnetActivity extends AbsVoiceActivity
 		switch(v.getId())
 		{
 		case R.id.bt_disconnet:
-			new SendDataTask().execute(APICode.SEND_NormalInteraput+"",OverAllData.Account);
+			new SendDataTask().execute(APICode.SEND_NormalInteraput+"", O.Account);
 			this.finish();
 			break;
 		case R.id.bt_keybrod:
@@ -259,7 +256,7 @@ public class VoicecodeConnetActivity extends AbsVoiceActivity
 	
 	public void SendTalktoNet(boolean connet)
 	{
-		new SendDataTask().execute(APICode.SEND_TalkVoiceCode+"",OverAllData.Account,connet?"1":"0");
+		new SendDataTask().execute(APICode.SEND_TalkVoiceCode+"", O.Account,connet?"1":"0");
 	}
 	
 	

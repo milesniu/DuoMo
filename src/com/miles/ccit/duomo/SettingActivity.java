@@ -49,6 +49,7 @@ public class SettingActivity extends AbsBaseActivity {
         if (LoginActivity.isLogin) {
             Btn_Singout.setVisibility(View.VISIBLE);
             Btn_Singout.setOnClickListener(this);
+            TBtn_HealthCheck.setVisibility(View.VISIBLE);
         } else {
             Btn_Singout.setVisibility(View.GONE);
         }
@@ -98,6 +99,9 @@ public class SettingActivity extends AbsBaseActivity {
             case R.id.rela_debug:
                 startActivity(new Intent(mContext, DebugActivity.class));
                 break;
+            case R.id.rela_channelset:
+                startActivity(new Intent(mContext, ChannelSetActivity.class));
+                break;
             case R.id.bt_singout:
                 MyLog.showToast(mContext, "您已成功注销！");
                 new SendDataTask().execute(APICode.SEND_Logout + "");
@@ -121,14 +125,13 @@ public class SettingActivity extends AbsBaseActivity {
         findViewById(R.id.rela_checkstatus).setOnClickListener(this);
         findViewById(R.id.rela_changepws).setOnClickListener(this);
         findViewById(R.id.rela_debug).setOnClickListener(this);
-
+        findViewById(R.id.rela_channelset).setOnClickListener(this);
     }
 
 
     public class MyBroadcastReciver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // TODO Auto-generated method stub
             hideProgressDlg();
         }
 

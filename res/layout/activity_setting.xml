@@ -9,7 +9,7 @@
         android:id="@+id/include_layout"
         layout="@layout/layout_title"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_alignParentRight="true" />
 
     <LinearLayout
@@ -24,7 +24,7 @@
         <RelativeLayout
             android:id="@+id/rela_sendsetting"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:gravity="center_vertical"
             android:visibility="gone">
 
@@ -52,12 +52,13 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/linear_set1"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <RelativeLayout
             android:id="@+id/rela_syssetting"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -80,11 +81,35 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="#AAA" />
+        <RelativeLayout
+            android:id="@+id/rela_channelset"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="信道优先级设置"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/rightarrow" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#AAA" />
 
         <RelativeLayout
             android:id="@+id/rela_checkstatus"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -111,7 +136,7 @@
         <RelativeLayout
             android:id="@+id/rela_checkversion"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -138,7 +163,7 @@
         <RelativeLayout
             android:id="@+id/rela_checklocation"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -172,7 +197,7 @@
         <RelativeLayout
             android:id="@+id/rela_changepws"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -199,7 +224,7 @@
         <RelativeLayout
             android:id="@+id/rela_debug"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -226,7 +251,7 @@
         <RelativeLayout
             android:id="@+id/RelativeLayout01"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
 
             android:gravity="center_vertical">
 
@@ -249,13 +274,43 @@
                 android:textColor="@color/black" />
 
         </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#AAA" />
+
+        <RelativeLayout
+            android:id="@+id/rela_jiami"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+
+            android:gravity="center_vertical">
+
+            <ToggleButton
+                android:id="@+id/toggle_jiami"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="ToggleButton" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="网络加密"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
     <Button
         android:id="@+id/bt_singout"
         android:layout_width="300dp"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="44dp"

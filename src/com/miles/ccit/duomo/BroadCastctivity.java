@@ -28,7 +28,7 @@ import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
-import com.miles.ccit.util.OverAllData;
+import com.miles.ccit.util.O;
 import com.miles.ccit.util.SendDataTask;
 
 import java.util.Collections;
@@ -99,7 +99,6 @@ public class BroadCastctivity extends AbsBaseActivity
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-				// TODO Auto-generated method stub
 //				getActivity().startActivity(new Intent(getActivity(), ShortmsgListActivity.class).putExtra("item", msgList.get(arg2)));
 				CreatEMailActivity.showFile(mContext, "a.txt", fileList.get(arg2).get("filepath").toString());
 			}
@@ -110,7 +109,6 @@ public class BroadCastctivity extends AbsBaseActivity
 			@Override
 			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 			{
-				// TODO Auto-generated method stub
 				menu.setHeaderTitle("广播文件");
 				menu.add(0, 0, 0, "删除该文件");
 				menu.add(0, 1, 1, "批量删除");
@@ -124,7 +122,6 @@ public class BroadCastctivity extends AbsBaseActivity
 	@Override
 	protected void onDestroy()
 	{
-		// TODO Auto-generated method stub
 		mContext.unregisterReceiver(broad);
 		new SendDataTask().execute(APICode.SEND_BackModel+"");
 		super.onDestroy();
@@ -133,7 +130,6 @@ public class BroadCastctivity extends AbsBaseActivity
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
 	{
-		// TODO Auto-generated method stub
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		int ListItem = (int) info.position;
 		switch (item.getItemId())
@@ -177,7 +173,6 @@ public class BroadCastctivity extends AbsBaseActivity
 	@Override
 	public void onClick(View v)
 	{
-		// TODO Auto-generated method stub
 		switch(v.getId())
 		{
 		case R.id.bt_left:
@@ -207,14 +202,13 @@ public class BroadCastctivity extends AbsBaseActivity
 				else
 				{
 					showprogressdialog();
-					new SendDataTask().execute(APICode.SEND_Broadcast+"",OverAllData.Account,number);
+					new SendDataTask().execute(APICode.SEND_Broadcast+"", O.Account,number);
 					new Timer().schedule(new TimerTask()
 					{
 						
 						@Override
 						public void run()
 						{
-							// TODO Auto-generated method stub
 							handle.handleMessage(new Message());
 						}
 					}, 3000);
@@ -239,7 +233,6 @@ public class BroadCastctivity extends AbsBaseActivity
 	@Override
 	public void initView()
 	{
-		// TODO Auto-generated method stub
 		initBaseView("广播模式");
 		Btn_Left.setOnClickListener(this);
 		Btn_Right.setVisibility(View.INVISIBLE);
@@ -259,7 +252,6 @@ public class BroadCastctivity extends AbsBaseActivity
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			// TODO Auto-generated method stub
 			String action = intent.getAction();
 
 			if (action.equals(broad_broadcast_Action))

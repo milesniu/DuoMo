@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
-    android:background="@drawable/listview_seselector"  >
+    android:background="@drawable/listview_seselector"
+    android:padding="5dp">
 
     <LinearLayout
         android:id="@+id/linear_info"
@@ -11,46 +11,46 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/progressBar1"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin" >
+            android:layout_marginRight="@dimen/activity_horizontal_margin">
 
             <TextView
                 android:id="@+id/text_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="TextView"
                 android:textColor="@color/black"
-                android:textSize="20sp"
-                android:text="TextView" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:text="12-12 12:56"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                android:text="12-12 12:56" />
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/text_contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:text="TextView"
                 android:textColor="@color/graytext"
-                android:textSize="16sp"
-                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:text="TextView" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -63,21 +63,22 @@
         android:layout_alignBottom="@+id/linear_info"
         android:layout_alignParentRight="true"
         android:src="@drawable/redfail"
-        android:visibility="gone"/>
-    
+        android:visibility="gone" />
+
     <CheckBox
         android:id="@+id/check_del"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/progressBar1"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:visibility="gone"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
-        android:layout_centerVertical="true" />
+        android:visibility="gone" />
 
 </RelativeLayout>

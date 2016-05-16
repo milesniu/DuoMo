@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.miles.ccit.duomo.AboutActivity;
 import com.miles.ccit.duomo.BroadCastctivity;
 import com.miles.ccit.duomo.ContactActivity;
+import com.miles.ccit.duomo.HostcfgActivity;
 import com.miles.ccit.duomo.LoginActivity;
 import com.miles.ccit.duomo.NetModelFragmentActivity;
 import com.miles.ccit.duomo.R;
@@ -123,7 +124,7 @@ public class IndexActivity extends AbsBaseActivity {
 
                 break;
             case R.id.bt_about:
-                startActivity(new Intent(mContext, AboutActivity.class));
+                startActivity(new Intent(mContext, HostcfgActivity.class));
 
                 break;
             case R.id.bt_netmodle:
