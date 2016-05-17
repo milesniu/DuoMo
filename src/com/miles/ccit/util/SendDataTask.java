@@ -101,7 +101,7 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]> {
                     SocketConnection.getInstance().readReqMsg(new ComposeData().sendQueryHost());
                     break;
                 case APICode.SEND_RECV_HostCfg:
-                    SocketConnection.getInstance().readReqMsg(new ComposeData().sendHostCfg());
+                    SocketConnection.getInstance().readReqMsg(new ComposeData().sendHostCfg(parm[1]));
                     break;
                 case APICode.SEND_QueryChannel:
                     SocketConnection.getInstance().readReqMsg(new ComposeData().sendQueryChannel());

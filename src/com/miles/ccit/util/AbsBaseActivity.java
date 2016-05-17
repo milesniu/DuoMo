@@ -181,14 +181,31 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
         HashMap<String, BaseMapObject> contacthash = GetData4DB.getObjectHashData(this, "contact", "number");
 
         try {
+            int cursor = 5;
             int contactlenth = ByteUtil.byte2Int(new byte[]
-                    {data[6], data[7]});
+                    {data[cursor + 1], data[cursor + 2]});
+
+            cursor += 2;
+
             byte[] bytenamebyte = new byte[contactlenth];
-            System.arraycopy(data, 8, bytenamebyte, 0, contactlenth);
+            System.arraycopy(data, ++cursor, bytenamebyte, 0, contactlenth);
             String strname = new String(bytenamebyte, "UTF-8");
+
+            cursor += contactlenth;
+
+            int wiredlen = ByteUtil.byte2Int(new byte[]
+                    {data[cursor], data[cursor + 1]});
+
+
+            byte[] bytewiredname = new byte[wiredlen];
+            System.arraycopy(data, cursor + 2, bytewiredname, 0, wiredlen);
+            String strwiredname = new String(bytewiredname, "UTF-8");
+
+            cursor += 2;
+
             String[] arraycon = strname.split(",");
             for (int j = 0; j <= (arraycon.length / 2); j += 4) {
-                String num = arraycon[j]+"#"+ arraycon[j+2]+"#"+ arraycon[j+3];
+                String num = arraycon[j] + "#" + arraycon[j + 2] + "#" + arraycon[j + 3];
                 String name = arraycon[j + 1];
                 BaseMapObject item = contacthash.get(num);
                 if (item == null) {
@@ -198,6 +215,33 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
                     contact.put("name", name);
                     contact.put("number", num);
                     contact.put("type", "0");// 默认加为无线侧
+                    contact.put("remarks", "");
+                    contact.put("creattime", UnixTime.getStrCurrentUnixTime());
+                    contact.InsertObj2DB(mContext, "contact");
+
+                } else if (num.equals(item.get("number").toString()) && name.equals(item.get("name").toString())) {
+                    // 直接返回
+                } else {
+                    // 更新
+                    item.put("name", name);
+                    item.UpdateObj2DBbyId(mContext, "contact");
+
+                }
+                MyLog.SystemOut(name);
+            }
+
+            String[] arrayWired = strwiredname.split(",");
+            for (int j = 0; j <= (arrayWired.length / 2); j += 2) {
+                String num = arrayWired[j];
+                String name = arrayWired[j + 1];
+                BaseMapObject item = contacthash.get(num);
+                if (item == null) {
+                    // 直接添加
+                    BaseMapObject contact = new BaseMapObject();
+                    contact.put("id", null);
+                    contact.put("name", name);
+                    contact.put("number", num);
+                    contact.put("type", "1");// 添加为有线侧
                     contact.put("remarks", "");
                     contact.put("creattime", UnixTime.getStrCurrentUnixTime());
                     contact.InsertObj2DB(mContext, "contact");

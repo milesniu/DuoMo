@@ -28,6 +28,8 @@ import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.MyApplication;
 import com.miles.ccit.util.O;
+import com.miles.ccit.util.SendNetBackData;
+import com.miles.ccit.util.SendNetData;
 import com.miles.ccit.util.UnixTime;
 
 public class AnalysisRecvData {
@@ -118,6 +120,63 @@ public class AnalysisRecvData {
 //		}
     }
 
+
+
+    public void analyNetTextMsg(byte[] data) throws UnsupportedEncodingException {
+        Intent intent = new Intent();
+        int namelen = ByteUtil.byte2Int(new byte[]
+                {data[5], data[6]});
+
+        byte[] srcname = new byte[namelen];
+        System.arraycopy(data, 7, srcname, 0, namelen);
+        String strsrcname = new String(srcname, "UTF-8");
+
+        String[] recvdata = strsrcname.split("#");
+
+        BaseMapObject recvmsg = new BaseMapObject();
+        recvmsg.put("id", null);
+        recvmsg.put("number", recvdata[0].split(",")[0]);
+        recvmsg.put("sendtype", AbsMsgRecorderActivity.RECVFROM + "");
+        recvmsg.put("status", "0");
+        recvmsg.put("msgtype", "0");
+        recvmsg.put("msgcontent", recvdata[2]);
+        recvmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
+        recvmsg.put("priority", O.Priority);
+        recvmsg.put("acknowledgemen", O.Acknowledgemen);
+           recvmsg.put("exp2", "2");
+        recvmsg.InsertObj2DB(AppContext, "shortmsg");
+
+        if (ShortMsgFragment.isTop || (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(recvdata[0].split(",")[0]))) {
+            intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
+            intent.putExtra("data", recvmsg);
+            AppContext.sendBroadcast(intent);
+        }
+
+        new SendNetBackData().execute(recvdata[0].split(","));
+
+
+        BaseMapObject contact = GetData4DB.getObjectByRowName(AppContext, "contact", "number", strsrcname);
+        if (contact != null) {
+            recvmsg.put("name", contact.get("name").toString());
+        }
+        messageNotification = new Notification();
+        messageNotification.icon = R.drawable.ic_launcher;
+        messageNotification.tickerText = "你有一条新的短消息";
+        messageNotification.flags = messageNotification.FLAG_AUTO_CANCEL;
+        messageNotification.defaults = Notification.DEFAULT_SOUND;
+        messageNotificatioManager = (NotificationManager) AppContext.getSystemService(AppContext.NOTIFICATION_SERVICE);
+        messageIntent = new Intent(AppContext, ShortmsgListActivity.class);
+        messageIntent.putExtra("item", recvmsg);
+        messageIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        messagePendingIntent = PendingIntent.getActivity(AppContext, 0, messageIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        messageNotificationID = Integer.parseInt(recvdata[0].split(",")[1]);
+        // 更新通知栏
+        messageNotification.setLatestEventInfo(AppContext, contact == null ? strsrcname : (contact.get("name").toString() + "的新消息"), recvdata[2], messagePendingIntent);
+        messageNotificatioManager.notify(messageNotificationID, messageNotification);
+
+//		}
+    }
+
     public void analyBackEmail(byte[] data) throws UnsupportedEncodingException {
         Intent intent = new Intent();
         int alllen = ByteUtil.byte2Int(new byte[]
@@ -141,6 +200,7 @@ public class AnalysisRecvData {
         // Intent intent = new Intent();
     }
 
+    //解析短消息的回复
     public void analyBackTextMsg(byte[] data) throws UnsupportedEncodingException {
         Intent intent = new Intent();
         int alllen = ByteUtil.byte2Int(new byte[]
@@ -890,11 +950,11 @@ public class AnalysisRecvData {
     public void analyHostconfig(byte[] data) {
         Intent intent = new Intent();
         int flen = ByteUtil.byte2Int(new byte[]
-                {data[5], data[6]});
+                {data[2], data[3]})-1;
 
         byte[] fconten = new byte[flen];
 
-        System.arraycopy(data, 7, fconten, 0, flen);
+        System.arraycopy(data, 5, fconten, 0, flen);
         try {
             String content = new String(fconten, "UTF-8");
             intent.setAction(AbsBaseActivity.broad_config_host);

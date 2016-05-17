@@ -39,9 +39,9 @@ public class HostcfgActivity extends AbsBaseActivity {
                 String data = "name=" + etWifiName.getText().toString() + "," +
                         "pwd=" + etWifiPwd.getText().toString() + "," +
                         "channel=" + etChannel.getText().toString() + "," +
-                        "lan" + etLan.getText().toString() + "," +
+                        "lan=" + etLan.getText().toString() + "," +
                         "wan1=" + etWan1.getText().toString() + "," +
-                        "wan2=" + etWan2.getText().toString() + ",wan3=" + etWan3.getText().toString();
+                        "wan2=" + etWan2.getText().toString() + ",wan3=" + etWan3.getText().toString() + ",route=" + etRout1.getText().toString() + ",route=" + etRout2.getText().toString();
 
                 showprogressdialog();
                 ifSendData = true;
@@ -101,9 +101,24 @@ public class HostcfgActivity extends AbsBaseActivity {
             etWifiPwd.setText(cfgdatas[1].split("=")[1]);
             etChannel.setText(cfgdatas[2].split("=")[1]);
             etLan.setText(cfgdatas[3].split("=")[1]);
-            etWan1.setText(cfgdatas[4].split("=")[1]);
-            etWan2.setText(cfgdatas[5].split("=")[1]);
-            etWan3.setText(cfgdatas[6].split("=")[1]);
+            String wan1 = cfgdatas[4].split("=")[1];
+            etWan1.setText(wan1);
+            if (wan1.equals("dhcp")) {
+                ckbWan1.setChecked(true);
+            }
+            String wan2 = cfgdatas[5].split("=")[1];
+            etWan2.setText(wan2);
+            if (wan2.equals("dhcp")) {
+                ckbWan2.setChecked(true);
+            }
+            String wan3 = cfgdatas[6].split("=")[1];
+            etWan3.setText(wan3);
+            if (wan3.equals("dhcp")) {
+                ckbWan3.setChecked(true);
+            }
+            etRout1.setText(cfgdatas.length > 7 ? cfgdatas[7].split("=")[1] : "");
+            etRout2.setText(cfgdatas.length > 8 ? cfgdatas[8].split("=")[1] : "");
+            etRout3.setText(cfgdatas.length > 9 ? cfgdatas[9].split("=")[1] : "");
         }
 
     }
@@ -115,15 +130,15 @@ public class HostcfgActivity extends AbsBaseActivity {
             if (b) {
                 switch (compoundButton.getId()) {
                     case R.id.ckb_wanl1:
-                        etWan1.setText("DHCP");
+                        etWan1.setText("dhcp");
                         etWan1.setEnabled(false);
                         break;
                     case R.id.ckb_wanl2:
-                        etWan2.setText("DHCP");
+                        etWan2.setText("dhcp");
                         etWan2.setEnabled(false);
                         break;
                     case R.id.ckb_wanl3:
-                        etWan3.setText("DHCP");
+                        etWan3.setText("dhcp");
                         etWan3.setEnabled(false);
                         break;
                 }

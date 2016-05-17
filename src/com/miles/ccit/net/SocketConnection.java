@@ -360,12 +360,25 @@ public class SocketConnection {
                     System.out.println("客户端端口：" + clientPort);
                     System.out.println("客户端发送内容：" + new String(data, 0, len));
 
-                    // 发送反馈
-                    String response = "OK";
-                    byte[] bData = response.getBytes();
-                    sendDp = new DatagramPacket(bData, bData.length, clientIP, clientPort);
-                    // 发送
-                    ds.send(sendDp);
+
+                    AnalysisRecvData analyUtil = new AnalysisRecvData();
+
+                    switch (data[4]) {
+                        case APICode.BACK_NET_ShortTextMsg:
+                            analyUtil.analyBackTextMsg(data);
+                            break;
+                        case APICode.SEND_NET_ShortTextMsg:
+                            analyUtil.analyNetTextMsg(data);
+                            break;
+
+                    }
+
+//                    // 发送反馈
+//                    String response = "OK";
+//                    byte[] bData = response.getBytes();
+//                    sendDp = new DatagramPacket(bData, bData.length, clientIP, clientPort);
+//                    // 发送
+//                    ds.send(sendDp);
 
                 } catch (Exception e) {
                     e.printStackTrace();

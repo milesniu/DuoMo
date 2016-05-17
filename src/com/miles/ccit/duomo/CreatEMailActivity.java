@@ -85,10 +85,10 @@ public class CreatEMailActivity extends AbsCreatActivity {
         }
         break;
       case R.id.bt_addcontact:
-        new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0")).getDlg(edit_inputContact);
+        new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0"),0).getDlg(edit_inputContact);
         break;
       case R.id.bt_addchasong:
-        new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0")).getDlg(edit_inputChaosong);
+        new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0"),0).getDlg(edit_inputChaosong);
 
         break;
       case R.id.image_fujian:

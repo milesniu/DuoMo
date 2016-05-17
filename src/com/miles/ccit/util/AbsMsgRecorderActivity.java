@@ -1,5 +1,6 @@
 package com.miles.ccit.util;
 
+import java.net.InetAddress;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -130,10 +131,12 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity {
 //            }
             String desCon = "";
             for (int i = 0; i < id.length; i++) {
-                desCon += (contact[i].split("#")[1] + "," + id[i] + ",");
+                desCon += contact[i] + ",";
             }
             desCon = desCon.substring(0, desCon.length() - 1);
-            new SendNetData().execute(O.Account, desCon, msgcontent);
+
+            new SendNetData().execute(O.LOCALIP + "," + id[0], desCon, msgcontent);
+
         } else {
             //专网模式
             String desCon = "";

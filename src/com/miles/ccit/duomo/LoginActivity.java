@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -79,7 +81,20 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData 
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+
+
+        //获取wifi服务
+        WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        //判断wifi是否开启
+        if (!wifiManager.isWifiEnabled()) {
+            wifiManager.setWifiEnabled(true);
+        }
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        int ipAddress = wifiInfo.getIpAddress();
+        String ip = intToIp(ipAddress);
+        O.LOCALIP = ip;
+
+}
 
 
     @Override
@@ -116,75 +131,84 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData 
 
     }
 
-    private Handler MyHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            // hideProgressDlg();
-            if (msg.obj != null) {
-                O.Ipaddress = msg.obj.toString();
-                // MainActivity.this.startActivity(new Intent(MainActivity.this,
-                // IndexActivity.class));
-                // MainActivity.this.finish();
-                edit_ip.setText(O.Ipaddress);
-                // MyLog.showToast(mContext,msg.toString());
-            } else {
-                MyLog.showToast(mContext, "未获取到网络地址，请检查连接");
-            }
-        }
-    };
 
-    public class AcceptThread implements Runnable {
-        private String str;
-        private int id;
+    private String intToIp(int i) {
 
-        public AcceptThread(String str, int id) {
-            this.str = str;
-            this.id = id;
-        }
+        return (i & 0xFF) + "." +
+                ((i >> 8) & 0xFF) + "." +
+                ((i >> 16) & 0xFF) + "." +
+                (i >> 24 & 0xFF);
+    }
 
-        @Override
-        public void run() {
-
-            UDPTools.getServerData(new ComposeData().sendFindIp());
-            try {
-                // 初始化接收数据
-                byte[] b = new byte[1024];
-                receiveDp = new DatagramPacket(b, b.length);
-                // 接收
-                ds.receive(receiveDp);
-                // 读取反馈内容，并输出
-                InetAddress clientIP = receiveDp.getAddress();
-                int clientPort = receiveDp.getPort();
-                byte[] data = receiveDp.getData();
-                int len = receiveDp.getLength();
-                System.out.println("客户端IP：" + clientIP.getHostAddress());
-                System.out.println("客户端端口：" + clientPort);
-                System.out.println("客户端发送内容：" + new String(data, 0, len));
-
-                acceptUdpData(clientIP.getHostAddress(), id);
-
-                // 发送反馈
-                String response = "OK";
-                byte[] bData = response.getBytes();
-                sendDp = new DatagramPacket(bData, bData.length, clientIP, clientPort);
-                // 发送
-                ds.send(sendDp);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            } finally {
-                try {
-                    // 关闭连接
-                    ds.close();
-                } catch (Exception e) {
-                }
-            }
-
-//			acceptUdpData(temp, id);
-            // }
+private Handler MyHandler = new Handler() {
+    @Override
+    public void handleMessage(Message msg) {
+        // hideProgressDlg();
+        if (msg.obj != null) {
+            O.Ipaddress = msg.obj.toString();
+            // MainActivity.this.startActivity(new Intent(MainActivity.this,
+            // IndexActivity.class));
+            // MainActivity.this.finish();
+            edit_ip.setText(O.Ipaddress);
+            // MyLog.showToast(mContext,msg.toString());
+        } else {
+            MyLog.showToast(mContext, "未获取到网络地址，请检查连接");
         }
     }
+};
+
+public class AcceptThread implements Runnable {
+    private String str;
+    private int id;
+
+    public AcceptThread(String str, int id) {
+        this.str = str;
+        this.id = id;
+    }
+
+    @Override
+    public void run() {
+
+        UDPTools.getServerData(new ComposeData().sendFindIp());
+        try {
+            // 初始化接收数据
+            byte[] b = new byte[1024];
+            receiveDp = new DatagramPacket(b, b.length);
+            // 接收
+            ds.receive(receiveDp);
+            // 读取反馈内容，并输出
+            InetAddress clientIP = receiveDp.getAddress();
+            int clientPort = receiveDp.getPort();
+            byte[] data = receiveDp.getData();
+            int len = receiveDp.getLength();
+            System.out.println("客户端IP：" + clientIP.getHostAddress());
+            System.out.println("客户端端口：" + clientPort);
+            System.out.println("客户端发送内容：" + new String(data, 0, len));
+
+            acceptUdpData(clientIP.getHostAddress(), id);
+
+            // 发送反馈
+            String response = "OK";
+            byte[] bData = response.getBytes();
+            sendDp = new DatagramPacket(bData, bData.length, clientIP, clientPort);
+            // 发送
+            ds.send(sendDp);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            try {
+                // 关闭连接
+                ds.close();
+            } catch (Exception e) {
+            }
+        }
+
+//			acceptUdpData(temp, id);
+        // }
+    }
+}
 
     @Override
     public void acceptUdpData(String data, int id) {
@@ -201,46 +225,46 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData 
 
     }
 
-    public class MyBroadcastReciver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // TODO Auto-generated method stub
-            hideProgressDlg();
-            String action = intent.getAction();
+public class MyBroadcastReciver extends BroadcastReceiver {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        // TODO Auto-generated method stub
+        hideProgressDlg();
+        String action = intent.getAction();
 
-            if (action.equals(broad_login_Action)) {
-                byte[] con = intent.getByteArrayExtra("data");
+        if (action.equals(broad_login_Action)) {
+            byte[] con = intent.getByteArrayExtra("data");
 
-                if (con == null || con.length < 4) {
-                    Intent it = new Intent();
-                    it.putExtra("result", "false");
-                    it.putExtra("data", con);
-                    LoginActivity.this.setResult(Activity.RESULT_OK, it);
-                    MyLog.showToast(mContext, "登陆超时");
-                    isLogin = false;
-                    LoginActivity.this.finish();
-                    return;
-                }
-                if (con.length > 4 && con[5] == (byte) 0x01) {
-                    checkContact(con);
-
-                    Intent it = new Intent();
-                    it.putExtra("result", "true");
-                    it.putExtra("data", con);
-                    LoginActivity.this.setResult(Activity.RESULT_OK, it);
-                    MyLog.showToast(mContext, "登陆成功");
-                    isLogin = true;
-                    LoginActivity.this.finish();
-                } else {
-                    MyLog.showToast(mContext, "登陆失败，请检查用户名及密码");
-                    return;
-                }
-            } else if (action.equals("")) {
-
+            if (con == null || con.length < 4) {
+                Intent it = new Intent();
+                it.putExtra("result", "false");
+                it.putExtra("data", con);
+                LoginActivity.this.setResult(Activity.RESULT_OK, it);
+                MyLog.showToast(mContext, "登陆超时");
+                isLogin = false;
+                LoginActivity.this.finish();
+                return;
             }
-        }
+            if (con.length > 4 && con[5] == (byte) 0x01) {
+                checkContact(con);
 
+                Intent it = new Intent();
+                it.putExtra("result", "true");
+                it.putExtra("data", con);
+                LoginActivity.this.setResult(Activity.RESULT_OK, it);
+                MyLog.showToast(mContext, "登陆成功");
+                isLogin = true;
+                LoginActivity.this.finish();
+            } else {
+                MyLog.showToast(mContext, "登陆失败，请检查用户名及密码");
+                return;
+            }
+        } else if (action.equals("")) {
+
+        }
     }
+
+}
 
     @Override
     protected void onDestroy() {

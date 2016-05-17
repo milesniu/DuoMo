@@ -77,7 +77,7 @@ public class APICode {
     /**
      * 网络模式接收到短消息
      */
-    public static final byte RECV_NET_ShortTextMsg = (byte) 0xA2;
+//    public static final byte RECV_NET_ShortTextMsg = (byte) 0xA2;
 
     /**
      * 网络模式发送短语音

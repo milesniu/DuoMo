@@ -42,7 +42,7 @@ public class CreatCodedirecActivity extends AbsBaseActivity
 			this.finish();
 			break;
 		case R.id.bt_addcontact:
-			new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0")).getDlg(edit_inputContact);
+			new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0"),0).getDlg(edit_inputContact);
 			break;
 		case R.id.img_sky:
 			goCreatCode(CreatcodeSkyActivity.class);
