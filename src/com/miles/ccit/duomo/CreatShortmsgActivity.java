@@ -1,5 +1,6 @@
 package com.miles.ccit.duomo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
+import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MutiChoiseDlg;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.O;
@@ -48,7 +50,7 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity {
                 this.finish();
                 break;
             case R.id.bt_addcontact:
-                new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0"),type).getDlg(edit_inputContact);
+                new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0"), type).getDlg(edit_inputContact);
                 break;
             case R.id.bt_swicthvoice:
                 switchVoice();
@@ -62,7 +64,12 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity {
                     return;
                 }
                 setStrContatc(edit_inputContact.getText().toString());
-                sendTextmsg(edit_inputContact.getText().toString(),type);
+                long ret = sendTextmsg(edit_inputContact.getText().toString(), type, false);
+                if (ret != -1) {
+                    BaseMapObject obj = GetData4DB.getObjectByid(mContext, "shortmsg", ret + "");
+                    startActivity(new Intent(mContext, ShortmsgListActivity.class).putExtra("item", obj).putExtra("type", obj.get("exp2").toString().equals("2") ? O.NET : O.WIRENESS));
+                }
+
                 this.finish();
                 break;
         }
@@ -107,7 +114,7 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity {
                         if (edit_inputContact.getText().toString().equals("")) {
                             return false;
                         }
-                        talkTouchUp(event);
+                        talkTouchUp(event, type);
                         CreatShortmsgActivity.this.finish();
                         break;
                 }

@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
+import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.duomo.AboutActivity;
 import com.miles.ccit.duomo.BroadCastctivity;
 import com.miles.ccit.duomo.ContactActivity;
@@ -24,6 +26,9 @@ import com.miles.ccit.duomo.WiredModelActivity;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.FileUtils;
+import com.miles.ccit.util.O;
+
+import java.util.List;
 
 public class IndexActivity extends AbsBaseActivity {
 
@@ -45,8 +50,11 @@ public class IndexActivity extends AbsBaseActivity {
         checkCount = FileUtils.getMapData4SD();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(broad_usimout_Action);
+        intentFilter.addAction(broad_decryption_Action);
         broad = new MyBroadcastReciver();
         this.registerReceiver(broad, intentFilter);
+        sp = PreferenceManager.getDefaultSharedPreferences(mContext);
+        O.isEncrypt = sp.getBoolean("jiami", false);
 //		new SendDataTask().execute(APICode.SEND_Login+"","123456","abdc123");
     }
 
@@ -76,6 +84,16 @@ public class IndexActivity extends AbsBaseActivity {
             if (action.equals(broad_usimout_Action)) {
                 findViewById(R.id.linear_title).setBackgroundResource(R.drawable.indextitlenologin);
                 return;
+            } else if (action.equals(broad_decryption_Action)) {
+                if (intent.getStringExtra("data") == null) {
+                    return;
+                } else {
+                    List<BaseMapObject> shortList = GetData4DB.getObjectListData(mContext, "shortmsg");
+                    BaseMapObject lastobj = shortList.get(shortList.size() - 1);
+                    lastobj.put("msgcontent", intent.getStringExtra("data"));
+                    lastobj.UpdateMyself(mContext, "shortmsg");
+//                    Toast.makeText(mContext, "解密数据已返回:" + intent.getStringExtra("data"), Toast.LENGTH_SHORT).show();
+                }
             }
         }
 

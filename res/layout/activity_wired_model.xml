@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ContactActivity" >
+    tools:context=".ContactActivity">
 
     <include
         android:id="@+id/include_layout"
+        layout="@layout/layout_title"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        layout="@layout/layout_title" />
+        android:layout_alignParentRight="true" />
 
     <ListView
         android:id="@+id/listView_content"
@@ -21,8 +21,7 @@
         android:layout_below="@+id/include_layout"
         android:choiceMode="multipleChoice"
         android:divider="@drawable/diver"
-        android:dividerHeight="1px" >
-    </ListView>
+        android:dividerHeight="1px"></ListView>
 
     <LinearLayout
         android:id="@+id/linear_del"
@@ -32,7 +31,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:gravity="center"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <Button
             android:id="@+id/bt_canle"
@@ -56,5 +55,16 @@
         android:layout_height="148dp"
         android:layout_centerInParent="true"
         android:src="@drawable/emptylist" />
+
+    <Button
+        android:id="@+id/btn_recvfile"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:textSize="16sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:text="收文件" />
+
 
 </RelativeLayout>

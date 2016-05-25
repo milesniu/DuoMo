@@ -365,10 +365,20 @@ public class SocketConnection {
 
                     switch (data[4]) {
                         case APICode.BACK_NET_ShortTextMsg:
+                        case APICode.BACK_NET_ShortVoiceMsg:
                             analyUtil.analyBackTextMsg(data);
                             break;
                         case APICode.SEND_NET_ShortTextMsg:
                             analyUtil.analyNetTextMsg(data);
+                            break;
+
+                        case APICode.SEND_NET_ShortVoiceMsg:
+                            analyUtil.analyVoiceMsg(data);
+                            break;
+
+
+                        case APICode.SEND_NET_Encrypt_ShortTextMsg:
+                            analyUtil.analyBackNetEncryptTextMsg(data);
                             break;
 
                     }
@@ -415,6 +425,7 @@ public class SocketConnection {
                             break;
                         case APICode.BACK_ShortTextMsg:
                         case APICode.BACK_ShortVoiceMsg:
+                        case APICode.BACK_Trans_data:
                             analyUtil.analyBackTextMsg(heart);
                             break;
                         case APICode.BACK_Email:
@@ -495,6 +506,12 @@ public class SocketConnection {
                         case APICode.SEND_RECV_ChannelCfg:
                             analyUtil.analychannelCfg(heart);
                             break;
+                        case APICode.SEND_Encrypt:
+                        case APICode.SEND_Decryption:
+                            analyUtil.analyEncrypt(heart[4], heart);
+                            break;
+                        case APICode.RECV_Trans_data:
+                            analyUtil.analyTransData(heart);
                     }
 
                     try {

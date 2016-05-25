@@ -71,9 +71,17 @@ public class APICode {
      */
     public static final byte SEND_NET_ShortTextMsg = (byte) 0xA0;
     /**
-     * 网络模式发短消息响应
+     * 网络模式发送加密短消息
+     */
+    public static final byte SEND_NET_Encrypt_ShortTextMsg = (byte) 0xAA;
+    /**
+     * 网络模式短消息响应
      */
     public static final byte BACK_NET_ShortTextMsg = (byte) 0xA1;
+    /**
+     * 网络模式短消息响应
+     */
+    public static final byte BACK_NET_Encrypt_ShortTextMsg = (byte) 0xAB;
     /**
      * 网络模式接收到短消息
      */
@@ -84,13 +92,13 @@ public class APICode {
      */
     public static final byte SEND_NET_ShortVoiceMsg = (byte) 0xA3;
     /**
-     * 网络模式发短语音响应
+     * 网络模式短语音响应
      */
-    public static final byte BACK_NET_ShortVoiceMsg = (byte) 0xA3;
+    public static final byte BACK_NET_ShortVoiceMsg = (byte) 0xA4;
     /**
      * 网络模式接收到短语音
      */
-    public static final byte RECV_NET_ShortVoiceMsg = (byte) 0xA5;
+//    public static final byte RECV_NET_ShortVoiceMsg = (byte) 0xA5;
 
 
     /**
@@ -283,6 +291,27 @@ public class APICode {
      * 返回或配置信道优先级
      */
     public static final byte SEND_RECV_ChannelCfg = (byte) 0x43;
+    /**
+     * 加密信息
+     */
+    public static final byte SEND_Encrypt = (byte) 0x40;
+    /**
+     * 解密信息
+     */
+    public static final byte SEND_Decryption = (byte) 0x41;
+    /**
+     * 转发数据
+     */
+    public static final byte SEND_Trans_data = (byte) 0x44;
+    /**
+     * 响应数据
+     */
+    public static final byte BACK_Trans_data = (byte) 0x45;
+
+    /**
+     * 接收到转发数据
+     */
+    public static final byte RECV_Trans_data = (byte) 0x46;
 
 
 }

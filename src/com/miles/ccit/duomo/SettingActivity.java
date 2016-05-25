@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -17,12 +18,13 @@ import com.miles.ccit.net.SocketConnection;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
+import com.miles.ccit.util.O;
 import com.miles.ccit.util.SendDataTask;
 
 public class SettingActivity extends AbsBaseActivity {
 
     Button Btn_Singout;
-    ToggleButton TBtn_HealthCheck;
+    ToggleButton TBtn_HealthCheck, TBtn_Encrpty;
     public static BaseMapObject LoactionInfo = new BaseMapObject();
     private MyBroadcastReciver broad = null;
 
@@ -30,19 +32,32 @@ public class SettingActivity extends AbsBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        sp = PreferenceManager.getDefaultSharedPreferences(mContext);
         Btn_Singout = (Button) findViewById(R.id.bt_singout);
         TBtn_HealthCheck = (ToggleButton) findViewById(R.id.toggleButton1);
+        TBtn_Encrpty = (ToggleButton) findViewById(R.id.toggle_jiami);
         TBtn_HealthCheck.setVisibility(View.GONE);
         if (SocketConnection.isHealthCheck) {
             TBtn_HealthCheck.setChecked(true);
         } else {
             TBtn_HealthCheck.setChecked(false);
         }
+
+        O.isEncrypt = sp.getBoolean("jiami", false);
+
+        TBtn_Encrpty.setChecked(O.isEncrypt);
+        TBtn_Encrpty.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                O.isEncrypt = b;
+                sp.edit().putBoolean("jiami", b).commit();
+            }
+        });
+
         TBtn_HealthCheck.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // TODO Auto-generated method stub
                 SocketConnection.isHealthCheck = isChecked;
             }
         });

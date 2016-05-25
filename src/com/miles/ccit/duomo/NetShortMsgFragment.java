@@ -38,6 +38,8 @@ public class NetShortMsgFragment extends AbsBaseFragment {
     private MsgorMailSetAdapter adapter;
     private MyBroadcastReciver broad = null;
     private List<BaseMapObject> msgList = new Vector<BaseMapObject>();
+    private List<BaseMapObject> contactList = new Vector<BaseMapObject>();
+
     public Button Btn_Delete;
     public Button Btn_Canle;
     public static boolean isTop = false;
@@ -46,6 +48,7 @@ public class NetShortMsgFragment extends AbsBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shortmsg, null);
         initView(view);
+        contactList = GetData4DB.getObjectListData(getActivity(), "contact");
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(AbsBaseActivity.broad_recvtextmsg_Action);
         broad = new MyBroadcastReciver();
@@ -56,7 +59,6 @@ public class NetShortMsgFragment extends AbsBaseFragment {
 
     @Override
     public void onResume() {
-        // TODO Auto-generated method stub
         isTop = true;
         refreshList();
         super.onResume();
@@ -65,7 +67,6 @@ public class NetShortMsgFragment extends AbsBaseFragment {
 
     @Override
     public void onDestroy() {
-        // TODO Auto-generated method stub
         getActivity().unregisterReceiver(broad);
         super.onDestroy();
         isTop = false;
@@ -74,7 +75,6 @@ public class NetShortMsgFragment extends AbsBaseFragment {
 
     @Override
     public void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
         isTop = false;
     }
@@ -82,7 +82,6 @@ public class NetShortMsgFragment extends AbsBaseFragment {
 
     @Override
     public void onStop() {
-        // TODO Auto-generated method stub
         super.onStop();
         isTop = false;
     }
@@ -91,7 +90,6 @@ public class NetShortMsgFragment extends AbsBaseFragment {
     public class MyBroadcastReciver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // TODO Auto-generated method stub
 //			hideProgressDlg();
             String action = intent.getAction();
 
@@ -119,7 +117,7 @@ public class NetShortMsgFragment extends AbsBaseFragment {
             return;
         }
         hideEmpty();
-        adapter = new MsgorMailSetAdapter(getActivity(), msgList, "shortmsg");
+        adapter = new MsgorMailSetAdapter(getActivity(), msgList, contactList,"shortmsg");
         listview.setAdapter(adapter);
         listview.setOnItemClickListener(new OnItemClickListener() {
 

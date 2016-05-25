@@ -148,8 +148,8 @@ public class CreatContactActivity extends AbsBaseActivity {
                         return;
                     }
                 } else {
-                    tmp.put("name", edit_Company.getText().toString());
-                    tmp.put("number", edit_Num.getText().toString());
+                    tmp.put("name", name);
+                    tmp.put("number",number);
                     tmp.put("type", radio_wireness.isChecked() ? "0" : "1");
                     tmp.put("remarks", edit_Remarks.getText().toString());
                     if (edit_Num.getText().toString().equals(currentcode)) {

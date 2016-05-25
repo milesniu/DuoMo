@@ -1,16 +1,16 @@
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ContactActivity" >
+    tools:context=".ContactActivity">
 
     <include
         android:id="@+id/include_layout"
+        layout="@layout/layout_title"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        layout="@layout/layout_title" />
+        android:layout_alignParentRight="true" />
 
     <LinearLayout
         android:id="@+id/linear_set1"
@@ -20,7 +20,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
-        android:padding="10dp" >
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/TextView01"
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/radio_needack"
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/radio_hight"
@@ -94,6 +94,15 @@
                 android:text="低"
                 android:textColor="@color/black" />
         </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_interrupt"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="30dp"
+            android:textSize="18sp"
+            android:text="中断发送" />
+
     </LinearLayout>
 
 </RelativeLayout>

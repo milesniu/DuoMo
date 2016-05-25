@@ -68,7 +68,7 @@ public class MsgRecorderutil {
         // insertRecvTextmsg(contex, contact, msgcontent);
     }
 
-    public static long insertVoicemsg(Context contex, String contact, String msgcontent) {
+    public static long insertVoicemsg(Context contex, String contact, String msgcontent, int type) {
         BaseMapObject shortmsg = new BaseMapObject();
         shortmsg.put("id", null);
         shortmsg.put("number", contact);
@@ -79,7 +79,7 @@ public class MsgRecorderutil {
         shortmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
         shortmsg.put("priority", O.Priority);
         shortmsg.put("acknowledgemen", O.Acknowledgemen);
-
+        shortmsg.put("exp2", type + "");
         long id = shortmsg.InsertObj2DB(contex, "shortmsg");
         SocketConnection.sendDataCallback.put("APICode.SEND_ShortTextMsg#" + id, shortmsg);
         return id;

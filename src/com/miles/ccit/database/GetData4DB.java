@@ -44,6 +44,13 @@ public class GetData4DB {
         }
     }
 
+    public static void cleanTable(Context contex, String table) {
+        String sql = "DELETE FROM " + table + ";";
+        SQLiteDatabase db = UserDatabase.OpenOrCreatDataBase(contex);
+        db.execSQL(sql);
+        db.close();
+    }
+
     public static List<BaseMapObject> getObjList4LeftJoin(Context contex, String tableleft, String tableright, String wherename) {
         String strSql = "SELECT " + tableleft + ".*," + tableright + ".name" + " FROM " + tableleft + " LEFT JOIN " + tableright + " ON " + tableleft + "." + wherename + "=" + tableright + "." + wherename;
         SQLiteDatabase db = UserDatabase.OpenOrCreatDataBase(contex);

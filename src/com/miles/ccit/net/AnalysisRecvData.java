@@ -28,6 +28,7 @@ import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.MyApplication;
 import com.miles.ccit.util.O;
+import com.miles.ccit.util.SendDataTask;
 import com.miles.ccit.util.SendNetBackData;
 import com.miles.ccit.util.SendNetData;
 import com.miles.ccit.util.UnixTime;
@@ -53,6 +54,24 @@ public class AnalysisRecvData {
         Intent intent = new Intent();
         intent.setAction(AbsBaseActivity.broad_backchangepwd_Action);
         intent.putExtra("data", data);
+        AppContext.sendBroadcast(intent);
+    }
+
+    public void analyEncrypt(byte code, byte[] data) throws UnsupportedEncodingException {
+
+        int len = ByteUtil.byte2Int(new byte[]{data[5], data[6]});
+        byte[] content = new byte[len];
+
+        System.arraycopy(data, 7, content, 0, len);
+
+        String strcon = new String(content, "UTF-8");
+        Intent intent = new Intent();
+        if (code == APICode.SEND_Encrypt) {
+            intent.setAction(AbsBaseActivity.broad_encrypt_Action);
+        } else if (code == APICode.SEND_Decryption) {
+            intent.setAction(AbsBaseActivity.broad_decryption_Action);
+        }
+        intent.putExtra("data", strcon);
         AppContext.sendBroadcast(intent);
     }
 
@@ -87,8 +106,15 @@ public class AnalysisRecvData {
         recvmsg.put("msgcontent", co);
         recvmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
         recvmsg.put("priority", O.Priority);
+        recvmsg.put("exp2", "1");
         recvmsg.put("acknowledgemen", O.Acknowledgemen);
         recvmsg.InsertObj2DB(AppContext, "shortmsg");
+
+        if (ShortMsgFragment.isTop || (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(strsrcname))) {
+            intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
+            intent.putExtra("data", recvmsg);
+            AppContext.sendBroadcast(intent);
+        }
 
         if (ShortMsgFragment.isTop || (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(strsrcname))) {
             intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
@@ -117,9 +143,75 @@ public class AnalysisRecvData {
         messageNotification.setLatestEventInfo(AppContext, contact == null ? strsrcname : (contact.get("name").toString() + "的新消息"), co, messagePendingIntent);
         messageNotificatioManager.notify(messageNotificationID, messageNotification);
 
-//		}
     }
 
+
+    //接收到转发，未完善
+    public void analyTransData(byte[] data) throws UnsupportedEncodingException {
+        Intent intent = new Intent();
+        int cursor = 5;
+        int namelen = ByteUtil.oneByte2oneInt(data[cursor++]);
+        byte[] srcname = new byte[namelen];
+        System.arraycopy(data, cursor, srcname, 0, namelen);
+        String strsrcname = new String(srcname, "UTF-8");
+
+        cursor += namelen;
+
+        int deslen = ByteUtil.byte2Int(new byte[]{data[cursor + 1], data[cursor + 2]});
+        cursor += 2;
+
+        byte[] desname = new byte[deslen];
+        System.arraycopy(data, cursor, desname, 0, deslen);
+        String strdesname = new String(desname, "UTF-8");
+
+        cursor += deslen;
+
+        int clen = ByteUtil.byte2Int(new byte[]{data[cursor + 1], data[cursor + 2]});
+        cursor += 2;
+        byte[] conten = new byte[clen];
+        System.arraycopy(data, cursor, conten, 0, clen);
+        String co = new String(conten, "UTF-8");
+
+        BaseMapObject recvmsg = new BaseMapObject();
+        recvmsg.put("id", null);
+        recvmsg.put("number", strsrcname);
+        recvmsg.put("sendtype", AbsMsgRecorderActivity.RECVFROM + "");
+        recvmsg.put("status", "0");
+        recvmsg.put("msgtype", "0");
+        recvmsg.put("msgcontent", co);
+        recvmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
+        recvmsg.put("priority", O.Priority);
+        recvmsg.put("exp2", "2");
+        recvmsg.put("acknowledgemen", O.Acknowledgemen);
+        recvmsg.InsertObj2DB(AppContext, "shortmsg");
+
+        if (ShortMsgFragment.isTop || (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(strsrcname))) {
+            intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
+            intent.putExtra("data", recvmsg);
+            AppContext.sendBroadcast(intent);
+        }
+
+        BaseMapObject contact = GetData4DB.getObjectByRowName(AppContext, "contact", "number", strsrcname);
+        if (contact != null) {
+            recvmsg.put("name", contact.get("name").toString());
+        }
+        messageNotification = new Notification();
+        messageNotification.icon = R.drawable.ic_launcher;
+        messageNotification.tickerText = "你有一条新的短消息";
+        messageNotification.flags = messageNotification.FLAG_AUTO_CANCEL;
+        messageNotification.defaults = Notification.DEFAULT_SOUND;
+        messageNotificatioManager = (NotificationManager) AppContext.getSystemService(AppContext.NOTIFICATION_SERVICE);
+        messageIntent = new Intent(AppContext, ShortmsgListActivity.class);
+        messageIntent.putExtra("item", recvmsg);
+        messageIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        messagePendingIntent = PendingIntent.getActivity(AppContext, 0, messageIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        messageNotificationID = Integer.parseInt(strsrcname);
+        // 更新通知栏
+        messageNotification.setLatestEventInfo(AppContext, contact == null ? strsrcname : (contact.get("name").toString() + "的新消息"), co, messagePendingIntent);
+        messageNotificatioManager.notify(messageNotificationID, messageNotification);
+
+//		}
+    }
 
 
     public void analyNetTextMsg(byte[] data) throws UnsupportedEncodingException {
@@ -143,7 +235,7 @@ public class AnalysisRecvData {
         recvmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
         recvmsg.put("priority", O.Priority);
         recvmsg.put("acknowledgemen", O.Acknowledgemen);
-           recvmsg.put("exp2", "2");
+        recvmsg.put("exp2", "2");
         recvmsg.InsertObj2DB(AppContext, "shortmsg");
 
         if (ShortMsgFragment.isTop || (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(recvdata[0].split(",")[0]))) {
@@ -154,6 +246,61 @@ public class AnalysisRecvData {
 
         new SendNetBackData().execute(recvdata[0].split(","));
 
+
+        BaseMapObject contact = GetData4DB.getObjectByRowName(AppContext, "contact", "number", strsrcname);
+        if (contact != null) {
+            recvmsg.put("name", contact.get("name").toString());
+        }
+        messageNotification = new Notification();
+        messageNotification.icon = R.drawable.ic_launcher;
+        messageNotification.tickerText = "你有一条新的短消息";
+        messageNotification.flags = messageNotification.FLAG_AUTO_CANCEL;
+        messageNotification.defaults = Notification.DEFAULT_SOUND;
+        messageNotificatioManager = (NotificationManager) AppContext.getSystemService(AppContext.NOTIFICATION_SERVICE);
+        messageIntent = new Intent(AppContext, ShortmsgListActivity.class);
+        messageIntent.putExtra("item", recvmsg);
+        messageIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        messagePendingIntent = PendingIntent.getActivity(AppContext, 0, messageIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        messageNotificationID = Integer.parseInt(recvdata[0].split(",")[1]);
+        // 更新通知栏
+        messageNotification.setLatestEventInfo(AppContext, contact == null ? strsrcname : (contact.get("name").toString() + "的新消息"), recvdata[2], messagePendingIntent);
+        messageNotificatioManager.notify(messageNotificationID, messageNotification);
+
+//		}
+    }
+
+    public void analyBackNetEncryptTextMsg(byte[] data) throws UnsupportedEncodingException {
+        Intent intent = new Intent();
+        int namelen = ByteUtil.byte2Int(new byte[]
+                {data[5], data[6]});
+
+        byte[] srcname = new byte[namelen];
+        System.arraycopy(data, 7, srcname, 0, namelen);
+        String strsrcname = new String(srcname, "UTF-8");
+
+        String[] recvdata = strsrcname.split("#");
+
+        BaseMapObject recvmsg = new BaseMapObject();
+        recvmsg.put("id", null);
+        recvmsg.put("number", recvdata[0].split(",")[0]);
+        recvmsg.put("sendtype", AbsMsgRecorderActivity.RECVFROM + "");
+        recvmsg.put("status", "0");
+        recvmsg.put("msgtype", "0");
+        recvmsg.put("msgcontent", "解密中...&" + recvdata[2]);
+        recvmsg.put("creattime", UnixTime.getStrCurrentUnixTime());
+        recvmsg.put("priority", O.Priority);
+        recvmsg.put("acknowledgemen", O.Acknowledgemen);
+        recvmsg.put("exp2", "2");
+        long ret = recvmsg.InsertObj2DB(AppContext, "shortmsg");
+
+        if (ShortMsgFragment.isTop || (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(recvdata[0].split(",")[0]))) {
+            intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
+            intent.putExtra("data", recvmsg);
+            AppContext.sendBroadcast(intent);
+        }
+
+        new SendNetBackData().execute(recvdata[0].split(","));
+        new SendDataTask().execute(APICode.SEND_Decryption + "", recvdata[2]);
 
         BaseMapObject contact = GetData4DB.getObjectByRowName(AppContext, "contact", "number", strsrcname);
         if (contact != null) {
@@ -226,6 +373,7 @@ public class AnalysisRecvData {
         // Intent intent = new Intent();
     }
 
+
     public void analyVoiceMsg(byte[] data) throws UnsupportedEncodingException {
 
         Intent intent = new Intent();
@@ -255,7 +403,7 @@ public class AnalysisRecvData {
         } else {
             BaseMapObject recvvoicemsg = new BaseMapObject();
             recvvoicemsg.put("id", null);
-            recvvoicemsg.put("number", vname);
+            recvvoicemsg.put("number", vname.split(",")[0]);
             recvvoicemsg.put("sendtype", AbsMsgRecorderActivity.RECVFROM + "");
             recvvoicemsg.put("status", "0");
             recvvoicemsg.put("msgtype", "1");
@@ -263,6 +411,7 @@ public class AnalysisRecvData {
             recvvoicemsg.put("creattime", UnixTime.getStrCurrentUnixTime());
             recvvoicemsg.put("priority", O.Priority);
             recvvoicemsg.put("acknowledgemen", O.Acknowledgemen);
+            recvvoicemsg.put("exp2", "2");
             recvvoicemsg.InsertObj2DB(AppContext, "shortmsg");
 
             // MyLog.showToast(AppContext, ""+(ShortmsgListActivity.isTop &&
@@ -309,10 +458,16 @@ public class AnalysisRecvData {
 
         int voicecursor = 5;
         int vnlen = ByteUtil.oneByte2oneInt(data[voicecursor++]);
-        byte[] srcvname = new byte[vnlen];
-        System.arraycopy(data, voicecursor, srcvname, 0, vnlen);
-        String vname = new String(srcvname, "UTF-8");
+        byte[] srcaname = new byte[vnlen];
+        System.arraycopy(data, voicecursor, srcaname, 0, vnlen);
+        String cname = new String(srcaname, "UTF-8");
         voicecursor += vnlen;
+
+        int flen = ByteUtil.oneByte2oneInt(data[voicecursor++]);
+        byte[] srcfname = new byte[flen];
+        System.arraycopy(data, voicecursor, srcfname, 0, vnlen);
+        String fname = new String(srcfname, "UTF-8");
+        voicecursor += flen;
 
         int vclen = ByteUtil.byte2Int(new byte[]
                 {data[voicecursor], data[voicecursor + 1]});// .oneByte2oneInt(data[voicecursor++]);
@@ -320,19 +475,19 @@ public class AnalysisRecvData {
         byte[] vconten = new byte[vclen];
         System.arraycopy(data, voicecursor, vconten, 0, vclen);
         String co = new String(vconten, "UTF-8");
-        String vpath = ByteUtil.getFile(vconten, O.SDCardRoot, vname);
+        String vpath = ByteUtil.getFile(vconten, O.SDCardRoot, fname);
+
         if (vpath == null) {
             return;
         } else {
             FileStatusActivity.recvpath = vpath;
             BaseMapObject record = new BaseMapObject();
             record.put("id", null);
-            record.put("number", FileStatusActivity.code);
+            record.put("number", cname);
             record.put("sendtype", "1");// 语音0.文件1
             record.put("status", "1");// 呼入成功/呼出成功/呼入失败/呼出失败(1,2,3,4)
             record.put("filepath", vpath);
             record.put("creattime", UnixTime.getStrCurrentUnixTime());
-
             record.InsertObj2DB(AppContext, "wiredrecord");
         }
 
@@ -950,7 +1105,7 @@ public class AnalysisRecvData {
     public void analyHostconfig(byte[] data) {
         Intent intent = new Intent();
         int flen = ByteUtil.byte2Int(new byte[]
-                {data[2], data[3]})-1;
+                {data[2], data[3]}) - 1;
 
         byte[] fconten = new byte[flen];
 
@@ -967,20 +1122,10 @@ public class AnalysisRecvData {
 
     public void analychannelCfg(byte[] data) {
         Intent intent = new Intent();
-        int flen = ByteUtil.byte2Int(new byte[]
-                {data[5], data[6]});
+        intent.setAction(AbsBaseActivity.broad_query_channel);
+        intent.putExtra("data", data);
+        AppContext.sendBroadcast(intent);
 
-        byte[] fconten = new byte[flen];
-
-        System.arraycopy(data, 7, fconten, 0, flen);
-        try {
-            String content = new String(fconten, "UTF-8");
-            intent.setAction(AbsBaseActivity.broad_config_host);
-            intent.putExtra("data", content);
-            AppContext.sendBroadcast(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 

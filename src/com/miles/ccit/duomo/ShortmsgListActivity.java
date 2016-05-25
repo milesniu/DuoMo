@@ -29,14 +29,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.miles.ccit.database.GetData4DB;
+import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsCreatCodeActivity;
 import com.miles.ccit.util.AbsMsgRecorderActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.O;
+import com.miles.ccit.util.SendNetData;
 import com.miles.ccit.util.UnixTime;
 
 import java.util.HashMap;
@@ -72,6 +75,8 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity {
         }
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(broad_recvtextmsg_Action);
+        intentFilter.addAction(broad_encrypt_Action);
+
         broad = new MyBroadcastReciver();
         this.registerReceiver(broad, intentFilter);
 
@@ -119,6 +124,15 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity {
                         refreshList();
                     }
                 }
+            } else if (action.equals(broad_encrypt_Action)) {
+                if (intent.getStringExtra("data") == null) {
+                    return;
+                } else {
+                    refreshList();
+                    BaseMapObject lastobj = shortList.get(shortList.size() - 1);
+                    new SendNetData().execute(APICode.SEND_NET_Encrypt_ShortTextMsg + "", O.LOCALIP + "," + lastobj.get("id").toString(), lastobj.get("number").toString(), intent.getStringExtra("data"));
+//                    Toast.makeText(mContext, "加密数据已返回:" + intent.getStringExtra("data"), Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
@@ -149,7 +163,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity {
                 break;
             case R.id.bt_send:
                 if (LoginActivity.isLogin) {
-                    sendTextmsg(map.get("number").toString(), Type);
+                    sendTextmsg(map.get("number").toString(), Type, tBtn_Trans.isChecked());
 
                     edit_inputMsg.setText("");
                     refreshList();
@@ -222,7 +236,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity {
                 msgitem.put("sendtype", AbsCreatCodeActivity.SENDNOW + "");
                 msgitem.UpdateMyself(mContext, "shortmsg");
                 adapter.notifyDataSetChanged();
-                sendTextMsgtoNet(new long[]{Long.parseLong(msgitem.get("id") + "")}, new String[]{msgitem.get("number") + ""}, msgitem.get("msgcontent") + "", (Integer.parseInt(msgitem.get("exp2").toString())));
+                sendTextMsgtoNet(new long[]{Long.parseLong(msgitem.get("id") + "")}, new String[]{msgitem.get("number") + ""}, msgitem.get("msgcontent") + "", (Integer.parseInt(msgitem.get("exp2").toString())), tBtn_Trans.isChecked());
                 break;
             case 3:
                 break;
@@ -260,7 +274,7 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity {
 
                         break;
                     case MotionEvent.ACTION_UP:
-                        talkTouchUp(event);
+                        talkTouchUp(event, Type);
                         refreshList();
                         break;
                 }

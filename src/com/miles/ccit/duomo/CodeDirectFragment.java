@@ -33,281 +33,253 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
-public class CodeDirectFragment extends AbsBaseFragment
-{
+public class CodeDirectFragment extends AbsBaseFragment {
 
-	private ListView listview;
-	private MsgorMailSetAdapter adapter;
-	List<BaseMapObject> emailList = new Vector<BaseMapObject>();
-	List<BaseMapObject> sendemail = new Vector<BaseMapObject>();
-	List<BaseMapObject> recvemail = new Vector<BaseMapObject>();
-	List<BaseMapObject> currentlist = null;
-	private MyBroadcastReciver broad = null;
-	public Button Btn_Delete;
-	public Button Btn_Canle;
-	private boolean issend = false;
-	// private boolean isrefresh = true;
-	public static boolean isTop = false;
-	public static boolean isneedrefresh = false;
-	private Handler handler = new Handler()
-	{
-		@Override
-		public void handleMessage(Message msg)
-		{
-			// TODO Auto-generated method stub
-			switch (msg.what)
-			{
-			case 0:
-				break;
-			case 1:
-				adapter.notifyDataSetChanged();
-				break;
-			case 2:
+    private ListView listview;
+    private MsgorMailSetAdapter adapter;
+    List<BaseMapObject> emailList = new Vector<BaseMapObject>();
+    List<BaseMapObject> sendemail = new Vector<BaseMapObject>();
+    List<BaseMapObject> recvemail = new Vector<BaseMapObject>();
 
-				break;
-			}
-			super.handleMessage(msg);
-		}
-	};
+    private List<BaseMapObject> contactList = new Vector<BaseMapObject>();
+    List<BaseMapObject> currentlist = null;
+    private MyBroadcastReciver broad = null;
+    public Button Btn_Delete;
+    public Button Btn_Canle;
+    private boolean issend = false;
+    // private boolean isrefresh = true;
+    public static boolean isTop = false;
+    public static boolean isneedrefresh = false;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            switch (msg.what) {
+                case 0:
+                    break;
+                case 1:
+                    adapter.notifyDataSetChanged();
+                    break;
+                case 2:
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-	{
-		View view = inflater.inflate(R.layout.fragment_codedirect, null);
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
-		listview = (ListView) view.findViewById(R.id.listView_content);
-		initView(view);
-		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(AbsBaseActivity.broad_recvcodedirc_Action);
-		broad = new MyBroadcastReciver();
-		getActivity().registerReceiver(broad, intentFilter);
-		isneedrefresh = true;
-		issend = false;
-		return view;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_codedirect, null);
+        contactList = GetData4DB.getObjectListData(getActivity(), "contact");
 
-	@Override
-	public void onDestroy()
-	{
-		// TODO Auto-generated method stub
-		isTop = false;
-		getActivity().unregisterReceiver(broad);
-		super.onDestroy();
-		
-	}
+        listview = (ListView) view.findViewById(R.id.listView_content);
+        initView(view);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(AbsBaseActivity.broad_recvcodedirc_Action);
+        broad = new MyBroadcastReciver();
+        getActivity().registerReceiver(broad, intentFilter);
+        isneedrefresh = true;
+        issend = false;
+        return view;
+    }
 
-	@Override
-	public void onPause()
-	{
-		// TODO Auto-generated method stub
-		super.onPause();
-		isTop = false;
-	}
+    @Override
+    public void onDestroy() {
+        // TODO Auto-generated method stub
+        isTop = false;
+        getActivity().unregisterReceiver(broad);
+        super.onDestroy();
 
-	@Override
-	public void onStop()
-	{
-		// TODO Auto-generated method stub
-		super.onStop();
-		isTop = false;
-	}
+    }
 
-	public class MyBroadcastReciver extends BroadcastReceiver
-	{
-		@Override
-		public void onReceive(Context context, Intent intent)
-		{
-			// TODO Auto-generated method stub
-			// hideProgressDlg();
-			String action = intent.getAction();
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        isTop = false;
+    }
 
-			if (action.equals(AbsBaseActivity.broad_recvcodedirc_Action))
-			{
-				initListContent();
-			}
-		}
+    @Override
+    public void onStop() {
+        // TODO Auto-generated method stub
+        super.onStop();
+        isTop = false;
+    }
 
-	}
+    public class MyBroadcastReciver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+            // hideProgressDlg();
+            String action = intent.getAction();
 
-	@Override
-	public void onResume()
-	{
-		// TODO Auto-generated method stub
-		super.onResume();
-		if (isneedrefresh)
-		{
-			initListContent();
-		}
-		isneedrefresh = true;
-		isTop = true;
+            if (action.equals(AbsBaseActivity.broad_recvcodedirc_Action)) {
+                initListContent();
+            }
+        }
 
-	}
+    }
 
-	private void initListContent()
-	{
-		emailList.clear();
-		recvemail.clear();
-		sendemail.clear();
-		emailList = GetData4DB.getObjList4LeftJoin(getActivity(), "codedirect", "contact", "number");
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        if (isneedrefresh) {
+            initListContent();
+            issend = true;
+            changeSiwtchRight();
+            currentlist = sendemail;
+            refreshList(currentlist);
+        }
+        isneedrefresh = true;
+        isTop = true;
 
-		if (emailList == null)
-		{
-			Toast.makeText(getActivity(), "网络连接异常，请检查后重试。", 0).show();
-			return;
-		} else
-		{
-			for (BaseMapObject item : emailList)
-			{
-				if (item.get("sendtype").toString().equals(AbsBaseActivity.RECVFROM + ""))// 收件
-				{
-					recvemail.add(item);
-				} else
-				{
-					sendemail.add(item);
-				}
-			}
-		}
-		if (issend)
-		{
-			currentlist = sendemail;
-		} else
-		{
-			currentlist = recvemail;
-		}
-		Collections.reverse(recvemail);
-		Collections.reverse(sendemail);
+    }
 
-		refreshList(currentlist);
-	}
+    private void initListContent() {
+        emailList.clear();
+        recvemail.clear();
+        sendemail.clear();
+        emailList = GetData4DB.getObjList4LeftJoin(getActivity(), "codedirect", "contact", "number");
 
-	private void refreshList(final List<BaseMapObject> list)
-	{
-		// Collections.reverse(list);
+        if (emailList == null) {
+            Toast.makeText(getActivity(), "网络连接异常，请检查后重试。", 0).show();
+            return;
+        } else {
+            for (BaseMapObject item : emailList) {
+                if (item.get("sendtype").toString().equals(AbsBaseActivity.RECVFROM + ""))// 收件
+                {
+                    recvemail.add(item);
+                } else {
+                    sendemail.add(item);
+                }
+            }
+        }
+        if (issend) {
+            currentlist = sendemail;
+        } else {
+            currentlist = recvemail;
+        }
+        Collections.reverse(recvemail);
+        Collections.reverse(sendemail);
 
-		adapter = new MsgorMailSetAdapter(getActivity(), list, "codedir");
+        refreshList(currentlist);
+    }
 
-		listview.setAdapter(adapter);
-		listview.setOnItemClickListener(new OnItemClickListener()
-		{
+    private void refreshList(final List<BaseMapObject> list) {
+        // Collections.reverse(list);
 
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-			{
-				// TODO Auto-generated method stub
-				// issend = true;
-				isneedrefresh = false;
-				getActivity().startActivity(new Intent(getActivity(), CodeDirectInfoActivity.class).putExtra("item", list.get(arg2)));
-			}
-		});
-		if (list == null || list.size() < 1)
-		{
-			showEmpty();
-			return;
-		}
-		hideEmpty();
-		listview.setOnCreateContextMenuListener(new OnCreateContextMenuListener()
-		{
+        adapter = new MsgorMailSetAdapter(getActivity(), list, contactList, "codedir");
 
-			@Override
-			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
-			{
-				// TODO Auto-generated method stub
-				menu.setHeaderTitle("代码指挥");
-				menu.add(0, 0, 0, "删除代码");
-				menu.add(0, 1, 1, "批量删除代码");
-				menu.add(0, 3, 3, "取消");
-			}
-		});
-	}
+        listview.setAdapter(adapter);
+        listview.setOnItemClickListener(new OnItemClickListener() {
 
-	@Override
-	public boolean onContextItemSelected(MenuItem item)
-	{
-		// TODO Auto-generated method stub
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		int ListItem = (int) info.position;
-		switch (item.getItemId())
-		{
-		case 0:
-			confirmDlg(true, "删除代码指挥", "codedirect", "id", currentlist.get(ListItem), currentlist, adapter);
-			break;
-		case 1:
-			for (BaseMapObject tmp : currentlist)
-			{
-				tmp.put("exp1", "0");
-			}
-			adapter.notifyDataSetChanged();
-			linear_Del.setVisibility(View.VISIBLE);
-			break;
-		case 3:
-			break;
-		}
-		return super.onContextItemSelected(item);
-	}
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                // TODO Auto-generated method stub
+                // issend = true;
+                isneedrefresh = false;
+                getActivity().startActivity(new Intent(getActivity(), CodeDirectInfoActivity.class).putExtra("item", list.get(arg2)));
+            }
+        });
+        if (list == null || list.size() < 1) {
+            showEmpty();
+            return;
+        }
+        hideEmpty();
+        listview.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
 
-	@Override
-	public void initView(View view)
-	{
-		// TODO Auto-generated method stub
-		initSwitchBaseView(view, "收件箱", "发件箱");
-		// Btn_Left.setText("返回");
-		// Btn_Right.setText("新建");
-		Btn_Right.setBackgroundResource(R.drawable.creatmail);
-		linear_Del = (LinearLayout) view.findViewById(R.id.linear_del);
-		Btn_Delete = (Button) view.findViewById(R.id.bt_sure);
-		Btn_Canle = (Button) view.findViewById(R.id.bt_canle);
-		Btn_Delete.setOnClickListener(this);
-		Btn_Canle.setOnClickListener(this);
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+                // TODO Auto-generated method stub
+                menu.setHeaderTitle("代码指挥");
+                menu.add(0, 0, 0, "删除代码");
+                menu.add(0, 1, 1, "批量删除代码");
+                menu.add(0, 3, 3, "取消");
+            }
+        });
+    }
 
-	}
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // TODO Auto-generated method stub
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        int ListItem = (int) info.position;
+        switch (item.getItemId()) {
+            case 0:
+                confirmDlg(true, "删除代码指挥", "codedirect", "id", currentlist.get(ListItem), currentlist, adapter);
+                break;
+            case 1:
+                for (BaseMapObject tmp : currentlist) {
+                    tmp.put("exp1", "0");
+                }
+                adapter.notifyDataSetChanged();
+                linear_Del.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
 
-	@Override
-	public void onClick(View v)
-	{
-		// TODO Auto-generated method stub
-		switch (v.getId())
-		{
-		case R.id.bt_left:
-			getActivity().finish();
-			break;
-		case R.id.text_left:
-			changeSiwtchLeft();
-			issend = false;
-			currentlist = recvemail;
-			refreshList(currentlist);
-			break;
-		case R.id.text_right:
-			changeSiwtchRight();
-			issend = true;
-			currentlist = sendemail;
-			refreshList(currentlist);
-			break;
-		case R.id.bt_right:
-			if (LoginActivity.isLogin)
-			{
-				isneedrefresh = true;
-				startActivity(new Intent(getActivity(), CreatCodedirecActivity.class));
-			} else
-			{
-				MyLog.showToast(getActivity(), "请登录后再执行该操作。");
-			}
+    @Override
+    public void initView(View view) {
+        // TODO Auto-generated method stub
+        initSwitchBaseView(view, "收件箱", "发件箱");
+        // Btn_Left.setText("返回");
+        // Btn_Right.setText("新建");
+        Btn_Right.setBackgroundResource(R.drawable.creatmail);
+        linear_Del = (LinearLayout) view.findViewById(R.id.linear_del);
+        Btn_Delete = (Button) view.findViewById(R.id.bt_sure);
+        Btn_Canle = (Button) view.findViewById(R.id.bt_canle);
+        Btn_Delete.setOnClickListener(this);
+        Btn_Canle.setOnClickListener(this);
 
-			break;
-		case R.id.bt_sure:
-			confirmDlg(true, "删除代码", "codedirect", "id", null, currentlist, adapter);
+    }
 
-			break;
-		case R.id.bt_canle:
-			for (BaseMapObject tmp : currentlist)
-			{
-				tmp.put("exp1", null);
-				tmp.put("exp2", null);
-			}
-			linear_Del.setVisibility(View.GONE);
-			break;
-		default:
-			break;
-		}
-	}
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+        switch (v.getId()) {
+            case R.id.bt_left:
+                getActivity().finish();
+                break;
+            case R.id.text_left:
+                changeSiwtchLeft();
+                issend = false;
+                currentlist = recvemail;
+                refreshList(currentlist);
+                break;
+            case R.id.text_right:
+                changeSiwtchRight();
+                issend = true;
+                currentlist = sendemail;
+                refreshList(currentlist);
+                break;
+            case R.id.bt_right:
+                if (LoginActivity.isLogin) {
+                    isneedrefresh = true;
+                    startActivity(new Intent(getActivity(), CreatCodedirecActivity.class));
+                } else {
+                    MyLog.showToast(getActivity(), "请登录后再执行该操作。");
+                }
+
+                break;
+            case R.id.bt_sure:
+                confirmDlg(true, "删除代码", "codedirect", "id", null, currentlist, adapter);
+
+                break;
+            case R.id.bt_canle:
+                for (BaseMapObject tmp : currentlist) {
+                    tmp.put("exp1", null);
+                    tmp.put("exp2", null);
+                }
+                linear_Del.setVisibility(View.GONE);
+                break;
+            default:
+                break;
+        }
+    }
 
 }

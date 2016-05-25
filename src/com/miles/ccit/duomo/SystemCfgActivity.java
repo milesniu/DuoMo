@@ -14,7 +14,7 @@ import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.SendDataTask;
 
-public class SystemCfgActivity extends AbsBaseActivity
+public class 	SystemCfgActivity extends AbsBaseActivity
 {
 
 	private EditText edit_senddelay = null;
@@ -22,7 +22,7 @@ public class SystemCfgActivity extends AbsBaseActivity
 	private Spinner sp_type = null;
 	private Spinner sp_power = null;
 	
-	private String[] Type = new String[]{"民用科顿电台","十五20W电台"};
+	private String[] Type = new String[]{"十五125W电台","十五20W电台"};
 	private String[] Power = new String[]{"高功率","中功率","低功率"};
 
     public static SharedPreferences sp;

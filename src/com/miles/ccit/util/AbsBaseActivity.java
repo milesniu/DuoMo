@@ -13,6 +13,8 @@ import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -21,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
@@ -38,6 +41,7 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
     public Button Btn_Delete;
     public Button Btn_Canle;
     public LinearLayout linear_Del;
+    public SharedPreferences sp;
 
 
     public static final int RECVFROM = 1;
@@ -67,6 +71,8 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
     public static final String broad_debug_info = "cn.broadcast.debug.info";
     public static final String broad_config_host = "cn.broadcast.host.config";
     public static final String broad_query_channel = "cn.broadcast.query.channel";
+    public static final String broad_encrypt_Action = "cn.broadcast.encrypt";
+    public static final String broad_decryption_Action = "cn.broadcast.decryption";
 
 
     public abstract void initView();
@@ -87,6 +93,17 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
         Btn_Right.setOnClickListener(this);
         img_Empty = (ImageView) findViewById(R.id.image_empty);
 
+    }
+
+    public void selectFile() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        try {
+            startActivityForResult(Intent.createChooser(intent, "请选择附件"), 0);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static String getassetsCode(Context conte, String filename) {
@@ -178,7 +195,9 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
 
     public void checkContact(byte[] data) {
 
-        HashMap<String, BaseMapObject> contacthash = GetData4DB.getObjectHashData(this, "contact", "number");
+        GetData4DB.cleanTable(this, "contact");
+
+//        HashMap<String, BaseMapObject> contacthash = GetData4DB.getObjectHashData(this, "contact", "number");
 
         try {
             int cursor = 5;
@@ -204,60 +223,65 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
             cursor += 2;
 
             String[] arraycon = strname.split(",");
-            for (int j = 0; j <= (arraycon.length / 2); j += 4) {
+            for (int i = 0; i < (arraycon.length / 4); i += 1) {
+
+                int j = i * 4;
+
                 String num = arraycon[j] + "#" + arraycon[j + 2] + "#" + arraycon[j + 3];
                 String name = arraycon[j + 1];
-                BaseMapObject item = contacthash.get(num);
-                if (item == null) {
-                    // 直接添加
-                    BaseMapObject contact = new BaseMapObject();
-                    contact.put("id", null);
-                    contact.put("name", name);
-                    contact.put("number", num);
-                    contact.put("type", "0");// 默认加为无线侧
-                    contact.put("remarks", "");
-                    contact.put("creattime", UnixTime.getStrCurrentUnixTime());
-                    contact.InsertObj2DB(mContext, "contact");
+//                BaseMapObject item = contacthash.get(num);
+//                if (item == null) {
+                // 直接添加
+                BaseMapObject contact = new BaseMapObject();
+                contact.put("id", null);
+                contact.put("name", name);
+                contact.put("number", num);
+                contact.put("type", "0");// 默认加为无线侧
+                contact.put("remarks", "");
+                contact.put("creattime", UnixTime.getStrCurrentUnixTime());
+                contact.InsertObj2DB(mContext, "contact");
 
-                } else if (num.equals(item.get("number").toString()) && name.equals(item.get("name").toString())) {
-                    // 直接返回
-                } else {
-                    // 更新
-                    item.put("name", name);
-                    item.UpdateObj2DBbyId(mContext, "contact");
-
-                }
-                MyLog.SystemOut(name);
             }
+//            else if (num.equals(item.get("number").toString()) && name.equals(item.get("name").toString())) {
+//                    // 直接返回
+//                } else {
+//                    // 更新
+//                    item.put("name", name);
+//                    item.UpdateObj2DBbyId(mContext, "contact");
+//
+//                }
+//                MyLog.SystemOut(name);
+//            }
 
             String[] arrayWired = strwiredname.split(",");
-            for (int j = 0; j <= (arrayWired.length / 2); j += 2) {
+            for (int i = 0; i < arrayWired.length; i += 1) {
+                int j = i * 2;
                 String num = arrayWired[j];
                 String name = arrayWired[j + 1];
-                BaseMapObject item = contacthash.get(num);
-                if (item == null) {
-                    // 直接添加
-                    BaseMapObject contact = new BaseMapObject();
-                    contact.put("id", null);
-                    contact.put("name", name);
-                    contact.put("number", num);
-                    contact.put("type", "1");// 添加为有线侧
-                    contact.put("remarks", "");
-                    contact.put("creattime", UnixTime.getStrCurrentUnixTime());
-                    contact.InsertObj2DB(mContext, "contact");
+//                BaseMapObject item = contacthash.get(num);
+//                if (item == null) {
+                // 直接添加
+                BaseMapObject contact = new BaseMapObject();
+                contact.put("id", null);
+                contact.put("name", name);
+                contact.put("number", num);
+                contact.put("type", "1");// 添加为有线侧
+                contact.put("remarks", "");
+                contact.put("creattime", UnixTime.getStrCurrentUnixTime());
+                contact.InsertObj2DB(mContext, "contact");
 
-                } else if (num.equals(item.get("number").toString()) && name.equals(item.get("name").toString())) {
-                    // 直接返回
-                } else {
-                    // 更新
-                    item.put("name", name);
-                    item.UpdateObj2DBbyId(mContext, "contact");
-
-                }
-                MyLog.SystemOut(name);
+//                } else if (num.equals(item.get("number").toString()) && name.equals(item.get("name").toString())) {
+//                    // 直接返回
+//                } else {
+//                    // 更新
+//                    item.put("name", name);
+//                    item.UpdateObj2DBbyId(mContext, "contact");
+//
+//                }
+//                MyLog.SystemOut(name);
             }
 
-            MyLog.SystemOut(strname);
+//            MyLog.SystemOut(strname);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -64,10 +64,7 @@ public class CallWaitActivity extends AbsBaseActivity
 
             audioManager = (AudioManager) this.getSystemService(mContext.AUDIO_SERVICE);
             audioManager.setMode(AudioManager.MODE_IN_CALL);// 把模式调成听筒放音模式
-//            if(type!=AbsToCallActivity.TOCALLVOICE)
-//            {
-//                player.setLooping(true);
-//            }
+
             player = MediaPlayer.create(mContext, resid);
             player.stop();
             player.prepare();

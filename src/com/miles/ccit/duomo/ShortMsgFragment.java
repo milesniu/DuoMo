@@ -35,6 +35,7 @@ public class ShortMsgFragment extends AbsBaseFragment {
     private MsgorMailSetAdapter adapter;
     private MyBroadcastReciver broad = null;
     private List<BaseMapObject> msgList = new Vector<BaseMapObject>();
+    private List<BaseMapObject> contactList = new Vector<BaseMapObject>();
     public Button Btn_Delete;
     public Button Btn_Canle;
     public static boolean isTop = false;
@@ -42,6 +43,7 @@ public class ShortMsgFragment extends AbsBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shortmsg, null);
+        contactList = GetData4DB.getObjectListData(getActivity(), "contact");
         initView(view);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(AbsBaseActivity.broad_recvtextmsg_Action);
@@ -100,11 +102,8 @@ public class ShortMsgFragment extends AbsBaseFragment {
     }
 
 
-
-
     private void refreshList() {
         msgList = GetData4DB.getObjecSet(getActivity(), "shortmsg", "contact", "number", "number", new String[]{"exp2"}, new String[]{"2"}, "<>");
-
         Collections.reverse(msgList);
 
         if (msgList == null || msgList.size() < 1) {
@@ -113,7 +112,7 @@ public class ShortMsgFragment extends AbsBaseFragment {
             return;
         }
         hideEmpty();
-        adapter = new MsgorMailSetAdapter(getActivity(), msgList, "shortmsg");
+        adapter = new MsgorMailSetAdapter(getActivity(), msgList,contactList, "shortmsg");
         listview.setAdapter(adapter);
         listview.setOnItemClickListener(new OnItemClickListener() {
 

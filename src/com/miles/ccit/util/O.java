@@ -28,4 +28,6 @@ public class O {
     public static final int WIRED = 1;
     public static final int NET = 2;
 
+    public static boolean isEncrypt = false;
+
 }

@@ -192,7 +192,7 @@ public class ComposeData {
      *
      * @param info 源地址、目的地址、内容
      */
-    public byte[] sendShortNetTextmsg(int type, String... info) {
+    public byte[] sendShortNetTextmsg(byte code, String... info) {
 
         String strdata = info[0] + "#" + info[1] + "#" + info[2];
 
@@ -212,7 +212,7 @@ public class ComposeData {
         // //
         // 数据区长度
         byte[] frame = new byte[]
-                {APICode.SEND_NET_ShortTextMsg}; // 命令码
+                {code}; // 命令码
 
         byte[] SendData = new byte[mData.length + 5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
         int lenth = 0; // 记录当前拷贝到目的数组的下标
@@ -263,9 +263,10 @@ public class ComposeData {
     /**
      * 发送短语音
      *
+     * @param type 传输类型，1：专网模式，2：网络模式
      * @param info 源地址、目的地址、语音地址
      */
-    public byte[] sendShortVoicemsg(String... info) {
+    public byte[] sendShortVoicemsg(int type, String... info) {
 
         int mLen = 0;
         for (int i = 0; i < 2; i++) {
@@ -299,7 +300,7 @@ public class ComposeData {
         // //
         // 数据区长度
         byte[] frame = new byte[]
-                {APICode.SEND_ShortVoiceMsg}; // 命令码
+                {type == 2 ? APICode.SEND_NET_ShortVoiceMsg : APICode.SEND_ShortVoiceMsg}; // 命令码
 
         byte[] SendData = new byte[mData.length + 5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
         int lenth = 0; // 记录当前拷贝到目的数组的下标
@@ -613,6 +614,16 @@ public class ComposeData {
         return new byte[]
                 {(byte) 0x55, (byte) 0xAA, (byte) 0x00, (byte) 0x01, (byte) 0x2A};
     }
+ /**
+     * 专网模式的挂断
+     *
+     * @param info null
+     */
+    public byte[] sendSpNetInteraput(String... info) {
+
+        return new byte[]
+                {(byte) 0x55, (byte) 0xAA, (byte) 0x00, (byte) 0x01, (byte) 0x29};
+    }
 
     /**
      * 注销
@@ -782,6 +793,18 @@ public class ComposeData {
     }
 
     /**
+     * 请求查询信道优先级
+     *
+     * @param info null
+     */
+    public byte[] sendSetChannel(String... info) {
+
+        return new byte[]
+                {(byte) 0x55, (byte) 0xAA, (byte) 0x00, (byte) 0x06, (byte) 0x43, (byte) (Integer.parseInt(info[0])), (byte) (Integer.parseInt(info[1])), (byte) (Integer.parseInt(info[2])), (byte) (Integer.parseInt(info[3])), (byte) (Integer.parseInt(info[4]))};
+
+    }
+
+    /**
      * 返回文件接受结果
      *
      * @param info null
@@ -883,6 +906,38 @@ public class ComposeData {
     }
 
     /**
+     * 发送加密信息
+     *
+     * @param info 加密信息
+     */
+    public byte[] sendEncrypt(byte code, String... info) {
+
+        int mLen = info[0].getBytes().length;
+
+        byte[] mData = new byte[mLen + 2];// 信息长度2字节
+
+        byte[] len = ByteUtil.int2Byte(2, info[0].getBytes().length);
+        System.arraycopy(len, 0, mData, 0, len.length);
+        System.arraycopy(info[0].getBytes(), 0, mData, 2, info[0].getBytes().length);
+
+        byte[] head = data.head;
+        byte[] DataLenth = HexSwapString.short2Byte((short) (mData.length + 1));// new
+        // byte[]{(byte)(mData.length+1)};
+        // //
+        // 数据区长度
+        byte[] frame = new byte[]
+                {code}; // 命令码
+
+        byte[] SendData = new byte[mData.length + 5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
+        int lenth = 0; // 记录当前拷贝到目的数组的下标
+        System.arraycopy(head, 0, SendData, lenth, head.length);
+        System.arraycopy(DataLenth, 0, SendData, lenth += head.length, DataLenth.length);
+        System.arraycopy(frame, 0, SendData, lenth += DataLenth.length, frame.length);
+        System.arraycopy(mData, 0, SendData, lenth += frame.length, mData.length);
+        return SendData;
+    }
+
+    /**
      * 发送有线联系人
      *
      * @param info 联系人信息
@@ -936,6 +991,46 @@ public class ComposeData {
         // 数据区长度
         byte[] frame = new byte[]
                 {APICode.SEND_RECV_HostCfg}; // 命令码
+
+        byte[] SendData = new byte[mData.length + 5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
+        int lenth = 0; // 记录当前拷贝到目的数组的下标
+        System.arraycopy(head, 0, SendData, lenth, head.length);
+        System.arraycopy(DataLenth, 0, SendData, lenth += head.length, DataLenth.length);
+        System.arraycopy(frame, 0, SendData, lenth += DataLenth.length, frame.length);
+        System.arraycopy(mData, 0, SendData, lenth += frame.length, mData.length);
+        return SendData;
+    }
+
+    /**
+     * 转发短消息
+     *
+     * @param info 源地址、目的地址、内容
+     */
+    public byte[] sendTransData( String... info) {
+
+        int mLen = 0;
+        for (String i : info) {
+            mLen += i.getBytes().length;
+        }
+
+        byte[] mData = new byte[mLen + 5]; // 源地址1字节，目的地址2字节，内容2字节
+
+        int currentpos = 0;
+        for (int i = 0; i < info.length; i++) {
+            byte[] len = ByteUtil.int2Byte(i == 0 ? 1 : 2, info[i].getBytes().length);
+            System.arraycopy(len, 0, mData, currentpos, len.length);
+            currentpos += len.length;
+            System.arraycopy(info[i].getBytes(), 0, mData, currentpos, info[i].getBytes().length);
+            currentpos += info[i].getBytes().length;
+        }
+
+        byte[] head = data.head;
+        byte[] DataLenth = HexSwapString.short2Byte((short) (mData.length + 1));// new
+        // byte[]{(byte)(mData.length+1)};
+        // //
+        // 数据区长度
+        byte[] frame = new byte[]
+                {APICode.SEND_Trans_data}; // 命令码
 
         byte[] SendData = new byte[mData.length + 5]; // 最终发送的数组(4:包头两字节，长度两字节,命令码一个字节)
         int lenth = 0; // 记录当前拷贝到目的数组的下标

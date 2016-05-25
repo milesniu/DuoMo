@@ -26,10 +26,10 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]> {
 
                     break;
                 case APICode.SEND_ShortTextMsg:
-                    SocketConnection.getInstance().readReqMsg(new ComposeData().sendShortTextmsg(0,parm[1], parm[2], parm[3]));
+                    SocketConnection.getInstance().readReqMsg(new ComposeData().sendShortTextmsg(0, parm[1], parm[2], parm[3]));
                     break;
                 case APICode.SEND_ShortVoiceMsg:
-                    SocketConnection.getInstance().readReqMsg(new ComposeData().sendShortVoicemsg(parm[1], parm[2], parm[3]));
+                    SocketConnection.getInstance().readReqMsg(new ComposeData().sendShortVoicemsg(1, parm[1], parm[2], parm[3]));
                     break;
                 case APICode.SEND_VoiceCode:
                     SocketConnection.getInstance().readReqMsg(new ComposeData().sendStartVoicecode(parm[1], parm[2]));
@@ -62,6 +62,9 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]> {
                     break;
                 case APICode.SEND_WiredVoice:
                     SocketConnection.getInstance().readReqMsg(new ComposeData().sendWiredVoice(parm[2]));
+                    break;
+                case APICode.SEND_SpecialNetInteraput:
+                    SocketConnection.getInstance().readReqMsg(new ComposeData().sendSpNetInteraput());
                     break;
 
                 case APICode.SEND_NormalInteraput:
@@ -105,6 +108,18 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]> {
                     break;
                 case APICode.SEND_QueryChannel:
                     SocketConnection.getInstance().readReqMsg(new ComposeData().sendQueryChannel());
+                    break;
+                case APICode.SEND_RECV_ChannelCfg:
+                    SocketConnection.getInstance().readReqMsg(new ComposeData().sendSetChannel(parm[1], parm[2], parm[3], parm[4], parm[5]));
+                    break;
+                case APICode.SEND_Encrypt:
+                    SocketConnection.getInstance().readReqMsg(new ComposeData().sendEncrypt(APICode.SEND_Encrypt, parm[1]));
+                    break;
+                case APICode.SEND_Decryption:
+                    SocketConnection.getInstance().readReqMsg(new ComposeData().sendEncrypt(APICode.SEND_Decryption, parm[1]));
+                    break;
+                case APICode.SEND_Trans_data:
+                    SocketConnection.getInstance().readReqMsg(new ComposeData().sendTransData(parm[1], parm[2], parm[3]));
                     break;
             }
         } catch (Exception e) {
