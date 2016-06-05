@@ -376,7 +376,6 @@ public class SocketConnection {
                             analyUtil.analyVoiceMsg(data);
                             break;
 
-
                         case APICode.SEND_NET_Encrypt_ShortTextMsg:
                             analyUtil.analyBackNetEncryptTextMsg(data);
                             break;
@@ -513,7 +512,6 @@ public class SocketConnection {
                         case APICode.RECV_Trans_data:
                             analyUtil.analyTransData(heart);
                     }
-
                     try {
                         lock.lock();
                     } finally {

@@ -227,7 +227,11 @@ public class AnalysisRecvData {
 
         BaseMapObject recvmsg = new BaseMapObject();
         recvmsg.put("id", null);
-        recvmsg.put("number", recvdata[0].split(",")[0]);
+        if (recvdata[1].indexOf("@") != -1) {
+            recvmsg.put("number", recvdata[1]);
+        } else {
+            recvmsg.put("number", recvdata[0].split(",")[0]);
+        }
         recvmsg.put("sendtype", AbsMsgRecorderActivity.RECVFROM + "");
         recvmsg.put("status", "0");
         recvmsg.put("msgtype", "0");
@@ -238,7 +242,7 @@ public class AnalysisRecvData {
         recvmsg.put("exp2", "2");
         recvmsg.InsertObj2DB(AppContext, "shortmsg");
 
-        if (ShortMsgFragment.isTop || (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(recvdata[0].split(",")[0]))) {
+        if (ShortMsgFragment.isTop || (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null)) {
             intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
             intent.putExtra("data", recvmsg);
             AppContext.sendBroadcast(intent);
@@ -385,7 +389,11 @@ public class AnalysisRecvData {
         String vname = new String(srcvname, "UTF-8");
         voicecursor += vnlen;
 
-        int myvlen = ByteUtil.oneByte2oneInt(data[voicecursor++]);
+        int myvlen = ByteUtil.byte2Int(new byte[]
+                {data[voicecursor], data[voicecursor + 1]});
+
+        voicecursor += 2;
+
         byte[] myvname = new byte[myvlen];
         System.arraycopy(data, voicecursor, myvname, 0, myvlen);
         String mstryvname = new String(myvname, "UTF-8");
@@ -421,11 +429,14 @@ public class AnalysisRecvData {
             // MyLog.LogV("istop", (""+ShortmsgListActivity.isTop) +
             // (ShortmsgListActivity.number != null) +
             // (ShortmsgListActivity.number.equals(vname)));
-            if (ShortMsgFragment.isTop || (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(vname))) {
+
+            if (ShortMsgFragment.isTop || (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null)) {
                 intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
                 intent.putExtra("data", recvvoicemsg);
                 AppContext.sendBroadcast(intent);
             }
+            new SendNetBackData().execute(vname.split(","));
+
 //                        else
 //			{
             BaseMapObject contact = GetData4DB.getObjectByRowName(AppContext, "contact", "number", vname);
@@ -442,7 +453,12 @@ public class AnalysisRecvData {
             messageIntent.putExtra("item", recvvoicemsg);
             messageIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             messagePendingIntent = PendingIntent.getActivity(AppContext, 0, messageIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            messageNotificationID = Integer.parseInt(vname);
+            try {
+                messageNotificationID = Integer.parseInt(vname);
+            } catch (Exception e) {
+                messageNotificationID = Integer.parseInt(vname.split(",")[1]);
+            }
+
             // 更新通知栏
             messageNotification.setLatestEventInfo(AppContext, contact == null ? vname : (contact.get("name").toString() + "的新消息"), "[语音]", messagePendingIntent);
             messageNotificatioManager.notify(messageNotificationID, messageNotification);

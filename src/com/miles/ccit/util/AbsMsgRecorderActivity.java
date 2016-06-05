@@ -35,9 +35,9 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity {
         public void handleMessage(Message msg) {
             if (currentlong >= 14) {
                 mediaRecorder.stopRecorder();
-                talkTouchUp(null, 1);
+//                talkTouchUp(null, 1);
                 isUp = true;
-                MyLog.showToast(mContext, "超过最大时间,立即发送。");
+                MyLog.showToast(mContext, "超过最大时间");
                 currentlong = 0;
                 timer.cancel();
             } else {
@@ -86,7 +86,14 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity {
         }
     }
 
+
     public long sendTextmsg(String contact, int type, boolean trans) {
+
+        return sendTextmsg(contact, null, type, trans);
+
+    }
+
+    public long sendTextmsg(String contact, String group, int type, boolean trans) {
         long ret = -1;
         if (contact.equals("")) {
             Toast.makeText(mContext, "联系人不能为空。", Toast.LENGTH_SHORT).show();
@@ -101,13 +108,20 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity {
                 sendTextMsgtoNet(new long[]{ret}, new String[]{contact}, edit_inputMsg.getText().toString(), type, trans);
             } else {
                 //多人发送
-                String[] tmparray = contact.split(",");
-                long[] arrayid = new long[tmparray.length];
-                for (int i = 0; i < tmparray.length; i++) {
-                    ret = MsgRecorderutil.insertTextmsg(mContext, tmparray[i], edit_inputMsg.getText().toString(), type);
-                    arrayid[i] = ret;
+                if (type == O.NET) {
+                    //网络模式下多人代表群发
+                    ret = MsgRecorderutil.insertTextmsg(mContext, contact, group, edit_inputMsg.getText().toString(), type);
+                    sendTextMsgtoNet(new long[]{ret}, new String[]{group + "@" + contact + "@" + O.LOCALIP}, edit_inputMsg.getText().toString(), type, trans);
+                } else {
+                    //专网模式下多人，代表单个发送
+                    String[] tmparray = contact.split(",");
+                    long[] arrayid = new long[tmparray.length];
+                    for (int i = 0; i < tmparray.length; i++) {
+                        ret = MsgRecorderutil.insertTextmsg(mContext, tmparray[i], edit_inputMsg.getText().toString(), type);
+                        arrayid[i] = ret;
+                    }
+                    sendTextMsgtoNet(arrayid, tmparray, edit_inputMsg.getText().toString(), type, trans);
                 }
-                sendTextMsgtoNet(arrayid, tmparray, edit_inputMsg.getText().toString(), type, trans);
             }
 
         }
@@ -131,7 +145,7 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity {
                 }
                 desCon = desCon.substring(0, desCon.length() - 1);
 
-                new SendDataTask().execute(APICode.SEND_Trans_data + "", O.LOCALIP, desCon, msgcontent);
+                new SendDataTask().execute(APICode.SEND_Trans_data + "", O.LOCALIP + "," + id[0], desCon, msgcontent);
                 return;
             }
             if (O.isEncrypt) {
@@ -155,14 +169,21 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity {
     public static void sendVoiceMsgtoNet(long[] id, String[] contact, String voicepath, int type) {
         if (type == 2) {
             //网络模式
-            String desCon = "";
-            for (int i = 0; i < id.length; i++) {
-                desCon += contact[i] + ",";
-            }
-            desCon = desCon.substring(0, desCon.length() - 1);
+            new SendNetData().execute(APICode.SEND_NET_ShortVoiceMsg + "", O.LOCALIP + "," + id[0], contact[0], voicepath);
 
-            new SendNetData().execute(APICode.SEND_NET_ShortVoiceMsg + "", O.LOCALIP + "," + id[0], desCon, voicepath);
-
+//            if (contact[0].indexOf("@") == -1) {
+//                //单人
+//                  } else {
+//                String[] ipaddr = contact[0].split("@")[1].split(",");
+//                String desCon = "";
+//                for (int i = 0; i < ipaddr.length; i++) {
+//                    desCon += ipaddr[i] + ",";
+//                }
+//                desCon = desCon.substring(0, desCon.length() - 1);
+//
+//                new SendNetData().execute(APICode.SEND_NET_ShortVoiceMsg + "", O.LOCALIP + "," + id[0], desCon, voicepath);
+//
+//            }
         } else {
             //专网模式
 
@@ -181,7 +202,7 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity {
             MyLog.showToast(mContext, "请输入联系人号码。");
             return false;
         }
-        setStrContatc(contact);
+        setStrContatc(contact.indexOf("@") == -1 ? contact : contact.split("@")[1]);
         findViewById(R.id.voice_hint_layout).setVisibility(View.VISIBLE);
         ((AnimationDrawable) ((ImageView) findViewById(R.id.voice_hint_flash)).getDrawable()).start();
         ((TextView) findViewById(R.id.voiceHintText)).setText("上滑手指,取消发送");
@@ -203,7 +224,7 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity {
         return false;
     }
 
-    public boolean talkTouchUp(MotionEvent event, int type) {
+    public boolean talkTouchUp(MotionEvent event, int type, String contact, String group) {
         if (timer != null) {
             timer.cancel();
             currentlong = 0;
@@ -226,19 +247,28 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity {
                 if (getStrContatc().equals("null")) {
                     return false;
                 }
+                //单人发送
                 if (getStrContatc().indexOf(",") == -1) {
-                    long ret = MsgRecorderutil.insertVoicemsg(mContext, getStrContatc(), mediaRecorder.getRecorderpath(), type);
-
+                    long ret = MsgRecorderutil.insertVoicemsg(mContext, getStrContatc(), null, mediaRecorder.getRecorderpath(), type);
                     sendVoiceMsgtoNet(new long[]{ret}, new String[]{getStrContatc()}, mediaRecorder.getRecorderpath(), type);
                 } else {
-                    String[] tmparray = getStrContatc().split(",");
-                    long[] arrayid = new long[tmparray.length];
+                    if (type == O.NET) //网络模式下多人代表群发
+                    {
+                        long ret = MsgRecorderutil.insertVoicemsg(mContext, getStrContatc(), group, mediaRecorder.getRecorderpath(), type);
+                        sendVoiceMsgtoNet(new long[]{ret}, new String[]{group + "@" + contact + "@" + O.LOCALIP}, mediaRecorder.getRecorderpath(), type);
 
-                    for (int i = 0; i < tmparray.length; i++) {
-                        long ret = MsgRecorderutil.insertVoicemsg(mContext, tmparray[i], mediaRecorder.getRecorderpath(), type);
-                        arrayid[i] = ret;
+                    } else {
+                        String[] tmparray = getStrContatc().split(",");
+                        long[] arrayid = new long[tmparray.length];
+
+                        for (int i = 0; i < tmparray.length; i++) {
+                            long ret = MsgRecorderutil.insertVoicemsg(mContext, tmparray[i], null, mediaRecorder.getRecorderpath(), type);
+                            arrayid[i] = ret;
+                        }
+                        sendVoiceMsgtoNet(arrayid, tmparray, mediaRecorder.getRecorderpath(), type);
                     }
-                    sendVoiceMsgtoNet(arrayid, tmparray, mediaRecorder.getRecorderpath(), type);
+
+
                 }
             }
         }

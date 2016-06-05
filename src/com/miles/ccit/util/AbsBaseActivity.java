@@ -85,7 +85,7 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
     public void initBaseView(String titlename) {
         LayoutTitle = (View) findViewById(R.id.include_layout);
         if (LayoutTitle.findViewById(R.id.title_text) != null) {
-            ((TextView) LayoutTitle.findViewById(R.id.title_text)).setText(titlename);
+            ((TextView) LayoutTitle.findViewById(R.id.title_text)).setText(titlename.indexOf("@") == -1 ? titlename : ("[群组]" + titlename.split("@")[0]));
         }
         Btn_Left = (Button) LayoutTitle.findViewById(R.id.bt_left);
         Btn_Right = (Button) LayoutTitle.findViewById(R.id.bt_right);

@@ -163,8 +163,17 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity {
                 break;
             case R.id.bt_send:
                 if (LoginActivity.isLogin) {
-                    sendTextmsg(map.get("number").toString(), Type, tBtn_Trans.isChecked());
-
+                    String num = map.get("number").toString();
+                    if (num.indexOf(".") != -1 || num.indexOf("@") != -1) {
+                        Type = O.NET;
+                    } else {
+                        Type = O.WIRENESS;
+                    }
+                    if (num.indexOf("@") == -1) {
+                        sendTextmsg(num, Type, tBtn_Trans.isChecked());
+                    } else {
+                        sendTextmsg(num.split("@")[1], num.split("@")[0], Type, tBtn_Trans.isChecked());
+                    }
                     edit_inputMsg.setText("");
                     refreshList();
                 } else {
@@ -274,7 +283,13 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity {
 
                         break;
                     case MotionEvent.ACTION_UP:
-                        talkTouchUp(event, Type);
+                        String num = map.get("number").toString();
+                        if (num.indexOf("@") == -1) {
+                            talkTouchUp(event, Type, num, null);
+                        } else {
+                            talkTouchUp(event, Type, num.split("@")[1], num.split("@")[0]);
+                        }
+
                         refreshList();
                         break;
                 }
@@ -282,7 +297,12 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity {
             }
         });
         refreshList();
-        tBtn_Trans.setVisibility(Type == O.NET ? View.VISIBLE : View.GONE);
+        if (Type == O.NET && map.get("number").toString().indexOf("@") == -1) {
+            tBtn_Trans.setVisibility(View.VISIBLE);
+        } else {
+            tBtn_Trans.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -383,7 +403,13 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity {
                 text.setText("无效信息");
             } else {
                 if (message.get("msgtype").toString().equals("0")) {
-                    text.setText(message.get("msgcontent").toString() + "\r\n" + UnixTime.unixTime2Simplese(message.get("creattime").toString(), "MM-dd HH:mm"));
+
+                    String msgshow = message.get("msgcontent").toString() + "\r\n" + UnixTime.unixTime2Simplese(message.get("creattime").toString(), "MM-dd HH:mm");
+                    String num = message.get("number").toString();
+                    if (num.indexOf("@") != -1) {
+                        msgshow = num.split("@")[2] + ":\r\n" + msgshow;
+                    }
+                    text.setText(msgshow);
                 } else if (message.get("msgtype").toString().equals("1")) {
                     text.setText("(((" + "\r\n" + UnixTime.unixTime2Simplese(message.get("creattime").toString(), "MM-dd HH:mm"));
 

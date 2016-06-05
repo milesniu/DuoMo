@@ -23,6 +23,8 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity {
     private Button Btn_addContact;
     private LinearLayout linearLayout_Groupname;
 
+    private EditText edit_GroupName;
+
     private int nettype = -1;
     private int type;
 
@@ -50,21 +52,29 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity {
                 this.finish();
                 break;
             case R.id.bt_addcontact:
-                new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0"), type).getDlg(edit_inputContact);
+                new MutiChoiseDlg(mContext, GetData4DB.getObjectListData(mContext, "contact", "type", "0"), type).getDlg(edit_inputContact, edit_GroupName);
                 break;
             case R.id.bt_swicthvoice:
                 switchVoice();
                 break;
             case R.id.bt_send:
-                if (!checkContactNum(edit_inputContact.getText().toString())) {
+
+                String contatc = edit_inputContact.getText().toString();
+                String group = edit_GroupName.getText().toString();
+
+                if (!checkContactNum(contatc)) {
                     MyLog.showToast(mContext, "输入号码有误,请检查。");
                     return;
                 }
-                if (edit_inputContact.getText().toString().equals("")) {
+                if (contatc.equals("")) {
                     return;
                 }
-                setStrContatc(edit_inputContact.getText().toString());
-                long ret = sendTextmsg(edit_inputContact.getText().toString(), type, false);
+                if (contatc.indexOf(",") != -1 && group.equals("")) {
+                    MyLog.showToast(mContext, "请输入群组名称");
+                    return;
+                }
+                setStrContatc(contatc);
+                long ret = sendTextmsg(contatc, group, type, false);
                 if (ret != -1) {
                     BaseMapObject obj = GetData4DB.getObjectByid(mContext, "shortmsg", ret + "");
                     startActivity(new Intent(mContext, ShortmsgListActivity.class).putExtra("item", obj).putExtra("type", obj.get("exp2").toString().equals("2") ? O.NET : O.WIRENESS));
@@ -92,6 +102,7 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity {
         // Btn_Left.setText("返回");
         Btn_Right.setVisibility(View.INVISIBLE);
 
+        edit_GroupName = (EditText) findViewById(R.id.edit_groupname);
         edit_inputContact = (EditText) findViewById(R.id.edit_concotact);
         edit_inputMsg = (EditText) findViewById(R.id.edit_inputmsg);
         Btn_switchVoice = (Button) findViewById(R.id.bt_swicthvoice);
@@ -114,18 +125,20 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity {
                         if (edit_inputContact.getText().toString().equals("")) {
                             return false;
                         }
-                        talkTouchUp(event, type);
+                        String contatc = edit_inputContact.getText().toString();
+                        String group = edit_GroupName.getText().toString();
+                        talkTouchUp(event, type, contatc, group);
                         CreatShortmsgActivity.this.finish();
                         break;
                 }
                 return false;
             }
         });
-        if (nettype == 1) {
-            linearLayout_Groupname.setVisibility(View.VISIBLE);
-        } else {
-            linearLayout_Groupname.setVisibility(View.GONE);
-        }
+//        if (nettype == 1) {
+//            linearLayout_Groupname.setVisibility(View.VISIBLE);
+//        } else {
+//            linearLayout_Groupname.setVisibility(View.GONE);
+//        }
     }
 
 }

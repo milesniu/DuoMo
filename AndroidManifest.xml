@@ -259,6 +259,16 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
+            android:name=".CreatIPVoicecoActivity"
+            android:label="@string/title_activity_creatcode_ctrl"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".CreatIPVedioActivity"
+            android:label="@string/title_activity_creatcode_ctrl"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
             android:name=".CreatBDdataActivity"
             android:label="@string/title_activity_creat_bddata"
             android:screenOrientation="portrait"

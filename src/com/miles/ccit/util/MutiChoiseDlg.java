@@ -7,6 +7,7 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -27,6 +28,11 @@ public class MutiChoiseDlg {
     }
 
     public String getDlg(final EditText edit) {
+        return getDlg(edit, null);
+    }
+
+
+    public String getDlg(final EditText edit, final EditText editgroup) {
         Dialog dialog = null;
         Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("联系人选择");
@@ -54,7 +60,17 @@ public class MutiChoiseDlg {
                                 + contactList.get(i).get("number").toString().split("#")[type == 2 ? 1 : 0] + ",";
                     }
                 }
-                edit.setText(selectedStr.equals("") ? "" : selectedStr.subSequence(0, selectedStr.length() - 1));
+
+                selectedStr = selectedStr.equals("") ? "" : selectedStr.subSequence(0, selectedStr.length() - 1) + "";
+
+                if (editgroup != null) {
+                    if (type == O.NET && selectedStr.indexOf(",") != -1) {
+                        editgroup.setVisibility(View.VISIBLE);
+                    } else {
+                        editgroup.setVisibility(View.GONE);
+                    }
+                }
+                edit.setText(selectedStr);
             }
         };
         builder.setPositiveButton("确定", btnListener);

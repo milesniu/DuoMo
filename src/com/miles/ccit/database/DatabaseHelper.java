@@ -56,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		db.execSQL("CREATE TABLE broadcastrecode(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,frequency TEXT NOT NULL,filepath TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
 		db.execSQL("CREATE TABLE specialway(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,frequency TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
 		db.execSQL("CREATE TABLE systeminto(key TEXT NOT NULL,value TEXT NOT NULL)");
-		
+
 	}
 
 	// 初始化密码表中数据，
@@ -76,6 +76,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		if(newVersion > oldVersion)
 		{
 			//版本升级后的操作
+			db.execSQL("CREATE TABLE ipvoice(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,number TEXT NOT NULL,status INTEGER NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
+			db.execSQL("CREATE TABLE ipvideo(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,number TEXT NOT NULL,status INTEGER NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
 		}
 	}
 }

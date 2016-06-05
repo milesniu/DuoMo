@@ -33,6 +33,7 @@ public class VoicecodeFragment extends AbsBaseFragment
 {
 	private VoicecodeAdapter adapter;
 	private List<BaseMapObject> voiceList = new Vector<BaseMapObject>();
+	private List<BaseMapObject> contactList = new Vector<BaseMapObject>();
 	public Button Btn_Delete;
 	public Button Btn_Canle;
 
@@ -62,6 +63,7 @@ public class VoicecodeFragment extends AbsBaseFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_voicecode, null);
+		contactList = GetData4DB.getObjectListData(getActivity(), "contact");
 		initView(view);
 		return view;
 	}
@@ -88,7 +90,7 @@ public class VoicecodeFragment extends AbsBaseFragment
 		}
 		hideEmpty();
 		Collections.reverse(voiceList);
-		adapter = new VoicecodeAdapter(getActivity(), voiceList);
+		adapter = new VoicecodeAdapter(getActivity(), voiceList,contactList);
 
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new OnItemClickListener()
@@ -129,14 +131,7 @@ public class VoicecodeFragment extends AbsBaseFragment
 		{
 		case 0:
 			confirmDlg(true,"删除记录", "voicecoderecord","id",voiceList.get(ListItem), voiceList, adapter);
-//			
-//			BaseMapObject selectItem = voiceList.get(ListItem);
-//			long ret = BaseMapObject.DelObj4DB(getActivity(), "voicecoderecord", "id", selectItem.get("id").toString());
-//			if (ret != -1)
-//			{
-//				voiceList.remove(ListItem);
-//				adapter.notifyDataSetChanged();
-//			}
+
 			break;
 		case 1:
 			for (BaseMapObject tmp : voiceList)

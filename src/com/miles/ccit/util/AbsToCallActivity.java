@@ -27,6 +27,8 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
     public static final int TOCALLVOICE = 0;        //声码话
     public static final int TOCALLWIREDVOICE = 1;    //有线语音
     public static final int TOCALLWIREDFILE = 2;    //有线文件
+    public static final int TOIPVOICE = 3;            //IP语音
+    public static final int TOIPVEDIO = 4;            //IP视频
     public static int CurrentType = -1;
     public static String Recv_Call = "1";//接听
     public static String Send_Call = "2";//拨打
@@ -62,6 +64,10 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
                     insertWiredRecord(mContext, getContact(strNumber).get(arg2).get("number").toString(), null);
                 } else if (CurrentType == TOCALLWIREDFILE) {
                     Toast.makeText(mContext, "文件待操作", Toast.LENGTH_SHORT).show();
+                } else if (CurrentType == TOIPVOICE) {
+                    insertIPVoiceRecord(mContext, getContact(strNumber).get(arg2).get("number").toString());
+                } else if (CurrentType == TOIPVEDIO) {
+                    insertIPVedioRecord(mContext, getContact(strNumber).get(arg2).get("number").toString());
                 }
             }
         });
@@ -139,8 +145,14 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
                     MyLog.showToast(mContext, "请输入有效号码");
                     return;
                 }
-                CurrentType = TOCALLVOICE;
-                insertVoiceRecord(mContext, strNumber);
+                if (CurrentType == TOCALLVOICE) {
+
+                    insertVoiceRecord(mContext, strNumber);
+                } else if (CurrentType == TOIPVOICE) {
+                    insertIPVoiceRecord(mContext, strNumber);
+                } else if (CurrentType == TOIPVEDIO) {
+                    insertIPVedioRecord(mContext, strNumber);
+                }
                 break;
             case R.id.buttonadd:
                 inserContact();
@@ -153,10 +165,9 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
                     MyLog.showToast(mContext, "请输入有效号码");
                     return;
                 }
-                if(CurrentType ==TOCALLWIREDVOICE) {
+                if (CurrentType == TOCALLWIREDVOICE) {
                     insertWiredRecord(mContext, strNumber, null);
-                }else if(CurrentType == TOCALLWIREDFILE)
-                {
+                } else if (CurrentType == TOCALLWIREDFILE) {
                     MyLog.showToast(mContext, "选择文件");
                 }
                 break;
@@ -202,6 +213,33 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
         toCall(contex, code, null);
     }
 
+    public static void insertIPVoiceRecord(Context contex, String code) {
+        if (code.equals("")) {
+            return;
+        }
+        BaseMapObject record = new BaseMapObject();
+        record.put("id", null);
+        record.put("number", code.indexOf("#") != -1 ? code.split("#")[0] : code);
+        record.put("status", "2");
+        record.put("creattime", UnixTime.getStrCurrentUnixTime());
+        record.InsertObj2DB(contex, "ipvoice");
+        toCall(contex, code, null);
+    }
+
+    public static void insertIPVedioRecord(Context contex, String code) {
+        if (code.equals("")) {
+            return;
+        }
+        BaseMapObject record = new BaseMapObject();
+        record.put("id", null);
+        record.put("number", code);
+        record.put("status", "2");
+        record.put("creattime", UnixTime.getStrCurrentUnixTime());
+
+        record.InsertObj2DB(contex, "ipvideo");
+        toCall(contex, code, null);
+    }
+
     public static void insertWiredRecord(Context mcontext, String code, String filepath) {
         if (code.equals("")) {
             return;
@@ -241,6 +279,18 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
             sendWiredStarttoNet(code);
 
         } else if (CurrentType == TOCALLWIREDFILE) {
+
+        } else if (CurrentType == TOIPVOICE) {
+            if (code.indexOf("#") != -1) {
+                code = code.split("#")[0];
+            }
+            contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOIPVOICE).putExtra("code", code));
+
+        } else if (CurrentType == TOIPVEDIO) {
+            if (code.indexOf("#") != -1) {
+                code = code.split("#")[0];
+            }
+            contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOIPVEDIO).putExtra("code", code));
 
         }
 

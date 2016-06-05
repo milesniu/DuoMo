@@ -6,6 +6,7 @@ import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.HexSwapString;
 import com.miles.ccit.util.MyApplication;
+import com.miles.ccit.util.O;
 
 /**
  * 数据编码类,改动数据封装信息，实现发送内容的结构完成
@@ -272,8 +273,9 @@ public class ComposeData {
         for (int i = 0; i < 2; i++) {
             mLen += info[i].getBytes().length;
         }
-        mLen += 2;// 加2是加上优先级与是否回执两个字段
-
+        if (type != O.NET) {      //网络模式下没有优先级和回执
+            mLen += 2;// 加2是加上优先级与是否回执两个字段
+        }
         byte voicebyte[] = ByteUtil.getBytes(info[2]);
         mLen += voicebyte.length; // 添加语音长度
 
@@ -287,12 +289,17 @@ public class ComposeData {
             System.arraycopy(info[i].getBytes(), 0, mData, currentpos, info[i].getBytes().length);
             currentpos += info[i].length();
         }
-
+//拷贝语音长度
+        System.arraycopy(ByteUtil.int2Byte(2, voicebyte.length), 0, mData, currentpos, 2);
+        currentpos += 2;
+//拷贝语音数据
         System.arraycopy(voicebyte, 0, mData, currentpos, voicebyte.length);
         currentpos += voicebyte.length;
 
-        // 拷贝优先级与是否回执，后期从数据库配置表中读取
-        System.arraycopy(sendcfg, 0, mData, currentpos, 2);
+        if (type != O.NET) {
+            // 拷贝优先级与是否回执，后期从数据库配置表中读取
+            System.arraycopy(sendcfg, 0, mData, currentpos, 2);
+        }
 
         byte[] head = data.head;
         byte[] DataLenth = HexSwapString.short2Byte((short) (mData.length + 1));// new
@@ -614,7 +621,8 @@ public class ComposeData {
         return new byte[]
                 {(byte) 0x55, (byte) 0xAA, (byte) 0x00, (byte) 0x01, (byte) 0x2A};
     }
- /**
+
+    /**
      * 专网模式的挂断
      *
      * @param info null
@@ -1006,7 +1014,7 @@ public class ComposeData {
      *
      * @param info 源地址、目的地址、内容
      */
-    public byte[] sendTransData( String... info) {
+    public byte[] sendTransData(String... info) {
 
         int mLen = 0;
         for (String i : info) {

@@ -49,10 +49,20 @@ public class MsgRecorderutil {
     }
 
     public static long insertTextmsg(Context contex, String contact, String msgcontent, int type) {
+        return insertTextmsg(contex, contact, null, msgcontent, type);
+    }
+
+    public static long insertTextmsg(Context contex, String contact, String group, String msgcontent, int type) {
         BaseMapObject shortmsg = new BaseMapObject();
         shortmsg.put("id", null);
-        shortmsg.put("number", contact);
-        shortmsg.put("sendtype", AbsMsgRecorderActivity.SENDNOW + ""); // 正在发送
+        if (type == O.NET && group != null) {
+            shortmsg.put("number", group + "@" + contact + "@" + O.LOCALIP);  //群组名称@联系人列表@本地地址
+            shortmsg.put("sendtype", AbsMsgRecorderActivity.SENDSUCCESS + ""); // 群组不检测状态
+        } else {
+            shortmsg.put("number", contact);
+            shortmsg.put("sendtype", AbsMsgRecorderActivity.SENDNOW + ""); // 正在发送
+        }
+
         shortmsg.put("status", "1"); // 已读
         shortmsg.put("msgtype", "0"); // 语音
         shortmsg.put("msgcontent", msgcontent);
@@ -62,17 +72,22 @@ public class MsgRecorderutil {
         shortmsg.put("exp2", type + "");
         long id = shortmsg.InsertObj2DB(contex, "shortmsg");
 
-        SocketConnection.sendDataCallback.put("APICode.SEND_ShortTextMsg#" + id, shortmsg);
+//        SocketConnection.sendDataCallback.put("APICode.SEND_ShortTextMsg#" + id, shortmsg);
 
         return id;
         // insertRecvTextmsg(contex, contact, msgcontent);
     }
 
-    public static long insertVoicemsg(Context contex, String contact, String msgcontent, int type) {
+    public static long insertVoicemsg(Context contex, String contact, String group, String msgcontent, int type) {
         BaseMapObject shortmsg = new BaseMapObject();
         shortmsg.put("id", null);
-        shortmsg.put("number", contact);
-        shortmsg.put("sendtype", AbsMsgRecorderActivity.SENDNOW + "");
+        if (type == O.NET && group != null) {
+            shortmsg.put("number", group + "@" + contact + "@" + O.LOCALIP);  //群组名称@联系人列表@本地地址
+            shortmsg.put("sendtype", AbsMsgRecorderActivity.SENDSUCCESS + ""); // 群组不检测状态
+        } else {
+            shortmsg.put("number", contact);
+            shortmsg.put("sendtype", AbsMsgRecorderActivity.SENDNOW + ""); // 正在发送
+        }
         shortmsg.put("status", "1");
         shortmsg.put("msgtype", "1");
         shortmsg.put("msgcontent", msgcontent);

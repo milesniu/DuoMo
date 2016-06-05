@@ -80,7 +80,8 @@ public class MsgorMailSetAdapter extends BaseAdapter {
 
         } else {
             ((TextView) view.findViewById(R.id.text_time)).setText(UnixTime.unixTime2Simplese(map.get("creattime").toString(), "MM-dd HH:mm"));
-            ((TextView) view.findViewById(R.id.text_number)).setText(map.get("name") == null ? map.get("number").toString() : map.get("name").toString());
+            String number = map.get("name") == null ? map.get("number").toString() : map.get("name").toString();
+            ((TextView) view.findViewById(R.id.text_number)).setText(number.indexOf("@") == -1 ? number : ("[群组]"+number.split("@")[0]));
 
         }
 

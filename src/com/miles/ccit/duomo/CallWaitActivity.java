@@ -100,7 +100,6 @@ public class CallWaitActivity extends AbsBaseActivity
     @Override
     public void onClick(View v)
     {
-        // TODO Auto-generated method stub
         switch (v.getId())
         {
             case R.id.bt_cut:
@@ -115,7 +114,6 @@ public class CallWaitActivity extends AbsBaseActivity
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            // TODO Auto-generated method stub
 //			hideProgressDlg();
             String action = intent.getAction();
 
@@ -153,7 +151,6 @@ public class CallWaitActivity extends AbsBaseActivity
     @Override
     protected void onDestroy()
     {
-        // TODO Auto-generated method stub
         iswait = false;
         audioManager.setMode(AudioManager.MODE_NORMAL);
         if (player != null && player.isPlaying())
@@ -169,7 +166,6 @@ public class CallWaitActivity extends AbsBaseActivity
     @Override
     public void initView()
     {
-        // TODO Auto-generated method stub
         findViewById(R.id.bt_cut).setOnClickListener(this);
         text_Num = (TextView) findViewById(R.id.text_number);
         if (code == null || code.equals(""))

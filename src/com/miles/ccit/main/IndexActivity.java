@@ -55,6 +55,8 @@ public class IndexActivity extends AbsBaseActivity {
         this.registerReceiver(broad, intentFilter);
         sp = PreferenceManager.getDefaultSharedPreferences(mContext);
         O.isEncrypt = sp.getBoolean("jiami", false);
+
+
 //		new SendDataTask().execute(APICode.SEND_Login+"","123456","abdc123");
     }
 
