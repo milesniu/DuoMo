@@ -19,9 +19,9 @@ import com.miles.ccit.util.AbsToCallActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.O;
 import com.miles.ccit.util.SendDataTask;
+import com.redfox.voip_pro.RedfoxManager;
 
-public class CallWaitActivity extends AbsBaseActivity
-{
+public class CallWaitActivity extends AbsBaseActivity {
 
     private TextView text_Num;
     String code = "";
@@ -33,8 +33,7 @@ public class CallWaitActivity extends AbsBaseActivity
     String filepath = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_wait);
         code = getIntent().getStringExtra("code");
@@ -49,15 +48,37 @@ public class CallWaitActivity extends AbsBaseActivity
         this.registerReceiver(broad, intentFilter);
         // AssetFileDescriptor afd =.openFd("callbeep.mp3");
         // player = new MediaPlayer();
-        palyMusic(R.raw.callbeep);
+
+        switch (type) {
+            case AbsToCallActivity.TOIPVOICE:
+                callIPVedio("1000");
+                finish();
+                break;
+            case AbsToCallActivity.TOIPVEDIO:
+                callIPVedio("1000");
+                finish();
+                break;
+            default:
+                palyMusic(R.raw.callbeep);
+                break;
+        }
     }
 
-    private void palyMusic(int resid)
-    {
-        try
-        {
-            if (player != null && player.isPlaying())
-            {
+    private void callIPVedio(String mAddress) {
+        try {
+            if (!RedfoxManager.getInstance().acceptCallIfIncomingPending()) {
+                if (mAddress.length() > 0) {
+                    RedfoxManager.getInstance().newOutgoingCall(mAddress.toString(), mAddress.toString());
+                }
+            }
+        } catch (Exception e) {
+            RedfoxManager.getInstance().terminateCall();
+        }
+    }
+
+    private void palyMusic(int resid) {
+        try {
+            if (player != null && player.isPlaying()) {
                 player.stop();
                 player.release();
             }
@@ -69,39 +90,32 @@ public class CallWaitActivity extends AbsBaseActivity
             player.stop();
             player.prepare();
             player.start();
-            player.setOnCompletionListener(new OnCompletionListener()
-            {
+            player.setOnCompletionListener(new OnCompletionListener() {
 
                 @Override
-                public void onCompletion(MediaPlayer mp)
-                {
+                public void onCompletion(MediaPlayer mp) {
                     player.release();
                     player = null;
-                    if(type!=AbsToCallActivity.TOCALLVOICE)
-                    {
+                    if (type != AbsToCallActivity.TOCALLVOICE) {
                         CallWaitActivity.this.finish();
                     }
                 }
             });
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.call_wait, menu);
         return true;
     }
 
     @Override
-    public void onClick(View v)
-    {
-        switch (v.getId())
-        {
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.bt_cut:
                 new SendDataTask().execute(APICode.SEND_NormalInteraput + "", O.Account);
                 this.finish();
@@ -109,38 +123,29 @@ public class CallWaitActivity extends AbsBaseActivity
         }
     }
 
-    public class MyBroadcastReciver extends BroadcastReceiver
-    {
+    public class MyBroadcastReciver extends BroadcastReceiver {
         @Override
-        public void onReceive(Context context, Intent intent)
-        {
+        public void onReceive(Context context, Intent intent) {
 //			hideProgressDlg();
             String action = intent.getAction();
 
-            if (action.equals(broad_recvvoicecode_Action))
-            {
-                if (intent.getSerializableExtra("data").equals("true"))
-                {
+            if (action.equals(broad_recvvoicecode_Action)) {
+                if (intent.getSerializableExtra("data").equals("true")) {
                     startActivity(new Intent(mContext, VoicecodeConnetActivity.class).putExtra("code", code).putExtra("filepath", filepath).putExtra("type", type));
                     CallWaitActivity.this.finish();
-                } else
-                {
+                } else {
                     palyMusic(R.raw.cutdowm);
 //					CallWaitActivity.this.finish();
                 }
-            } else if (action.equals(broad_wiredvoice_Action))
-            {
-                if (intent.getSerializableExtra("data").equals("true"))
-                {
+            } else if (action.equals(broad_wiredvoice_Action)) {
+                if (intent.getSerializableExtra("data").equals("true")) {
                     startActivity(new Intent(mContext, VoicecodeConnetActivity.class).putExtra("code", code).putExtra("filepath", filepath).putExtra("type", type));
                     CallWaitActivity.this.finish();
-                } else
-                {
+                } else {
                     palyMusic(R.raw.cutdowm);
                     CallWaitActivity.this.finish();
                 }
-            } else if (action.equals(broad_interaput_Action))
-            {
+            } else if (action.equals(broad_interaput_Action)) {
                 palyMusic(R.raw.cutdowm);
             }
         }
@@ -149,12 +154,11 @@ public class CallWaitActivity extends AbsBaseActivity
 
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         iswait = false;
-        audioManager.setMode(AudioManager.MODE_NORMAL);
-        if (player != null && player.isPlaying())
-        {
+        if (audioManager != null)
+            audioManager.setMode(AudioManager.MODE_NORMAL);
+        if (player != null && player.isPlaying()) {
             player.stop();
             player.release();
             player = null;
@@ -164,21 +168,16 @@ public class CallWaitActivity extends AbsBaseActivity
     }
 
     @Override
-    public void initView()
-    {
+    public void initView() {
         findViewById(R.id.bt_cut).setOnClickListener(this);
         text_Num = (TextView) findViewById(R.id.text_number);
-        if (code == null || code.equals(""))
-        {
+        if (code == null || code.equals("")) {
             this.finish();
-        } else
-        {
+        } else {
             BaseMapObject map = GetData4DB.getObjectByRowName(mContext, "contact", "number", code);
-            if (map != null && map.get("name") != null)
-            {
+            if (map != null && map.get("name") != null) {
                 text_Num.setText(map.get("name").toString() + "\r\n" + code);
-            } else
-            {
+            } else {
                 text_Num.setText(code);
             }
         }

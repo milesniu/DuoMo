@@ -20,6 +20,7 @@ import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.O;
 import com.miles.ccit.util.SendDataTask;
+import com.redfox.voip_pro.RedfoxManager;
 
 public class SettingActivity extends AbsBaseActivity {
 
@@ -121,6 +122,8 @@ public class SettingActivity extends AbsBaseActivity {
                 MyLog.showToast(mContext, "您已成功注销！");
                 new SendDataTask().execute(APICode.SEND_Logout + "");
                 SocketConnection.getInstance().canleSocket();
+                RedfoxManager.getLc().clearAuthInfos();
+                RedfoxManager.getLc().clearProxyConfigs();
                 Btn_Singout.setVisibility(View.GONE);
                 break;
 

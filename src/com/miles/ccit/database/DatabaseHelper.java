@@ -13,7 +13,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper
 {
 
-	private static final int VERSION = 1; 					// 数据库版本/2014/06/16
+	private static final int VERSION = 2; 					// 数据库版本/2014/06/16
 	private static final String DATABASE_NAME = "DuoMo.db"; // 数据库名称
 
 	// 在SQLiteOepnHelper的子类当中，必须有该构造函数
@@ -56,6 +56,9 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		db.execSQL("CREATE TABLE broadcastrecode(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,frequency TEXT NOT NULL,filepath TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
 		db.execSQL("CREATE TABLE specialway(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,frequency TEXT NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
 		db.execSQL("CREATE TABLE systeminto(key TEXT NOT NULL,value TEXT NOT NULL)");
+		db.execSQL("CREATE TABLE ipvoice(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,number TEXT NOT NULL,status INTEGER NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
+		db.execSQL("CREATE TABLE ipvideo(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,number TEXT NOT NULL,status INTEGER NOT NULL,creattime TEXT NOT NULL,exp1 TEXT,exp2 TEXT)");
+
 
 	}
 

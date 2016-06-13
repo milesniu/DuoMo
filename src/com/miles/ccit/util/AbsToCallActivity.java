@@ -14,6 +14,7 @@ import com.miles.ccit.duomo.CallWaitActivity;
 import com.miles.ccit.duomo.CreatContactActivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.net.APICode;
+import com.redfox.voip_pro.RedfoxManager;
 
 import java.util.List;
 import java.util.Vector;
@@ -284,16 +285,29 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
             if (code.indexOf("#") != -1) {
                 code = code.split("#")[0];
             }
-            contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOIPVOICE).putExtra("code", code));
+            callIPVedio("1000");
+//            contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOIPVOICE).putExtra("code", code));
 
         } else if (CurrentType == TOIPVEDIO) {
             if (code.indexOf("#") != -1) {
                 code = code.split("#")[0];
             }
-            contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOIPVEDIO).putExtra("code", code));
-
+//            contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOIPVEDIO).putExtra("code", code));
+            callIPVedio("1000");
         }
 
+    }
+
+    private static void callIPVedio(String mAddress) {
+        try {
+            if (!RedfoxManager.getInstance().acceptCallIfIncomingPending()) {
+                if (mAddress.length() > 0) {
+                    RedfoxManager.getInstance().newOutgoingCall(mAddress.toString(), mAddress.toString());
+                }
+            }
+        } catch (Exception e) {
+            RedfoxManager.getInstance().terminateCall();
+        }
     }
 
     public void inserContact() {

@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,115 +22,127 @@ import com.miles.ccit.service.HeartbeatService;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.FileUtils;
 import com.miles.ccit.util.O;
+import com.redfox.voip_pro.RedfoxManager;
+import com.redfox.voip_pro.RedfoxService;
 
-public class MainActivity extends AbsBaseActivity 
-{
+import org.linphone.core.LinphoneCore;
+import org.linphone.core.PayloadType;
 
-	 Handler rhandler = new Handler()
-	 {
-	 public void handleMessage(Message message)
-	 {
-		 super.handleMessage(message);
-		  MainActivity.this.startActivity(new Intent(MainActivity.this,	 IndexActivity.class));
-		  MainActivity.this.finish();
-	 // new Thread(new AcceptThread("ql", IAcceptServerData.FindIP)).start();
-	 };
-	 };
+import static android.content.Intent.ACTION_MAIN;
 
-	/** 文件目录的准备 */
-	private void PrePareFile()
-	{
-		FileUtils fileutil = new FileUtils();
-		// 主目录
-		if (!fileutil.isFileExist(O.SDCardRoot))
-		{
-			fileutil.creatSDDir(O.SDCardRoot);
-		}
-	}
+public class MainActivity extends AbsBaseActivity {
 
-	
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		PrePareFile();
-		startService(new Intent(mContext, HeartbeatService.class));
-		// startActivity(new Intent(this, IndexActivity.class));
-		new Timer().schedule(new TimerTask()
-		{
-			@Override
-			public void run()
-			{
-//				new Thread(new AcceptThread("findip", IAcceptServerData.FindIP)).start();
-				 rhandler.sendEmptyMessageDelayed(1, 100);
-			}
-		}, 2000);
+    private Handler mHandler;
+    private ServiceWaitThread mThread;
 
-	}
 
-	byte[] red = null;
+    /**
+     * 文件目录的准备
+     */
+    private void PrePareFile() {
+        FileUtils fileutil = new FileUtils();
+        // 主目录
+        if (!fileutil.isFileExist(O.SDCardRoot)) {
+            fileutil.creatSDDir(O.SDCardRoot);
+        }
+    }
 
-	class test extends AsyncTask<Void, Void, String>
-	{
 
-		@Override
-		protected String doInBackground(Void... params)
-		{
-			// TODO Auto-generated method stub
-			try
-			{
-				DataOutputStream out = new DataOutputStream(SocketClient.getInstance().getOutputStream());
-				ComposeData df = new ComposeData();
-				byte[] buf = df.sendHeartbeat();
-				out.write(buf);
-				out.flush();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        PrePareFile();
+        startService(new Intent(mContext, HeartbeatService.class));
 
-				// 等待服务器返回，并阻塞线程
-				red = new byte[256];
-				DataInputStream dis = new DataInputStream(SocketClient.getInstance().getInputStream());// 服务器通过输入管道接收数据流
-				int a = dis.read(red);
-				System.out.println(a);
-			} catch (Exception e)
-			{
-				e.printStackTrace();
-				return e.toString();
-			}
-			return null;
-		}
 
-		@Override
-		protected void onPostExecute(String result)
-		{
-			// TODO Auto-generated method stub
-			// 连接断开，管道破裂
-			Toast.makeText(mContext, red.length + "", Toast.LENGTH_LONG).show();
-			super.onPostExecute(result);
-		}
+        //IP视频模块的服务
+        mHandler = new Handler();
+        if (RedfoxService.isReady()) {
+            onServiceReady();
+        } else {
+            startService(new Intent(ACTION_MAIN).setClass(this, RedfoxService.class));
+            mThread = new ServiceWaitThread();
+            mThread.start();
+        }
 
-	}
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+    byte[] red = null;
 
-	@Override
-	public void initView()
-	{
-		// TODO Auto-generated method stub
 
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-	@Override
-	public void onClick(View v)
-	{
-		// TODO Auto-generated method stub
+    @Override
+    public void initView() {
+        // TODO Auto-generated method stub
 
-	}
+    }
+
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+
+    }
+
+    protected void onServiceReady() {
+        final Class<? extends Activity> classToStart;
+        classToStart = IndexActivity.class;
+
+        LinphoneCore lc = RedfoxManager.getLcIfManagerNotDestroyedOrNull();
+        lc.enableVideo(true, true);
+        for (final PayloadType pt : lc.getVideoCodecs()) {
+            if (pt.getMime().equals("H264")) {
+                try {
+                    lc.enablePayloadType(pt, true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    lc.enablePayloadType(pt, false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        lc.setVideoPolicy(true, lc.getVideoAutoAcceptPolicy());
+        lc.setVideoPolicy(lc.getVideoAutoInitiatePolicy(), true);
+
+        RedfoxService.instance().setActivityToLaunchOnIncomingReceived(classToStart);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent().setClass(MainActivity.this, classToStart).setData(getIntent().getData()));
+                finish();
+            }
+        }, 2000);
+    }
+
+
+    private class ServiceWaitThread extends Thread {
+        public void run() {
+            while (!RedfoxService.isReady()) {
+                try {
+                    sleep(30);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException("waiting thread sleep() has been interrupted");
+                }
+            }
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    onServiceReady();
+                }
+            });
+            mThread = null;
+        }
+    }
 
 }

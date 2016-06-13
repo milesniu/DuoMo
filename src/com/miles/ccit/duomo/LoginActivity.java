@@ -1,20 +1,26 @@
 package com.miles.ccit.duomo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.miles.ccit.net.APICode;
 import com.miles.ccit.net.ComposeData;
@@ -24,6 +30,15 @@ import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.O;
 import com.miles.ccit.util.SendDataTask;
+import com.redfox.ui.*;
+import com.redfox.voip_pro.RedfoxManager;
+import com.redfox.voip_pro.RedfoxPreferences;
+
+import org.linphone.core.LinphoneAddress;
+import org.linphone.core.LinphoneCore;
+import org.linphone.core.LinphoneCoreFactory;
+import org.linphone.core.LinphoneCoreListenerBase;
+import org.linphone.core.LinphoneProxyConfig;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -33,14 +48,21 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData 
     private EditText edit_Account;
     private EditText edit_Password;
     private EditText edit_ip;
+    private static LoginActivity instance;
     private EditText edit_rtpip;
     private MyBroadcastReciver broad = null;
     public static boolean isLogin = false;
-
+    private static final int FIRST_LOGIN_ACTIVITY = 101;
     public final String spuname = "uname";
     public final String sppwd = "pwd";
     public final String spip = "ipaddr";
     public final String sprtpip = "rtpipaddr";
+
+    private RedfoxPreferences mPrefs;
+    private boolean accountCreated = false, newAccount = false;
+    private LinphoneCoreListenerBase mListener;
+    private LinphoneAddress address;
+    private Dialog dialog;
 
 
     DatagramSocket ds = null; // 连接对象
@@ -60,9 +82,146 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData 
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
+
+        if (getResources().getBoolean(com.redfox.ui.R.bool.orientation_portrait_only)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
         setContentView(R.layout.activity_login);
 
+
     }
+
+    private void clickGologin(String login, String password, String domain) {
+        if (login == null || login.length() == 0 || password == null || password.length() == 0 || domain == null || domain.length() == 0) {
+            Toast.makeText(mContext, getString(com.redfox.ui.R.string.first_launch_no_login_password), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        LinphoneAddress.TransportType transport;
+        transport = LinphoneAddress.TransportType.LinphoneTransportUdp;
+
+        genericLogIn(login, password, login, domain, transport);
+//        AssistantActivity.instance().finish();
+    }
+
+    public void genericLogIn(String username, String password, String displayName, String domain, LinphoneAddress.TransportType transport) {
+        if (accountCreated) {
+            retryLogin(username, password, displayName, domain, transport);
+        } else {
+            logIn(username, password, displayName, domain, transport, false);
+        }
+    }
+
+
+    private void logIn(String username, String password, String displayName, String domain, LinphoneAddress.TransportType transport, boolean sendEcCalibrationResult) {
+        saveCreatedAccount(username, password, displayName, domain, transport);
+    }
+
+    public void retryLogin(String username, String password, String displayName, String domain, LinphoneAddress.TransportType transport) {
+        accountCreated = false;
+        saveCreatedAccount(username, password, displayName, domain, transport);
+    }
+
+    public void saveCreatedAccount(String username, String password, String displayName, String domain, LinphoneAddress.TransportType transport) {
+        if (accountCreated)
+            return;
+
+        if (username.startsWith("sip:")) {
+            username = username.substring(4);
+        }
+
+        if (username.contains("@"))
+            username = username.split("@")[0];
+
+        if (domain.startsWith("sip:")) {
+            domain = domain.substring(4);
+        }
+
+        String identity = "sip:" + username + "@" + domain;
+        try {
+            address = LinphoneCoreFactory.instance().createLinphoneAddress(identity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (address != null && displayName != null && !displayName.equals("")) {
+            address.setDisplayName(displayName);
+        }
+
+        RedfoxPreferences.AccountBuilder builder = new RedfoxPreferences.AccountBuilder(RedfoxManager.getLc())
+                .setUsername(username)
+                .setDomain(domain)
+                .setDisplayName(displayName)
+                .setPassword(password);
+
+        String forcedProxy = username + "@" + domain;
+        if (!TextUtils.isEmpty(forcedProxy)) {
+            builder.setProxy(forcedProxy)
+                    .setOutboundProxyEnabled(true)
+                    .setAvpfRRInterval(5);
+        }
+
+        if (transport != null) {
+            builder.setTransport(transport);
+        }
+
+        try {
+            builder.saveNewAccount();
+            accountCreated = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void initLoginRedFox() {
+
+        mPrefs = RedfoxPreferences.instance();
+
+        mListener = new LinphoneCoreListenerBase() {
+            @Override
+            public void registrationState(LinphoneCore lc, LinphoneProxyConfig cfg, LinphoneCore.RegistrationState state, String smessage) {
+                if (accountCreated && !newAccount) {
+                    if (address != null && address.asString().equals(cfg.getAddress().asString())) {
+                        if (state == LinphoneCore.RegistrationState.RegistrationFailed) {
+
+                            if (dialog == null || !dialog.isShowing()) {
+                                dialog = createErrorDialog(cfg, smessage);
+                                dialog.show();
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        instance = this;
+    }
+
+
+    public Dialog createErrorDialog(LinphoneProxyConfig proxy, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (message.equals("Forbidden")) {
+            message = getString(com.redfox.ui.R.string.assistant_error_bad_credentials);
+        }
+        builder.setMessage(message)
+                .setTitle(proxy.getState().toString())
+                .setPositiveButton(getString(com.redfox.ui.R.string.continue_text), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                })
+                .setNegativeButton(getString(com.redfox.ui.R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        RedfoxManager.getLc().removeProxyConfig(RedfoxManager.getLc().getDefaultProxyConfig());
+                        RedfoxPreferences.instance().resetDefaultProxyConfig();
+                        RedfoxManager.getLc().refreshRegisters();
+                        dialog.dismiss();
+                    }
+                });
+        return builder.show();
+    }
+
 
     @Override
     public boolean isDestroyed() {
@@ -294,6 +453,22 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData 
                     MyLog.showToast(mContext, "密码不能为空。");
                     return;
                 }
+
+                //检查ip视频通话情况
+                boolean useFirstLoginActivity = getResources().getBoolean(com.redfox.ui.R.bool.display_account_wizard_at_first_start);
+                if (useFirstLoginActivity && RedfoxPreferences.instance().isFirstLaunch() || RedfoxManager.getLc().getProxyConfigList().length == 0) {
+                    if (RedfoxPreferences.instance().getAccountCount() > 0) {
+                        RedfoxPreferences.instance().firstLaunchSuccessful();
+                    } else {
+                        //去IP视频
+//                        Toast.makeText(mContext, "去登陆", Toast.LENGTH_SHORT).show();
+//                        startActivityForResult(new Intent().setClass(this, AssistantActivity.class), FIRST_LOGIN_ACTIVITY);
+                        initLoginRedFox();
+                        clickGologin("1001", "1001", "192.168.199.148");
+                    }
+                }
+
+
                 showprogressdialog();
                 O.Account = name;
                 O.Pwd = pwd;
