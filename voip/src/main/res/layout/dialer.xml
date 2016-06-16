@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorH"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:hint="@string/address_bar_hint"
+        android:inputType="number"
+        android:singleLine="true"
+        android:textColor="@color/colorB" />
+
+    <ImageView
+        android:id="@+id/call"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@color/colorB"
+        android:contentDescription="@string/content_description_call"
+        android:src="@drawable/call_audio_start" />
+
+    <Button
+        android:id="@+id/remove"
+        android:text="删除账户"
+        style="@style/font1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/call"
+        android:background="@color/colorB"
+        android:layout_marginTop="@dimen/activity_vertical_margin" />
+
+    <Button
+        android:id="@+id/quit"
+        android:text="退出"
+        style="@style/font1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/remove"
+        android:background="@color/colorB"
+        android:layout_marginTop="@dimen/activity_vertical_margin" />
+
+</LinearLayout>

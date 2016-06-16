@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/topLayout"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/colorH">
+
+	<fragment
+		android:id="@+id/status"
+		android:name="com.redfox.ui.StatusFragment"
+		android:layout_width="match_parent"
+		android:layout_height="40dp"
+		tools:layout="@layout/status" />
+
+	<RelativeLayout
+		android:id="@+id/top_bar"
+		android:background="@color/colorF"
+		android:layout_width="match_parent"
+		android:layout_height="60dp"
+		android:layout_below="@id/status">
+
+		<TextView
+			android:text="@string/incoming_call"
+			style="@style/font4"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center"/>
+
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:id="@+id/contact_detail"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@id/top_bar"
+		android:paddingTop="10dp"
+		android:layout_above="@+id/menu">
+
+		<TextView
+			android:id="@+id/contact_name"
+			style="@style/font5"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_centerHorizontal="true"
+			android:gravity="center"
+			android:paddingTop="5dp"/>
+
+		<TextView
+			android:id="@+id/contact_number"
+			style="@style/font2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/contact_name"
+			android:layout_gravity="center"
+			android:layout_centerHorizontal="true"
+			android:paddingBottom="10dp"/>
+
+	</RelativeLayout>
+
+	<LinearLayout
+		android:id="@+id/menu"
+		android:layout_width="match_parent"
+		android:layout_height="60dp"
+		android:layout_alignParentBottom="true"
+		android:orientation="horizontal" >
+
+		<ImageView
+			android:id="@+id/decline"
+			android:src="@drawable/call_hangup"
+			android:background="@drawable/hangup"
+			android:contentDescription="@string/content_description_decline"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:padding="12dp"/>
+
+		<ImageView
+			android:id="@+id/accept"
+			android:src="@drawable/call_audio_start"
+			android:background="@drawable/call"
+			android:contentDescription="@string/content_description_accept"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:padding="12dp"/>
+
+	</LinearLayout>
+
+</RelativeLayout>
