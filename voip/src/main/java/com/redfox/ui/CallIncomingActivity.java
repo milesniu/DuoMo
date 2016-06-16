@@ -2,6 +2,7 @@ package com.redfox.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -55,9 +56,9 @@ public class CallIncomingActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		setContentView(R.layout.call_incoming);
+		setContentView(com.redfox.ui.R.layout.call_incoming);
 
-		number = (TextView) findViewById(R.id.contact_number);
+		number = (TextView) findViewById(com.redfox.ui.R.id.contact_number);
 
 		// set this flag so this activity will stay in front of the keyguard
 		int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
@@ -72,8 +73,8 @@ public class CallIncomingActivity extends Activity {
 
 		final int screenWidth = getResources().getDisplayMetrics().widthPixels;
 
-		accept = (ImageView) findViewById(R.id.accept);
-		decline = (ImageView) findViewById(R.id.decline);
+		accept = (ImageView) findViewById(com.redfox.ui.R.id.accept);
+		decline = (ImageView) findViewById(com.redfox.ui.R.id.decline);
 		accept.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -236,6 +237,19 @@ public class CallIncomingActivity extends Activity {
 		RedfoxManager.getLc().terminateCall(mCall);
 		finish();
 	}
+	private static final int CALL_ACTIVITY = 19;
+	public void startVideoActivity(LinphoneCall currentCall) {
+		Intent intent = new Intent(this, CallActivity.class);
+		intent.putExtra("VideoEnabled", true);
+		startActivityForResult(intent, CALL_ACTIVITY);
+	}
+
+
+	public void startIncallActivity(LinphoneCall currentCall) {
+		Intent intent = new Intent(this, CallActivity.class);
+		intent.putExtra("VideoEnabled", false);
+		startActivityForResult(intent, CALL_ACTIVITY);
+	}
 
 	private void answer() {
 		LinphoneCallParams params = RedfoxManager.getLc().createCallParams(mCall);
@@ -248,16 +262,16 @@ public class CallIncomingActivity extends Activity {
 
 		if (params == null || !RedfoxManager.getInstance().acceptCallWithParams(mCall, params)) {
 			// the above method takes care of Samsung Galaxy S
-			Toast.makeText(this, R.string.couldnt_accept_call, Toast.LENGTH_LONG).show();
+			Toast.makeText(this, com.redfox.ui.R.string.couldnt_accept_call, Toast.LENGTH_LONG).show();
 		} else {
-			if (!MainActivity.isInstanciated()) {
-				return;
-			}
+//			if (!MainActivity.isInstanciated()) {
+//				return;
+//			}
 			final LinphoneCallParams remoteParams = mCall.getRemoteParams();
 			if (remoteParams != null && remoteParams.getVideoEnabled() && RedfoxPreferences.instance().shouldAutomaticallyAcceptVideoRequests()) {
-				MainActivity.instance().startVideoActivity(mCall);
+				startVideoActivity(mCall);
 			} else {
-				MainActivity.instance().startIncallActivity(mCall);
+				startIncallActivity(mCall);
 			}
 			finish();
 		}

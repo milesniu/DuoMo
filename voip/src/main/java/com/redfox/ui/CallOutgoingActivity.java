@@ -1,6 +1,7 @@
 package com.redfox.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -45,21 +46,21 @@ public class CallOutgoingActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getResources().getBoolean(R.bool.orientation_portrait_only)) {
+        if (getResources().getBoolean(com.redfox.ui.R.bool.orientation_portrait_only)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.call_outgoing);
+        setContentView(com.redfox.ui.R.layout.call_outgoing);
 
-        name = (TextView) findViewById(R.id.contact_name);
-        number = (TextView) findViewById(R.id.contact_number);
+        name = (TextView) findViewById(com.redfox.ui.R.id.contact_name);
+        number = (TextView) findViewById(com.redfox.ui.R.id.contact_number);
 
         // set this flag so this activity will stay in front of the keyguard
         int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
         getWindow().addFlags(flags);
 
-        hangUp = (ImageView) findViewById(R.id.outgoing_hang_up);
+        hangUp = (ImageView) findViewById(com.redfox.ui.R.id.outgoing_hang_up);
         hangUp.setOnClickListener(this);
 
         mListener = new LinphoneCoreListenerBase() {
@@ -75,14 +76,14 @@ public class CallOutgoingActivity extends Activity implements OnClickListener {
                 }
 
                 if (call == mCall && (State.Connected == state)) {
-                    if (!MainActivity.isInstanciated()) {
-                        return;
-                    }
+//                    if (!MainActivity.isInstanciated()) {
+//                        return;
+//                    }
                     final LinphoneCallParams remoteParams = mCall.getRemoteParams();
                     if (remoteParams != null && remoteParams.getVideoEnabled() && RedfoxPreferences.instance().shouldAutomaticallyAcceptVideoRequests()) {
-                        MainActivity.instance().startVideoActivity(mCall);
+                        startVideoActivity(mCall);
                     } else {
-                        MainActivity.instance().startIncallActivity(mCall);
+                        startIncallActivity(mCall);
                     }
                     finish();
                     return;
@@ -92,6 +93,22 @@ public class CallOutgoingActivity extends Activity implements OnClickListener {
 
         super.onCreate(savedInstanceState);
         instance = this;
+    }
+
+
+    private static final int CALL_ACTIVITY = 19;
+
+    public void startVideoActivity(LinphoneCall currentCall) {
+        Intent intent = new Intent(this, CallActivity.class);
+        intent.putExtra("VideoEnabled", true);
+        startActivityForResult(intent, CALL_ACTIVITY);
+    }
+
+
+    public void startIncallActivity(LinphoneCall currentCall) {
+        Intent intent = new Intent(this, CallActivity.class);
+        intent.putExtra("VideoEnabled", false);
+        startActivityForResult(intent, CALL_ACTIVITY);
     }
 
     @Override
@@ -140,7 +157,7 @@ public class CallOutgoingActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.outgoing_hang_up) {
+        if (id == com.redfox.ui.R.id.outgoing_hang_up) {
             decline();
         }
     }
