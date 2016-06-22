@@ -224,7 +224,7 @@
                 android:text="#"
                 android:textColor="@color/white"
                 android:textSize="30sp" />
-            
+
             <Button
                 android:id="@+id/buttoncallvoice"
                 android:layout_width="0dp"

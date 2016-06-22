@@ -48,6 +48,7 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData 
     private EditText edit_Account;
     private EditText edit_Password;
     private EditText edit_ip;
+    private EditText edit_voip;
     private static LoginActivity instance;
     private EditText edit_rtpip;
     private MyBroadcastReciver broad = null;
@@ -270,11 +271,13 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData 
         edit_Password = (EditText) findViewById(R.id.edit_pwd);
         edit_ip = (EditText) findViewById(R.id.edit_ip);
         edit_rtpip = (EditText) findViewById(R.id.edit_rtpip);
+        edit_voip = (EditText)findViewById(R.id.edit_voip);
         edit_rtpip.setVisibility(View.GONE);
         edit_ip.setVisibility(View.VISIBLE);
         edit_Account.setText(sp.getString(spuname, ""));
         edit_Password.setText(sp.getString(sppwd, ""));
         edit_ip.setText(sp.getString(spip, ""));
+        edit_voip.setText(sp.getString(spip, ""));
         edit_rtpip.setText(sp.getString(sprtpip, ""));
 
         findViewById(R.id.bt_login).setOnClickListener(this);
@@ -464,7 +467,7 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData 
 //                        Toast.makeText(mContext, "去登陆", Toast.LENGTH_SHORT).show();
 //                        startActivityForResult(new Intent().setClass(this, AssistantActivity.class), FIRST_LOGIN_ACTIVITY);
                         initLoginRedFox();
-                        clickGologin("1001", "1001", "192.168.199.148");
+                        clickGologin(name, "123456", edit_voip.getText().toString());
                     }
                 }
 

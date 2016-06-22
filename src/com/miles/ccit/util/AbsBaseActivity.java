@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 
 import com.miles.ccit.database.GetData4DB;
 import com.miles.ccit.database.UserDatabase;
+import com.miles.ccit.duomo.FileStatusActivity;
 import com.miles.ccit.duomo.R;
 
 public abstract class AbsBaseActivity extends Activity implements OnClickListener {
@@ -100,11 +102,14 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         try {
-            startActivityForResult(Intent.createChooser(intent, "请选择附件"), 0);
+            startActivityForResult(Intent.createChooser(intent, "请选择附件"), 1001);
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(this, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
 
     public static String getassetsCode(Context conte, String filename) {
         try {

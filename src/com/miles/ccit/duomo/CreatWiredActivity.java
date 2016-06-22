@@ -40,6 +40,7 @@ public class CreatWiredActivity extends AbsToCallActivity
 		findViewById(R.id.buttoncallvoice).setOnClickListener(this);
 
 	}
-	
+
+
 
 }

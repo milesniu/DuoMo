@@ -2,6 +2,7 @@ package com.miles.ccit.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.miles.ccit.adapter.ContactAdapter;
 import com.miles.ccit.duomo.CallWaitActivity;
 import com.miles.ccit.duomo.CreatContactActivity;
+import com.miles.ccit.duomo.FileStatusActivity;
 import com.miles.ccit.duomo.R;
 import com.miles.ccit.net.APICode;
 import com.redfox.voip_pro.RedfoxManager;
@@ -64,7 +66,8 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
                 } else if (CurrentType == TOCALLWIREDVOICE) {
                     insertWiredRecord(mContext, getContact(strNumber).get(arg2).get("number").toString(), null);
                 } else if (CurrentType == TOCALLWIREDFILE) {
-                    Toast.makeText(mContext, "文件待操作", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mContext, "文件待操作", Toast.LENGTH_SHORT).show();
+                    selectFile();
                 } else if (CurrentType == TOIPVOICE) {
                     insertIPVoiceRecord(mContext, getContact(strNumber).get(arg2).get("number").toString());
                 } else if (CurrentType == TOIPVEDIO) {
@@ -169,7 +172,8 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
                 if (CurrentType == TOCALLWIREDVOICE) {
                     insertWiredRecord(mContext, strNumber, null);
                 } else if (CurrentType == TOCALLWIREDFILE) {
-                    MyLog.showToast(mContext, "选择文件");
+//                    MyLog.showToast(mContext, "选择文件");
+                    selectFile();
                 }
                 break;
 
@@ -197,6 +201,25 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
 
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 1001:
+                if (resultCode == RESULT_OK) {
+                    // Get the Uri of the selected file
+                    Uri uri = data.getData();
+                    String path = FileUtils.getPath(this, uri);
+//                    String name = AbsCreatActivity.getFileName(path);
+                    startActivity(new Intent(mContext, FileStatusActivity.class).putExtra("path", path).putExtra("code", strNumber));
+                    MyLog.showToast(mContext, path);
+                    finish();
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     public static void insertVoiceRecord(Context contex, String code) {
         if (code.equals("")) {
