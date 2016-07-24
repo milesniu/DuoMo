@@ -146,7 +146,7 @@ public class AnalysisRecvData {
     }
 
 
-    //接收到转发，未完善
+    //接收到转发
     public void analyTransData(byte[] data) throws UnsupportedEncodingException {
         Intent intent = new Intent();
         int cursor = 5;

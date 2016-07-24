@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -22,8 +24,9 @@ public class DebugActivity extends AbsBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug);
+        sp = PreferenceManager.getDefaultSharedPreferences(mContext);
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(broad_debug_info);
+        intentFilter.addAction(broad_debug_show_info);
         broad = new MyBroadcastReciver();
         this.registerReceiver(broad, intentFilter);
     }
@@ -62,8 +65,17 @@ public class DebugActivity extends AbsBaseActivity {
             @Override
             public void onClick(View view) {
                 et_debug.setText("");
+                sp.edit().putString("debugInfo", "").commit();
+
             }
         });
+
+        String data = sp.getString("debugInfo", "").replace(",", "\r\n");
+        et_debug.setText(data);
+        et_debug.setMovementMethod(ScrollingMovementMethod.getInstance());
+        et_debug.setSelection(et_debug.length());
+
+
     }
 
     public class MyBroadcastReciver extends BroadcastReceiver {
@@ -73,17 +85,11 @@ public class DebugActivity extends AbsBaseActivity {
             hideProgressDlg();
             String action = intent.getAction();
 
-            if (action.equals(broad_debug_info)) {
-                byte[] data = intent.getByteArrayExtra("data");
-                int len = ByteUtil.oneByte2oneInt(data[5]);      //获取内容长度，1字节
-                byte[] info = new byte[len];
-                System.arraycopy(data, 6, info, 0, len);
-                try {
-                    String content = new String(info, "UTF-8");
-                    et_debug.setText(et_debug.getText().toString() + "------------------\r\n" + content + "\r\n");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            if (action.equals(broad_debug_show_info)) {
+
+                String data = sp.getString("debugInfo", "").replace(",", "\r\n");
+                et_debug.setText(data);
+                et_debug.setSelection(et_debug.length());
 
             }
         }

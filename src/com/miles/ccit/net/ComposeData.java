@@ -456,6 +456,12 @@ public class ComposeData {
 
         int mLen = 0;
 
+        //目的地址
+        int tnumlen = info[1].getBytes().length;
+        byte[] tnamubyte = ByteUtil.int2Byte(1, tnumlen);
+        mLen += tnamubyte.length;
+        mLen += tnumlen;
+
         int fjnamelen = AbsCreatActivity.getFileName(info[0]).toString().getBytes().length; // 文件名长度
         byte fjnamebyte[] = ByteUtil.int2Byte(1, fjnamelen); // 文件名长度内容
         mLen += fjnamebyte.length; // 添加附件名长度的位置长度
@@ -463,12 +469,17 @@ public class ComposeData {
 
         byte fjbyte[] = ByteUtil.getBytes(info[0]); // 文件内容
         mLen += fjbyte.length; // 添加文件长度
-
         byte[] mData = new byte[mLen + 3];// 文件名长度1字节，文件长度2字节
-
         int currentpos = 0;
 
         String fName = AbsCreatActivity.getFileName(info[0]).toString();
+
+        //组装目的地址
+        System.arraycopy(tnamubyte, 0, mData, currentpos, tnamubyte.length);
+        currentpos += 1;
+        System.arraycopy(info[1].getBytes(), 0, mData, currentpos, info[1].getBytes().length);
+        currentpos += tnumlen;
+
         // 组装文件名
         byte[] fnamelen = ByteUtil.int2Byte(1, fName.getBytes().length);
         System.arraycopy(fnamelen, 0, mData, currentpos, fnamelen.length);

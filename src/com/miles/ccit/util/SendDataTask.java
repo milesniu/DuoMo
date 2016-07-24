@@ -3,6 +3,7 @@ package com.miles.ccit.util;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.miles.ccit.duomo.FileStatusActivity;
 import com.miles.ccit.duomo.LoginActivity;
 import com.miles.ccit.net.APICode;
 import com.miles.ccit.net.ComposeData;
@@ -80,7 +81,7 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]> {
                     SocketConnection.getInstance().readReqMsg(new ComposeData().sendRecvWiredVoice(parm[2]));
                     break;
                 case APICode.SEND_WiredFile:
-                    SocketConnection.getInstance().readReqMsg(new ComposeData().sendWiredFile(parm[2]));
+                    SocketConnection.getInstance().readReqMsg(new ComposeData().sendWiredFile(parm[2], FileStatusActivity.code));
                     break;
                 case APICode.BACK_RECV_WiredFile:
                     SocketConnection.getInstance().readReqMsg(new ComposeData().sendRecvWiredFile());

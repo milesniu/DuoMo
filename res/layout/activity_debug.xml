@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_margin="10dp"
+        android:editable="false"
         android:gravity="top" />
 
     <Button

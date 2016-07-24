@@ -24,6 +24,9 @@ public class SendsetFragment extends AbsBaseFragment {
     private RadioButton radio_high;
     private RadioButton radio_medium;
     private RadioButton radio_low;
+    private RadioButton radio_yesencrypt;
+    private RadioButton radio_noencrypt;
+
     private BaseMapObject read4DB;
 
     @Override
@@ -46,6 +49,8 @@ public class SendsetFragment extends AbsBaseFragment {
         radio_high = (RadioButton) view.findViewById(R.id.radio_hight);
         radio_medium = (RadioButton) view.findViewById(R.id.radio_middle);
         radio_low = (RadioButton) view.findViewById(R.id.radio_low);
+        radio_yesencrypt = (RadioButton) view.findViewById(R.id.radio_yesencrypt);
+        radio_noencrypt = (RadioButton) view.findViewById(R.id.radio_noencrypt);
         view.findViewById(R.id.btn_interrupt).setOnClickListener(this);
         read4DB = GetData4DB.getObjectByRowName(getActivity(), "systeminto", "key", "sendcfg");
         if (read4DB != null) {
@@ -64,9 +69,19 @@ public class SendsetFragment extends AbsBaseFragment {
             switch (byteconfig[1]) {
                 case 0x00:
                     radio_noneed.setChecked(true);
+                    radio_noencrypt.setChecked(true);
                     break;
                 case 0x01:
                     radio_need.setChecked(true);
+                    radio_noencrypt.setChecked(true);
+                    break;
+                case 0x02:
+                    radio_noneed.setChecked(true);
+                    radio_yesencrypt.setChecked(true);
+                    break;
+                case 0x03:
+                    radio_need.setChecked(true);
+                    radio_yesencrypt.setChecked(true);
                     break;
             }
         }
@@ -97,9 +112,23 @@ public class SendsetFragment extends AbsBaseFragment {
                 }
 
                 if (radio_need.isChecked()) {
-                    byteconfig[1] = (byte) 0x01;
+                    if(radio_yesencrypt.isChecked()) {
+                        byteconfig[1] = (byte) 0x03;    //有回执、有加密
+                    }
+                    else
+                    {
+                        byteconfig[1] = (byte) 0x01;    //有回执、无加密
+                    }
                 } else if (radio_noneed.isChecked()) {
-                    byteconfig[1] = (byte) 0x00;
+                    if(radio_yesencrypt.isChecked())
+                    {
+                        byteconfig[1] = (byte) 0x02;    //无回执、无加密
+                    }
+                    else
+                    {
+                        byteconfig[1] = (byte) 0x00;    //无回执、无加密
+                    }
+
                 }
                 if (read4DB != null) {
                     read4DB.put("key", "sendcfg");

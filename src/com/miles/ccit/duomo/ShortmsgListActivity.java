@@ -2,6 +2,7 @@ package com.miles.ccit.duomo;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -219,7 +220,11 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity {
                 if (LoginActivity.isLogin && item.get("sendtype").toString().equals(AbsCreatCodeActivity.SENDERROR + "")) {
                     menu.add(0, 2, 2, "重新发送");
                 }
-                menu.add(0, 3, 3, "取消");
+                if(item.get("msgtype").toString().equals("0"))        //消息主题是文字,可以拷贝
+                {
+                    menu.add(0, 3, 3, "拷贝");
+                }
+                menu.add(0, 4, 4, "取消");
             }
         });
 
@@ -248,6 +253,8 @@ public class ShortmsgListActivity extends AbsMsgRecorderActivity {
                 sendTextMsgtoNet(new long[]{Long.parseLong(msgitem.get("id") + "")}, new String[]{msgitem.get("number") + ""}, msgitem.get("msgcontent") + "", (Integer.parseInt(msgitem.get("exp2").toString())), tBtn_Trans.isChecked());
                 break;
             case 3:
+                ClipboardManager cmb = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                cmb.setText(msgitem.get("msgcontent").toString());
                 break;
         }
         return super.onContextItemSelected(item);

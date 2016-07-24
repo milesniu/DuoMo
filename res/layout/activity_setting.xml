@@ -193,7 +193,10 @@
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:padding="10dp">
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#AAA" />
         <RelativeLayout
             android:id="@+id/rela_changepws"
             android:layout_width="fill_parent"

@@ -7,21 +7,31 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.SendDataTask;
 
+import java.util.List;
+import java.util.Vector;
+
 public class HostcfgActivity extends AbsBaseActivity {
 
-    private EditText etWifiName, etWifiPwd, etChannel, etLan, etWan1, etWan2, etWan3, etRout1, etRout2, etRout3;
+    private EditText etWifiName, etWifiPwd, etChannel, etLan, etedit_yanma, etWan1, etYanma1, etWangguan1, etWan2, etYanma2, etWangguan2, etWan3, etYanma3, etWangguan3;
     private CheckBox ckbWan1, ckbWan2, ckbWan3;
     private MyBroadcastReciver broad = null;
-
+    private LinearLayout linear_wan1, linear_wan2, linear_wan3;
+    private Button btnAddRoute;
+    private LinearLayout linear_route;
     private boolean ifSendData = false;
+    //    List<RouteItem> routeItem = new Vector<RouteItem>();
+//    List<View> routeView = new Vector<View>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +46,23 @@ public class HostcfgActivity extends AbsBaseActivity {
                 this.finish();
                 break;
             case R.id.bt_right:
+
+                String route = "";
+                for (int i = 0; i < linear_route.getChildCount(); i++) {
+                    View c = linear_route.getChildAt(i);
+                    route += "route=" + new RouteItem((EditText) c.findViewById(R.id.edit_pote), (EditText) c.findViewById(R.id.edit_taddr), (EditText) c.findViewById(R.id.edit_jaddr)).toString() + ",";
+                }
+
+                route = route.substring(0, route.length() - 1);
+
                 String data = "name=" + etWifiName.getText().toString() + "," +
                         "pwd=" + etWifiPwd.getText().toString() + "," +
                         "channel=" + etChannel.getText().toString() + "," +
-                        "lan=" + etLan.getText().toString() + "," +
-                        "wan1=" + etWan1.getText().toString() + "," +
-                        "wan2=" + etWan2.getText().toString() + ",wan3=" + etWan3.getText().toString() + ",route=" + etRout1.getText().toString() + ",route=" + etRout2.getText().toString();
+                        "lan=" + etLan.getText().toString() + "&" + etedit_yanma.getText().toString() + "," +
+                        "wan1=" + etWan1.getText().toString() + "&" + etYanma1.getText().toString() + "&" + etWangguan1.getText().toString() + "," +
+                        "wan2=" + etWan2.getText().toString() + "&" + etYanma2.getText().toString() + "&" + etWangguan2.getText().toString() + "," +
+                        "wan3=" + etWan3.getText().toString() + "&" + etYanma3.getText().toString() + "&" + etWangguan3.getText().toString() + "," +
+                        route;
 
                 showprogressdialog();
                 ifSendData = true;
@@ -62,12 +83,27 @@ public class HostcfgActivity extends AbsBaseActivity {
         etWifiPwd = (EditText) findViewById(R.id.edit_wifipwd);
         etChannel = (EditText) findViewById(R.id.wifichannel);
         etLan = (EditText) findViewById(R.id.edit_lan);
+        etedit_yanma = (EditText) findViewById(R.id.edit_yanma);
+        linear_route = (LinearLayout) findViewById(R.id.linear_route);
         etWan1 = (EditText) findViewById(R.id.edit_wanl1);
+        etYanma1 = (EditText) findViewById(R.id.edit_wan1yanma);
+        etWangguan1 = (EditText) findViewById(R.id.edit_wanl1wangguan);
+        linear_wan1 = (LinearLayout) findViewById(R.id.linear_input_wan1);
+
+
         etWan2 = (EditText) findViewById(R.id.edit_wanl2);
+        etYanma2 = (EditText) findViewById(R.id.edit_wan2yanma);
+        etWangguan2 = (EditText) findViewById(R.id.edit_wanl2wangguan);
+        linear_wan2 = (LinearLayout) findViewById(R.id.linear_input_wan2);
+
         etWan3 = (EditText) findViewById(R.id.edit_wanl3);
-        etRout1 = (EditText) findViewById(R.id.edit_rout1);
-        etRout2 = (EditText) findViewById(R.id.edit_rout2);
-        etRout3 = (EditText) findViewById(R.id.edit_rout3);
+        etYanma3 = (EditText) findViewById(R.id.edit_wan3yanma);
+        etWangguan3 = (EditText) findViewById(R.id.edit_wanl3wangguan);
+        linear_wan3 = (LinearLayout) findViewById(R.id.linear_input_wan3);
+
+//        etRout1 = (EditText) findViewById(R.id.edit_rout1);
+//        etRout2 = (EditText) findViewById(R.id.edit_rout2);
+//        etRout3 = (EditText) findViewById(R.id.edit_rout3);
 
         ckbWan1 = (CheckBox) findViewById(R.id.ckb_wanl1);
         ckbWan2 = (CheckBox) findViewById(R.id.ckb_wanl2);
@@ -76,6 +112,8 @@ public class HostcfgActivity extends AbsBaseActivity {
         ckbWan2.setOnCheckedChangeListener(ckbListener);
         ckbWan3.setOnCheckedChangeListener(ckbListener);
 
+        btnAddRoute = (Button) findViewById(R.id.bt_addroute);
+
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(broad_config_host);
         broad = new MyBroadcastReciver();
@@ -83,6 +121,84 @@ public class HostcfgActivity extends AbsBaseActivity {
 
         showprogressdialog();
         new SendDataTask().execute(APICode.SEND_QueryHost + "");
+
+
+    }
+
+    public void addRoute(View v) {
+        addRoute(v, null);
+    }
+
+    public void addRoute(View v, String[] data) {
+        View item = getLayoutInflater().inflate(R.layout.item_route, null);
+        linear_route.addView(item);
+
+        EditText etPort = (EditText) item.findViewById(R.id.edit_pote);
+        EditText etTar = (EditText) item.findViewById(R.id.edit_taddr);
+        EditText etJum = (EditText) item.findViewById(R.id.edit_jaddr);
+        Button btDel = (Button) item.findViewById(R.id.bt_del);
+        btDel.setTag(item);
+        btDel.findViewById(R.id.bt_del).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                View tag = (View) v.getTag();
+                linear_route.removeView(tag);
+            }
+        });
+
+        if (data != null) {
+            etPort.setText(data[0]);
+            etTar.setText(data[1]);
+            etJum.setText(data[2]);
+        }
+
+
+//        routeView.add(item);
+//        routeItem.add();
+    }
+
+
+    class RouteItem {
+        EditText etPort;
+        EditText etTargetAdd;
+        EditText etJumpAdd;
+        Button btnDel;
+
+
+        public RouteItem(EditText etPort, EditText etTargetAdd, EditText etJumpAdd) {
+            this.etPort = etPort;
+            this.etTargetAdd = etTargetAdd;
+            this.etJumpAdd = etJumpAdd;
+        }
+
+        public String toString() {
+            return getEtPort() + "&" + getEtTargetAdd() + "&" + getEtJumpAdd();
+        }
+
+        public String getEtPort() {
+            return etPort == null ? "" : etPort.getText().toString();
+        }
+
+        public void setEtPort(String etPort) {
+            this.etPort.setText(etPort);
+        }
+
+        public String getEtTargetAdd() {
+            return etTargetAdd == null ? "" : etTargetAdd.getText().toString();
+        }
+
+        public void setEtTargetAdd(String etTargetAdd) {
+            this.etTargetAdd.setText(etTargetAdd);
+        }
+
+        public String getEtJumpAdd() {
+            return etJumpAdd == null ? "" : etJumpAdd.getText().toString();
+        }
+
+        public void setEtJumpAdd(String etJumpAdd) {
+            this.etJumpAdd.setText(etJumpAdd);
+        }
 
 
     }
@@ -100,25 +216,49 @@ public class HostcfgActivity extends AbsBaseActivity {
             etWifiName.setText(cfgdatas[0].split("=")[1]);
             etWifiPwd.setText(cfgdatas[1].split("=")[1]);
             etChannel.setText(cfgdatas[2].split("=")[1]);
-            etLan.setText(cfgdatas[3].split("=")[1]);
-            String wan1 = cfgdatas[4].split("=")[1];
-            etWan1.setText(wan1);
-            if (wan1.equals("dhcp")) {
+            String lanStr[] = cfgdatas[3].split("=")[1].split("&");
+            etLan.setText(lanStr[0]);
+            etedit_yanma.setText(lanStr[1]);
+
+            if (cfgdatas[4].split("=")[1].equals("dhcp")) {
                 ckbWan1.setChecked(true);
+            } else {
+                String[] wan1 = cfgdatas[4].split("=")[1].split("&");
+                etWan1.setText(wan1[0]);
+                etYanma1.setText(wan1[1]);
+                etWangguan1.setText(wan1[2]);
             }
-            String wan2 = cfgdatas[5].split("=")[1];
-            etWan2.setText(wan2);
-            if (wan2.equals("dhcp")) {
+
+
+            if (cfgdatas[5].split("=")[1].equals("dhcp")) {
                 ckbWan2.setChecked(true);
+            } else {
+                String[] wan2 = cfgdatas[5].split("=")[1].split("&");
+                etWan2.setText(wan2[0]);
+                etYanma2.setText(wan2[1]);
+                etWangguan2.setText(wan2[2]);
             }
-            String wan3 = cfgdatas[6].split("=")[1];
-            etWan3.setText(wan3);
-            if (wan3.equals("dhcp")) {
+
+            if (cfgdatas[6].split("=")[1].equals("dhcp")) {
                 ckbWan3.setChecked(true);
+            } else {
+                String[] wan3 = cfgdatas[6].split("=")[1].split("&");
+                etWan3.setText(wan3[0]);
+                etYanma3.setText(wan3[1]);
+                etWangguan3.setText(wan3[2]);
             }
-            etRout1.setText(cfgdatas.length > 7 ? cfgdatas[7].split("=")[1] : "");
-            etRout2.setText(cfgdatas.length > 8 ? cfgdatas[8].split("=")[1] : "");
-            etRout3.setText(cfgdatas.length > 9 ? cfgdatas[9].split("=")[1] : "");
+
+
+            if (cfgdatas.length > 7) {
+                for (int i = 7; i < cfgdatas.length; i++) {
+                    String[] rous = cfgdatas[i].split("=")[1].split("&");
+                    addRoute(null, rous);
+                }
+            }
+
+//            etRout1.setText(cfgdatas.length > 7 ? : "");
+//            etRout2.setText(cfgdatas.length > 8 ? cfgdatas[8].split("=")[1] : "");
+//            etRout3.setText(cfgdatas.length > 9 ? cfgdatas[9].split("=")[1] : "");
         }
 
     }
@@ -132,29 +272,33 @@ public class HostcfgActivity extends AbsBaseActivity {
                     case R.id.ckb_wanl1:
                         etWan1.setText("dhcp");
                         etWan1.setEnabled(false);
+                        linear_wan1.setVisibility(View.GONE);
                         break;
                     case R.id.ckb_wanl2:
                         etWan2.setText("dhcp");
                         etWan2.setEnabled(false);
+                        linear_wan2.setVisibility(View.GONE);
                         break;
+
                     case R.id.ckb_wanl3:
                         etWan3.setText("dhcp");
                         etWan3.setEnabled(false);
+                        linear_wan3.setVisibility(View.GONE);
                         break;
                 }
             } else {
                 switch (compoundButton.getId()) {
                     case R.id.ckb_wanl1:
-                        etWan1.setText("");
                         etWan1.setEnabled(true);
+                        linear_wan1.setVisibility(View.VISIBLE);
                         break;
                     case R.id.ckb_wanl2:
-                        etWan2.setText("");
                         etWan2.setEnabled(true);
+                        linear_wan2.setVisibility(View.VISIBLE);
                         break;
                     case R.id.ckb_wanl3:
-                        etWan3.setText("");
                         etWan3.setEnabled(true);
+                        linear_wan3.setVisibility(View.VISIBLE);
                         break;
                 }
             }

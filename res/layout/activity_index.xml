@@ -35,7 +35,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="10dp"
-                android:text="内部测试版"
+                android:text="内部测试版V2.2.4"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/red" />
 
@@ -168,7 +168,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:text="网络模式"
                     android:textColor="@android:color/white"
                     android:textSize="14sp" />

@@ -32,6 +32,7 @@ import com.miles.ccit.duomo.SpecialVoiceActivity;
 import com.miles.ccit.duomo.WiredModelActivity;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.FileUtils;
 import com.miles.ccit.util.O;
 import com.redfox.ui.AssistantActivity;
@@ -126,12 +127,13 @@ public class IndexActivity extends AbsBaseActivity {
         }
 
 
-
         setContentView(R.layout.activity_index);
+        sp = PreferenceManager.getDefaultSharedPreferences(mContext);
         checkCount = FileUtils.getMapData4SD();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(broad_usimout_Action);
         intentFilter.addAction(broad_decryption_Action);
+        intentFilter.addAction(broad_debug_info);
         broad = new MyBroadcastReciver();
         this.registerReceiver(broad, intentFilter);
         sp = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -390,6 +392,37 @@ public class IndexActivity extends AbsBaseActivity {
                     lastobj.UpdateMyself(mContext, "shortmsg");
 //                    Toast.makeText(mContext, "解密数据已返回:" + intent.getStringExtra("data"), Toast.LENGTH_SHORT).show();
                 }
+            } else if (action.equals(broad_debug_info)) {
+                byte[] data = intent.getByteArrayExtra("data");
+                int len = ByteUtil.oneByte2oneInt(data[5]);      //获取内容长度，1字节
+                byte[] info = new byte[len];
+                System.arraycopy(data, 6, info, 0, len);
+                try {
+                    String content = new String(info, "UTF-8");
+                    String orgcon = sp.getString("debugInfo", "");
+
+                    String newdata = "";
+                    String[] dataary = orgcon.split(",");
+                    if (dataary.length >= 20) {
+                        for (int i = dataary.length - 20; i < dataary.length; i++) {
+                            newdata += dataary[i] + ",";
+                        }
+                    } else {
+                        for (String s : dataary) {
+                            newdata += s + ",";
+                        }
+                    }
+
+                    String debug = newdata + "------------------\r\n" + content + ",";
+                    sp.edit().putString("debugInfo", debug).commit();
+                    //发送广播,通知debug界面更新
+                    intent = new Intent();
+                    intent.setAction(AbsBaseActivity.broad_debug_show_info);
+                    sendBroadcast(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         }
 

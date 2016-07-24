@@ -54,6 +54,40 @@
                 android:textColor="@color/black" />
         </RadioGroup>
 
+
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="是否加密"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black" />
+
+        <RadioGroup
+            android:id="@+id/rg_encrypt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_yesencrypt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="是"
+                android:textColor="@color/black" />
+
+            <RadioButton
+                android:id="@+id/radio_noencrypt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:checked="true"
+                android:text="否"
+                android:textColor="@color/black" />
+        </RadioGroup>
+
+
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
@@ -100,8 +134,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="30dp"
-            android:textSize="18sp"
-            android:text="中断发送" />
+            android:text="中断发送"
+            android:textSize="18sp" />
 
     </LinearLayout>
 

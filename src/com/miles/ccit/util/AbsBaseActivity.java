@@ -71,6 +71,7 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
     public static final String broad_backemailresult_Action = "cn.broadcast.backemailresult";
     public static final String broad_backlocation_Action = "cn.broadcast.backlocation";
     public static final String broad_debug_info = "cn.broadcast.debug.info";
+    public static final String broad_debug_show_info = "cn.broadcast.debug.show.info";
     public static final String broad_config_host = "cn.broadcast.host.config";
     public static final String broad_query_channel = "cn.broadcast.query.channel";
     public static final String broad_encrypt_Action = "cn.broadcast.encrypt";
@@ -91,8 +92,10 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
         }
         Btn_Left = (Button) LayoutTitle.findViewById(R.id.bt_left);
         Btn_Right = (Button) LayoutTitle.findViewById(R.id.bt_right);
-        Btn_Left.setOnClickListener(this);
-        Btn_Right.setOnClickListener(this);
+        if (Btn_Left != null)
+            Btn_Left.setOnClickListener(this);
+        if (Btn_Right != null)
+            Btn_Right.setOnClickListener(this);
         img_Empty = (ImageView) findViewById(R.id.image_empty);
 
     }
@@ -107,8 +110,6 @@ public abstract class AbsBaseActivity extends Activity implements OnClickListene
             Toast.makeText(this, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
 
     public static String getassetsCode(Context conte, String filename) {

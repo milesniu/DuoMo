@@ -59,6 +59,9 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
+
+
+                strNumber = getContact(strNumber).get(arg2).get("number").toString();
                 // TODO Auto-generated method stub
 //				toCall(TOCALLVOICE, getContact(strNumber).get(arg2).get("number").toString());
                 if (CurrentType == TOCALLVOICE) {
