@@ -473,18 +473,22 @@ public class AnalysisRecvData {
         Intent intent = new Intent();
 
         int voicecursor = 5;
+
+        //目的地址
         int vnlen = ByteUtil.oneByte2oneInt(data[voicecursor++]);
         byte[] srcaname = new byte[vnlen];
         System.arraycopy(data, voicecursor, srcaname, 0, vnlen);
         String cname = new String(srcaname, "UTF-8");
         voicecursor += vnlen;
 
+        //文件名
         int flen = ByteUtil.oneByte2oneInt(data[voicecursor++]);
         byte[] srcfname = new byte[flen];
         System.arraycopy(data, voicecursor, srcfname, 0, vnlen);
         String fname = new String(srcfname, "UTF-8");
         voicecursor += flen;
 
+        //文件内容
         int vclen = ByteUtil.byte2Int(new byte[]
                 {data[voicecursor], data[voicecursor + 1]});// .oneByte2oneInt(data[voicecursor++]);
         voicecursor += 2;

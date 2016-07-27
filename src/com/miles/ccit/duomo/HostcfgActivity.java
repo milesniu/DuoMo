@@ -23,10 +23,10 @@ import java.util.Vector;
 
 public class HostcfgActivity extends AbsBaseActivity {
 
-    private EditText etWifiName, etWifiPwd, etChannel, etLan, etedit_yanma, etWan1, etYanma1, etWangguan1, etWan2, etYanma2, etWangguan2, etWan3, etYanma3, etWangguan3;
-    private CheckBox ckbWan1, ckbWan2, ckbWan3;
+    private EditText etWifiName, etWifiPwd, etChannel, etLan, etedit_yanma, etWan1, etYanma1, etWangguan1, etWan2, etYanma2, etWangguan2, etWan3, etYanma3, etWangguan3, etWangguanLan;
+    private CheckBox ckbWan1, ckbWan2, ckbWan3, ckbLan;
     private MyBroadcastReciver broad = null;
-    private LinearLayout linear_wan1, linear_wan2, linear_wan3;
+    private LinearLayout linear_wan1, linear_wan2, linear_wan3, linear_lan;
     private Button btnAddRoute;
     private LinearLayout linear_route;
     private boolean ifSendData = false;
@@ -55,18 +55,24 @@ public class HostcfgActivity extends AbsBaseActivity {
 
                 route = route.substring(0, route.length() - 1);
 
+                String lan = ckbLan.isChecked() ? "dhcp" : etLan.getText().toString() + "&" + etedit_yanma.getText().toString() + etWangguanLan.getText().toString();
+                String wan1 = ckbWan1.isChecked() ? "dhcp" : etWan1.getText().toString() + "&" + etYanma1.getText().toString() + "&" + etWangguan1.getText().toString();
+                String wan2 = ckbWan2.isChecked() ? "dhcp" : etWan2.getText().toString() + "&" + etYanma2.getText().toString() + "&" + etWangguan2.getText().toString();
+                String wan3 = ckbWan3.isChecked() ? "dhcp" : etWan3.getText().toString() + "&" + etYanma3.getText().toString() + "&" + etWangguan3.getText().toString();
+
                 String data = "name=" + etWifiName.getText().toString() + "," +
                         "pwd=" + etWifiPwd.getText().toString() + "," +
                         "channel=" + etChannel.getText().toString() + "," +
-                        "lan=" + etLan.getText().toString() + "&" + etedit_yanma.getText().toString() + "," +
-                        "wan1=" + etWan1.getText().toString() + "&" + etYanma1.getText().toString() + "&" + etWangguan1.getText().toString() + "," +
-                        "wan2=" + etWan2.getText().toString() + "&" + etYanma2.getText().toString() + "&" + etWangguan2.getText().toString() + "," +
-                        "wan3=" + etWan3.getText().toString() + "&" + etYanma3.getText().toString() + "&" + etWangguan3.getText().toString() + "," +
+                        "lan=" + lan + "," +
+                        "wan1=" + wan1 + "," +
+                        "wan2=" + wan2 + "," +
+                        "wan3=" + wan3 + "," +
                         route;
-
                 showprogressdialog();
                 ifSendData = true;
                 new SendDataTask().execute(APICode.SEND_RECV_HostCfg + "", data);
+                Toast.makeText(mContext, "参数发送完成", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
         }
     }
@@ -89,6 +95,9 @@ public class HostcfgActivity extends AbsBaseActivity {
         etYanma1 = (EditText) findViewById(R.id.edit_wan1yanma);
         etWangguan1 = (EditText) findViewById(R.id.edit_wanl1wangguan);
         linear_wan1 = (LinearLayout) findViewById(R.id.linear_input_wan1);
+        linear_lan = (LinearLayout) findViewById(R.id.linear_lan);
+        ckbLan = (CheckBox) findViewById(R.id.ckb_lan);
+        etWangguanLan = (EditText) findViewById(R.id.edit_lanwangguan);
 
 
         etWan2 = (EditText) findViewById(R.id.edit_wanl2);
@@ -111,6 +120,7 @@ public class HostcfgActivity extends AbsBaseActivity {
         ckbWan1.setOnCheckedChangeListener(ckbListener);
         ckbWan2.setOnCheckedChangeListener(ckbListener);
         ckbWan3.setOnCheckedChangeListener(ckbListener);
+        ckbLan.setOnCheckedChangeListener(ckbListener);
 
         btnAddRoute = (Button) findViewById(R.id.bt_addroute);
 
@@ -153,9 +163,6 @@ public class HostcfgActivity extends AbsBaseActivity {
             etJum.setText(data[2]);
         }
 
-
-//        routeView.add(item);
-//        routeItem.add();
     }
 
 
@@ -216,9 +223,16 @@ public class HostcfgActivity extends AbsBaseActivity {
             etWifiName.setText(cfgdatas[0].split("=")[1]);
             etWifiPwd.setText(cfgdatas[1].split("=")[1]);
             etChannel.setText(cfgdatas[2].split("=")[1]);
+
             String lanStr[] = cfgdatas[3].split("=")[1].split("&");
             etLan.setText(lanStr[0]);
             etedit_yanma.setText(lanStr[1]);
+            if (lanStr.length > 2) {
+                etWangguanLan.setText(lanStr[2]);
+            } else {
+                etWangguanLan.setText("");
+            }
+
 
             if (cfgdatas[4].split("=")[1].equals("dhcp")) {
                 ckbWan1.setChecked(true);
@@ -285,23 +299,46 @@ public class HostcfgActivity extends AbsBaseActivity {
                         etWan3.setEnabled(false);
                         linear_wan3.setVisibility(View.GONE);
                         break;
+                    case R.id.ckb_lan:
+                        etLan.setText("dhcp");
+                        etLan.setEnabled(false);
+                        linear_lan.setVisibility(View.GONE);
+                        break;
                 }
             } else {
                 switch (compoundButton.getId()) {
                     case R.id.ckb_wanl1:
                         etWan1.setEnabled(true);
+                        etWan1.setText("");
+                        etYanma1.setText("");
+                        etWangguan1.setText("");
                         linear_wan1.setVisibility(View.VISIBLE);
                         break;
                     case R.id.ckb_wanl2:
                         etWan2.setEnabled(true);
+                        etWan2.setText("");
+                        etYanma2.setText("");
+                        etWangguan2.setText("");
                         linear_wan2.setVisibility(View.VISIBLE);
                         break;
                     case R.id.ckb_wanl3:
                         etWan3.setEnabled(true);
+                        etWan3.setText("");
+                        etYanma3.setText("");
+                        etWangguan3.setText("");
                         linear_wan3.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.ckb_lan:
+                        etLan.setEnabled(true);
+                        etLan.setText("");
+                        etWangguanLan.setText("");
+                        etedit_yanma.setText("");
+                        linear_lan.setVisibility(View.VISIBLE);
                         break;
                 }
             }
+
+
         }
     };
 

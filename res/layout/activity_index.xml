@@ -35,7 +35,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="10dp"
-                android:text="内部测试版V2.2.4"
+                android:text="内部测试版V2.2.5"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/red" />
 
