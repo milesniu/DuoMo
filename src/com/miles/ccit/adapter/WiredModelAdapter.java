@@ -56,10 +56,11 @@ public class WiredModelAdapter extends BaseAdapter {
         LayoutInflater mInflater = LayoutInflater.from(mContext);
         view = mInflater.inflate(R.layout.listitem_contact, null);
         ((TextView) view.findViewById(R.id.text_name)).setText(map.get("name") == null ? map.get("number").toString() : map.get("name").toString());
-        ((TextView) view.findViewById(R.id.text_number)).setText(UnixTime.unixTime2Simplese(map.get("creattime").toString(), "yyyy-MM-dd HH:mm:ss") + "\r\n" + map.get("filepath").toString());
-        ImageView img = (ImageView) view.findViewById(R.id.image_head);
+         ImageView img = (ImageView) view.findViewById(R.id.image_head);
         if (map.get("sendtype").toString().equals("0"))        //语音
         {
+            ((TextView) view.findViewById(R.id.text_number)).setText(UnixTime.unixTime2Simplese(map.get("creattime").toString(), "yyyy-MM-dd HH:mm:ss"));
+
             if (map.get("status").toString().equals(AbsToCallActivity.Send_Call)) {
                 img.setImageResource(R.drawable.outputphone);
             } else if (map.get("status").toString().equals(AbsToCallActivity.Recv_Call)) {
@@ -69,6 +70,8 @@ public class WiredModelAdapter extends BaseAdapter {
             }
         } else if (map.get("sendtype").toString().equals("1"))    //文件
         {
+            ((TextView) view.findViewById(R.id.text_number)).setText(UnixTime.unixTime2Simplese(map.get("creattime").toString(), "yyyy-MM-dd HH:mm:ss") + "\r\n" + map.get("filepath").toString());
+
             if (map.get("status").toString().equals(AbsCreatActivity.SENDSUCCESS + "")) {
                 img.setImageResource(R.drawable.outfile);
             } else if (map.get("status").toString().equals(AbsCreatActivity.RECVFROM + "")) {

@@ -65,16 +65,18 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
                 // TODO Auto-generated method stub
 //				toCall(TOCALLVOICE, getContact(strNumber).get(arg2).get("number").toString());
                 if (CurrentType == TOCALLVOICE) {
-                    insertVoiceRecord(mContext, getContact(strNumber).get(arg2).get("number").toString());
+                    insertVoiceRecord(mContext,strNumber);
                 } else if (CurrentType == TOCALLWIREDVOICE) {
-                    insertWiredRecord(mContext, getContact(strNumber).get(arg2).get("number").toString(), null);
+                    insertWiredRecord(mContext, strNumber, null);
                 } else if (CurrentType == TOCALLWIREDFILE) {
 //                    Toast.makeText(mContext, "文件待操作", Toast.LENGTH_SHORT).show();
                     selectFile();
                 } else if (CurrentType == TOIPVOICE) {
-                    insertIPVoiceRecord(mContext, getContact(strNumber).get(arg2).get("number").toString());
+                    insertIPVoiceRecord(mContext, strNumber);
+
                 } else if (CurrentType == TOIPVEDIO) {
-                    insertIPVedioRecord(mContext, getContact(strNumber).get(arg2).get("number").toString());
+                    insertIPVedioRecord(mContext, strNumber);
+
                 }
             }
         });
@@ -311,24 +313,45 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
             if (code.indexOf("#") != -1) {
                 code = code.split("#")[0];
             }
-            callIPVedio("1000");
-//            contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOIPVOICE).putExtra("code", code));
+            callIPAudio(code);
 
         } else if (CurrentType == TOIPVEDIO) {
             if (code.indexOf("#") != -1) {
                 code = code.split("#")[0];
             }
-//            contex.startActivity(new Intent(contex, CallWaitActivity.class).putExtra("type", TOIPVEDIO).putExtra("code", code));
-            callIPVedio("1000");
+            callIPVedio(code);
+
+
         }
 
     }
+
+
+    private static void callIPAudio(String mAddress) {
+        try {
+            if (!RedfoxManager.getInstance().acceptCallIfIncomingPending()) {
+                if (mAddress.length() > 0) {
+                    RedfoxManager.getLcIfManagerNotDestroyedOrNull().setVideoPolicy(false, RedfoxManager.getLcIfManagerNotDestroyedOrNull().getVideoAutoAcceptPolicy());
+                    RedfoxManager.getLcIfManagerNotDestroyedOrNull().setVideoPolicy(RedfoxManager.getLcIfManagerNotDestroyedOrNull().getVideoAutoInitiatePolicy(), false);
+                    RedfoxManager.getInstance().newOutgoingCall(mAddress.toString(), mAddress.toString());
+                }
+            }
+        } catch (Exception e) {
+            RedfoxManager.getInstance().terminateCall();
+        }
+
+    }
+
+
 
     private static void callIPVedio(String mAddress) {
         try {
             if (!RedfoxManager.getInstance().acceptCallIfIncomingPending()) {
                 if (mAddress.length() > 0) {
+                    RedfoxManager.getLcIfManagerNotDestroyedOrNull().setVideoPolicy(true, RedfoxManager.getLcIfManagerNotDestroyedOrNull().getVideoAutoAcceptPolicy());
+                    RedfoxManager.getLcIfManagerNotDestroyedOrNull().setVideoPolicy(RedfoxManager.getLcIfManagerNotDestroyedOrNull().getVideoAutoInitiatePolicy(), true);
                     RedfoxManager.getInstance().newOutgoingCall(mAddress.toString(), mAddress.toString());
+
                 }
             }
         } catch (Exception e) {

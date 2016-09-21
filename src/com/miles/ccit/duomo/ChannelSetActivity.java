@@ -18,9 +18,9 @@ import com.miles.ccit.util.SendNetData;
 
 public class ChannelSetActivity extends AbsBaseActivity {
 
-    private Spinner sp_weixing, sp_duanbo, sp_cduanbo, sp_mobile, sp_wired;
+    private Spinner sp_weixing, sp_duanbo15, sp_duanbozz, sp_cduanbo, sp_mobile, sp_wired;
 
-    private String[] array = new String[]{"最低", "低", "高", "次高", "最高"};
+    private String[] array = new String[]{"最低", "次低", "低", "高", "次高", "最高"};
     private MySpinnerAdapter adapter;
     private MyBroadcastReciver broad = null;
 
@@ -41,7 +41,7 @@ public class ChannelSetActivity extends AbsBaseActivity {
                 this.finish();
                 break;
             case R.id.bt_right:
-                new setChannel().execute(APICode.SEND_RECV_ChannelCfg + "", sp_weixing.getSelectedItemPosition() + "", sp_duanbo.getSelectedItemPosition() + "", sp_cduanbo.getSelectedItemPosition() + "", sp_mobile.getSelectedItemPosition() + "", sp_wired.getSelectedItemPosition() + "");
+                new setChannel().execute(APICode.SEND_RECV_ChannelCfg + "", sp_weixing.getSelectedItemPosition() + "", sp_duanbozz.getSelectedItemPosition() + "",sp_duanbo15.getSelectedItemPosition() + "", sp_cduanbo.getSelectedItemPosition() + "", sp_mobile.getSelectedItemPosition() + "", sp_wired.getSelectedItemPosition() + "");
                 break;
         }
     }
@@ -64,13 +64,15 @@ public class ChannelSetActivity extends AbsBaseActivity {
         Btn_Right.setVisibility(View.VISIBLE);
         Btn_Right.setBackgroundResource(R.drawable.btsure);
         sp_weixing = (Spinner) findViewById(R.id.sp_wx);
-        sp_duanbo = (Spinner) findViewById(R.id.sp_db);
+        sp_duanbo15 = (Spinner) findViewById(R.id.sp_db15);
+        sp_duanbozz = (Spinner) findViewById(R.id.sp_dbzz);
         sp_cduanbo = (Spinner) findViewById(R.id.sp_cdb);
         sp_mobile = (Spinner) findViewById(R.id.sp_mobile);
         sp_wired = (Spinner) findViewById(R.id.sp_wired);
 
         sp_weixing.setAdapter(adapter);
-        sp_duanbo.setAdapter(adapter);
+        sp_duanbo15.setAdapter(adapter);
+        sp_duanbozz.setAdapter(adapter);
         sp_cduanbo.setAdapter(adapter);
         sp_mobile.setAdapter(adapter);
         sp_wired.setAdapter(adapter);
@@ -91,13 +93,15 @@ public class ChannelSetActivity extends AbsBaseActivity {
                 byte[] data = intent.getByteArrayExtra("data");
 
                 int weixing = ByteUtil.oneByte2oneInt(data[5]);
-                int duanbo = ByteUtil.oneByte2oneInt(data[6]);
-                int cduanbo = ByteUtil.oneByte2oneInt(data[7]);
-                int mobile = ByteUtil.oneByte2oneInt(data[8]);
-                int wired = ByteUtil.oneByte2oneInt(data[9]);
+                int duanbozz = ByteUtil.oneByte2oneInt(data[6]);
+                int duanbo15 = ByteUtil.oneByte2oneInt(data[7]);
+                int cduanbo = ByteUtil.oneByte2oneInt(data[8]);
+                int mobile = ByteUtil.oneByte2oneInt(data[9]);
+                int wired = ByteUtil.oneByte2oneInt(data[10]);
 
                 sp_weixing.setSelection(weixing);
-                sp_duanbo.setSelection(duanbo);
+                sp_duanbo15.setSelection(duanbo15);
+                sp_duanbozz.setSelection(duanbozz);
                 sp_cduanbo.setSelection(cduanbo);
                 sp_mobile.setSelection(mobile);
                 sp_wired.setSelection(wired);

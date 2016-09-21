@@ -36,6 +36,7 @@ import com.miles.ccit.util.MyApplication;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.O;
 import com.miles.ccit.util.UnixTime;
+import com.miles.ccit.util.UserLog;
 
 public class SocketConnection {
     private volatile Socket socket;
@@ -367,17 +368,23 @@ public class SocketConnection {
                         case APICode.BACK_NET_ShortTextMsg:
                         case APICode.BACK_NET_ShortVoiceMsg:
                             analyUtil.analyBackTextMsg(data);
+                            UserLog.i("响应网络模式短消息", clientIP.getHostAddress(),new String(data, 0, len));
                             break;
                         case APICode.SEND_NET_ShortTextMsg:
                             analyUtil.analyNetTextMsg(data);
+                            UserLog.i("发送网络模式短消息", clientIP.getHostAddress(),new String(data, 0, len));
                             break;
 
                         case APICode.SEND_NET_ShortVoiceMsg:
                             analyUtil.analyVoiceMsg(data);
+                            UserLog.i("发送网络模式短语音", clientIP.getHostAddress(),new String(data, 0, len));
+
                             break;
 
                         case APICode.SEND_NET_Encrypt_ShortTextMsg:
                             analyUtil.analyBackNetEncryptTextMsg(data);
+                            UserLog.i("发送网络模式加密短消息", clientIP.getHostAddress(),new String(data, 0, len));
+
                             break;
 
                     }

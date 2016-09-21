@@ -112,6 +112,7 @@ public class MainActivity extends AbsBaseActivity {
                 }
             }
         }
+
         lc.setVideoPolicy(true, lc.getVideoAutoAcceptPolicy());
         lc.setVideoPolicy(lc.getVideoAutoInitiatePolicy(), true);
 

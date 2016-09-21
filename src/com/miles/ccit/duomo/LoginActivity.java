@@ -58,6 +58,7 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData 
     public final String sppwd = "pwd";
     public final String spip = "ipaddr";
     public final String sprtpip = "rtpipaddr";
+    public final String spvoip = "voidipaddr";
 
     private RedfoxPreferences mPrefs;
     private boolean accountCreated = false, newAccount = false;
@@ -277,7 +278,7 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData 
         edit_Account.setText(sp.getString(spuname, ""));
         edit_Password.setText(sp.getString(sppwd, ""));
         edit_ip.setText(sp.getString(spip, ""));
-        edit_voip.setText(sp.getString(spip, ""));
+        edit_voip.setText(sp.getString(spvoip, ""));
         edit_rtpip.setText(sp.getString(sprtpip, ""));
 
         findViewById(R.id.bt_login).setOnClickListener(this);
@@ -446,6 +447,7 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData 
                 String name = edit_Account.getText().toString();
                 String pwd = edit_Password.getText().toString();
                 String ip = edit_ip.getText().toString();
+                String voip = edit_voip.getText().toString();
                 O.Ipaddress = ip;
                 O.RTPIpaddress = ip;//edit_rtpip.getText().toString();
                 if (name.equals("")) {
@@ -467,7 +469,7 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData 
 //                        Toast.makeText(mContext, "去登陆", Toast.LENGTH_SHORT).show();
 //                        startActivityForResult(new Intent().setClass(this, AssistantActivity.class), FIRST_LOGIN_ACTIVITY);
                         initLoginRedFox();
-                        clickGologin(name, "123456", edit_voip.getText().toString());
+                        clickGologin(name, "123456", voip);
                     }
                 }
 
@@ -482,6 +484,7 @@ public class LoginActivity extends AbsBaseActivity implements IAcceptServerData 
                 editor.putString(sppwd, String.valueOf(pwd));
                 editor.putString(spip, String.valueOf(ip));
                 editor.putString(sprtpip, String.valueOf(O.RTPIpaddress));
+                editor.putString(spvoip, String.valueOf(voip));
                 editor.commit();
 
                 new SendDataTask().execute(APICode.SEND_Login + "", name, pwd);

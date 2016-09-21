@@ -456,20 +456,21 @@ public class ComposeData {
 
         int mLen = 0;
 
-        //目的地址
+        //目的地址长度
         int tnumlen = info[1].getBytes().length;
         byte[] tnamubyte = ByteUtil.int2Byte(1, tnumlen);
-        mLen += tnamubyte.length;
+        mLen += tnamubyte.length;   //目的地址长度位置长度
         mLen += tnumlen;
 
-        int fjnamelen = AbsCreatActivity.getFileName(info[0]).toString().getBytes().length; // 文件名长度
+        // 文件名长度
+        int fjnamelen = AbsCreatActivity.getFileName(info[0]).toString().getBytes().length;
         byte fjnamebyte[] = ByteUtil.int2Byte(1, fjnamelen); // 文件名长度内容
         mLen += fjnamebyte.length; // 添加附件名长度的位置长度
         mLen += fjnamelen; // 添加文件名长度
 
         byte fjbyte[] = ByteUtil.getBytes(info[0]); // 文件内容
         mLen += fjbyte.length; // 添加文件长度
-        byte[] mData = new byte[mLen + 3];// 文件名长度1字节，文件长度2字节
+        byte[] mData = new byte[mLen + 2];// 文件长度2字节
         int currentpos = 0;
 
         String fName = AbsCreatActivity.getFileName(info[0]).toString();
@@ -498,7 +499,7 @@ public class ComposeData {
 //		System.arraycopy(sendcfg, 0, mData, currentpos, 2);
 
         byte[] head = data.head;
-        byte[] DataLenth = HexSwapString.short2Byte((short) (mData.length + 1));// new
+        byte[] DataLenth = HexSwapString.short2Byte((short) (mData.length + 1));// ne1
         // byte[]{(byte)(mData.length+1)};
         // //
         // 数据区长度
@@ -819,7 +820,7 @@ public class ComposeData {
     public byte[] sendSetChannel(String... info) {
 
         return new byte[]
-                {(byte) 0x55, (byte) 0xAA, (byte) 0x00, (byte) 0x06, (byte) 0x43, (byte) (Integer.parseInt(info[0])), (byte) (Integer.parseInt(info[1])), (byte) (Integer.parseInt(info[2])), (byte) (Integer.parseInt(info[3])), (byte) (Integer.parseInt(info[4]))};
+                {(byte) 0x55, (byte) 0xAA, (byte) 0x00, (byte) 0x07, (byte) 0x43, (byte) (Integer.parseInt(info[0])), (byte) (Integer.parseInt(info[1])), (byte) (Integer.parseInt(info[2])), (byte) (Integer.parseInt(info[3])), (byte) (Integer.parseInt(info[4])), (byte) (Integer.parseInt(info[5]))};
 
     }
 
@@ -954,6 +955,42 @@ public class ComposeData {
         System.arraycopy(frame, 0, SendData, lenth += DataLenth.length, frame.length);
         System.arraycopy(mData, 0, SendData, lenth += frame.length, mData.length);
         return SendData;
+    }
+
+    /**
+     * 3G上网加密信息
+     *
+     * @param info 加密信息
+     */
+    public byte[] send3G(byte code, String... info) {
+
+        byte status = 0;
+        if (info[0].equals("true")) {
+            status = (byte) 0x01;
+        } else {
+            status = (byte) 0x00;
+        }
+
+        return new byte[]
+                {(byte) 0x55, (byte) 0xAA, (byte) 0x00, (byte) 0x01, (byte) 0x50, status};
+    }
+
+    /**
+     * 指控系统加密
+     *
+     * @param info 加密信息
+     */
+    public byte[] sendZKJiami(byte code, String... info) {
+
+        byte status = 0;
+        if (info[0].equals("true")) {
+            status = (byte) 0x01;
+        } else {
+            status = (byte) 0x00;
+        }
+
+        return new byte[]
+                {(byte) 0x55, (byte) 0xAA, (byte) 0x00, (byte) 0x01, (byte) 0x51, status};
     }
 
     /**

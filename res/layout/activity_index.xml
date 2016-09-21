@@ -27,17 +27,23 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent">
 
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                android:layout_alignParentRight="true"
+                android:onClick="onclickApp"
+                android:text="应急指挥系统" />
+
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="内部测试版V3.1.0"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/red"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginBottom="5dp"
-                android:layout_marginRight="10dp"
-                android:text="内部测试版V2.2.5"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/red" />
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
 

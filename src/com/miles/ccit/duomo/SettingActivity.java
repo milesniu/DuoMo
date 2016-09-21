@@ -25,7 +25,7 @@ import com.redfox.voip_pro.RedfoxManager;
 public class SettingActivity extends AbsBaseActivity {
 
     Button Btn_Singout;
-    ToggleButton TBtn_HealthCheck, TBtn_Encrpty;
+    ToggleButton TBtn_HealthCheck, TBtn_Encrpty, TBtn_3G, TBtn_ZKEncrpyt;
     public static BaseMapObject LoactionInfo = new BaseMapObject();
     private MyBroadcastReciver broad = null;
 
@@ -37,6 +37,8 @@ public class SettingActivity extends AbsBaseActivity {
         Btn_Singout = (Button) findViewById(R.id.bt_singout);
         TBtn_HealthCheck = (ToggleButton) findViewById(R.id.toggleButton1);
         TBtn_Encrpty = (ToggleButton) findViewById(R.id.toggle_jiami);
+        TBtn_3G = (ToggleButton) findViewById(R.id.toggle_3g);
+        TBtn_ZKEncrpyt = (ToggleButton) findViewById(R.id.toggle_zkencrpyt);
         TBtn_HealthCheck.setVisibility(View.GONE);
         if (SocketConnection.isHealthCheck) {
             TBtn_HealthCheck.setChecked(true);
@@ -46,12 +48,35 @@ public class SettingActivity extends AbsBaseActivity {
 
         O.isEncrypt = sp.getBoolean("jiami", false);
 
+
         TBtn_Encrpty.setChecked(O.isEncrypt);
         TBtn_Encrpty.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 O.isEncrypt = b;
                 sp.edit().putBoolean("jiami", b).commit();
+            }
+        });
+
+        TBtn_3G.setChecked(sp.getBoolean("3g", false));
+        TBtn_3G.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                sp.edit().putBoolean("3g", isChecked).commit();
+
+                new SendDataTask().execute(APICode.SEND_3G + "", isChecked + "");
+
+            }
+        });
+
+        TBtn_ZKEncrpyt.setChecked(sp.getBoolean("zkjiami", false));
+        TBtn_ZKEncrpyt.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                sp.edit().putBoolean("zkjiami", isChecked).commit();
+
+                new SendDataTask().execute(APICode.SEND_ZKJIAMI + "", isChecked + "");
+
             }
         });
 

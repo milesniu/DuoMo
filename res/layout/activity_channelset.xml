@@ -46,14 +46,36 @@
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:text="短波台优先级"
+            android:text="自主短波优先级"
             android:textColor="@android:color/black" />
 
         <Spinner
-            android:id="@+id/sp_db"
+            android:id="@+id/sp_dbzz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:text="十五短波优先级"
+            android:textColor="@android:color/black" />
+
+        <Spinner
+            android:id="@+id/sp_db15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -109,7 +131,7 @@
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:text="普通有线优先级"
+            android:text="有线网络优先级"
             android:textColor="@android:color/black" />
 
         <Spinner

@@ -35,6 +35,8 @@ import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.FileUtils;
 import com.miles.ccit.util.O;
+import com.miles.ccit.util.UnixTime;
+import com.miles.ccit.util.UserLog;
 import com.redfox.ui.AssistantActivity;
 import com.redfox.ui.CallActivity;
 import com.redfox.ui.CallIncomingActivity;
@@ -111,6 +113,45 @@ public class IndexActivity extends AbsBaseActivity {
         if (instance != null)
             return instance;
         throw new RuntimeException("IndexActivity not instantiated yet");
+    }
+
+    public void onclickApp(View v) {
+        launchapp(this);
+
+//        UserLog.i(UnixTime.getCurrentUnixTime() + "测试");
+
+    }
+
+    public static final String APP_PACKAGE_NAME = "com.zondy.disastermsg";//包名
+
+    /**
+     * 启动App
+     *
+     * @param context
+     */
+    public void launchapp(Context context) {
+        // 判断是否安装过App，否则去市场下载
+        if (isAppInstalled(context, APP_PACKAGE_NAME)) {
+            context.startActivity(context.getPackageManager().getLaunchIntentForPackage(APP_PACKAGE_NAME));
+        } else {
+            Toast.makeText(IndexActivity.this, "请安装应急指挥系统", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * 检测某个应用是否安装
+     *
+     * @param context
+     * @param packageName
+     * @return
+     */
+    public static boolean isAppInstalled(Context context, String packageName) {
+        try {
+            context.getPackageManager().getPackageInfo(packageName, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
 
@@ -287,7 +328,9 @@ public class IndexActivity extends AbsBaseActivity {
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(broad);
+        if (broad != null) {
+            unregisterReceiver(broad);
+        }
 
         if (mOrientationHelper != null) {
             mOrientationHelper.disable();

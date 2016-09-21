@@ -313,5 +313,14 @@ public class APICode {
      */
     public static final byte RECV_Trans_data = (byte) 0x46;
 
+    /**
+     * 3G 上网
+     */
+    public static final byte SEND_3G = (byte) 0x50;
+    /**
+     * 指控系统加密
+     */
+    public static final byte SEND_ZKJIAMI = (byte) 0x51;
+
 
 }

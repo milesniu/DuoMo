@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -50,15 +51,15 @@ public class HostcfgActivity extends AbsBaseActivity {
                 String route = "";
                 for (int i = 0; i < linear_route.getChildCount(); i++) {
                     View c = linear_route.getChildAt(i);
-                    route += "route=" + new RouteItem((EditText) c.findViewById(R.id.edit_pote), (EditText) c.findViewById(R.id.edit_taddr), (EditText) c.findViewById(R.id.edit_jaddr)).toString() + ",";
+                    route += ",route=" + new RouteItem((EditText) c.findViewById(R.id.edit_pote), (EditText) c.findViewById(R.id.edit_taddr), (EditText) c.findViewById(R.id.edit_jaddr)).toString() + ",";
                 }
 
-                route = route.substring(0, route.length() - 1);
+                route = route.length() > 1 ? route.substring(0, route.length() - 1) : "";
 
-                String lan = ckbLan.isChecked() ? "dhcp" : etLan.getText().toString() + "&" + etedit_yanma.getText().toString() + etWangguanLan.getText().toString();
-                String wan1 = ckbWan1.isChecked() ? "dhcp" : etWan1.getText().toString() + "&" + etYanma1.getText().toString() + "&" + etWangguan1.getText().toString();
-                String wan2 = ckbWan2.isChecked() ? "dhcp" : etWan2.getText().toString() + "&" + etYanma2.getText().toString() + "&" + etWangguan2.getText().toString();
-                String wan3 = ckbWan3.isChecked() ? "dhcp" : etWan3.getText().toString() + "&" + etYanma3.getText().toString() + "&" + etWangguan3.getText().toString();
+                String lan = ckbLan.isChecked() ? "dhcp" : etLan.getText().toString() + "&" + etedit_yanma.getText().toString() + (TextUtils.isEmpty(etWangguanLan.getText().toString())?"":("&" + etWangguanLan.getText().toString()));
+                String wan1 = ckbWan1.isChecked() ? "dhcp" : etWan1.getText().toString() + "&" + etYanma1.getText().toString()  + (TextUtils.isEmpty(etWangguan1.getText().toString())?"":("&" + etWangguan1.getText().toString()));
+                String wan2 = ckbWan2.isChecked() ? "dhcp" : etWan2.getText().toString() + "&" + etYanma2.getText().toString() + (TextUtils.isEmpty(etWangguan2.getText().toString())?"":("&" + etWangguan2.getText().toString()));
+                String wan3 = ckbWan3.isChecked() ? "dhcp" : etWan3.getText().toString() + "&" + etYanma3.getText().toString() + (TextUtils.isEmpty(etWangguan3.getText().toString())?"":("&" + etWangguan3.getText().toString()));
 
                 String data = "name=" + etWifiName.getText().toString() + "," +
                         "pwd=" + etWifiPwd.getText().toString() + "," +
@@ -66,13 +67,14 @@ public class HostcfgActivity extends AbsBaseActivity {
                         "lan=" + lan + "," +
                         "wan1=" + wan1 + "," +
                         "wan2=" + wan2 + "," +
-                        "wan3=" + wan3 + "," +
+                        "wan3=" + wan3 +
                         route;
                 showprogressdialog();
                 ifSendData = true;
                 new SendDataTask().execute(APICode.SEND_RECV_HostCfg + "", data);
                 Toast.makeText(mContext, "参数发送完成", Toast.LENGTH_SHORT).show();
-                finish();
+                hideProgressDlg();
+//                finish();
                 break;
         }
     }
@@ -240,7 +242,8 @@ public class HostcfgActivity extends AbsBaseActivity {
                 String[] wan1 = cfgdatas[4].split("=")[1].split("&");
                 etWan1.setText(wan1[0]);
                 etYanma1.setText(wan1[1]);
-                etWangguan1.setText(wan1[2]);
+                if (wan1.length > 2)
+                    etWangguan1.setText(wan1[2]);
             }
 
 
@@ -250,7 +253,8 @@ public class HostcfgActivity extends AbsBaseActivity {
                 String[] wan2 = cfgdatas[5].split("=")[1].split("&");
                 etWan2.setText(wan2[0]);
                 etYanma2.setText(wan2[1]);
-                etWangguan2.setText(wan2[2]);
+                if (wan2.length > 2)
+                    etWangguan2.setText(wan2[2]);
             }
 
             if (cfgdatas[6].split("=")[1].equals("dhcp")) {
@@ -259,7 +263,8 @@ public class HostcfgActivity extends AbsBaseActivity {
                 String[] wan3 = cfgdatas[6].split("=")[1].split("&");
                 etWan3.setText(wan3[0]);
                 etYanma3.setText(wan3[1]);
-                etWangguan3.setText(wan3[2]);
+                if (wan3.length > 2)
+                    etWangguan3.setText(wan3[2]);
             }
 
 

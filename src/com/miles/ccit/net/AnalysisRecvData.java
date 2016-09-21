@@ -32,6 +32,7 @@ import com.miles.ccit.util.SendDataTask;
 import com.miles.ccit.util.SendNetBackData;
 import com.miles.ccit.util.SendNetData;
 import com.miles.ccit.util.UnixTime;
+import com.miles.ccit.util.UserLog;
 
 public class AnalysisRecvData {
     private Intent messageIntent = null;
@@ -109,6 +110,7 @@ public class AnalysisRecvData {
         recvmsg.put("exp2", "1");
         recvmsg.put("acknowledgemen", O.Acknowledgemen);
         recvmsg.InsertObj2DB(AppContext, "shortmsg");
+        UserLog.i("接收短消息", strsrcname, co);
 
         if (ShortMsgFragment.isTop || (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(strsrcname))) {
             intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
@@ -184,7 +186,7 @@ public class AnalysisRecvData {
         recvmsg.put("exp2", "2");
         recvmsg.put("acknowledgemen", O.Acknowledgemen);
         recvmsg.InsertObj2DB(AppContext, "shortmsg");
-
+        UserLog.i("接收转发消息", strsrcname, co);
         if (ShortMsgFragment.isTop || (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(strsrcname))) {
             intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
             intent.putExtra("data", recvmsg);
@@ -241,6 +243,7 @@ public class AnalysisRecvData {
         recvmsg.put("acknowledgemen", O.Acknowledgemen);
         recvmsg.put("exp2", "2");
         recvmsg.InsertObj2DB(AppContext, "shortmsg");
+        UserLog.i("接收到短消息", strsrcname, recvdata[2]);
 
         if (ShortMsgFragment.isTop || (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null)) {
             intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
@@ -296,6 +299,7 @@ public class AnalysisRecvData {
         recvmsg.put("acknowledgemen", O.Acknowledgemen);
         recvmsg.put("exp2", "2");
         long ret = recvmsg.InsertObj2DB(AppContext, "shortmsg");
+        UserLog.i("接收加密消息", recvdata[0].split(",")[0], recvdata[2]);
 
         if (ShortMsgFragment.isTop || (ShortmsgListActivity.isTop && ShortmsgListActivity.number != null && ShortmsgListActivity.number.equals(recvdata[0].split(",")[0]))) {
             intent.setAction(AbsBaseActivity.broad_recvtextmsg_Action);
@@ -421,7 +425,7 @@ public class AnalysisRecvData {
             recvvoicemsg.put("acknowledgemen", O.Acknowledgemen);
             recvvoicemsg.put("exp2", "2");
             recvvoicemsg.InsertObj2DB(AppContext, "shortmsg");
-
+            UserLog.i("接收短语音",vname.split(",")[0],vpath);
             // MyLog.showToast(AppContext, ""+(ShortmsgListActivity.isTop &&
             // ShortmsgListActivity.number != null &&
             // ShortmsgListActivity.number.equals(vname)));
@@ -484,7 +488,7 @@ public class AnalysisRecvData {
         //文件名
         int flen = ByteUtil.oneByte2oneInt(data[voicecursor++]);
         byte[] srcfname = new byte[flen];
-        System.arraycopy(data, voicecursor, srcfname, 0, vnlen);
+        System.arraycopy(data, voicecursor, srcfname, 0, flen);
         String fname = new String(srcfname, "UTF-8");
         voicecursor += flen;
 
@@ -509,6 +513,7 @@ public class AnalysisRecvData {
             record.put("filepath", vpath);
             record.put("creattime", UnixTime.getStrCurrentUnixTime());
             record.InsertObj2DB(AppContext, "wiredrecord");
+            UserLog.i("接收有线文件",cname,vpath);
         }
 
     }
@@ -563,7 +568,7 @@ public class AnalysisRecvData {
         recvvoicemsg.put("creattime", UnixTime.getStrCurrentUnixTime());
         recvvoicemsg.put("priority", O.Priority);
         recvvoicemsg.put("acknowledgemen", O.Acknowledgemen);
-
+        UserLog.i("接收电子邮件",vname,nr);
         if (data[voicecursor++] == 1)// 附件标示
         {
             // 附件名称
@@ -849,7 +854,7 @@ public class AnalysisRecvData {
         email.put("acknowledgemen", O.Acknowledgemen);
         email.put("creattime", UnixTime.getStrCurrentUnixTime());
         email.InsertObj2DB(AppContext, "codedirect");
-
+        UserLog.i("接收代码指挥",strsrcname,co);
         if (CodeDirectFragment.isTop) {
             intent.setAction(AbsBaseActivity.broad_recvcodedirc_Action);
             intent.putExtra("data", email);

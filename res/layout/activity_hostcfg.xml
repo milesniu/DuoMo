@@ -493,7 +493,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
-                            android:hint="请输入wan1地址" />
+                            android:hint="请输入wan3地址" />
 
 
                     </LinearLayout>
@@ -518,7 +518,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
-                            android:hint="请输入wan1子网掩码" />
+                            android:hint="请输入wan3子网掩码" />
 
 
                     </LinearLayout>
@@ -543,7 +543,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
-                            android:hint="请输入wan1网关" />
+                            android:hint="请输入wan3网关" />
 
 
                     </LinearLayout>
