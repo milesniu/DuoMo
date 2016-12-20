@@ -94,6 +94,9 @@ public abstract class AbsMsgRecorderActivity extends AbsBaseActivity {
     }
 
     public long sendTextmsg(String contact, String group, int type, boolean trans) {
+
+        trans = false;
+
         long ret = -1;
         if (contact.equals("")) {
             Toast.makeText(mContext, "联系人不能为空。", Toast.LENGTH_SHORT).show();

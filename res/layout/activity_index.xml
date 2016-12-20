@@ -2,10 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
-    android:padding="5dp"
-    tools:context=".IndexActivity">
+    android:background="#FFF"
+    android:padding="2dp">
 
     <fragment
         android:id="@+id/status"
@@ -27,23 +26,16 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:layout_width="100dp"
-                android:layout_height="70dp"
-                android:layout_alignParentRight="true"
-                android:onClick="onclickApp"
-                android:text="应急指挥系统" />
-
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="内部测试版V3.1.0"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/red"
                 android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:text="内部测试版V3.3.6"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/red" />
 
         </RelativeLayout>
 
@@ -62,50 +54,105 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <Button
+            <RelativeLayout
                 android:id="@+id/bt_broadcast"
-                style="?android:attr/buttonStyleSmall"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
-                android:background="@drawable/indexbroadcast" />
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:background="@color/bule2">
 
-            <Button
-                android:id="@+id/bt_specialway"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="3dp"
-                android:layout_weight="4"
-                android:background="@drawable/indexspecisevoice" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    android:text="广播模式"
+                    android:clickable="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
+
+                <Button
+
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="25dp"
+                    android:clickable="false"
+                    android:layout_weight="1"
+                    android:background="@drawable/indexbroadcast"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="3dp"
-                android:layout_weight="2"
-                android:background="@drawable/indexabout">
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:background="@color/bule2"
+                android:onClick="onclickApp">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    android:clickable="false"
+                    android:text="应急指挥系统"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
                 <Button
-                    android:id="@+id/bt_about"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:background="@null"
-                    android:text="主机配置"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:clickable="false"
+                    android:layout_weight="1"
+                    android:background="@drawable/indexyijingzhihui"
+                    android:id="@+id/button11"
+                    android:layout_marginTop="25dp"
+                    android:layout_centerHorizontal="true" />
+
             </RelativeLayout>
 
-            <Button
-                android:id="@+id/bt_setting"
-                style="?android:attr/buttonStyleSmall"
+            <RelativeLayout
+                android:id="@+id/bt_about"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="3dp"
-                android:layout_weight="2"
-                android:background="@drawable/indexsetting" />
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:background="@color/bule2">
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:clickable="false"
+                    android:background="@drawable/indexabout"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    android:clickable="false"
+                    android:text="主机配置"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
+            </RelativeLayout>
 
 
         </LinearLayout>
@@ -113,71 +160,73 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="3dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/bt_specialnet"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="4">
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:background="@color/bule2">
 
                 <Button
-                    android:id="@+id/bt_specialnet"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/indexspecisenet" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="15dp"
-                    android:text="专网模式"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp" />
+                    android:layout_marginTop="20dp"
+                    android:clickable="false"
+                    android:background="@drawable/indexspecisenet" />
 
                 <TextView
                     android:id="@+id/text_unread_specise"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_alignParentRight="true"
-                    android:layout_margin="20dp"
+                    android:layout_margin="25dp"
+                    android:clickable="false"
                     android:background="@drawable/shape_red_oval"
                     android:gravity="center"
                     android:text="2"
                     android:textColor="@android:color/white" />
 
-            </RelativeLayout>
-
-            <RelativeLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="3dp"
-                android:layout_weight="4"
-                android:background="#1d61ab">
-
-                <ImageView
-                    android:id="@+id/bt_netmodle"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="70dp"
-                    android:layout_height="50dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/ic_wangluomoshi" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:clickable="false"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="10dp"
-                    android:text="网络模式"
+                    android:layout_marginBottom="20dp"
+                    android:text="专网模式"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+
+                android:id="@+id/bt_netmodle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:background="@color/bule2">
+
+                <ImageView
+
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:clickable="false"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/ic_wangluomoshi" />
 
                 <TextView
                     android:id="@+id/text_unread_netmodel"
@@ -189,55 +238,166 @@
                     android:gravity="center"
                     android:text="6"
                     android:textColor="@android:color/white" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="4">
-
-                <Button
-                    android:id="@+id/bt_haveline"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="3dp"
-                    android:background="@drawable/indexwired" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="15dp"
-                    android:text="有线模式"
+                    android:layout_marginBottom="20dp"
+                    android:clickable="false"
+                    android:text="网络模式"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
             </RelativeLayout>
 
 
             <RelativeLayout
+                android:id="@+id/bt_contact"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="3dp"
-                android:layout_weight="2">
+                android:layout_margin="1dp"
+                android:clickable="true"
+                android:layout_weight="1"
+                android:background="@color/bule2">
 
-                <Button
-                    android:id="@+id/bt_contact"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/indexcontact" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
                     android:text="通讯录"
+                    android:clickable="false"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp" />
+                    android:textSize="15sp"
+                    android:id="@+id/textView8" />
+
+                <Button
+
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:clickable="false"
+                    android:background="@drawable/indexcontact"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:id="@+id/button12" />
+
             </RelativeLayout>
 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/bt_specialway"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:background="@color/bule2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    android:text="专项语音"
+                    android:clickable="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:id="@+id/textView7" />
+
+                <Button
+
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="25dp"
+                    android:clickable="false"
+                    android:background="@drawable/indexspecisevoice"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/button10" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/bt_haveline"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="1dp"
+                android:clickable="true"
+                android:layout_weight="1"
+                android:background="@color/bule2">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    android:clickable="false"
+                    android:text="有线模式"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <Button
+
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:clickable="false"
+                    android:layout_alignLeft="@+id/textView6"
+                    android:layout_alignStart="@+id/textView6"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/indexwired" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bt_setting"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:background="@color/bule2">
+
+                <Button
+
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:clickable="false"
+                    android:layout_weight="1"
+                    android:background="@drawable/indexsetting" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    android:text="系统设置"
+                    android:clickable="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 

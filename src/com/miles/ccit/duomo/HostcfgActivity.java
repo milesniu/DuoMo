@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.method.DigitsKeyListener;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import com.miles.ccit.net.APICode;
 import com.miles.ccit.util.AbsBaseActivity;
+import com.miles.ccit.util.CheckValue;
 import com.miles.ccit.util.SendDataTask;
 
 import java.util.List;
@@ -51,15 +54,82 @@ public class HostcfgActivity extends AbsBaseActivity {
                 String route = "";
                 for (int i = 0; i < linear_route.getChildCount(); i++) {
                     View c = linear_route.getChildAt(i);
-                    route += ",route=" + new RouteItem((EditText) c.findViewById(R.id.edit_pote), (EditText) c.findViewById(R.id.edit_taddr), (EditText) c.findViewById(R.id.edit_jaddr)).toString() + ",";
+                    String taddr = ((EditText) c.findViewById(R.id.edit_taddr)).getText().toString();
+                    String jaddr = ((EditText) c.findViewById(R.id.edit_jaddr)).getText().toString();
+                    if (!CheckValue.isIpv4(taddr)) {
+                        Toast.makeText(HostcfgActivity.this, "目的地址输入非法数据,请检查!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!CheckValue.isIpv4(jaddr)) {
+                        Toast.makeText(HostcfgActivity.this, "跳转输入非法数据,请检查!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    route += ",route=" + new RouteItem((EditText) c.findViewById(R.id.edit_pote), (EditText) c.findViewById(R.id.edit_taddr), (EditText) c.findViewById(R.id.edit_jaddr)).toString();
                 }
 
-                route = route.length() > 1 ? route.substring(0, route.length() - 1) : "";
+//                route = route.length() > 1 ? route.substring(0, route.length() - 1) : "";
+                if (!ckbLan.isChecked()) {
+                    if (!CheckValue.isIpv4(etLan.getText().toString())) {
+                        Toast.makeText(HostcfgActivity.this, "Lan输入非法数据,请检查!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!CheckValue.isIpv4(etedit_yanma.getText().toString())) {
+                        Toast.makeText(HostcfgActivity.this, "子网掩码输入非法数据,请检查!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!CheckValue.isIpv4(etWangguanLan.getText().toString())) {
+                        Toast.makeText(HostcfgActivity.this, "网关输入非法数据,请检查!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                if (!ckbWan1.isChecked()) {
+                    if (!CheckValue.isIpv4(etWan1.getText().toString())) {
+                        Toast.makeText(HostcfgActivity.this, "输入非法数据,请检查!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!CheckValue.isIpv4(etYanma1.getText().toString())) {
+                        Toast.makeText(HostcfgActivity.this, "输入非法数据,请检查!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!CheckValue.isIpv4(etWangguan1.getText().toString())) {
+                        Toast.makeText(HostcfgActivity.this, "输入非法数据,请检查!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                if (!ckbWan2.isChecked()) {
+                    if (!CheckValue.isIpv4(etWan2.getText().toString())) {
+                        Toast.makeText(HostcfgActivity.this, "输入非法数据,请检查!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!CheckValue.isIpv4(etYanma2.getText().toString())) {
+                        Toast.makeText(HostcfgActivity.this, "输入非法数据,请检查!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!CheckValue.isIpv4(etWangguan2.getText().toString())) {
+                        Toast.makeText(HostcfgActivity.this, "输入非法数据,请检查!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                if (!ckbWan3.isChecked()) {
+                    if (!CheckValue.isIpv4(etWan3.getText().toString())) {
+                        Toast.makeText(HostcfgActivity.this, "输入非法数据,请检查!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!CheckValue.isIpv4(etYanma3.getText().toString())) {
+                        Toast.makeText(HostcfgActivity.this, "输入非法数据,请检查!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!CheckValue.isIpv4(etWangguan3.getText().toString())) {
+                        Toast.makeText(HostcfgActivity.this, "输入非法数据,请检查!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
 
-                String lan = ckbLan.isChecked() ? "dhcp" : etLan.getText().toString() + "&" + etedit_yanma.getText().toString() + (TextUtils.isEmpty(etWangguanLan.getText().toString())?"":("&" + etWangguanLan.getText().toString()));
-                String wan1 = ckbWan1.isChecked() ? "dhcp" : etWan1.getText().toString() + "&" + etYanma1.getText().toString()  + (TextUtils.isEmpty(etWangguan1.getText().toString())?"":("&" + etWangguan1.getText().toString()));
-                String wan2 = ckbWan2.isChecked() ? "dhcp" : etWan2.getText().toString() + "&" + etYanma2.getText().toString() + (TextUtils.isEmpty(etWangguan2.getText().toString())?"":("&" + etWangguan2.getText().toString()));
-                String wan3 = ckbWan3.isChecked() ? "dhcp" : etWan3.getText().toString() + "&" + etYanma3.getText().toString() + (TextUtils.isEmpty(etWangguan3.getText().toString())?"":("&" + etWangguan3.getText().toString()));
+                String lan = ckbLan.isChecked() ? "dhcp" : etLan.getText().toString() + "&" + etedit_yanma.getText().toString() + (TextUtils.isEmpty(etWangguanLan.getText().toString()) ? "" : ("&" + etWangguanLan.getText().toString()));
+                String wan1 = ckbWan1.isChecked() ? "dhcp" : etWan1.getText().toString() + "&" + etYanma1.getText().toString() + (TextUtils.isEmpty(etWangguan1.getText().toString()) ? "" : ("&" + etWangguan1.getText().toString()));
+                String wan2 = ckbWan2.isChecked() ? "dhcp" : etWan2.getText().toString() + "&" + etYanma2.getText().toString() + (TextUtils.isEmpty(etWangguan2.getText().toString()) ? "" : ("&" + etWangguan2.getText().toString()));
+                String wan3 = ckbWan3.isChecked() ? "dhcp" : etWan3.getText().toString() + "&" + etYanma3.getText().toString() + (TextUtils.isEmpty(etWangguan3.getText().toString()) ? "" : ("&" + etWangguan3.getText().toString()));
 
                 String data = "name=" + etWifiName.getText().toString() + "," +
                         "pwd=" + etWifiPwd.getText().toString() + "," +
@@ -148,6 +218,13 @@ public class HostcfgActivity extends AbsBaseActivity {
         EditText etPort = (EditText) item.findViewById(R.id.edit_pote);
         EditText etTar = (EditText) item.findViewById(R.id.edit_taddr);
         EditText etJum = (EditText) item.findViewById(R.id.edit_jaddr);
+
+        String digits = "1234567890.";
+        etTar.setKeyListener(DigitsKeyListener.getInstance(digits));
+        etJum.setKeyListener(DigitsKeyListener.getInstance(digits));
+        etTar.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
+        etJum.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
+
         Button btDel = (Button) item.findViewById(R.id.bt_del);
         btDel.setTag(item);
         btDel.findViewById(R.id.bt_del).setOnClickListener(new View.OnClickListener() {
@@ -226,15 +303,18 @@ public class HostcfgActivity extends AbsBaseActivity {
             etWifiPwd.setText(cfgdatas[1].split("=")[1]);
             etChannel.setText(cfgdatas[2].split("=")[1]);
 
-            String lanStr[] = cfgdatas[3].split("=")[1].split("&");
-            etLan.setText(lanStr[0]);
-            etedit_yanma.setText(lanStr[1]);
-            if (lanStr.length > 2) {
-                etWangguanLan.setText(lanStr[2]);
+            if (cfgdatas[3].split("=")[1].equals("dhcp")) {
+                ckbLan.setChecked(true);
             } else {
-                etWangguanLan.setText("");
+                String lanStr[] = cfgdatas[3].split("=")[1].split("&");
+                etLan.setText(lanStr[0]);
+                etedit_yanma.setText(lanStr[1]);
+                if (lanStr.length > 2) {
+                    etWangguanLan.setText(lanStr[2]);
+                } else {
+                    etWangguanLan.setText("");
+                }
             }
-
 
             if (cfgdatas[4].split("=")[1].equals("dhcp")) {
                 ckbWan1.setChecked(true);

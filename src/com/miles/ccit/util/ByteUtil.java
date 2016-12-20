@@ -1,6 +1,7 @@
 package com.miles.ccit.util;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -10,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 public class ByteUtil {
     /**
@@ -92,7 +95,7 @@ public class ByteUtil {
     }
 
 
-    public static void writeLog(String filePath, String info) {
+    public static void writeAppendLog(String filePath, String info) {
         try {
             File file = new File(filePath);
             //第二个参数意义是说是否以append方式添加内容
@@ -103,6 +106,34 @@ public class ByteUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void writeLog(String filePath, String info) {
+        try {
+            File file = new File(filePath);
+            //第二个参数意义是说是否以append方式添加内容
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file, false));
+            bw.write(info);
+            bw.flush();
+            System.out.println("写入成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String readTxtFile(String fileName) {
+        String result = null;
+        try {
+            File file = new File(fileName);
+            FileInputStream is = new FileInputStream(file);
+            byte[] b = new byte[is.available()];
+            is.read(b);
+            result = new String(b);
+            System.out.println("读取成功：" + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public static String getFile(byte[] bfile, String filePath, String fileName) {

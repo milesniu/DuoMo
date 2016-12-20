@@ -16,8 +16,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Vector;
 import java.util.concurrent.locks.ReentrantLock;
 
 import android.annotation.SuppressLint;
@@ -32,6 +34,7 @@ import com.miles.ccit.duomo.ShortmsgListActivity;
 import com.miles.ccit.main.IndexActivity;
 import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
+import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.MyApplication;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.O;
@@ -121,6 +124,7 @@ public class SocketConnection {
             socket.setSoLinger(true, 0); // socket关闭时，立即释放资源
             socket.setKeepAlive(true);
             socket.setTrafficClass(0x04 | 0x10); // 高可靠性和最小延迟传输
+            socket.setReceiveBufferSize(64 * 1024);
             isNetworkConnect = true;
             receiveThread = new Thread(new ReceiveWorker());
             receiveThread.start();
@@ -342,6 +346,110 @@ public class SocketConnection {
     }
 
 
+    private void analyBuffer(byte[] heart) throws Exception
+    {
+
+        AnalysisRecvData analyUtil = new AnalysisRecvData();
+
+        switch (heart[4]) {
+            case APICode.BACK_Login:
+                analyUtil.analyLogin(heart);
+                break;
+            case APICode.BACK_Hear_Beat:
+                sendDataCallback.remove("heartbeat#1");//收到心跳返回，清除心跳缓存
+                break;
+            case APICode.BACK_ShortTextMsg:
+            case APICode.BACK_ShortVoiceMsg:
+            case APICode.BACK_Trans_data:
+                analyUtil.analyBackTextMsg(heart);
+                break;
+            case APICode.BACK_Email:
+                analyUtil.analyBackEmail(heart);
+                break;
+            case APICode.RECV_ShortTextMsg:
+                analyUtil.analyTextMsg(heart);
+                IndexActivity.underspecise++;
+                break;
+            case APICode.RECV_ShortVoiceMsg:
+                analyUtil.analyVoiceMsg(heart);
+                IndexActivity.underspecise++;
+                break;
+            case APICode.RECV_Email:
+                analyUtil.analyEmail(heart);
+                IndexActivity.underspecise++;
+                break;
+            case APICode.BACK_VoiceCode:
+                analyUtil.analyBackVoiceCode(heart);
+                break;
+            case APICode.RECV_VoiceCode:
+                analyUtil.analyRecvVoicecode(heart);
+                IndexActivity.underspecise++;
+                break;
+            case APICode.RECV_BroadcastFile:
+                analyUtil.analyBroadcast(heart);
+                break;
+            case APICode.BACK_Broadcast:
+                analyUtil.analyBackBroadcast(heart);
+                break;
+            case APICode.BACK_SpecialVoice:
+                analyUtil.analyBackSpecialVoice(heart);
+                break;
+            case APICode.BACK_ChangePwd:
+                analyUtil.analyChangePwd(heart);
+                break;
+            case APICode.BACK_WiredVoice:
+                analyUtil.analyBackWiredVoice(heart);
+                break;
+            case APICode.RECV_WiredVoice:
+                analyUtil.analyRecvWiredVoice(heart);
+                break;
+            case APICode.RECV_NormalInteraput:
+                analyUtil.analyInteraput(heart);
+                break;
+            case APICode.SEND_FileProgress:
+                analyUtil.analyProgress(heart);
+                break;
+            case APICode.BACK_FILE:
+            case APICode.SEND_FileResult:
+                analyUtil.analyFileBackresult(heart);
+                break;
+            case APICode.RECV_WiredFile:
+                analyUtil.analyrecvWiredFile(heart);
+                break;
+            case APICode.RECV_UIMOUT:
+                Message msg = new Message();
+                msg.arg1 = 0;
+                MyApplication.handle.sendMessage(msg); // 连接断开，显示登录界面
+                canleSocket();
+                break;
+            case APICode.BACK_CodeDirec:
+                analyUtil.analyBackCodedirc(heart);
+                break;
+            case APICode.RECV_CodeDirec:
+                analyUtil.analyRecvCodedirc(heart);
+                IndexActivity.underspecise++;
+                break;
+            case APICode.BACK_Location:
+                analyUtil.analyRecvLocation(heart);
+                break;
+            case APICode.RECV_DEBUGINFO:
+                analyUtil.analyDebugInfo(heart);
+                break;
+            case APICode.SEND_RECV_HostCfg:
+                analyUtil.analyHostconfig(heart);
+                break;
+            case APICode.SEND_RECV_ChannelCfg:
+                analyUtil.analychannelCfg(heart);
+                break;
+            case APICode.SEND_Encrypt:
+            case APICode.SEND_Decryption:
+                analyUtil.analyEncrypt(heart[4], heart);
+                break;
+            case APICode.RECV_Trans_data:
+                analyUtil.analyTransData(heart);
+        }
+    }
+
     private class ReceiverUDPServer implements Runnable {
         @Override
         public void run() {
@@ -368,22 +476,22 @@ public class SocketConnection {
                         case APICode.BACK_NET_ShortTextMsg:
                         case APICode.BACK_NET_ShortVoiceMsg:
                             analyUtil.analyBackTextMsg(data);
-                            UserLog.i("响应网络模式短消息", clientIP.getHostAddress(),new String(data, 0, len));
+                            UserLog.i("响应网络模式短消息", clientIP.getHostAddress(), new String(data, 0, len));
                             break;
                         case APICode.SEND_NET_ShortTextMsg:
                             analyUtil.analyNetTextMsg(data);
-                            UserLog.i("发送网络模式短消息", clientIP.getHostAddress(),new String(data, 0, len));
+                            UserLog.i("发送网络模式短消息", clientIP.getHostAddress(), new String(data, 0, len));
                             break;
 
                         case APICode.SEND_NET_ShortVoiceMsg:
                             analyUtil.analyVoiceMsg(data);
-                            UserLog.i("发送网络模式短语音", clientIP.getHostAddress(),new String(data, 0, len));
+                            UserLog.i("发送网络模式短语音", clientIP.getHostAddress(), new String(data, 0, len));
 
                             break;
 
                         case APICode.SEND_NET_Encrypt_ShortTextMsg:
                             analyUtil.analyBackNetEncryptTextMsg(data);
-                            UserLog.i("发送网络模式加密短消息", clientIP.getHostAddress(),new String(data, 0, len));
+                            UserLog.i("发送网络模式加密短消息", clientIP.getHostAddress(), new String(data, 0, len));
 
                             break;
 
@@ -408,117 +516,44 @@ public class SocketConnection {
     // 消息接收线程
     private class ReceiveWorker implements Runnable {
         public void run() {
-            byte[] heart = new byte[20480];
+
             while (!Thread.interrupted()) {
                 try {
-                    byte[] b = new byte[1024]; // 缓冲区20K
-                    while (inStream.read(heart) == -1) {
-                        // log.warn("读到流未尾，对方已关闭流!");
-                        reConnectToCTCC();// 读到流未尾，对方已关闭流
-                        return;
+
+                    int count = 0;
+                    if(inStream.available()>0 == false){
+                        continue;
+                    }else{
+                        Thread.sleep(200);
                     }
+                    byte[] heart = new byte[65507];     //64k
+
+                    count = inStream.read(heart);
 
                     MyLog.SystemOut("接收到消息：" + heart);
 
-                    AnalysisRecvData analyUtil = new AnalysisRecvData();
 
-                    switch (heart[4]) {
-                        case APICode.BACK_Login:
-                            analyUtil.analyLogin(heart);
-                            break;
-                        case APICode.BACK_Hear_Beat:
-                            sendDataCallback.remove("heartbeat#1");//收到心跳返回，清除心跳缓存
-                            break;
-                        case APICode.BACK_ShortTextMsg:
-                        case APICode.BACK_ShortVoiceMsg:
-                        case APICode.BACK_Trans_data:
-                            analyUtil.analyBackTextMsg(heart);
-                            break;
-                        case APICode.BACK_Email:
-                            analyUtil.analyBackEmail(heart);
-                            break;
-                        case APICode.RECV_ShortTextMsg:
-                            analyUtil.analyTextMsg(heart);
-                            IndexActivity.underspecise++;
-                            break;
-                        case APICode.RECV_ShortVoiceMsg:
-                            analyUtil.analyVoiceMsg(heart);
-                            IndexActivity.underspecise++;
-                            break;
-                        case APICode.RECV_Email:
-                            analyUtil.analyEmail(heart);
-                            IndexActivity.underspecise++;
-                            break;
-                        case APICode.BACK_VoiceCode:
-                            analyUtil.analyBackVoiceCode(heart);
-                            break;
-                        case APICode.RECV_VoiceCode:
-                            analyUtil.analyRecvVoicecode(heart);
-                            IndexActivity.underspecise++;
-                            break;
-                        case APICode.RECV_BroadcastFile:
-                            analyUtil.analyBroadcast(heart);
-                            break;
-                        case APICode.BACK_Broadcast:
-                            analyUtil.analyBackBroadcast(heart);
-                            break;
-                        case APICode.BACK_SpecialVoice:
-                            analyUtil.analyBackSpecialVoice(heart);
-                            break;
-                        case APICode.BACK_ChangePwd:
-                            analyUtil.analyChangePwd(heart);
-                            break;
-                        case APICode.BACK_WiredVoice:
-                            analyUtil.analyBackWiredVoice(heart);
-                            break;
-                        case APICode.RECV_WiredVoice:
-                            analyUtil.analyRecvWiredVoice(heart);
-                            break;
-                        case APICode.RECV_NormalInteraput:
-                            analyUtil.analyInteraput(heart);
-                            break;
-                        case APICode.SEND_FileProgress:
-                            analyUtil.analyProgress(heart);
-                            break;
-                        case APICode.BACK_FILE:
-                        case APICode.SEND_FileResult:
-                            analyUtil.analyFileBackresult(heart);
-                            break;
-                        case APICode.RECV_WiredFile:
-                            analyUtil.analyrecvWiredFile(heart);
-                            break;
-                        case APICode.RECV_UIMOUT:
-                            Message msg = new Message();
-                            msg.arg1 = 0;
-                            MyApplication.handle.sendMessage(msg); // 连接断开，显示登录界面
-                            canleSocket();
-                            break;
-                        case APICode.BACK_CodeDirec:
-                            analyUtil.analyBackCodedirc(heart);
-                            break;
-                        case APICode.RECV_CodeDirec:
-                            analyUtil.analyRecvCodedirc(heart);
-                            IndexActivity.underspecise++;
-                            break;
-                        case APICode.BACK_Location:
-                            analyUtil.analyRecvLocation(heart);
-                            break;
-                        case APICode.RECV_DEBUGINFO:
-                            analyUtil.analyDebugInfo(heart);
-                            break;
-                        case APICode.SEND_RECV_HostCfg:
-                            analyUtil.analyHostconfig(heart);
-                            break;
-                        case APICode.SEND_RECV_ChannelCfg:
-                            analyUtil.analychannelCfg(heart);
-                            break;
-                        case APICode.SEND_Encrypt:
-                        case APICode.SEND_Decryption:
-                            analyUtil.analyEncrypt(heart[4], heart);
-                            break;
-                        case APICode.RECV_Trans_data:
-                            analyUtil.analyTransData(heart);
+                    List<byte[]> reveList = new Vector<>();
+
+
+                    int listLength = 0;
+
+                    for (int i=0;i<count;i++)
+                    {
+                        if(heart[i]==(byte)0x55 && heart[i+1]==(byte)0xAA)
+                        {
+                            reveList.add(new byte[ByteUtil.byte2Int(new byte[]{heart[i+2],heart[i+3]})+4]);
+                            listLength = 0;
+                        }
+
+                        reveList.get(reveList.size()-1)[listLength++] = heart[i];
                     }
+
+
+                    for(byte[] b:reveList) {
+                        analyBuffer(b);
+                    }
+
                     try {
                         lock.lock();
                     } finally {
@@ -527,9 +562,10 @@ public class SocketConnection {
                 } catch (SocketException e) {
                     MyLog.SystemOut("服务端关闭socket" + e.toString());
                     reConnectToCTCC();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     MyLog.SystemOut("接收线程读取响应数据时发生IO流异常" + e.toString());
                 }
+
 
             }
         }

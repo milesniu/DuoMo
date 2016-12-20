@@ -34,6 +34,7 @@ import com.miles.ccit.util.AbsBaseActivity;
 import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.ByteUtil;
 import com.miles.ccit.util.FileUtils;
+import com.miles.ccit.util.HexSwapString;
 import com.miles.ccit.util.O;
 import com.miles.ccit.util.UnixTime;
 import com.miles.ccit.util.UserLog;
@@ -441,7 +442,7 @@ public class IndexActivity extends AbsBaseActivity {
                 byte[] info = new byte[len];
                 System.arraycopy(data, 6, info, 0, len);
                 try {
-                    String content = new String(info, "UTF-8");
+                    String content =  new String(info, "UTF-8");//HexSwapString.encode(info);
                     String orgcon = sp.getString("debugInfo", "");
 
                     String newdata = "";

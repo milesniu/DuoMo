@@ -69,6 +69,10 @@ public class CallActivity extends Activity implements OnClickListener {
     private CallAudioFragment audioCallFragment;
     private LinphoneCoreListenerBase mListener;
 
+    private ImageView speaker;
+
+    private boolean isSpeakerEnabled = true;
+
     public static CallActivity instance() {
         return instance;
     }
@@ -88,6 +92,9 @@ public class CallActivity extends Activity implements OnClickListener {
         setContentView(R.layout.call);
 
         cameraNumber = AndroidCameraConfiguration.retrieveCameras().length;
+
+        speaker = (ImageView)findViewById(R.id.speaker);
+        speaker.setOnClickListener(this);
 
         mListener = new LinphoneCoreListenerBase() {
             @Override
@@ -164,8 +171,22 @@ public class CallActivity extends Activity implements OnClickListener {
                 getFragmentManager().beginTransaction().add(R.id.fragmentContainer, callFragment).commitAllowingStateLoss();
             }
         }
-        RedfoxManager.getLc().enableSpeaker(true);
+        isSpeakerEnabled = true;
+        RedfoxManager.getLc().enableSpeaker(isSpeakerEnabled);
 
+    }
+
+
+
+    private void toggleSpeaker() {
+        isSpeakerEnabled = !isSpeakerEnabled;
+        if (isSpeakerEnabled) {
+            speaker.setImageResource(R.drawable.speaker_selected);
+            RedfoxManager.getLc().enableSpeaker(isSpeakerEnabled);
+        } else {
+            speaker.setImageResource(R.drawable.speaker_default);
+            RedfoxManager.getLc().enableSpeaker(isSpeakerEnabled);
+        }
     }
 
     private boolean isVideoEnabled(LinphoneCall call) {
@@ -242,6 +263,9 @@ public class CallActivity extends Activity implements OnClickListener {
             if (videoCallFragment != null) {
                 videoCallFragment.switchCamera();
             }
+        }
+        else if (id == R.id.speaker) {
+            toggleSpeaker();
         }
     }
 

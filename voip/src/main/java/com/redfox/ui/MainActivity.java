@@ -112,7 +112,7 @@ public class MainActivity extends Activity implements OnClickListener {
         instance = this;
         fragmentsHistory = new ArrayList<FragmentsAvailable>();
 
-        initButtons();
+//        initButtons();
 
         currentFragment = nextFragment = FragmentsAvailable.DIALER;
         fragmentsHistory.add(currentFragment);

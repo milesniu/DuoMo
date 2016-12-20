@@ -13,6 +13,7 @@ public class O {
 //	public static int RecvPort = 6002;
     public static int LocalRTPPortPort = 6002;
     public static int RomoteRTPPort = 6002;
+
     public static int networktimeout = 1000 * 5; // 超时时间，初始值10秒
     public static int HeartbeatTime = 1000 * 5; // 心跳间隔时间5秒
     public static String TitleName = "综合接入设备";

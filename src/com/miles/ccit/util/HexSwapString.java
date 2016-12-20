@@ -15,6 +15,7 @@ public class HexSwapString
 		{
 			sb.append(hexString.charAt((bytes[i] & 0xf0) >> 4));
 			sb.append(hexString.charAt((bytes[i] & 0x0f) >> 0));
+			sb.append(" ");
 		}
 		return sb.toString();
 	}
@@ -30,6 +31,7 @@ public class HexSwapString
 	/**将16进制数的字符串转成byte数组*/
 	public static byte[] HexString2Bytes(String src)
 	{
+		src = src.trim().replace(" ","");
 		int DataLenth = src.length()/2;
 		byte[] ret = new byte[DataLenth];
 		byte[] tmp = src.getBytes();

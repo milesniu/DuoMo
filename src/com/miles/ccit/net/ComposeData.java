@@ -331,7 +331,7 @@ public class ComposeData {
         }
 
         byte[] mData = new byte[mLen + 2];// 源地址1字节，目的地址长度2字节
-
+        info[1] = info[1].replace("*",",");
         int currentpos = 0;
         for (int i = 0; i < 2; i++) {
             byte[] len = ByteUtil.int2Byte(1, info[i].getBytes().length);

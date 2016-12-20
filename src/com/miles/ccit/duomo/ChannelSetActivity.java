@@ -41,7 +41,7 @@ public class ChannelSetActivity extends AbsBaseActivity {
                 this.finish();
                 break;
             case R.id.bt_right:
-                new setChannel().execute(APICode.SEND_RECV_ChannelCfg + "", sp_weixing.getSelectedItemPosition() + "", sp_duanbozz.getSelectedItemPosition() + "",sp_duanbo15.getSelectedItemPosition() + "", sp_cduanbo.getSelectedItemPosition() + "", sp_mobile.getSelectedItemPosition() + "", sp_wired.getSelectedItemPosition() + "");
+                new setChannel().execute(APICode.SEND_RECV_ChannelCfg + "", sp_weixing.getSelectedItemPosition() + "", sp_duanbozz.getSelectedItemPosition() + "", sp_duanbo15.getSelectedItemPosition() + "", sp_cduanbo.getSelectedItemPosition() + "", sp_mobile.getSelectedItemPosition() + "", sp_wired.getSelectedItemPosition() + "");
                 break;
         }
     }
@@ -51,7 +51,7 @@ public class ChannelSetActivity extends AbsBaseActivity {
         protected void onPostExecute(byte[] result) {
             super.onPostExecute(result);
             hideProgressDlg();
-            finish();
+            //finish();
         }
     }
 

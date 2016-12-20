@@ -127,82 +127,92 @@
                     android:text="DHCP"
                     android:textColor="@android:color/black" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/linear_lan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="IPV4地址:"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <EditText
-                    android:id="@+id/edit_lan"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:hint="请输入IP地址" />
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="IPV4地址:"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/edit_lan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:digits="1234567890."
+                        android:inputType="number"
+                        android:hint="请输入IP地址"
+                        />
 
-                <TextView
-                    android:layout_width="120sp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="子网掩码:"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
+                </LinearLayout>
 
-                <EditText
-                    android:id="@+id/edit_yanma"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:hint="请输入子网掩码" />
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="120sp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="子网掩码:"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="5dp">
+                    <EditText
+                        android:id="@+id/edit_yanma"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:digits="1234567890."
+                        android:inputType="number"
+                        android:hint="请输入子网掩码" />
 
-                <TextView
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="Lan 网关:"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
+                </LinearLayout>
 
-                <EditText
-                    android:id="@+id/edit_lanwangguan"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:hint="请输入lan网关" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="Lan 网关:"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/edit_lanwangguan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:digits="1234567890."
+                        android:inputType="number"
+                        android:hint="请输入lan网关" />
 
 
+                </LinearLayout>
             </LinearLayout>
-            </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
@@ -264,6 +274,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
+                            android:digits="1234567890."
+                            android:inputType="number"
                             android:hint="请输入wan1地址" />
 
 
@@ -289,6 +301,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
+                            android:digits="1234567890."
+                            android:inputType="number"
                             android:hint="请输入wan1子网掩码" />
 
 
@@ -314,6 +328,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
+                            android:digits="1234567890."
+                            android:inputType="number"
                             android:hint="请输入wan1网关" />
 
 
@@ -380,6 +396,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
+                            android:digits="1234567890."
+                            android:inputType="number"
                             android:hint="请输入wan2地址" />
 
 
@@ -405,6 +423,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
+                            android:digits="1234567890."
+                            android:inputType="number"
                             android:hint="请输入wan2子网掩码" />
 
 
@@ -430,6 +450,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
+                            android:digits="1234567890."
+                            android:inputType="number"
                             android:hint="请输入wan2网关" />
 
 
@@ -493,6 +515,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
+                            android:digits="1234567890."
+                            android:inputType="number"
                             android:hint="请输入wan3地址" />
 
 
@@ -518,6 +542,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
+                            android:digits="1234567890."
+                            android:inputType="number"
                             android:hint="请输入wan3子网掩码" />
 
 
@@ -543,6 +569,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
+                            android:digits="1234567890."
+                            android:inputType="number"
                             android:hint="请输入wan3网关" />
 
 
@@ -566,9 +594,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:textSize="16sp"
                 android:onClick="addRoute"
-                android:text="添加路由" />
+                android:text="添加路由"
+                android:textSize="16sp" />
 
         </LinearLayout>
     </ScrollView>

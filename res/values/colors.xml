@@ -52,9 +52,9 @@
     <color name="grayitem">#fcfcfc</color>
     <color name="white">#ffffff</color>
     <color name="bule">#0078ff</color>
+    <color name="bule2">#2B579A</color>
     <color name="graytext">#7d7d7d</color>
     <color name="greentext">#6CC114</color>
     <color name="greenbg">#008000</color>
     <color name="greenpressbg">#004000</color>
-    
 </resources>

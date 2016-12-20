@@ -17,6 +17,7 @@ import com.miles.ccit.util.BaseMapObject;
 import com.miles.ccit.util.MutiChoiseDlg;
 import com.miles.ccit.util.MyLog;
 import com.miles.ccit.util.O;
+import com.miles.ccit.util.UnixTime;
 
 public class CreatShortmsgActivity extends AbsMsgRecorderActivity {
     private EditText edit_inputContact;
@@ -70,8 +71,9 @@ public class CreatShortmsgActivity extends AbsMsgRecorderActivity {
                     return;
                 }
                 if (contatc.indexOf(",") != -1 && group.equals("")) {
-                    MyLog.showToast(mContext, "请输入群组名称");
-                    return;
+//                    MyLog.showToast(mContext, "请输入群组名称");
+//                    return;
+                    group = "群"+UnixTime.getSimpleTime("MM-dd HH:mm");
                 }
                 setStrContatc(contatc);
                 long ret = sendTextmsg(contatc, group, type, false);

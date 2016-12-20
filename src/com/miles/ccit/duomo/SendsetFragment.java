@@ -113,16 +113,16 @@ public class SendsetFragment extends AbsBaseFragment {
 
                 if (radio_need.isChecked()) {
                     if(radio_yesencrypt.isChecked()) {
-                        byteconfig[1] = (byte) 0x03;    //有回执、有加密
+                        byteconfig[1] = (byte) 0x02;    //有回执、有加密
                     }
                     else
                     {
                         byteconfig[1] = (byte) 0x01;    //有回执、无加密
                     }
-                } else if (radio_noneed.isChecked()) {
+                } else  {
                     if(radio_yesencrypt.isChecked())
                     {
-                        byteconfig[1] = (byte) 0x02;    //无回执、无加密
+                        byteconfig[1] = (byte) 0x03;    //无回执、有加密
                     }
                     else
                     {

@@ -346,6 +346,14 @@ public class AnalysisRecvData {
         senditem.put("sendtype", data[5] == 0 ? AbsBaseActivity.SENDERROR + "" : AbsBaseActivity.SENDSUCCESS + "");
         senditem.UpdateMyself(AppContext, "emailmsg");
 
+        String[] params = new String[4];
+        params[0] = "9";
+        params[1] = O.Account;
+        params[2] = senditem.get("number").toString();
+        params[3] = senditem.get("mailcontent").toString();
+        UserLog.i("电子邮件发送结果", params);
+
+
         if (EmailFragment.isTop) {
             intent.setAction(AbsBaseActivity.broad_backemailresult_Action);
             // intent.putExtra("data", senditem);
@@ -368,6 +376,15 @@ public class AnalysisRecvData {
         System.arraycopy(data, 6, srcname, 0, idlen);
         String id = new String(srcname);
         BaseMapObject senditem = GetData4DB.getObjectByid(AppContext, "shortmsg", id);
+
+        String[] params = new String[4];
+        params[0] = "9";
+        params[1] = O.Account;
+        params[2] = senditem.get("number").toString();
+        params[3] = senditem.get("msgcontent").toString();
+        UserLog.i("短消息发送结果", params);
+
+
         SocketConnection.sendDataCallback.remove("APICode.SEND_ShortTextMsg#" + id); // 收到短消息返回，则删除缓存
         senditem.put("sendtype", data[5] == 0 ? AbsBaseActivity.SENDERROR + "" : AbsBaseActivity.SENDSUCCESS + "");
         senditem.UpdateMyself(AppContext, "shortmsg");
@@ -425,7 +442,7 @@ public class AnalysisRecvData {
             recvvoicemsg.put("acknowledgemen", O.Acknowledgemen);
             recvvoicemsg.put("exp2", "2");
             recvvoicemsg.InsertObj2DB(AppContext, "shortmsg");
-            UserLog.i("接收短语音",vname.split(",")[0],vpath);
+            UserLog.i("接收短语音", vname.split(",")[0], vpath);
             // MyLog.showToast(AppContext, ""+(ShortmsgListActivity.isTop &&
             // ShortmsgListActivity.number != null &&
             // ShortmsgListActivity.number.equals(vname)));
@@ -513,7 +530,7 @@ public class AnalysisRecvData {
             record.put("filepath", vpath);
             record.put("creattime", UnixTime.getStrCurrentUnixTime());
             record.InsertObj2DB(AppContext, "wiredrecord");
-            UserLog.i("接收有线文件",cname,vpath);
+            UserLog.i("接收有线文件", cname, vpath);
         }
 
     }
@@ -568,7 +585,7 @@ public class AnalysisRecvData {
         recvvoicemsg.put("creattime", UnixTime.getStrCurrentUnixTime());
         recvvoicemsg.put("priority", O.Priority);
         recvvoicemsg.put("acknowledgemen", O.Acknowledgemen);
-        UserLog.i("接收电子邮件",vname,nr);
+        UserLog.i("接收电子邮件", vname, nr);
         if (data[voicecursor++] == 1)// 附件标示
         {
             // 附件名称
@@ -813,6 +830,14 @@ public class AnalysisRecvData {
         senditem.put("sendtype", data[5] == 0 ? AbsBaseActivity.SENDERROR + "" : AbsBaseActivity.SENDSUCCESS + "");
         senditem.UpdateMyself(AppContext, "codedirect");
 
+
+        String[] params = new String[4];
+        params[0] = "9";
+        params[1] = O.Account;
+        params[2] = senditem.get("number").toString();
+        params[3] = senditem.get("codecontent").toString();
+        UserLog.i("代码指挥发送结果", params);
+
         if (CodeDirectFragment.isTop) {
             intent.setAction(AbsBaseActivity.broad_recvcodedirc_Action);
             AppContext.sendBroadcast(intent);
@@ -854,7 +879,7 @@ public class AnalysisRecvData {
         email.put("acknowledgemen", O.Acknowledgemen);
         email.put("creattime", UnixTime.getStrCurrentUnixTime());
         email.InsertObj2DB(AppContext, "codedirect");
-        UserLog.i("接收代码指挥",strsrcname,co);
+        UserLog.i("接收代码指挥", strsrcname, co);
         if (CodeDirectFragment.isTop) {
             intent.setAction(AbsBaseActivity.broad_recvcodedirc_Action);
             intent.putExtra("data", email);

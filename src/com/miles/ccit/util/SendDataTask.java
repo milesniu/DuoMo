@@ -100,8 +100,14 @@ public class SendDataTask extends AsyncTask<String, Void, byte[]> {
                     UserLog.i("响应接收有线语音", parm);
                     break;
                 case APICode.SEND_WiredFile:
+                    String[] p2 = new String[4];
+                    p2[0] = parm[0];
+                    p2[1] = parm[1];
+                    p2[2] = FileStatusActivity.code;
+                    p2[3] = parm[2];
+                    UserLog.i("发送有线文件", p2);
                     SocketConnection.getInstance().readReqMsg(new ComposeData().sendWiredFile(parm[2], FileStatusActivity.code));
-                    UserLog.i("发送有线文件", parm);
+
                     break;
                 case APICode.BACK_RECV_WiredFile:
                     SocketConnection.getInstance().readReqMsg(new ComposeData().sendRecvWiredFile());

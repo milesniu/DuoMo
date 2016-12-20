@@ -61,11 +61,18 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
                                     long arg3) {
 
 
-                strNumber = getContact(strNumber).get(arg2).get("number").toString();
+                strNumber = getContact("").get(arg2).get("number").toString();
                 // TODO Auto-generated method stub
 //				toCall(TOCALLVOICE, getContact(strNumber).get(arg2).get("number").toString());
                 if (CurrentType == TOCALLVOICE) {
-                    insertVoiceRecord(mContext,strNumber);
+                    strNumber = strNumber.split("#")[0];
+//                    insertVoiceRecord(mContext,strNumber);
+                    String innum = editInputFrom.getText().toString();
+                    if (innum.length() > 0) {
+                        editInputFrom.setText(innum + "*" + strNumber);
+                    } else {
+                        editInputFrom.setText(strNumber);
+                    }
                 } else if (CurrentType == TOCALLWIREDVOICE) {
                     insertWiredRecord(mContext, strNumber, null);
                 } else if (CurrentType == TOCALLWIREDFILE) {
@@ -156,7 +163,7 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
                 }
                 if (CurrentType == TOCALLVOICE) {
 
-                    insertVoiceRecord(mContext, strNumber);
+                    insertVoiceRecord(mContext, editInputFrom.getText().toString());
                 } else if (CurrentType == TOIPVOICE) {
                     insertIPVoiceRecord(mContext, strNumber);
                 } else if (CurrentType == TOIPVEDIO) {
@@ -341,7 +348,6 @@ public abstract class AbsToCallActivity extends AbsBaseActivity {
         }
 
     }
-
 
 
     private static void callIPVedio(String mAddress) {

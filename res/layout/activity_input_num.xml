@@ -45,7 +45,7 @@
                 android:layout_toRightOf="@+id/buttonadd"
                 android:enabled="false"
                 android:textSize="18sp"
-                android:textColor="@color/greenbg"
+                android:textColor="@color/bule2"
                 android:focusable="false" >
 
             </EditText>

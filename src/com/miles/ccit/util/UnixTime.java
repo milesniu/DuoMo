@@ -18,6 +18,10 @@ public class UnixTime {
         return unixTime2Simplese(getStrCurrentUnixTime(), "yyyy-MM-dd HH:mm:ss");
     }
 
+    public static String getSimpleTime(String format) {
+        return unixTime2Simplese(getStrCurrentUnixTime(), format);
+    }
+
     @SuppressLint("SimpleDateFormat")
     public static long simpleTime2Unix(String simpletime) {
         Date date = null;

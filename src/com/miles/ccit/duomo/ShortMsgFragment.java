@@ -112,7 +112,7 @@ public class ShortMsgFragment extends AbsBaseFragment {
             return;
         }
         hideEmpty();
-        adapter = new MsgorMailSetAdapter(getActivity(), msgList,contactList, "shortmsg");
+        adapter = new MsgorMailSetAdapter(getActivity(), msgList, contactList, "shortmsg");
         listview.setAdapter(adapter);
         listview.setOnItemClickListener(new OnItemClickListener() {
 
@@ -187,7 +187,9 @@ public class ShortMsgFragment extends AbsBaseFragment {
                 break;
             case R.id.bt_right:
                 if (LoginActivity.isLogin) {
-                    startActivity(new Intent(getActivity(), CreatShortmsgActivity.class));
+                    Intent i = new Intent(getActivity(), CreatShortmsgActivity.class);
+                    i.putExtra("nettype", 1);
+                    startActivity(i);
                 } else {
                     MyLog.showToast(getActivity(), "请登录后再执行该操作。");
                 }

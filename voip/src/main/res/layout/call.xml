@@ -148,4 +148,13 @@
 
 	</android.support.v4.widget.DrawerLayout>
 
+	<ImageView
+		android:id="@+id/speaker"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true"
+		android:layout_margin="30dp"
+		android:src="@drawable/speaker"/>
+
 </RelativeLayout>
